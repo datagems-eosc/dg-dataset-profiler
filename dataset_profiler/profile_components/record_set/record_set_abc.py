@@ -1,0 +1,18 @@
+from abc import ABC, abstractmethod
+from typing import Dict, List
+
+
+class RecordSet(ABC):
+    @abstractmethod
+    def extract_fields(self) -> List:
+        pass
+
+    @abstractmethod
+    def to_dict(self) -> Dict:
+        pass
+
+
+class ColumnField(ABC):
+    @abstractmethod
+    def to_dict(self) -> Dict:
+        pass

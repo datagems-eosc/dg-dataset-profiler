@@ -1,3 +1,6 @@
+# This is the cookiecutter template for the Dockerfile
+# It has not been updated to our dataset profiler code
+
 # Install uv
 FROM python:3.12-slim
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv

@@ -17,6 +17,13 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+dependencies = [
+    "dotenv>=0.9.9",
+    "loguru>=0.7.3",
+    "pandas>=2.2.3",
+    "psycopg2>=2.9.10",
+    "sqlalchemy>=2.0.40",
+]
 
 [dependency-groups]
 dev = [
