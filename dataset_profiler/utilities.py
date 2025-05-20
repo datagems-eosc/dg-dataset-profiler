@@ -46,7 +46,7 @@ def find_column_type_in_csv(column):
     ):
         return "sc:Text"
     else:
-        result_type = max(type_appearances, key=type_appearances.get)
+        result_type = max(type_appearances, key=type_appearances.get)  # type: ignore
 
         match result_type:
             case "float":
@@ -79,3 +79,5 @@ def get_file_objects(distribution_path):
         return file_objects, file_sets
     except FileNotFoundError:
         return f"The path '{distribution_path}' does not exist."
+
+    # @TODO add utilities for text_record_set

@@ -16,3 +16,9 @@ class ColumnField(ABC):
     @abstractmethod
     def to_dict(self) -> Dict:
         pass
+
+
+class TextChunk(ABC):
+    @abstractmethod
+    def to_dict(self) -> Dict:
+        pass

@@ -1,0 +1,22 @@
+{
+  "citeAs": "",
+  "country": "GB",
+  "dataPath": "tests/assets/text/data/kp-editions/eb07/TXT_v1/a2/",
+  "datePublished": "24-05-2025",
+  "description": "A Dictionary of Arts, Sciences, and General Literature",
+  "fieldOfScience": [
+    "LINGUISTICS",
+    "ENCYCLOPEDIC KNOWLEDGE"
+  ],
+  "headline": "ENCYCLOPEDIA BRITANNICA, SEVENTH EDITION",
+  "inLanguage": [
+    "en"
+  ],
+  "keywords": [
+    "encyclopedia",
+    "Britannica"
+  ],
+  "license": "CC-BY-SA 4.0 - Creative Commons Attribution-ShareAlike 4.0 International",
+  "name": "Encyclopaedia Britannica",
+  "url": ""
+}
