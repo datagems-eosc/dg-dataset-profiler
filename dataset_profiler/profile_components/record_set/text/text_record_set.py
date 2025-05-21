@@ -19,8 +19,8 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-OLLAMA_API_BASE_URL = os.getenv("OLLAMA_API_BASE_URL")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
+OLLAMA_API_BASE_URL = os.getenv("OLLAMA_API_BASE_URL", None)
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", None)
 
 
 class TextRecordSet(RecordSet):

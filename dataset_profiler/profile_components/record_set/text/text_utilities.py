@@ -348,37 +348,41 @@ def get_keywords_ollama(
     Returns:
         KeyWords: A KeyWords object containing the list of extracted keywords.
     """
-    # Initialize the ChatOllama model
-    llm = ChatOllama(model=model, temperature=0, base_url=base_url)
+    try:
+        # Initialize the ChatOllama model
+        llm = ChatOllama(model=model, temperature=0, base_url=base_url)
 
-    # Define the prompt template
-    prompt = ChatPromptTemplate.from_template(
-        """Extract up to {max_keywords_num} keywords from the following text.
-        Return the keywords as a list of strings, ensuring they are concise and relevant to the main topics or entities in the text.
+        # Define the prompt template
+        prompt = ChatPromptTemplate.from_template(
+            """Extract up to {max_keywords_num} keywords from the following text.
+            Return the keywords as a list of strings, ensuring they are concise and relevant to the main topics or entities in the text.
 
-        Text: {text}
+            Text: {text}
 
-        Output format:
-        ```json
-        {{
-            "keywords": ["keyword1", "keyword2", ...]
-        }}
-        ```"""
-    )
+            Output format:
+            ```json
+            {{
+                "keywords": ["keyword1", "keyword2", ...]
+            }}
+            ```"""
+        )
 
-    # Create a chain with structured output
-    chain = prompt | llm.with_structured_output(KeyWords)
+        # Create a chain with structured output
+        chain = prompt | llm.with_structured_output(KeyWords)
 
-    # Run the chain with the input parameters
-    result = chain.invoke({"text": text, "max_keywords_num": max_keywords_num})
+        # Run the chain with the input parameters
+        result = chain.invoke({"text": text, "max_keywords_num": max_keywords_num})
 
-    # Ensure the result is always a KeyWords instance
-    if isinstance(result, KeyWords):
-        return result
-    elif isinstance(result, dict):
-        return KeyWords(**result)
-    else:
-        raise TypeError("Unexpected result type from chain.invoke")
+        # Ensure the result is always a KeyWords instance
+        if isinstance(result, KeyWords):
+            return result
+        elif isinstance(result, dict):
+            return KeyWords(**result)
+        else:
+            raise TypeError("Unexpected result type from chain.invoke")
+    except Exception as e:
+        print(f"Error in get_keywords_ollama: {e}")
+        return KeyWords(keywords=[])
 
 
 @traceable(
@@ -394,35 +398,39 @@ def get_summary_ollama(text: str, model, base_url, max_words: int = 600) -> str:
     Returns:
         str: A concise summary of the text.
     """
-    # Initialize the ChatOllama model
-    llm = ChatOllama(model=model, temperature=0, base_url=base_url)
+    try:
+        # Initialize the ChatOllama model
+        llm = ChatOllama(model=model, temperature=0, base_url=base_url)
 
-    # Define the prompt template
-    prompt = ChatPromptTemplate.from_template(
-        """Generate a concise summary of the following text.
-        The summary should be no more than {max_words} words and should capture the main ideas and themes of the text.
+        # Define the prompt template
+        prompt = ChatPromptTemplate.from_template(
+            """Generate a concise summary of the following text.
+            The summary should be no more than {max_words} words and should capture the main ideas and themes of the text.
 
-        Text: {text}
+            Text: {text}
 
-        Output format:
-        ```json
-        {{
-            "summary": "Your summary here"
-        }}
-        ```"""
-    )
-
-    # Create a chain with structured output
-    chain = prompt | llm.with_structured_output(TextSummary)
-
-    # Run the chain with the input parameters
-    result = chain.invoke({"text": text, "max_words": max_words})
-
-    if isinstance(result, TextSummary):
-        return result.summary
-    elif isinstance(result, dict):
-        return TextSummary(**result).summary
-    else:
-        raise TypeError(
-            f"Unexpected result type from chain.invoke, {type(result)} | {result}"
+            Output format:
+            ```json
+            {{
+                "summary": "Your summary here"
+            }}
+            ```"""
         )
+
+        # Create a chain with structured output
+        chain = prompt | llm.with_structured_output(TextSummary)
+
+        # Run the chain with the input parameters
+        result = chain.invoke({"text": text, "max_words": max_words})
+
+        if isinstance(result, TextSummary):
+            return result.summary
+        elif isinstance(result, dict):
+            return TextSummary(**result).summary
+        else:
+            raise TypeError(
+                f"Unexpected result type from chain.invoke, {type(result)} | {result}"
+            )
+    except Exception as e:  # with errors output empty string
+        print(f"Error in get_summary_ollama: {e}")
+        return ""
