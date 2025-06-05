@@ -11,6 +11,9 @@ from dataset_profiler.profile_components.record_set.text.text_record_set import 
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
 )
+from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
+    PdfRecordSet,
+)
 
 
 def extract_record_sets(file_objects, distribution_path) -> List[RecordSet]:
@@ -38,5 +41,10 @@ def extract_record_sets(file_objects, distribution_path) -> List[RecordSet]:
                 distribution_path=distribution_path, file_object=file_object
             )
             record_sets.append(text_record_set)
+        elif file_extension == ".pdf":
+            pdf_record_set = PdfRecordSet(
+                distribution_path=distribution_path, file_object=file_object
+            )
+            record_sets.append(pdf_record_set)
 
     return record_sets
