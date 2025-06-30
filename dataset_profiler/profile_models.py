@@ -12,9 +12,16 @@ from dataset_profiler.profile_components.dateset_top_level import (
     DatasetTopLevel,
 )
 from dataset_profiler.profile_components.distribution import (
-    Distribution,
-    get_distribution,
+    DistributionFileObject,
+    DistributionFileSet,
+    get_distribution_of_file_object,
+    get_distribution_of_file_set,
 )
+from dataset_profiler.profile_components.record_set.db.db_distribution import (
+    get_added_distributions,
+    get_db_ids_from_distributions,
+)
+from dataset_profiler.profile_components.record_set.db.db_record_set import DBRecordSet
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
 )
@@ -48,29 +55,52 @@ class DatasetProfile:
         )
 
         # Distribution
-        self.distributions: List[Distribution] = self.extract_distributions()
+        self.distributions: List[DistributionFileObject | DistributionFileSet] = (
+            self.extract_distributions()
+        )
 
         # RecordSet
         self.record_sets: List[RecordSet] = self.extract_record_sets()
 
-    def extract_distributions(self) -> List[Distribution]:
-        return [
-            get_distribution(self.distribution_path + file_object)
+    def extract_distributions(
+        self,
+    ) -> List[DistributionFileObject | DistributionFileSet]:
+        file_object_distributions = [
+            get_distribution_of_file_object(self.distribution_path + file_object)
             for file_object in self.file_objects
         ]
+        file_sets_distributions = [
+            get_distribution_of_file_set(self.distribution_path + file_set)
+            for file_set in self.file_sets
+        ]
+
+        return file_sets_distributions + file_object_distributions
 
     def extract_record_sets(self) -> List[RecordSet]:
         return extract_record_sets(self.file_objects, self.distribution_path)
 
     def to_dict(self):
+        record_set_list = []
+        for record_set in self.record_sets:
+            if isinstance(record_set, DBRecordSet):
+                # In case of a relational database we want to flatten the tables of the db into independent tables
+                record_set_list.extend(record_set.to_dict())
+            else:
+                record_set_list.append(record_set.to_dict())
         profile_dict = {
             "@context": {**CONTEXT_TEMPLATE, **REFERENCES_TEMPLATE},
             **self.dataset_top_level.to_dict(),
             "distribution": [
                 distribution.to_dict() for distribution in self.distributions
             ],
-            "recordSet": [record_set.to_dict() for record_set in self.record_sets],
+            "recordSet": record_set_list,
         }
+
+        db_ids = get_db_ids_from_distributions(profile_dict["distribution"])
+        for db_id in db_ids:
+            profile_dict["distribution"].extend(
+                get_added_distributions(profile_dict["recordSet"], db_id)
+            )
 
         return profile_dict
 

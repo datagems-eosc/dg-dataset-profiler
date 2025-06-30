@@ -70,14 +70,9 @@ def find_column_type_in_db(db_type):
 
 
 def get_file_objects(distribution_path):
-    try:
-        path = Path(distribution_path)
+    path = Path(distribution_path)
 
-        file_objects = [item.name for item in path.iterdir() if item.is_file()]
-        file_sets = [item.name for item in path.iterdir() if item.is_dir()]
+    file_objects = [item.name for item in path.iterdir() if item.is_file()]
+    file_sets = [item.name for item in path.iterdir() if item.is_dir()]
 
-        return file_objects, file_sets
-    except FileNotFoundError:
-        return f"The path '{distribution_path}' does not exist."
-
-    # @TODO add utilities for text_record_set
+    return file_objects, file_sets

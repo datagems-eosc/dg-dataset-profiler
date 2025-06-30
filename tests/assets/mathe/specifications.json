@@ -1,7 +1,7 @@
 {
   "citeAs": "",
   "country": "PT",
-  "dataPath": "tests/assets/mathe_relational_db/data/",
+  "dataPath": "tests/assets/mathe/data/",
   "datePublished": "24-05-2025",
   "description": "A collection of the math material provided by the MathE platform (https://mathe.ipb.pt) along with the quiz questions students use to practice and evaluate their knowledge.",
   "fieldOfScience": [

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
     ColumnField,
@@ -48,7 +49,7 @@ class CSVColumnField(ColumnField):
         self.dataType = find_column_type_in_csv(column)
         self.key = {"@id": csv_name + "/" + column_name}
         self.source = {"fileObject": {"@id": file_object}, "column": column_name}
-        self.sample = column.sample(3).tolist()
+        self.sample = column.sample(3).replace({np.nan: None}).tolist()
 
     def to_dict(self):
         return {

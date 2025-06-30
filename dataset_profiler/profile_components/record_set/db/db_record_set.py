@@ -25,10 +25,10 @@ class DBRecordSet(RecordSet):
         self.file_object = file_object.split("/")[-1]
         self.db_name = db_name
         self.db_specific_schema = db_specific_schema
-        self.type = "dg:RelationalDatabase"
-        self.name = self.file_object.split(".")[-2]
-        self.description = ""
-        self.key = {"@id": self.name}
+        # # self.type = "dg:RelationalDatabase"
+        # self.name = self.file_object.split(".")[-2]
+        # self.description = ""
+        # self.key = {"@id": self.name}
         self.tables = self.extract_fields()
 
     def extract_fields(self):
@@ -41,20 +41,21 @@ class DBRecordSet(RecordSet):
         return tables
 
     def to_dict(self):
-        return {
-            "@type": self.type,
-            "name": self.name,
-            "description": self.description,
-            "key": self.key,
-            "tables": [table.to_dict() for table in self.tables],
-        }
+        return [table.to_dict() for table in self.tables]
+        # return {
+        #     # "@type": self.type,
+        #     # "name": self.name,
+        #     # "description": self.description,
+        #     # "key": self.key,
+        #     "tables": [table.to_dict() for table in self.tables],
+        # }
 
 
 class DBTableField:
     def __init__(self, table: Dict, file_object: str):
         self.table = table
         self.file_object = file_object
-        self.type = "dg:RelationalDatabaseTable"
+        self.type = "cr:RecordSet"
         self.id = self._get_table_id(file_object, table)
         self.name = self._get_table_id(file_object, table)
         # self.rowsNumb = ""
@@ -64,7 +65,7 @@ class DBTableField:
 
     @staticmethod
     def _get_table_id(file_object, table):
-        return file_object.split(".")[-2] + "/" + table["table_name"]
+        return file_object + "/" + table["table_name"]
 
     def extract_fields(self):
         fields = []

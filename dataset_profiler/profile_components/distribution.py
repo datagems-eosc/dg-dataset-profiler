@@ -1,9 +1,10 @@
+import os
 from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
 
 
-class Distribution:
+class DistributionFileObject:
     def __init__(
         self,
         name: str,
@@ -35,7 +36,7 @@ class Distribution:
         }
 
 
-def get_distribution(file_object) -> Distribution:
+def get_distribution_of_file_object(file_object) -> DistributionFileObject:
     file_extension = Path(file_object).suffix
 
     sha = sha256(file_object.encode("utf-8")).hexdigest()
@@ -45,12 +46,71 @@ def get_distribution(file_object) -> Distribution:
     elif file_extension == ".sql" or file_extension == ".db":
         encoding_format = "text/sql"
     else:
-        encoding_format = "text"
+        raise ValueError("Unsupported file type for distribution: " + file_extension)
 
-    return Distribution(
+    return DistributionFileObject(
         name=file_object.split("/")[-1],
         content_size=f"{Path(file_object).stat().st_size} B",
         content_url="",
         encoding_format=encoding_format,
         sha256_check=sha,
+    )
+
+
+class DistributionFileSet:
+    def __init__(
+        self,
+        name: str,
+        description: str = "",
+        content_size: str = "",
+        content_url: str = "",
+        encoding_format: str = "",
+        includes: str = "",
+    ):
+        self.type = "cr:FileSet"
+        self.id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
+        self.name = name
+        self.description = description
+        self.content_size = content_size
+        self.content_url = content_url
+        self.encoding_format = encoding_format
+        self.includes = includes
+
+    def to_dict(self):
+        return {
+            "@type": self.type,
+            "@id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "contentSize": self.content_size,
+            "contentUrl": self.content_url,
+            "encodingFormat": self.encoding_format,
+            "includes": self.includes,
+        }
+
+
+def get_distribution_of_file_set(file_set) -> DistributionFileSet:
+    sample_file_of_dir = next(Path(file_set).glob("*"), None)
+    if sample_file_of_dir.suffix in [".png", ".jpg", ".jpeg"]:
+        encoding_format = "image/" + sample_file_of_dir.suffix[1:]
+    elif sample_file_of_dir.suffix == ".pdf":
+        encoding_format = "application/pdf"
+    elif sample_file_of_dir.suffix == ".txt":
+        encoding_format = "text/plain"
+    else:
+        raise ValueError(
+            "Unsupported file type for file in file set: " + sample_file_of_dir.suffix
+        )
+
+    file_sizes = [
+        os.path.getsize(file_set + "/" + f)
+        for f in os.listdir(file_set)
+        if os.path.isfile(file_set + "/" + f)
+    ]
+    return DistributionFileSet(
+        name=file_set.split("/")[-1],
+        content_size=f"{sum(file_sizes)} B",
+        content_url="",
+        encoding_format=encoding_format,
+        includes=f"{file_set.split('/')[-1]}/*",
     )
