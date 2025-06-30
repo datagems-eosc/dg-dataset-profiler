@@ -5,8 +5,14 @@ from dataset_profiler.profile_components.record_set.csv.csv_record_set import (
     CSVRecordSet,
 )
 from dataset_profiler.profile_components.record_set.db.db_record_set import DBRecordSet
+from dataset_profiler.profile_components.record_set.text.text_record_set import (
+    TextRecordSet,
+)
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
+)
+from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
+    PdfRecordSet,
 )
 
 
@@ -30,5 +36,15 @@ def extract_record_sets(file_objects, distribution_path) -> List[RecordSet]:
                 db_specific_schema=db_name,
             )
             record_sets.append(db_record_set)
+        elif file_extension == ".txt":
+            text_record_set = TextRecordSet(
+                distribution_path=distribution_path, file_object=file_object
+            )
+            record_sets.append(text_record_set)
+        elif file_extension == ".pdf":
+            pdf_record_set = PdfRecordSet(
+                distribution_path=distribution_path, file_object=file_object
+            )
+            record_sets.append(pdf_record_set)
 
     return record_sets
