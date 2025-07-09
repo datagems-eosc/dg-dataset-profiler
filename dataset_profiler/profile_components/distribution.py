@@ -7,6 +7,7 @@ from pathlib import Path
 class DistributionFileObject:
     def __init__(
         self,
+        file_object_id: str,
         name: str,
         description: str = "",
         content_size: str = "",
@@ -15,7 +16,7 @@ class DistributionFileObject:
         sha256_check: str = "",
     ):
         self.type = "cr:FileObject"
-        self.id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
+        self.id = file_object_id
         self.name = name
         self.description = description
         self.content_size = content_size
@@ -36,7 +37,9 @@ class DistributionFileObject:
         }
 
 
-def get_distribution_of_file_object(file_object) -> DistributionFileObject:
+def get_distribution_of_file_object(
+    file_object: str, file_object_id: str
+) -> DistributionFileObject:
     file_extension = Path(file_object).suffix
 
     sha = sha256(file_object.encode("utf-8")).hexdigest()
@@ -49,6 +52,7 @@ def get_distribution_of_file_object(file_object) -> DistributionFileObject:
         raise ValueError("Unsupported file type for distribution: " + file_extension)
 
     return DistributionFileObject(
+        file_object_id=file_object_id,
         name=file_object.split("/")[-1],
         content_size=f"{Path(file_object).stat().st_size} B",
         content_url="",
@@ -60,6 +64,7 @@ def get_distribution_of_file_object(file_object) -> DistributionFileObject:
 class DistributionFileSet:
     def __init__(
         self,
+        file_set_id: str,
         name: str,
         description: str = "",
         content_size: str = "",
@@ -68,7 +73,7 @@ class DistributionFileSet:
         includes: str = "",
     ):
         self.type = "cr:FileSet"
-        self.id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
+        self.id = file_set_id
         self.name = name
         self.description = description
         self.content_size = content_size
@@ -89,7 +94,7 @@ class DistributionFileSet:
         }
 
 
-def get_distribution_of_file_set(file_set) -> DistributionFileSet:
+def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
     sample_file_of_dir = next(Path(file_set).glob("*"), None)
     if sample_file_of_dir.suffix in [".png", ".jpg", ".jpeg"]:
         encoding_format = "image/" + sample_file_of_dir.suffix[1:]
@@ -108,6 +113,7 @@ def get_distribution_of_file_set(file_set) -> DistributionFileSet:
         if os.path.isfile(file_set + "/" + f)
     ]
     return DistributionFileSet(
+        file_set_id=file_set_id,
         name=file_set.split("/")[-1],
         content_size=f"{sum(file_sizes)} B",
         content_url="",

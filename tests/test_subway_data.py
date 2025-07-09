@@ -1,9 +1,9 @@
 from dataset_profiler.profile_models import DatasetProfile
 
 
-def test_profiler_mathe():
+def test_profiler_subway_data():
     profile = DatasetProfile(
-        dataset_specifications_path="tests/assets/mathe/specifications.json",
+        dataset_specifications_path="tests/assets/subway_data/specifications.json",
     )
     print(profile.to_json_str())
     assert isinstance(
@@ -12,6 +12,6 @@ def test_profiler_mathe():
 
     import json
 
-    with open("generated_profiles/mathe.json", "w") as f:
+    with open("generated_profiles/subway_data.json", "w") as f:
         json.dump(profile.to_dict(), f)
     assert isinstance(profile, DatasetProfile)

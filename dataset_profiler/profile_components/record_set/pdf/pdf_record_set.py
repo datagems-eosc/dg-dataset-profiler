@@ -1,3 +1,4 @@
+import uuid
 from typing import Dict, List, Any
 from dataset_profiler.profile_components.record_set.record_set_abc import RecordSet
 
@@ -30,7 +31,8 @@ class PdfRecordSet(RecordSet):
         self.name = file_object.split(".")[-2]
         # self.description = ""
 
-        self.key = {"@id": self.name}
+        # self.key = {"@id": self.name}
+        self.id = str(uuid.uuid4())
 
         profile = get_pdf_profile(distribution_path + file_object)
         self.file_size_bytes = profile["file_size_bytes"]
@@ -66,6 +68,8 @@ class PdfRecordSet(RecordSet):
         :return: Dictionary representation of the PdfRecordSet.
         """
         return {
+            "@type": self.type,
+            "@id": self.id,
             "distribution_path": self.distribution_path,
             "file_object": self.file_object,
             "name": self.name,

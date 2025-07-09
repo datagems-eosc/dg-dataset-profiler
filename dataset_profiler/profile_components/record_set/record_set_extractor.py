@@ -19,31 +19,34 @@ from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
 def extract_record_sets(file_objects, distribution_path) -> List[RecordSet]:
     record_sets = []
     for file_object in file_objects:
-        file_extension = Path(file_object).suffix
+        file_extension = Path(file_object["path"]).suffix
 
         if file_extension == ".csv":
             csv_record_set = CSVRecordSet(
-                distribution_path=distribution_path, file_object=file_object
+                distribution_path=distribution_path,
+                file_object=file_object["path"],
+                file_object_id=file_object["id"],
             )
             record_sets.append(csv_record_set)
         elif file_extension == ".db" or file_extension == ".sql":
-            db_name = file_object.split("/")[-1].split(".")[-2]
+            db_name = file_object["path"].split("/")[-1].split(".")[-2]
 
             db_record_set = DBRecordSet(
                 distribution_path=distribution_path,
-                file_object=file_object,
+                file_object=file_object["path"],
+                file_object_id=file_object["id"],
                 db_name=db_name,
                 db_specific_schema=db_name,
             )
             record_sets.append(db_record_set)
         elif file_extension == ".txt":
             text_record_set = TextRecordSet(
-                distribution_path=distribution_path, file_object=file_object
+                distribution_path=distribution_path, file_object=file_object["path"]
             )
             record_sets.append(text_record_set)
         elif file_extension == ".pdf":
             pdf_record_set = PdfRecordSet(
-                distribution_path=distribution_path, file_object=file_object
+                distribution_path=distribution_path, file_object=file_object["path"]
             )
             record_sets.append(pdf_record_set)
 

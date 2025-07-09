@@ -66,11 +66,15 @@ class DatasetProfile:
         self,
     ) -> List[DistributionFileObject | DistributionFileSet]:
         file_object_distributions = [
-            get_distribution_of_file_object(self.distribution_path + file_object)
+            get_distribution_of_file_object(
+                self.distribution_path + file_object["path"], file_object["id"]
+            )
             for file_object in self.file_objects
         ]
         file_sets_distributions = [
-            get_distribution_of_file_set(self.distribution_path + file_set)
+            get_distribution_of_file_set(
+                self.distribution_path + file_set["path"], file_set["id"]
+            )
             for file_set in self.file_sets
         ]
 
@@ -96,10 +100,12 @@ class DatasetProfile:
             "recordSet": record_set_list,
         }
 
-        db_ids = get_db_ids_from_distributions(profile_dict["distribution"])
-        for db_id in db_ids:
+        db_ids_with_file_obj_ids = get_db_ids_from_distributions(
+            profile_dict["distribution"]
+        )
+        for db_id, file_obj_id in db_ids_with_file_obj_ids:
             profile_dict["distribution"].extend(
-                get_added_distributions(profile_dict["recordSet"], db_id)
+                get_added_distributions(profile_dict["recordSet"], db_id, file_obj_id)
             )
 
         return profile_dict

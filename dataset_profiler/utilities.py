@@ -1,4 +1,5 @@
 import re
+import uuid
 from pathlib import Path
 from random import sample
 
@@ -72,7 +73,15 @@ def find_column_type_in_db(db_type):
 def get_file_objects(distribution_path):
     path = Path(distribution_path)
 
-    file_objects = [item.name for item in path.iterdir() if item.is_file()]
-    file_sets = [item.name for item in path.iterdir() if item.is_dir()]
+    file_objects = [
+        {"path": item.name, "id": str(uuid.uuid4())}
+        for item in path.iterdir()
+        if item.is_file()
+    ]
+    file_sets = [
+        {"path": item.name, "id": str(uuid.uuid4())}
+        for item in path.iterdir()
+        if item.is_dir()
+    ]
 
     return file_objects, file_sets
