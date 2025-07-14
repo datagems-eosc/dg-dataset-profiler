@@ -35,7 +35,7 @@ class DBRecordSet(RecordSet):
         self.tables = self.extract_fields()
 
     def extract_fields(self):
-        db = DatagemsPostgres(self.db_specific_schema)
+        db = DatagemsPostgres(self.db_name, self.db_specific_schema)
         db_schema = obtain_schema_from_db(db, sample_size=3)
 
         tables = []

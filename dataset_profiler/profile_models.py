@@ -26,7 +26,7 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
 )
 from dataset_profiler.profile_components.record_set.record_set_extractor import (
-    extract_record_sets,
+    extract_record_sets_of_file_objects, extract_record_sets_of_file_sets,
 )
 from dataset_profiler.utilities import get_file_objects
 
@@ -52,6 +52,8 @@ class DatasetProfile:
             in_language=self.dataset_specification.inLanguage,
             country=self.dataset_specification.country,
             date_published=self.dataset_specification.datePublished,
+            access=self.dataset_specification.access,
+            uploaded_by=self.dataset_specification.uploadedBy,
         )
 
         # Distribution
@@ -81,7 +83,8 @@ class DatasetProfile:
         return file_sets_distributions + file_object_distributions
 
     def extract_record_sets(self) -> List[RecordSet]:
-        return extract_record_sets(self.file_objects, self.distribution_path)
+        return (extract_record_sets_of_file_objects(self.file_objects, self.distribution_path) +
+                extract_record_sets_of_file_sets(self.file_sets, self.distribution_path))
 
     def to_dict(self):
         record_set_list = []

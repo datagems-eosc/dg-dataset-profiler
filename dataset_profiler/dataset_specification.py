@@ -25,3 +25,6 @@ class DatasetSpecification:
         self.country = specifications["country"]
         self.datePublished = specifications["datePublished"]
         self.dataPath = specifications["dataPath"]
+
+        self.access = specifications["access"]
+        self.uploadedBy = specifications["uploadedBy"]

@@ -19,7 +19,7 @@ class CSVRecordSet(RecordSet):
         self.fields = self.extract_fields()
 
     def extract_fields(self):
-        csv_object = pd.read_csv(self.distribution_path + self.file_object)
+        csv_object = pd.read_csv(self.distribution_path + self.file_object, sep=None, encoding = "ISO-8859-1")
 
         fields = []
         for column in csv_object.columns:

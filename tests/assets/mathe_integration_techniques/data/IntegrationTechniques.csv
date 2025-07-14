@@ -1,0 +1,159 @@
+id;topic;subtopic;question;correct;incorrect1;incorrect2;incorrect3;keywords;video_material;pdf_material
+192;integration;integration techniques; Find $\displaystyle \int \sqrt{1-x^2}\: dx$ ;$\displaystyle \frac{1}{2}\arcsin{(x)}+\frac{x}{2}\sqrt{1-x^2}+c$;"$\arcsin{(1-x^2)}+c$
+";"$\sqrt{1-x^2}+c$
+";$x+c$;104,106,107;539,541,542,619,630,687,753;130,133,134,138
+309;integration;integration techniques;Find $\displaystyle\int x^3+ \operatorname{e}^{3x} dx$.;"$\displaystyle\dfrac{x^4}{4}+\dfrac{\operatorname{e}^{3x}} {3} + c$
+";"$\displaystyle x^4 +\operatorname{e}^{3x}+c$
+";"$\displaystyle 3x^2 + 3\operatorname{e}^{3x} + c$
+";$\displaystyle 3x^2 + \frac{\operatorname{e}^{3x+1}}{3x+1}+c$;103,107;539,541,542,630,753;130,135,137
+311;integration;integration techniques;Find $\displaystyle\int \frac{\sin\left(2x\right)}{\sqrt{1+\sin^2\left(x\right)}}dx$.;"$2\sqrt{1+\sin^2\left(x\right)}+c$
+";"$x+c$
+";"$\cos(2x)\sqrt{1+\sin^2\left(x\right)}+c$
+";$\displaystyle \dfrac{\sqrt{1+\sin^2\left(x\right)}}{\cos(2x)}+c$;103,107;539,541,542,630,753;130,135,137
+315;integration;integration techniques;Find $\displaystyle \int x^4\ln(x)\, dx$.;"$\displaystyle\dfrac{x^5}{5}\ln(x)-\dfrac{x^5}{25}+c$
+";"$\displaystyle \dfrac{x^3}{3}\dfrac{\ln^2(x)} {2} + c$
+";"$\displaystyle \dfrac{x^5}{5}\left( x\ln(x)-x\right)+ c$
+";$\displaystyle \dfrac{x^6}{6}\dfrac{\left( \ln(x)\right)^2}{2}+ c$;102,105;485,545,620,621;129,131,137
+388;integration;integration techniques;Find $\displaystyle\int \dfrac{x^2+1}{x^2+x}\, dx$.;"$\displaystyle x+\ln|x|-2\ln|x+1|+ c$
+";"$\displaystyle x+c$
+";"$\displaystyle \ln|x|+ c$
+";$\displaystyle \dfrac{x}{2}+ c$;103,105,107;539,541,542,545,620,621,630,753;130,131,135,137
+389;integration;integration techniques;Find $\displaystyle\int \dfrac{x^3-x+1}{x^2-x}\, dx$.;$\displaystyle \frac{x^2}{2}+x-\ln|x|+\ln|x-1|+ c$;"$\displaystyle \dfrac{1}{x}\ln|x^2 -x|+c$
+";"$\displaystyle x+ c$
+";$\displaystyle \dfrac{x^2}{2}+x+ c$;103,105,107;539,541,542,545,620,621,630,753;130,131,135,137
+390;integration;integration techniques;Find $\displaystyle\int \dfrac{{\operatorname{e}^{2x}}}{{\operatorname{e}^{4x}}+1}\, dx$.;$\displaystyle \dfrac{1}{2}\arctan(\operatorname{e}^{2x})+c$;"$\displaystyle \arctan(\operatorname{e}^{2x})+c$
+";"$\displaystyle 2\arctan(\operatorname{e}^{2x})+c$
+";$\displaystyle \dfrac{1}{4}\arctan(\operatorname{e}^{2x})+c$;101,103,107;539,540,541,542,630,753;130,132,135,136,137
+391;integration;integration techniques;Find $\displaystyle\int \dfrac{{\operatorname{e}^{4x}}}{{\operatorname{e}^{4x}}+1}\, dx$.;"$\displaystyle \dfrac{1}{4}\ln(\operatorname{e}^{4x}+1)+c$
+";$\displaystyle \arctan(\operatorname{e}^{2x})+c$;$\displaystyle \ln(\operatorname{e}^{4x}+1)+c$;$\displaystyle \dfrac{1}{4}\arctan(\operatorname{e}^{4x})+c$;103,107;539,541,542,630,753;130,135,137
+392;integration;integration techniques;Find $\displaystyle\int \operatorname{e}^{\sqrt x }\, dx$.;$\displaystyle2\operatorname{e}^{\sqrt x } (\sqrt x -1)+c$ ;"$\displaystyle \operatorname{e}^{\sqrt x }+c$
+";"$\displaystyle \operatorname{e}^{x}+c$
+";$\displaystyle \dfrac{1}{\sqrt x}\operatorname{e}^{\sqrt x }+c$;101,102;485,540;129,132,136,137
+393;integration;integration techniques;Find $\displaystyle\int\dfrac{1}{x\ln \left(x^2\right)}\, dx$.;$\displaystyle \dfrac{1}{2}\ln\left|\ln \left(x^2\right)\right|+c$;"$\displaystyle \ln\left|\ln \left(x\right)\right|+c$
+";"$\displaystyle \dfrac{1}{\ln^2\left(x^2\right)}+c$
+";$\displaystyle \dfrac{1}{2}\ln^2\left(x^2\right)+c$;103,107;539,541,542,630,753;130,135,137
+394;integration;integration techniques;Find $\displaystyle\int\dfrac{\ln^3\left(2x+2\right)}{x+1}\, dx$.;$\displaystyle \dfrac{1}{4}\ln ^4\left(2\left(x+1\right)\right)+c$;"$\displaystyle \dfrac{1}{8}\ln ^4\left(2\left(x+1\right)\right)+c$
+";"$\displaystyle \dfrac{2\ln^4\left(2x+2\right)}{(x+1)^2}+c$
+";$\displaystyle \dfrac{1}{2}\ln^2\left(2x+2\right)+c$;101,103,107;539,540,541,542,630,753;130,132,135,136,137
+395;integration;integration techniques;Find $\displaystyle\int\tan^3\left(3x\right)\, dx$.;$\displaystyle -\dfrac{1}{3}\ln \left|\sec \left(3x\right)\right|+\dfrac{\sec ^2\left(3x\right)}{6}+c$ ;"$\displaystyle \dfrac{\tan^4\left(3x\right)}{12}+c$
+";"$\displaystyle \dfrac{2\ln^4\left(2x+2\right)}{(x+1)^2}+c$
+";$\displaystyle \dfrac{1}{2}\sec(3x)\ln^2\left(3x\right)+c$;101,106;540,687;132,134,136,137
+396;integration;integration techniques;Find $\displaystyle\int \sin^2(x)\cos^3(x)\, dx$.;$\displaystyle\dfrac{\sin^3(x)}{3}-\dfrac{\sin^5(x)}{5}+c$;"$\displaystyle\dfrac{\sin^3(x)}{3}\dfrac{\cos^4(x)}{4}+c$
+";"$\displaystyle 3\sin(x)\dfrac{\cos^2(x)}{5}+c$
+";\item $\displaystyle \cos(x)+\sin(x)$;103,106;539,541,542,630,687;130,134,135,137
+397;integration;integration techniques;Find $\displaystyle\int x\cos(x^2)\sin^3(x^2)\, dx$.;$\displaystyle\dfrac{1}{8}\sin^4(x^2)+c$;"$\displaystyle\dfrac{\sin^3(x)}{3}-\dfrac{\sin^5(x)}{5}+c$
+";"$\displaystyle 3\sin(x)\dfrac{\cos^2(x)}{4}+c$
+";$\displaystyle \cos(x)+\sin(x)$;101,103,107;539,540,541,542,630,753;130,132,135,136,137
+398;integration;integration techniques;Find $\displaystyle\int \dfrac{1}{2\sqrt{x}}\sec^2(\sqrt{x})\tan(\sqrt{x})\, dx$.;$\displaystyle\dfrac{\tan^2(\sqrt{x})}{2}+c$;"$\displaystyle\tan|\sqrt{x}|+c$
+";"$\displaystyle\ln|\tan{\sqrt{x}}-\sec(\sqrt{x})|+c$
+";$\displaystyle\dfrac{\tan^2(x)}{2}+c$;101,103,107;539,540,541,542,630,753;130,132,135,136,137
+399;integration;integration techniques;Find $\displaystyle\int \dfrac{1}{2\sqrt{x}}- \dfrac{1}{2\sqrt{x}}\sec^2(\sqrt{x})+ \sec^2(3x)\tan^3(3x)\, dx$.;$\displaystyle\sqrt{x}-\tan\left(\sqrt{x}\right)+\dfrac{1}{12}\tan^4(3x)    +c$;"$\displaystyle\dfrac{\tan^2(\sqrt{x})}{2}+c$.
+";"$\displaystyle\sqrt{x}-2\tan\left(\dfrac{x}{2}\right)+ \dfrac{\sec ^4\left(3x\right)}{4}-\dfrac{\sec ^2\left(3x\right)}{2}+c$
+";$\displaystyle\dfrac{\tan^4(x)}{4}+c$;101,103;539,540,541,542,630;130,132,135,136,137
+400;integration;integration techniques;Find $\displaystyle\int \dfrac{1}{\sqrt{x}}\operatorname{cosec}^2(\sqrt{x})\cot^4(\sqrt{x})\, dx$.;$\displaystyle-\dfrac{2\cot^5(\sqrt{x})}{5}+c$;"$\displaystyle\dfrac{2\cot^5(\sqrt{x})}{5}+c$
+";"$\displaystyle-\dfrac{\cot^5(\sqrt{x})}{5}+c$
+";$\displaystyle\dfrac{\cot^5(\sqrt{x})}{5}+c$;101,103,107;539,540,541,542,630,753;130,132,135,136,137
+401;integration;integration techniques;Find $\displaystyle\int \sqrt[3]{1+7x}\, dx$.;$\dfrac{3}{28}\left(1+7x\right)^{\frac{4}{3}}+c$;"$\dfrac{3}{4}\left(1+x\right)^{\frac{4}{3}}+c$
+";"$\dfrac{3}{4}\left(1+7x\right)^{\frac{4}{3}}+c$
+";$\left(1+7x\right)^{\frac{4}{3}}+c$;103,107;539,541,542,630,753;130,135,137
+402;integration;integration techniques;Find $\displaystyle\int x\arctan\left(x\right)\, dx$.;$\displaystyle\dfrac{1}{2}x^2\arctan \left(x\right)-\dfrac{1}{2}\left(-\arctan \left(x\right)+x\right)+c$;"$\displaystyle\dfrac{1}{2}x^2\arctan \left(x\right)+\dfrac{1}{2}\left(-\arctan \left(x\right)+x\right)+c$
+";"$0$
+";$\displaystyle x^2\arctan \left(x\right)-\left(-\arctan \left(x\right)+x\right)+c$;102,107;485,539,541,542,630,753;129,130,137
+403;integration;integration techniques;Find $\displaystyle\int \dfrac{x+2}{x\left(x^2+1\right)}\, dx$.;$\arctan \left(x\right)+2\ln \left|x\right|-\ln \left|x^2+1\right| +c$;"$\arctan \left(x\right)-\ln \left|x\right|-\ln \left|x^2+1\right| +c$
+";"$x +2\ln \left|x\right|-\ln \left|x^2+1\right|  +c$
+";$x-\ln \left|x\right|-\ln \left|x^2+1\right| +c$;103,105,107;539,541,542,545,620,621,630,753;130,131,135,137
+404;integration;integration techniques;Find $\displaystyle\int \dfrac{x-4}{x^3-x}\, dx$.;$\displaystyle -\dfrac{1}{2}\ln \left|x+1\right|+\dfrac{1}{2}\ln \left|x-1\right|-2\left(\ln \left|x^2-1\right|-2\ln \left(x\right)\right)+c$;"$\displaystyle -\ln \left|x+1\right|+\ln \left|x-1\right|-\left(\ln \left|x^2-1\right|-\ln \left(x\right)\right)+c$
+";"$\displaystyle -\ln \left|x+2\right|+\ln \left|x-2\right|-\left(\ln \left|x^2-2\right|-\ln \left(2x\right)\right)+c$
+";$\displaystyle -\dfrac{1}{2}\ln \left|x+1\right|+\dfrac{1}{2}\ln \left|x-1\right|-2\ln \left(x\right)+c$;105,107;539,541,542,545,620,621,630,753;130,13
+405;integration;integration techniques;Find $\displaystyle\int \dfrac{x^4-4}{x^3-3x}\, dx$.; $\displaystyle \dfrac{x^2}{2}+\dfrac{5}{6}\ln \left|x-\sqrt{3}\right|+\dfrac{5}{6}\ln \left|x+\sqrt{3}\right|+\dfrac{4}{3}\ln \left(x\right)+c$;"$\displaystyle x^2+\dfrac{5}{6}\ln \left|(x-\sqrt{3})(x+\sqrt{3})\right|+\dfrac{4}{3}\ln \left(x\right)+c$
+";"$\displaystyle \dfrac{x^2}{2}-\ln|x^2-3|+\dfrac{4}{3}\ln \left(x\right)+c$
+";$\displaystyle -\dfrac{1}{2}\ln \left|x+1\right|+\dfrac{1}{2}\ln \left|x-1\right|-2\ln \left(x\right)+c$ ;103,105,107;539,541,542,545,620,621,630,753;130,131,135,137
+406;integration;integration techniques;Find $\displaystyle\int \dfrac{x^3-x+1}{x}\, dx$.;$\displaystyle \dfrac{x^3}{3}-x+\ln \left|x\right|+c$;"$\displaystyle -\ln \left|x+1\right|+\ln \left|x-1\right|-\left(\ln \left|x^2-1\right|-\ln \left(x\right)\right)+c$
+";"$\displaystyle -\ln \left|x+2\right|+\ln \left|x-2\right|-\left(\ln \left|x^2-2\right|-\ln \left(2x\right)\right)+c$
+";$\displaystyle -\dfrac{1}{2}\ln \left|x+1\right|+\dfrac{1}{2}\ln \left|x-1\right|-2\ln \left(x\right)+c$;103,107;539,541,542,630,753;130,135,137
+407;integration;integration techniques;Find $\displaystyle\int \sin\left(x\right)\operatorname{e}^x\, dx$.;$\displaystyle -\dfrac{\operatorname{e}^x\cos \left(x\right)}{2}+\dfrac{\operatorname{e}^x\sin \left(x\right)}{2}+c$;"$\displaystyle -\cos\left(x\right)\operatorname{e}^x+c$
+";"$\displaystyle \dfrac{\operatorname{e}^x\cos \left(x\right)}{2}-\dfrac{\operatorname{e}^x\sin \left(x\right)}{2}+c$
+";$\displaystyle \dfrac{\operatorname{e}^x\cos \left(x\right)}{5}-\dfrac{\operatorname{e}^x\sin \left(x\right)}{15}+c$ ;101,102,107;485,539,540,541,542,630,753;129,130,132,136,137
+408;integration;integration techniques;Find $\displaystyle\int \cos\left(3x\right)\operatorname{e}^{4x}\, dx$.;$\displaystyle\dfrac{3\operatorname{e}^{4x}\sin \left(3x\right)}{25}+\dfrac{4\operatorname{e}^{4x}\cos \left(3x\right)}{25}+c$;"$\displaystyle -\cos\left(x\right)\operatorname{e}^x+c$
+";"$\displaystyle \dfrac{\operatorname{e}^x\cos \left(x\right)}{2}-\dfrac{\operatorname{e}^x\sin \left(x\right)}{2}+c$
+";$\displaystyle \dfrac{\operatorname{e}^x\cos \left(x\right)}{5}-\dfrac{\operatorname{e}^x\sin \left(x\right)}{15}+c$ ;101,102,107;485,539,540,541,542,630,753;129,130,132,136,137
+409;integration;integration techniques;Find $\displaystyle\int \dfrac{x^2+3x+7}{(x^2+4)(x^2+3)}\, dx$.;$\displaystyle-\dfrac{3}{2}\ln(x^2+4)-\dfrac{3}{2}\arctan\left(\dfrac{x}{2}\right)+\dfrac{3}{2}\ln(x^2+3)+\dfrac{4}{\sqrt{3}}\arctan\left(\dfrac{x}{\sqrt{3}}\right)+c$;"$\displaystyle \dfrac{x^2}{2}-\ln|x^2-3|+\dfrac{4}{3}\ln \left(x\right)+c$
+";"$\displaystyle -\dfrac{1}{2}\ln \left|x+2\right|+\dfrac{1}{2}\ln \left|x-2\right|-2\left(\ln \left|x^2+3\right|-2\ln \left(x\right)\right)+c$
+";$\arctan \left(x\right)+2\ln \left|x\right|-\ln \left|x^2+1\right| +c$;105,107;539,541,542,545,620,621,630,753;130,13
+410;integration;integration techniques;Find $\displaystyle\int \dfrac{x^2+3x}{(x-4)^2(x-1)}\, dx$.;$\displaystyle\dfrac{5}{9}\ln|x-4|-\dfrac{28}{3(x-4)}+\dfrac{4}{9}\ln|x-1|+c$;"$\displaystyle \dfrac{1}{2}-\ln^2|x-4|+\dfrac{4}{3}\ln \left(x-1\right)+c$
+";"$\displaystyle -\dfrac{1}{2}\ln \left|x-4\right|+\dfrac{1}{2}\ln \left|x-1\right|+c$
+";$\displaystyle -\dfrac{1}{2}\ln \left|\sqrt{x+1}\right|+\dfrac{1}{2}\ln \left|x-1\right|+c$;103,105,107;539,541,542,545,620,621,630,753;130,131,135,137
+411;integration;integration techniques;Find $\displaystyle\int \left(4x^3+3x^2\right)\ln \left(x+1\right)\, dx$.;$\displaystyle  \ln \left(x+1\right)\left(x^4+x^3\right)-\dfrac{x^4}{4}+c$;"$\displaystyle \left(x+1\right)\left(x^4+x^3\right)-\ln|x+1|+\dfrac{1}{3}\ln \left(x-1\right)+c$
+";"$\displaystyle -\dfrac{1}{2}\ln \left|x-4\right|+\dfrac{1}{2}\ln \left|x-1\right|+c$
+";$\displaystyle -\dfrac{1}{2}\ln \left|x+2\right|+\dfrac{1}{2}\ln \left|x-2\right|-2\left(\ln \left|x^2+3\right|-2\ln \left(x\right)\right)+c$;102,107;485,539,541,542,630,753;129,130,137
+412;integration;integration techniques;Find $\displaystyle\int\sin^{4}\left(x\right)\, dx$.;$\displaystyle-\dfrac{\sin^{3}(x)\cos(x)}{4}+\dfrac{3}{8}\left(x-\sin(x)\cos(x)\right)+c$;"$\displaystyle-\dfrac{\sin^{3}(x)\cos(x)}{4}+\dfrac{3}{4}\left(x-\sin(x)\cos(x)\right)+c$
+";"$\displaystyle\dfrac{\sin^{3}(x)\cos(x)}{4}-\dfrac{3}{8}\left(x-\sin(x)\cos(x)\right)+c$
+";$\displaystyle\dfrac{\sin^{3}(x)\cos(x)}{4}-\dfrac{3}{4}\left(x-\sin(x)\cos(x)\right)+c$;103,106;539,541,542,630,687;130,134,135,137
+413;integration;integration techniques;Find $\displaystyle\int\left(2x^2+x+1\right)x^{-2}\, dx$.;$\displaystyle 2x+\ln \left|x\right|-\dfrac{1}{x}+c$;"$\displaystyle 2+x^{-1}-\ln|x|+c$
+";"$\displaystyle\dfrac{x^4}{4}+\dfrac{x^3}{3}-x+c$
+";$\displaystyle\dfrac{2x^5}{5}+\dfrac{x^4}{4}+\dfrac{1}{x^3}+c$;103,107;539,541,542,630,753;130,135,137
+414;integration;integration techniques;Find $\displaystyle\int\dfrac{x^3-3x+2}{x^4}\, dx$.;$\displaystyle \ln \left|x\right|+\dfrac{3}{2x^2}-\dfrac{2}{3x^3}+c$;"$\displaystyle-\dfrac{\ln^{3}(x)\ln(x)}{4}+\dfrac{3}{4}\left(x-\ln(x)\right)+c$
+";"$\displaystyle\dfrac{x^5}{5}\ln(x)-\dfrac{x^5}{25}+c$
+";$\displaystyle \dfrac{x^5}{5}-\dfrac{\ln^2(x)}{2}+c$;103,105,107;539,541,542,545,620,621,630,753;130,131,135,137
+714;integration;integration techniques;$\displaystyle \int (2x-3)^3-4\operatorname{e}^{4x-2}+\frac{2x}{x^2+3}\: dx$;$\displaystyle\frac{1}{8}(2x-3)^4-\operatorname{e}^{4x-2}+\ln|x^2+3|+c$;$\displaystyle\frac{1}{4}(2x-3)^4-\operatorname{e}^{4x-2}+\ln|x^2+3|+c$;$\displaystyle\frac{1}{4}(2x-3)^4-\frac{1}{4}\operatorname{e}^{4x-2}+\ln|x^2+3|+c$;$\displaystyle\frac{1}{8}(2x-3)^4-\operatorname{e}^{4x-2}+2\ln|x+3|+c$;101,103,107;539,540,541,542,630,753;130,132,135,136,137
+718;integration;integration techniques;Find $\displaystyle\int x\arctan \left(\sqrt{x^2-1}\right)\, dx$;$\displaystyle \dfrac{1}{2}x^2\arctan \left(\sqrt{x^2-1}\right)-\dfrac{1}{2}\sqrt{x^2-1}+c$;$\displaystyle\dfrac{1}{2}x^2\arctan \left(x\right)+\dfrac{1}{2}\left(-\arctan \left(x\right)+x\right)+c$;$\displaystyle \ln \left|x\right|+\dfrac{3}{2x^2}-\dfrac{2}{3x^3}+c$;$\displaystyle x^2\arctan\left(\sqrt{x^2-1}\right)-\left(-\arctan \left(x\right)+\left(\sqrt{x^2-1}\right)\right)+c$;101,102;485,540;129,132,136,137
+719;integration;integration techniques;Find $\displaystyle\int x\cdot 2^{x+3}\, dx$;$\displaystyle \dfrac{1}{\ln ^2\left(2\right)}\left(\ln \left(2\right)\cdot2^{x+3}x-2^{x+3}\right)+c$;"$\displaystyle \dfrac{2^xx}{\ln \left(2\right)}-\dfrac{2^x}{\ln ^2\left(2\right)}+c$
+";"$\displaystyle -\dfrac{2^{-x}x}{\ln \left(2\right)}-\dfrac{1}{\ln ^2\left(2\right)}\cdot2^{-x}+c$
+";$\displaystyle \dfrac{2^{-x}x}{\ln \left(2\right)}+\dfrac{1}{\ln ^2\left(2\right)}\cdot2^{-x}+c$;102,107;485,539,541,542,630,753;129,130,137
+722;integration;integration techniques;Find $\displaystyle\int \left(x^2+1\right)\ln \left(x\right)\, dx$;$\displaystyle \dfrac{1}{3}x^3\ln \left(x\right)+x\ln \left(x\right)-\dfrac{x^3}{9}-x+c$;"$\displaystyle 2x\ln \left(x\right)+2x+c$
+";"$\displaystyle -\dfrac{x}{\ln \left(2\right)}-\dfrac{1}{\ln ^2\left(2\right)}\cdot \:2^{-x}+c$
+";$\displaystyle \dfrac{2^{-x}x}{\ln \left(2\right)}+\dfrac{1}{\ln ^2\left(2\right)}\cdot \:2^{-x}+c$;102,103;485,539,541,542,630;129,130,135,137
+723;integration;integration techniques;Find $\displaystyle\int \cos ^4\left(x\right)\sin \left(2x\right)\, dx$;$\displaystyle -\dfrac{1}{3}\cos ^6\left(x\right)+c$;$\displaystyle -\dfrac{1}{5}\cos ^5\left(x\right)+c$ ;$\displaystyle -\dfrac{2}{5}\cos ^5\left(x\right)\cos(2x)+c$;$\displaystyle-\dfrac{1}{5}\sin ^5\left(x\right)+c$;101,103,106;539,540,541,542,630,687;130,132,134,135,136,137
+724;integration;integration techniques;Find $\displaystyle\int \sqrt{-x^2+2x}\, dx$;$\displaystyle \dfrac{1}{2}\left(\arcsin \left(x-1\right)+(x-1)\sqrt{2x-x^2}\right)+c$;$\displaystyle \sqrt[3]{-x^2+2x}+c$ ;"$\displaystyle \dfrac{1}{2}\left(x-\sin(x)\cos(x)\right)+c$
+";$\displaystyle -\dfrac{1}{2}\ln \left|\sqrt{x+1}\right|+\dfrac{1}{2}\ln \left|x-1\right|+c$;101,104;540,619,753;132,133,136,137,138
+731;integration;integration techniques;Find $\displaystyle\int \frac{\sqrt{x^2-9}}{x^3}\: dx$;$\displaystyle\frac{1}{6}\operatorname{arcsec}\left({\frac{x}{3}}\right) - \frac{1}{2}\frac{\sqrt{x^2-9}}{x^2}+c$;"$\displaystyle\frac{1}{6} - \frac{1}{2}\frac{\sqrt{x^3-9}}{x}+c$
+";"$\cos(x)\sqrt{1+\sin^2\left(x\right)}+c$
+";$\displaystyle\frac{1}{2}(x+1)\sqrt{x^2-9}-\frac{1}{2}\ln\left|x^2-9\right|+c$;101,104;540,619,753;132,133,136,137,138
+732;integration;integration techniques;Find $\displaystyle\int \sqrt{x^2+2x}\: dx$;$\displaystyle\frac{1}{2}(x+1)\sqrt{x^2+2x}-\frac{1}{2}\ln\left|{x+1+\sqrt{x^2+2x}}\right|+c$;$\displaystyle\frac{1}{2}\sqrt{x^2+2x}-\ln\left|{x+1+\sqrt{x^2+2x-1}}\right|+c $;$\displaystyle\ln\left|{x+1+\sqrt{x^2+2x-1}}\right|+c $;$\displaystyle x^2+2x+c$;103,104,106;539,541,542,619,630,687,753;130,133,134,135,137,138
+733;integration;integration techniques;Find $\displaystyle \int \frac{x}{\sqrt{x^2+4}}\: dx$;$\sqrt{x^2+4} + c$;"$\displaystyle x^2 +4x+c$
+";"$\displaystyle x^2 + c$
+";$2\sqrt{x^2+4} + c$;103,107;539,541,542,630,753;130,135,137
+1123;integration;integration techniques;Find $\displaystyle \int 2x+2x^2-\dfrac{1}{x}\, dx$;$x^2+\dfrac{2}{3}x^3-\ln|x|+C$;$\dfrac{x^2}{2}+\dfrac{x^3}{3}x^3-\ln|x|+C$;$x^2+\dfrac{2}{3}x^3-\ln(x)+C$;$\dfrac{x^2}{2}+\dfrac{x^3}{3}x^3+C$;103,105,107;539,541,542,545,620,621,630,753;130,131,135,137
+1774;integration;integration techniques;Find $\displaystyle\int (2x+1)\cos(3x)\, dx$;$\displaystyle \dfrac{1}{3}\sin \left(3x\right)\left(2x+1\right)+\dfrac{2}{9}\cos \left(3x\right)+c$;"$\displaystyle \dfrac{x^4}{5}\ln(x)+c$
+";"$\displaystyle\dfrac{x^5}{5}\ln(x)-\dfrac{x^5}{25}+c$
+"; $\displaystyle \dfrac{x^5}{5}\dfrac{\ln^2(x)}{2}+c$;102,107;485,539,541,542,630,753;129,130,137
+1796;integration;integration techniques;Find $\displaystyle\int \dfrac{1}{x^3}\ln(x)\, dx$;"$\displaystyle -\dfrac{\ln(x)}{2x^2}-\dfrac{1}{4x^2}+c$
+";"$\displaystyle \dfrac{x^4}{4}\ln(x)+c$
+";"$\displaystyle\dfrac{x^5}{5}\ln(x)-\dfrac{x^5}{25}+c$
+"; $\displaystyle \dfrac{x^5}{5}-\dfrac{\ln^2(x)}{2}+c$;102,105;485,545,620,621;129,131,137
+1800;integration;integration techniques;Find $\displaystyle\int \ln\left(\sqrt{x}\right)\, dx$.;$\displaystyle \dfrac{1}{2}\left(x\ln \left(x\right)-x\right)+c$;"$\displaystyle \dfrac{1}{2}\left(\sqrt{x}\ln \left(\sqrt{x}\right)-\sqrt{x}\right)+c$
+";"$\displaystyle \dfrac{1}{2\sqrt{x}}\left(\sqrt{x}\ln \left(\sqrt{x}\right)-x\right)+c$
+"; $\displaystyle x\ln(x)-x+c$;101,102;485,540;129,132,136,137
+1803;integration;integration techniques;Find $\displaystyle\int \sin\left(\sqrt[3]{x}\right)\, dx$.;$\displaystyle 3\left(-x^{\frac{2}{3}}\cos \left(\sqrt[3]{x}\right)+2\left(\sqrt[3]{x}\sin \left(\sqrt[3]{x}\right)+\cos \left(\sqrt[3]{x}\right)\right)\right)+c$;"$\displaystyle x\arcsin \left(\sqrt{x}\right)-\dfrac{1}{2}\arcsin \left(\sqrt{x}\right)+\dfrac{1}{4}\sin \left(2\arcsin \left(\sqrt{x}\right)\right)+c$
+";"$\displaystyle x\arcsin \left(\sqrt{x}\right)-\dfrac{1}{2}\arcsin \left(\sqrt{x}\right)+\dfrac{1}{4}\sin \left(2\arcsin \left(\sqrt{x}\right)\right)+c$
+";$\displaystyle x\ln(x)-x+c$;101,102,103,105;485,539,540,541,542,545,620,621,630;129,130,131,132,135,136,137
+1806;integration;integration techniques;Find $\displaystyle\int\dfrac{\sqrt{4-9x^2}}{x}\, dx$.;$\displaystyle 2\ln\left|\dfrac{2-\sqrt{4-9x^2}}{3x}\right|+\sqrt{4-9x^2}+c$;"$\displaystyle \ln\left|\dfrac{2-\sqrt{4-9x^2}}{x}\right|+\sqrt{4-9x^2}+c$
+";"$\displaystyle -2\ln\left|\dfrac{2-\sqrt{4-9x^2}}{3x}\right|-\sqrt{4-9x^2}+c$
+"; $\displaystyle -2\ln\left|\dfrac{2-\sqrt{4-9x^2}}{x}\right|-\sqrt{4-9x^2}+c$;104,105;545,619,620,621,753;131,133,138
+1813;integration;integration techniques;Find $\displaystyle\int\sin\left(\ln \left(x\right)\right)\, dx$.;$\displaystyle\dfrac{1}{2}x\sin \left(\ln \left(x\right)\right)-\dfrac{1}{2}x\cos \left(\ln \left(x\right)\right)+c$;"$\displaystyle\dfrac{1}{3}\sin \left(\ln \left(x\right)\right)-x\cos \left(\ln \left(x\right)\right)+c$
+";"$\displaystyle \dfrac{\cos \left(x\right)}{2}-\dfrac{\sin \left(\ln(x)\right)}{2}+c$
+";$\displaystyle -\dfrac{x\cos\left(x\right)}{2}-\dfrac{\sin \left(\ln(x)\right)}{2}+c$;101,102;485,540;129,132,136,137
+1816;integration;integration techniques;Find $\displaystyle\int\tan ^3\left(x\right)\sec ^3\left(x\right)\, dx$.;$\displaystyle\dfrac{\sec^5\left(x\right)}{5}-\dfrac{\sec ^3\left(x\right)}{3}+c$;"$\displaystyle\dfrac{\tan^5\left(x\right)}{5}-\dfrac{\tan ^3\left(x\right)}{3}+c$
+";"$\displaystyle -\sec \left(x\right)+\dfrac{\sec ^3\left(x\right)}{3}+c$
+";$\displaystyle -\dfrac{x\tan^5\left(x\right)}{2}-\dfrac{\sec^3 \left(x\right)}{2}+c$ ;101,106;540,687;132,134,136,137
+1819;integration;integration techniques;Find $\displaystyle\int \tan ^3\left(x\right)\sec \left(x\right)\, dx$.;$\displaystyle -\sec \left(x\right)+\dfrac{\sec ^3\left(x\right)}{3}+c$;"$\displaystyle\dfrac{\tan^5\left(x\right)}{5}-\dfrac{\tan ^3\left(x\right)}{3}+c$
+";"$\displaystyle -\dfrac{x\tan^5\left(x\right)}{2}-\dfrac{\sec^3 \left(x\right)}{2}+c$
+";$\displaystyle\dfrac{\sec^5\left(x\right)}{5}-\dfrac{\sec ^3\left(x\right)}{3}+c$;103,437,438;539,541,542,630;130,135,137,138
+1822;integration;integration techniques;Find $\displaystyle\int \left(\ln \left(x\right)\right)^2\, dx$.;$\displaystyle x\ln ^2\left(x\right)-2\left(x\ln \left(x\right)-x\right)+c$;"$\displaystyle 2(x\ln \left(x\right)-x)+c$
+";" $\displaystyle x\ln^2\left(x\right)-x^2-\ln\left(x\right)+c$
+"; $\displaystyle\dfrac{\ln^2\left(x\right)}{2}-\ln\left(x\right)+c$;101,102;485,540;129,132,136,137
+1825;integration;integration techniques;Find $\displaystyle\int \operatorname{e}^x\ln \left(1+\operatorname{e}^x\right)\, dx$.;$\displaystyle \left(1+\operatorname{e}^x\right)\ln \left(1+\operatorname{e}^x\right)-\operatorname{e}^x+c$;"$\displaystyle 2(x\ln \left(x\right)-x)+c$
+";"$\displaystyle x\ln^2\left(x\right)-x^2-\ln\left(x\right)+c$
+";$\displaystyle\dfrac{\ln^2\left(1+\operatorname{e}^x\right)}{2}+c$ ;101,102,105;485,540,545,620,621;129,131,132,136,137
+1828;integration;integration techniques;Find $\displaystyle\int\sin\left(2x\right)\operatorname{e}^{\sin^2\left(x\right)}\, dx$;$\displaystyle \operatorname{e}^{\sin ^2\left(x\right)}+c$;"$\displaystyle -\operatorname{e}^{\sin^3\left(x\right)}+c$
+";"$\displaystyle \dfrac{1}{3}\operatorname{e}^{\sin^3\left(x\right)}+c$
+";$\displaystyle\dfrac{\ln\left(\sin^3\left(x\right)\right)}{2}-\ln\left(\sin\left(x\right)\right)+c$ ;101,103;539,540,541,542,630;130,132,135,136,137
+1963;integration;integration techniques;Find $\displaystyle\int \frac{x^2+5}{x}+x^2e^x dx$.;$\displaystyle \frac{x^2}{2}+5\ln|x|+x^2e^x-2xe^x+2e^x+C$;$\displaystyle x^2+5\ln|x|+x^2e^x-2xe^x+2e^x+C$;$\displaystyle \frac{x^2}{2}+5\ln|x|-x^2e^x+2xe^x-2e^x+C$;$\displaystyle x^2e^x-2xe^x+2e^x+C$;102,103,105;485,539,541,542,545,620,621,630;129,130,131,135,137
+1965;integration;integration techniques;Find $\displaystyle \int (x^2+x)3^x dx$.;$\displaystyle (x^2+x)\frac{3^x}{\ln(3)}-(2x+1)\frac{3^x}{\ln^2(3)}+2\frac{3^x}{\ln^3(3)}+C$;$\displaystyle (2x+1)\frac{3^x}{\ln(3)}+C$;$\displaystyle (x^2+x)\frac{3^x}{\ln(3)}-(2x+1)\frac{3^x}{\ln(3)}+2\frac{3^x}{\ln(3)}+C$;$\displaystyle -(x^2+x)\frac{3^x}{\ln(3)}+(2x+1)\frac{3^x}{\ln^2(3)}-2\frac{3^x}{\ln^3(3)}+C$;102,103;485,539,541,542,630;129,130,135,137
+1967;integration;integration techniques;Find $\displaystyle \int x\ln(x) dx$.;$\displaystyle \frac{x^2}{2}\ln(x)-\frac{x^2}{4}+ C$;$\displaystyle \frac{x^2}{2}\frac{1}{x}+ C$;$\displaystyle \frac{x^2}{2}-\frac{1}{x}+ C$;$\displaystyle -\frac{x^2}{2}\ln(x)+\frac{x^2}{4}+ C$;102,105;485,545,620,621;129,131,137
+1985;integration;integration techniques;Find $\displaystyle \int e^{3x}\cos(x) dx$.;$\displaystyle\frac{e^{3x}\sin \left(x\right)}{10}+\frac{3e^{3x}\cos \left(x\right)}{10}+C$;$\displaystyle\frac{e^{3x}\sin \left(x\right)}{3}+\frac{e^{3x}\cos \left(x\right)}{3}+C$;$\displaystyle e^{3x}\sin \left(x\right)+3e^{3x}\cos \left(x\right)+C$;$\displaystyle\frac{e^{3x}\sin \left(x\right)}{10}-\frac{3e^{3x}\cos \left(x\right)}{10}+C$;102,437;485;129,137,138
+1987;integration;integration techniques;Find $\displaystyle \int e^x \sin(2x) dx$.;$\displaystyle -\frac{2e^x\cos \left(2x\right)}{5}+\frac{e^x\sin \left(2x\right)}{5}+C$;$\displaystyle \frac{2e^x\cos \left(2x\right)}{5}-\frac{e^x\sin \left(2x\right)}{5}+C$;$\displaystyle -2e^x\cos \left(2x\right)+e^x\sin \left(2x\right)+C$;$\displaystyle 2e^x\cos \left(2x\right)-e^x\sin \left(2x\right)+C$;102,437;485;129,137,138
+1989;integration;integration techniques;Find $\displaystyle \int \frac{x^2-1}{x+3} dx$;$\displaystyle \frac{x^2}{2} - 3x +8\ln \left|x+3\right|+C$;$\displaystyle \ln \left|x+3\right|+C$;$\displaystyle \frac{(x-3)^2}{2} +\ln \left|x+3\right|+C$;$\displaystyle \frac{x^2}{2} + 3x +\ln \left|x+3\right|+C$;103,105;539,541,542,545,620,621,630;130,131,135,137
+1991;integration;integration techniques;Find $\displaystyle \int \frac{x+1}{x^2+1} dx$.;$\displaystyle \frac{1}{2}\ln \left|x^2+1\right|+\arctan \left(x\right)+C$;$\displaystyle 2\ln \left|x^2+1\right|+\arctan \left(x\right)+C$;$\displaystyle \ln \left|x^2+1\right|+\frac{1}{2}\arctan \left(x\right)+C$;$\displaystyle 2\ln \left|x^2+1\right|+\frac{1}{2}\arctan \left(x\right)+C$;103,105;539,541,542,545,620,621,630;130,131,135,137
+1993;integration;integration techniques;Find $\displaystyle \int \sqrt[3]{1+7x}dx$.;$\displaystyle\frac{3}{28}\left(1+7x\right)^{\frac{4}{3}}+C$; $\displaystyle \frac{1}{7}\sqrt{1+7x}+C$; $\displaystyle \frac{1}{7}\sqrt[4]{1+7x}+C$;$\displaystyle\frac{28}{3}\left(1+7x\right)^{\frac{4}{3}}+C$;101,103,107;539,540,541,542,630,753;130,132,135,136,137
+1995;integration;integration techniques;Find $\displaystyle \int \frac{\cos ^2\left(x\right)}{\sin \left(x\right)}dx$.;$\displaystyle \ln \left|\tan \left(\frac{x}{2}\right)\right|+\cos \left(x\right)+C$;$\displaystyle \ln \left|\cot \left(\frac{x}{2}\right)\right|+\cos \left(x\right)+C$;$\displaystyle \tan\left(\frac{x}{2}\right)+\cos \left(x\right)+C$;$\displaystyle \ln\left|\tan \left(\frac{x}{2}\right)\right|-\cos \left(x\right)+C$;103,437,438;539,541,542,630;130,135,137,138

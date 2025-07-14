@@ -36,7 +36,7 @@ def find_column_type_in_csv(column):
     for index in picked_indices:
         for type, regex in type_regexes.items():
             value = column.loc[index]
-            if regex.match(value) is not None:
+            if regex.match(str(value)) is not None:
                 type_appearances[type] += 1
                 continue
 

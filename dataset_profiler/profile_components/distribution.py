@@ -96,12 +96,19 @@ class DistributionFileSet:
 
 def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
     sample_file_of_dir = next(Path(file_set).glob("*"), None)
-    if sample_file_of_dir.suffix in [".png", ".jpg", ".jpeg"]:
+
+    if sample_file_of_dir.suffix.lower() in [".png", ".jpg", ".jpeg"]:
         encoding_format = "image/" + sample_file_of_dir.suffix[1:]
-    elif sample_file_of_dir.suffix == ".pdf":
+    elif sample_file_of_dir.suffix.lower() == ".pdf":
         encoding_format = "application/pdf"
-    elif sample_file_of_dir.suffix == ".txt":
+    elif sample_file_of_dir.suffix.lower() == ".txt":
         encoding_format = "text/plain"
+    elif sample_file_of_dir.suffix.lower() == ".pptx":
+        encoding_format = "application/pptx"
+    elif sample_file_of_dir.suffix.lower() == ".docx":
+        encoding_format = "application/docx"
+    elif sample_file_of_dir.suffix.lower() == ".ipynb":
+        encoding_format = "application/x-ipynb+json"
     else:
         raise ValueError(
             "Unsupported file type for file in file set: " + sample_file_of_dir.suffix

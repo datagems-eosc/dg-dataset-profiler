@@ -19,6 +19,8 @@ class DatasetTopLevel:
         in_language: Optional[list] = None,
         country: str = "",
         date_published: str = "",
+        access: str = "PRIVATE", # PRIVATE or PUBLIC
+        uploaded_by: str = ""
     ):
         self.type = "sc:Dataset"
         self.id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
@@ -35,6 +37,8 @@ class DatasetTopLevel:
         self.in_language = in_language if in_language is not None else []
         self.country = country
         self.date_published = date_published
+        self.access = access
+        self.uploaded_by = uploaded_by
 
     def to_dict(self):
         return {
@@ -53,4 +57,6 @@ class DatasetTopLevel:
             "inLanguage": self.in_language,
             "country": self.country,
             "datePublished": self.date_published,
+            "access": self.access,
+            "uploadedBy": self.uploaded_by,
         }
