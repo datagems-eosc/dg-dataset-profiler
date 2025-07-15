@@ -14,7 +14,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from langsmith import traceable
 from dotenv import load_dotenv, find_dotenv
 
-nltk.download("stopwords")
+try:
+    nltk.download("stopwords")
+except Exception as e:
+    print(f"Error downloading NLTK stopwords: {e}")
+
 load_dotenv(find_dotenv())
 
 
