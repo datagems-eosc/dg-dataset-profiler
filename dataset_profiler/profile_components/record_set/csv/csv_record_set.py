@@ -48,7 +48,7 @@ class CSVColumnField(ColumnField):
     ):
         self.type = "cr:Field"
         self.id = str(uuid.uuid4())
-        self.name = csv_name + "/" + column_name
+        self.name = column_name
         self.description = ""
         self.dataType = find_column_type_in_csv(column)
         self.source = {

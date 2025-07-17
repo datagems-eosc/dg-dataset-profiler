@@ -12,6 +12,6 @@ def test_profiler_mathe():
 
     import json
 
-    with open("generated_profiles/mathe.json", "w") as f:
+    with open("generated_profiles/mathe_database.json", "w") as f:
         json.dump(profile.to_dict(), f)
     assert isinstance(profile, DatasetProfile)

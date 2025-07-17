@@ -1,2 +1,0 @@
--- This does not contain the actual data of the database. The profiler if it discovers a .sql file it would assume
--- that it is already loaded in our Postgres under the file name (i.e. mathe.sql -> mathe)

@@ -75,7 +75,7 @@ class DBTableField:
         fields = []
         for column in self.table["columns"]:
             fields.append(
-                DBColumnField(column, self.table["table_name"], self.file_object_id)
+                DBColumnField(column, self.table["table_name"])
             )
 
         return fields
@@ -93,14 +93,16 @@ class DBTableField:
 
 
 class DBColumnField(ColumnField):
-    def __init__(self, column, table_name: str, file_object_id: str):
+    def __init__(self, column, table_name: str):
         self.type = "cr:Field"
         self.id = self.id = str(uuid.uuid4())
-        self.name = table_name + "/" + column["column"]
+        self.name = column["column"]
         self.description = ""
         self.dataType = find_column_type_in_db(column["data_type"])
+
+        # The distribution part for the table is not created yet in order for it to have an id
         self.source = {
-            "fileObject": {"@id": file_object_id},
+            "fileObject": {"@id": "NOT_YET_SET"},
             "extract": {"column": column["column"]},
         }
         self.sample = [f"{value}" for value in column["values"]]

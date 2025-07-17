@@ -1,4 +1,5 @@
 {
+  "access": "PUBLIC",
   "citeAs": "",
   "country": "PT",
   "dataPath": "tests/assets/mathe/data/",
@@ -20,5 +21,6 @@
   ],
   "license": "???",
   "name": "MathE Materials & Questions",
+  "uploadedBy": "ADMIN",
   "url": "https://mathe.ipb.pt"
 }

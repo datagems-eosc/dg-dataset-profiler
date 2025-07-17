@@ -1,4 +1,5 @@
 {
+  "access": "PUBLIC",
   "citeAs": "",
   "country": "PT",
   "dataPath": "tests/assets/dummy_data/data/",
@@ -17,5 +18,6 @@
   ],
   "license": "???",
   "name": "Dev Data",
+  "uploadedBy": "ADMIN",
   "url": ""
 }
