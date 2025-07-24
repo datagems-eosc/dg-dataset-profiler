@@ -6,12 +6,14 @@ from typing import Optional
 class DatasetTopLevel:
     def __init__(
         self,
+        dataset_id: str,
         name: str,
         description: str = "",
         conforms_to: str = "",
         cite_as: str = "",
         license: str = "",
         url: str = "",
+        doi: str = "",
         version: str = "",
         headline: str = "",
         keywords: Optional[list] = None,
@@ -23,13 +25,14 @@ class DatasetTopLevel:
         uploaded_by: str = ""
     ):
         self.type = "sc:Dataset"
-        self.id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
+        self.id = dataset_id
         self.name = name
         self.description = description
         self.conforms_to = conforms_to
         self.cite_as = cite_as
         self.license = license
         self.url = url
+        self.doi = doi
         self.version = version
         self.headline = headline
         self.keywords = keywords if keywords is not None else []
@@ -50,6 +53,7 @@ class DatasetTopLevel:
             "citeAs": self.cite_as,
             "license": self.license,
             "url": self.url,
+            "doi": self.doi,
             "version": self.version,
             "headline": self.headline,
             "keywords": self.keywords,

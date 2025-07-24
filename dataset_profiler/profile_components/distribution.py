@@ -55,7 +55,7 @@ def get_distribution_of_file_object(
         file_object_id=file_object_id,
         name=file_object.split("/")[-1],
         content_size=f"{Path(file_object).stat().st_size} B",
-        content_url="",
+        content_url=f"s3://datagems/dataset_id/{file_object.split('/')[-1]}",
         encoding_format=encoding_format,
         sha256_check=sha,
     )
@@ -123,7 +123,7 @@ def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
         file_set_id=file_set_id,
         name=file_set.split("/")[-1],
         content_size=f"{sum(file_sizes)} B",
-        content_url="",
+        content_url=f"s3://datagems/dataset_id/",
         encoding_format=encoding_format,
         includes=f"{file_set.split('/')[-1]}/*",
     )

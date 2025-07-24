@@ -10,12 +10,14 @@ class DatasetSpecification:
     def __init__(self, dataset_specification_path: str):
         with open(dataset_specification_path, "r") as file:
             specifications = json.load(file)
+        self.id = specifications["id"]
 
         self.name = specifications["name"]
         self.description = specifications["description"]
         self.citeAs = specifications["citeAs"]
         self.license = specifications["license"]
         self.url = specifications["url"]
+        self.doi = specifications["doi"] if "doi" in specifications else ""
 
         # Datagems Specific Attributes
         self.headline = specifications["headline"]

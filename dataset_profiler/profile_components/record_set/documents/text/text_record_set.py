@@ -41,6 +41,9 @@ class TextRecordSet(RecordSet):
         self.name = file_object.split("/")[-1].split(".")[-2]
         self.id = str(uuid.uuid4())
 
+        path_from_folder = '/'.join(file_object.split("/")[-2:])
+        self.content_url = f"s3://datagems/dataset_id/{path_from_folder}"
+
         # self.description = ""
         text_content, encoding = read_file_with_encoding(
             self.file_object
@@ -121,6 +124,7 @@ class TextRecordSet(RecordSet):
             "@type": self.type,
             "@id": self.id,
             "name": self.name,
+            "contentUrl": self.content_url,
             "file_size_bytes": self.file_size_bytes,
             # "encoding": self.encoding,
             # "language": self.language,

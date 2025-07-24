@@ -1,9 +1,11 @@
+import uuid
 from typing import List, Optional
 
 from pydantic import BaseModel
 
 
 class ProfileSpecification(BaseModel):
+    id: uuid.UUID
     name: str
     description: str
     headline: str
@@ -14,6 +16,7 @@ class ProfileSpecification(BaseModel):
     keywords: List[str]
     country: str
     published_url: Optional[str] = ""
+    doi: Optional[str] = ""  # Can be the same as the published_url if the published_url is a DOI
     cite_as: Optional[str] = (
         ""  # Official abbreviations https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
     )

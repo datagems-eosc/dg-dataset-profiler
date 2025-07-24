@@ -35,6 +35,9 @@ class PdfRecordSet:
         # self.key = {"@id": self.name}
         self.id = str(uuid.uuid4())
 
+        path_from_folder = '/'.join(file_object.split("/")[-2:])
+        self.content_url = f"s3://datagems/dataset_id/{path_from_folder}"
+
         profile = get_pdf_profile(file_object)
         self.file_size_bytes = profile["file_size_bytes"]
         self.subject = profile["subject"]
@@ -72,6 +75,7 @@ class PdfRecordSet:
         return {
             "@type": self.type,
             "@id": self.id,
+            "contentUrl": self.content_url,
             # "distribution_path": self.distribution_path,
             # "file_object": self.file_object,
             "name": self.name,

@@ -39,6 +39,7 @@ class DatasetProfile:
         self.file_objects, self.file_sets = get_file_objects(self.distribution_path)
 
         self.dataset_top_level = DatasetTopLevel(
+            dataset_id=self.dataset_specification.id,
             name=self.dataset_specification.name,
             description=self.dataset_specification.description,
             conforms_to="",
