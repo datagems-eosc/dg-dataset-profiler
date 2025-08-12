@@ -104,9 +104,9 @@ def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
     elif sample_file_of_dir.suffix.lower() == ".txt":
         encoding_format = "text/plain"
     elif sample_file_of_dir.suffix.lower() == ".pptx":
-        encoding_format = "application/pptx"
+        encoding_format = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
     elif sample_file_of_dir.suffix.lower() == ".docx":
-        encoding_format = "application/docx"
+        encoding_format = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     elif sample_file_of_dir.suffix.lower() == ".ipynb":
         encoding_format = "application/x-ipynb+json"
     else:
