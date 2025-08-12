@@ -1,4 +1,4 @@
-from dataset_profiler.profile_components.record_set.text.text_record_set import (
+from dataset_profiler.profile_components.record_set.documents.text.text_record_set import (
     TextRecordSet,
 )
 import json

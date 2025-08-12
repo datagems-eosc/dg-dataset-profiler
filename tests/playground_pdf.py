@@ -1,4 +1,4 @@
-from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
+from dataset_profiler.profile_components.record_set.documents.pdf.pdf_record_set import (
     PdfRecordSet,
 )
 import json

@@ -6,12 +6,14 @@ from typing import Optional
 class DatasetTopLevel:
     def __init__(
         self,
+        dataset_id: str,
         name: str,
         description: str = "",
         conforms_to: str = "",
         cite_as: str = "",
         license: str = "",
         url: str = "",
+        doi: str = "",
         version: str = "",
         headline: str = "",
         keywords: Optional[list] = None,
@@ -19,15 +21,18 @@ class DatasetTopLevel:
         in_language: Optional[list] = None,
         country: str = "",
         date_published: str = "",
+        access: str = "PRIVATE", # PRIVATE or PUBLIC
+        uploaded_by: str = ""
     ):
         self.type = "sc:Dataset"
-        self.id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
+        self.id = dataset_id
         self.name = name
         self.description = description
         self.conforms_to = conforms_to
         self.cite_as = cite_as
         self.license = license
         self.url = url
+        self.doi = doi
         self.version = version
         self.headline = headline
         self.keywords = keywords if keywords is not None else []
@@ -35,6 +40,8 @@ class DatasetTopLevel:
         self.in_language = in_language if in_language is not None else []
         self.country = country
         self.date_published = date_published
+        self.access = access
+        self.uploaded_by = uploaded_by
 
     def to_dict(self):
         return {
@@ -46,6 +53,7 @@ class DatasetTopLevel:
             "citeAs": self.cite_as,
             "license": self.license,
             "url": self.url,
+            "doi": self.doi,
             "version": self.version,
             "headline": self.headline,
             "keywords": self.keywords,
@@ -53,4 +61,6 @@ class DatasetTopLevel:
             "inLanguage": self.in_language,
             "country": self.country,
             "datePublished": self.date_published,
+            "access": self.access,
+            "uploadedBy": self.uploaded_by,
         }

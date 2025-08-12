@@ -12,7 +12,7 @@ load_dotenv()
 
 
 class DatagemsPostgres:
-    def __init__(self, schema: str):
+    def __init__(self, database: str, schema: str):
         """
         Initialize the datagems database connector.
         """
@@ -21,7 +21,7 @@ class DatagemsPostgres:
         self.connection_uri = (
             f"postgresql+psycopg2://{os.getenv('DATAGEMS_POSTGRES_USERNAME')}:"
             f"{os.getenv('DATAGEMS_POSTGRES_PASSWORD')}@{os.getenv('DATAGEMS_POSTGRES_HOST')}:"
-            f"{os.getenv('DATAGEMS_POSTGRES_PORT')}/{os.getenv('DATAGEMS_POSTGRES_DATABASE')}"
+            f"{os.getenv('DATAGEMS_POSTGRES_PORT')}/{database}"
         )
 
         conn_args = {

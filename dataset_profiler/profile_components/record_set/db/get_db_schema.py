@@ -161,7 +161,10 @@ def get_sample_values_of_column(
     """
     # If there are is_categorical_thresh + 1 distinct values, then the column is not considered categorical
     distinct_values = db.execute(
-        f'SELECT DISTINCT "{column_name}" FROM "{table_name}" WHERE "{column_name}" IS NOT NULL LIMIT {sample_size}'
+        f"""
+        SELECT DISTINCT t.{column_name}
+        FROM (SELECT {column_name} FROM {table_name} LIMIT 1000) t
+        WHERE t.{column_name} IS NOT NULL LIMIT 3"""
     )
 
     return distinct_values
@@ -256,6 +259,7 @@ def obtain_schema_from_db(
             "columns": [],
         }
         for column in tables_with_cols[table]:
+            print(table, column)
             example_values = get_sample_values_of_column(db, table, column, sample_size)
             table_dict["columns"].append(
                 {
