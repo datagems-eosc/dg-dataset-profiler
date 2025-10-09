@@ -26,6 +26,7 @@ class PdfRecordSet:
         file_object: str,
         file_set_id
     ):
+        super().__init__()
         self.distribution_path = distribution_path
         self.file_object = file_object
         self.type = "dg:Document"

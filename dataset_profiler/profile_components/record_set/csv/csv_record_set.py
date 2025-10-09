@@ -1,3 +1,6 @@
+import csv
+import tempfile
+
 import pandas as pd
 import uuid
 import numpy as np
@@ -10,6 +13,7 @@ from dataset_profiler.utilities import find_column_type_in_csv
 
 class CSVRecordSet(RecordSet):
     def __init__(self, distribution_path: str, file_object: str, file_object_id: str):
+        super().__init__()
         self.distribution_path = distribution_path
         self.file_object = file_object
         self.file_object_id = file_object_id
@@ -24,11 +28,10 @@ class CSVRecordSet(RecordSet):
         fields = []
         for column in csv_object.columns:
             fields.append(
-                CSVColumnField(
+                TableColumnField(
                     csv_object[column], column, self.name, self.file_object_id
                 )
             )
-
         return fields
 
     def to_dict(self):
@@ -42,7 +45,7 @@ class CSVRecordSet(RecordSet):
         }
 
 
-class CSVColumnField(ColumnField):
+class TableColumnField(ColumnField):
     def __init__(
         self, column: pd.Series, column_name: str, csv_name: str, file_object_id: str
     ):
@@ -67,3 +70,36 @@ class CSVColumnField(ColumnField):
             "source": self.source,
             "sample": self.sample,
         }
+
+
+def get_record_sets_from_excel(distribution_path: str, file_object: str, file_object_id: str) -> list[CSVRecordSet]:
+    with tempfile.TemporaryDirectory() as temp_dir:
+        xls = pd.ExcelFile(distribution_path + file_object)
+        record_sets = []
+        for sheet_name in xls.sheet_names:
+            df = pd.read_excel(xls, sheet_name=sheet_name)
+            df.to_csv(temp_dir + '/' + f"{sheet_name}.csv", index=False, sep=',')
+            try:
+                record_set = CSVRecordSet(
+                    distribution_path=temp_dir + '/',
+                    file_object=f"{sheet_name}.csv",
+                    file_object_id=file_object_id,
+                )
+            except (pd.errors.ParserError, csv.Error) as e:
+                print(f"Failed to process sheet {sheet_name} in {file_object}. Skipping this sheet.")
+                continue
+            record_sets.append(record_set)
+
+    for record_set in record_sets:
+        record_set.inject_distribution = {
+          "@type": "cr:FileObject",
+          "@id": str(uuid.uuid4()),
+          "name": sheet_name,
+          "description": "",
+          "containedIn": {
+            "@id": file_object_id
+          },
+          "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+
+    return record_sets

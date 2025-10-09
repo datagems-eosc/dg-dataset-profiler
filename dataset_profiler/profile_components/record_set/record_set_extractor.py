@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import List
 
 from dataset_profiler.profile_components.record_set.csv.csv_record_set import (
-    CSVRecordSet,
+    CSVRecordSet, get_record_sets_from_excel,
 )
 from dataset_profiler.profile_components.record_set.db.db_record_set import DBRecordSet
 from dataset_profiler.profile_components.record_set.documents.document_record_set import FileType, DocumentRecordSet
@@ -52,6 +52,8 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
                 db_specific_schema=db_specific_schema,
             )
             record_sets.append(db_record_set)
+        elif file_extension == ".xlsx":
+            record_sets += get_record_sets_from_excel(distribution_path, file_object["path"], file_object["id"])
 
     return record_sets
 

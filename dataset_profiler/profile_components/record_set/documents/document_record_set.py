@@ -20,6 +20,7 @@ class FileType(Enum):
 
 class DocumentRecordSet(RecordSet):
     def __init__(self, distribution_path: str, file_set: str, file_set_id: str, file_type: FileType):
+        super().__init__()
         self.distribution_path = distribution_path
         self.file_set = file_set
         self.file_set_id = file_set_id
@@ -36,7 +37,11 @@ class DocumentRecordSet(RecordSet):
         for doc_path in documents:
             match self.file_type:
                 case FileType.TEXT:
-                    document_content = TextRecordSet(self.distribution_path, doc_path, self.file_set_id)
+                    try:
+                        document_content = TextRecordSet(self.distribution_path, doc_path, self.file_set_id)
+                    except UnicodeDecodeError:
+                        print(f"Failed to decode {doc_path}. Skipping this file.")
+                        continue
                 case FileType.PDF:
                     document_content = PdfRecordSet(self.distribution_path, doc_path, self.file_set_id)
                 case _:

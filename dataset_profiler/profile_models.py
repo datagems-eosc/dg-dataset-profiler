@@ -112,6 +112,10 @@ class DatasetProfile:
                 get_added_distributions(profile_dict["recordSet"], db_id, file_obj_id)
             )
 
+        for record_set in self.record_sets:
+            if record_set.inject_distribution:
+                profile_dict["distribution"].append(record_set.inject_distribution)
+
         return profile_dict
 
     def to_json_str(self):

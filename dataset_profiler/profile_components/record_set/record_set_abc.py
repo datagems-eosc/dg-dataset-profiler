@@ -3,6 +3,9 @@ from typing import Dict, List
 
 
 class RecordSet(ABC):
+    def __init__(self):
+        self.inject_distribution = None
+
     @abstractmethod
     def extract_fields(self) -> List:
         pass

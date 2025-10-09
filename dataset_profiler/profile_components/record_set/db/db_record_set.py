@@ -23,6 +23,7 @@ class DBRecordSet(RecordSet):
         db_name: str,
         db_specific_schema: str,
     ):
+        super().__init__()
         self.distribution_path = distribution_path
         self.file_object = file_object.split("/")[-1]
         self.file_object_id = file_object_id

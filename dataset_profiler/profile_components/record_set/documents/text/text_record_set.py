@@ -34,6 +34,7 @@ class TextRecordSet(RecordSet):
         header_index: int = 0,
         main_text_index: int = 1,
     ):
+        super().__init__()
         self.distribution_path = distribution_path
         self.file_object = file_object
         self.separator = separator

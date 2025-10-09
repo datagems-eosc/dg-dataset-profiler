@@ -1,7 +1,7 @@
 from dataset_profiler.profile_models import DatasetProfile
 
 
-def test_profiler_weather_stations():
+def profiler_dummy_data():
     profile = DatasetProfile(
         dataset_specifications_path="tests/assets/dummy_data/specifications.json",
     )
@@ -13,3 +13,7 @@ def test_profiler_weather_stations():
     assert isinstance(
         profile, DatasetProfile
     )  # Not an actual test, just to check if the profile is created
+
+
+if __name__ == "__main__":
+    profiler_dummy_data()
