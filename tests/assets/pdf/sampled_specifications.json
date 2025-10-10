@@ -1,0 +1,21 @@
+{
+  "citeAs": "",
+  "country": "ES",
+  "dataPath": "tests/assets/pdf/sampled/",
+  "datePublished": "24-05-2025",
+  "description": "The dataset includes 50 sampled Math Education materials.(LLM used: Llama-3.3-70B)",
+  "fieldOfScience": [
+    "Mathematics",
+    "Education"
+  ],
+  "headline": "Math Education Materials",
+  "inLanguage": [
+    "en"
+  ],
+  "keywords": [
+    "math education"
+  ],
+  "license": "CC-BY-SA 4.0 - Creative Commons Attribution-ShareAlike 4.0 International",
+  "name": "Mathematics Education Materials",
+  "url": ""
+}

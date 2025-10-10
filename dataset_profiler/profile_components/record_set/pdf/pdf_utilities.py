@@ -10,20 +10,20 @@ from docling.document_converter import DocumentConverter, PdfFormatOption
 from docling.models.base_model import BaseItemAndImageEnrichmentModel
 from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
 from io import BytesIO
-import ollama
+from ollama import Client
 import base64
 import logging
 import os
 
 
 class LLMFormulaUnderstandingPipelineOptions(PdfPipelineOptions):
-    do_formula_understanding: bool = True
+    do_formula_understanding: bool = False
     model: str = "granite3.2-vision"
 
 
 # A new enrichment model using both the document element and its image as input
 class LLMFormulaUnderstandingEnrichmentModel(BaseItemAndImageEnrichmentModel):
-    images_scale = 2.6
+    images_scale = 1.0
 
     def __init__(self, enabled: bool, model: str):
         self.enabled = enabled
@@ -41,13 +41,18 @@ class LLMFormulaUnderstandingEnrichmentModel(BaseItemAndImageEnrichmentModel):
         buffered = BytesIO()
         image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+        logging.info(
+            "Starting Ollama generate for formula image (size: %d bytes)", len(img_str)
+        )
         # Call the ollama API
         try:
-            response = ollama.generate(
+            client = Client(timeout=30)
+            response = client.generate(
                 model=self.model,
                 prompt="Extract the formula from this image in a markdown math format. All greek letters should be escaped with a backslash.",
                 images=[img_str],  # Pass the base64 encoded image
             )
+            logging.info("Ollama response received successfully.")
             return response["response"].strip()
         except Exception as e:
             logging.error(f"Error processing formula with ollama: {e}")
@@ -77,6 +82,7 @@ class LLMFormulaUnderstandingEnrichmentModel(BaseItemAndImageEnrichmentModel):
                         f"Failed to process formula for element: {enrich_element.item}"
                     )
             yield enrich_element.item
+            logging.info("Yielded processed element: %s", enrich_element.item)
 
 
 # How the pipeline can be extended.
