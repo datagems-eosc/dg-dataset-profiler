@@ -10,7 +10,7 @@ def sampling_pdf_document(filepath: str) -> None:
     from pathlib import Path
 
     pdf_files = list(Path("tests/assets/pdf/data").glob("*.pdf"))
-    # sample 50 pdf files randomly with seed 42
+    # sample up to 100 pdf files randomly with seed 42
     random.seed(42)
     sampled_files = random.sample(pdf_files, min(100, len(pdf_files)))
     # copy the sampled files to the given filepath

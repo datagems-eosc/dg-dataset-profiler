@@ -3,7 +3,7 @@
   "country": "ES",
   "dataPath": "tests/assets/pdf/sampled/",
   "datePublished": "24-05-2025",
-  "description": "The dataset includes 50 sampled Math Education materials.(LLM used: Llama-3.3-70B)",
+  "description": "The dataset includes up to 100 sampled Math Education materials.(LLM used: Llama-3.3-70B)",
   "fieldOfScience": [
     "Mathematics",
     "Education"
