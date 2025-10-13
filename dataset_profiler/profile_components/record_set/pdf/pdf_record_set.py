@@ -56,6 +56,8 @@ class PdfRecordSet(RecordSet):
         self.summary = get_summary_ollama(
             document, model=OLLAMA_MODEL, base_url=OLLAMA_API_BASE_URL, max_words=800
         )
+        print("***KEY WORDS***", self.keywords)
+        print("***SUMMARY***", self.summary)
 
     def extract_fields(self) -> List:
         return []  # PDF records do not have fields like text records
