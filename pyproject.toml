@@ -36,7 +36,8 @@ dependencies = [
     "torchaudio>=2.6.0",
     "docling>=2.33.0",
     "ollama>=0.5.1",
-    "pikepdf>=9.8.1"
+    "pikepdf>=9.8.1",
+    "boto3>=1.40.50",
 ]
 
 [dependency-groups]
