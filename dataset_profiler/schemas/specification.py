@@ -17,10 +17,11 @@ class ProfileSpecification(BaseModel):
     country: str
     published_url: Optional[str] = ""
     doi: Optional[str] = ""  # Can be the same as the published_url if the published_url is a DOI
+    date_published: str  # YYYY-MM-DD
     cite_as: Optional[str] = (
         ""  # Official abbreviations https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
     )
     license: str
-
     data_uri: str  # URI to the S3 bucket containing the raw dataset
-    open: bool
+
+    uploaded_by: str  # User who uploaded the dataset

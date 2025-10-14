@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  ray-head:
+    image: rayproject/ray:2.34.0
+    container_name: ray-head
+    command: >
+      bash -c "ray start --head --port=6379 --dashboard-host=0.0.0.0 &&
+               tail -f /dev/null"
+    ports:
+      - "6379:6379"   # Cluster port
+      - "8265:8265"   # Ray dashboard
+      - "10001:10001" # Ray client API
+    networks:
+      - ray-net
+
+#  api:
+#    build: .
+#    container_name: fastapi
+#    ports:
+#      - "8000:8000"
+#    environment:
+#      - RAY_ADDRESS=ray://ray-head:10001
+#    depends_on:
+#      - ray-head
+#    networks:
+#      - ray-net
+
+networks:
+  ray-net:
+    driver: bridge
