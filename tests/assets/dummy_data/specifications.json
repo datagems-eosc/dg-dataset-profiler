@@ -1,0 +1,24 @@
+{
+  "access": "PUBLIC",
+  "citeAs": "",
+  "country": "PT",
+  "dataPath": "tests/assets/dummy_data/data/",
+  "datePublished": "24-05-2025",
+  "description": "A collection of datasets of multiple types for testing reasons",
+  "fieldOfScience": [
+    "CIVIL ENGINEERING"
+  ],
+  "headline": "A collection of datasets of multiple types for testing reasons.",
+  "id": "c661f361-3f61-4ccf-a001-7c28d065c30d",
+  "inLanguage": [
+    "el"
+  ],
+  "keywords": [
+    "dev",
+    "keyword"
+  ],
+  "license": "???",
+  "name": "Dev Data",
+  "uploadedBy": "ADMIN",
+  "url": ""
+}

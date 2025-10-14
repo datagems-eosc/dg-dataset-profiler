@@ -1,4 +1,5 @@
 import re
+import uuid
 from pathlib import Path
 from random import sample
 
@@ -35,7 +36,7 @@ def find_column_type_in_csv(column):
     for index in picked_indices:
         for type, regex in type_regexes.items():
             value = column.loc[index]
-            if regex.match(value) is not None:
+            if regex.match(str(value)) is not None:
                 type_appearances[type] += 1
                 continue
 
@@ -70,14 +71,17 @@ def find_column_type_in_db(db_type):
 
 
 def get_file_objects(distribution_path):
-    try:
-        path = Path(distribution_path)
+    path = Path(distribution_path)
 
-        file_objects = [item.name for item in path.iterdir() if item.is_file()]
-        file_sets = [item.name for item in path.iterdir() if item.is_dir()]
+    file_objects = [
+        {"path": item.name, "id": str(uuid.uuid4())}
+        for item in path.iterdir()
+        if item.is_file()
+    ]
+    file_sets = [
+        {"path": item.name, "id": str(uuid.uuid4())}
+        for item in path.iterdir()
+        if item.is_dir()
+    ]
 
-        return file_objects, file_sets
-    except FileNotFoundError:
-        return f"The path '{distribution_path}' does not exist."
-
-    # @TODO add utilities for text_record_set
+    return file_objects, file_sets

@@ -1,7 +1,10 @@
 /.idea
 
-docs/source
+tests/assets/**
+generated_profiles/**/*.json
 
+docs/source
+generated_profiles/hardcoded_ui_profiles/*
 # From https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 
 # Byte-compiled / optimized / DLL files

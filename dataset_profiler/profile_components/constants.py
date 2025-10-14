@@ -3,6 +3,7 @@ CONTEXT_TEMPLATE = {
     "@vocab": "https://schema.org/",
     "cr": "http://mlcommons.org/croissant/",
     "rai": "http://mlcommons.org/croissant/RAI/",
+    "dg": "http://datagems.eu/TBD",
     "data": {"@id": "cr:data", "@type": "@json"},
     "dataType": {"@id": "cr:dataType", "@type": "@vocab"},
     "examples": {"@id": "cr:examples", "@type": "@json"},
@@ -36,5 +37,7 @@ REFERENCES_TEMPLATE = {
     "source": "cr:source",
     "subField": "cr:subField",
     "transform": "cr:transform",
+    "access": "dg:access",
+    "uploadedBy": "dg:uploadedBy",
     "wd": "https://www.wikidata.org/wiki/",
 }

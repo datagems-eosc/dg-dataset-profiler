@@ -38,6 +38,7 @@ dependencies = [
     "ollama>=0.5.1",
     "pikepdf>=9.8.1",
     "boto3>=1.40.50",
+    "fastapi[standard]>=0.115.14",
 ]
 
 [dependency-groups]

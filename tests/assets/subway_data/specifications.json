@@ -1,0 +1,21 @@
+{
+  "citeAs": "",
+  "country": "PT",
+  "dataPath": "tests/assets/subway_data/data/",
+  "datePublished": "24-05-2025",
+  "description": "Subway data",
+  "fieldOfScience": [
+    "CIVIL ENGINEERING"
+  ],
+  "headline": "Subway data.",
+  "inLanguage": [
+    "el"
+  ],
+  "keywords": [
+    "dev",
+    "keyword"
+  ],
+  "license": "???",
+  "name": "Dev Data",
+  "url": ""
+}
