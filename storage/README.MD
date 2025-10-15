@@ -84,9 +84,10 @@ python -c "from storage.s3_manager import S3FileManager; import os; m=S3FileMana
 ```
 
 ## Unit tests (mocked)
+
 A set of unit tests that mock boto3 is provided at:
 
-- `storage/tests/test_s3_manager.py`
+- `tests/test_s3_manager.py`
 
 Run tests:
 

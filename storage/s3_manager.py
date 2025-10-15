@@ -21,7 +21,7 @@ S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
 
 
 class S3FileManager(AbstractFileManager):
-    """SCALEY S3-based implementation of file manager"""
+    """SCAYLE S3-based implementation of file manager"""
 
     def __init__(
         self,
@@ -34,22 +34,17 @@ class S3FileManager(AbstractFileManager):
     ):
         super().__init__(logger)
         self.bucket_name = bucket_name
-        if not region_name:
-            self.s3 = boto3.client(
-                "s3",
-                endpoint_url=endpoint_url,
-                aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key,
-                config=Config(signature_version="s3v4"),
-            )
-        else:
-            self.s3 = boto3.client(
-                "s3",
-                aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key,
-                region_name=region_name,
-                config=Config(signature_version="s3v4"),
-            )
+        # Build client parameters dict
+        client_params ={
+            "aws_access_key_id": aws_access_key_id,
+            "aws_secret_access_key": aws_secret_access_key,
+            "config": Config(s3={"addressing_style": "path"}),
+        }
+        if endpoint_url:
+            client_params["endpoint_url"] = endpoint_url
+        if region_name:
+            client_params["region_name"] = region_name
+        self.s3 = boto3.client("s3", **client_params)
         exists_bucket = self.verify_bucket()
         if not exists_bucket:
             self.logger.warning(
@@ -81,17 +76,18 @@ class S3FileManager(AbstractFileManager):
             return False
 
     # Create bucket
-    def create_bucket(self, bucket_name: Optional[str] = None):
+    def create_bucket(self, bucket_name: Optional[str] = None, aws_region: Optional[str] = None, set_bucket: bool = True):
         if bucket_name:
             try:
-                if AWS_REGION:
+                if aws_region:
                     self.s3.create_bucket(
                         Bucket=bucket_name,
-                        CreateBucketConfiguration={"LocationConstraint": AWS_REGION},
+                        CreateBucketConfiguration={"LocationConstraint": aws_region},
                     )
-                    self.bucket_name = bucket_name
                 else:
                     self.s3.create_bucket(Bucket=bucket_name)
+                if set_bucket:
+                    self.bucket_name = bucket_name
                 self.logger.info(f"Bucket {bucket_name} created successfully.")
             except ClientError as e:
                 self.logger.error(f"Error creating bucket {bucket_name}: {e}")
