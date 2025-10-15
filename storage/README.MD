@@ -96,7 +96,7 @@ Run tests:
 pytest -q
 
 # or run only storage tests
-pytest -q storage/tests/test_s3_manager.py
+pytest -q tests/test_s3_manager.py
 ```
 
 > Notes on tests:

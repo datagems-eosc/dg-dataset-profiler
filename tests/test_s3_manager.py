@@ -1,3 +1,4 @@
+# ...existing code...
 from unittest.mock import MagicMock, patch
 from botocore.exceptions import ClientError
 
@@ -17,6 +18,14 @@ def make_client_mock():
     m.put_object.return_value = {}
     m.delete_objects.return_value = {}
     m.delete_bucket.return_value = {}
+
+    # default paginator that yields a single page with the same contents as list_objects_v2
+    paginator_mock = MagicMock()
+    paginator_mock.paginate.return_value = [
+        {"Contents": [{"Key": "file1"}, {"Key": "file2"}]}
+    ]
+    m.get_paginator.return_value = paginator_mock
+
     return m
 
 
@@ -69,10 +78,12 @@ def test_list_buckets_returns_names(mock_boto_client):
 @patch("storage.s3_manager.boto3.client")
 def test_upload_download_delete_and_list_files(mock_boto_client):
     mock_client = make_client_mock()
-    # list_objects_v2 returns specific contents for list_files
-    mock_client.list_objects_v2.return_value = {
-        "Contents": [{"Key": "p1"}, {"Key": "p2"}]
-    }
+    # configure paginator to return specific contents for list_files
+    paginator_mock = MagicMock()
+    paginator_mock.paginate.return_value = [
+        {"Contents": [{"Key": "p1"}, {"Key": "p2"}]}
+    ]
+    mock_client.get_paginator.return_value = paginator_mock
     mock_boto_client.return_value = mock_client
 
     mgr = S3FileManager(bucket_name="my-bucket")
@@ -95,10 +106,11 @@ def test_upload_download_delete_and_list_files(mock_boto_client):
         Bucket="my-bucket", Key="remote/file.txt"
     )
 
-    # list_files should return the keys from list_objects_v2
+    # list_files should return the keys from paginator
     files = mgr.list_files(prefix="p")
     assert files == ["p1", "p2"]
-    mock_client.list_objects_v2.assert_called_with(Bucket="my-bucket", Prefix="p")
+    mock_client.get_paginator.assert_called_with("list_objects_v2")
+    paginator_mock.paginate.assert_called_with(Bucket="my-bucket", Prefix="p")
 
 
 @patch("storage.s3_manager.boto3.client")
@@ -193,7 +205,7 @@ def test_upload_file_handles_file_not_found_and_no_credentials(mock_boto_client)
 
     # Should not raise despite FileNotFoundError being raised internally
     mgr.upload_file("missing", "remote")
-    # simulate NoCredentialsError
+    # simulate ClientError for upload (e.g., forbidden)
     mock_client.upload_file.side_effect = ClientError(
         {"Error": {"Code": "403", "Message": "Forbidden"}}, "Upload"
     )

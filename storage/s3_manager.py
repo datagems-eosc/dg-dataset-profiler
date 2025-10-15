@@ -40,10 +40,11 @@ class S3FileManager(AbstractFileManager):
             "aws_secret_access_key": aws_secret_access_key,
             "config": Config(s3={"addressing_style": "path"}),
         }
-        if endpoint_url:
-            client_params["endpoint_url"] = endpoint_url
         if region_name:
             client_params["region_name"] = region_name
+        if endpoint_url:
+            client_params["endpoint_url"] = endpoint_url
+
         self.s3 = boto3.client("s3", **client_params)
         exists_bucket = self.verify_bucket()
         if not exists_bucket:
@@ -68,12 +69,22 @@ class S3FileManager(AbstractFileManager):
             self.logger.info(f"Bucket {bucket_name} exists and is accessible.")
             return True
         except ClientError as e:
-            error_code = int(e.response["Error"]["Code"])
-            if error_code == 404:
-                self.logger.error(f"Bucket {bucket_name} does not exist.")
-            else:
-                self.logger.error(f"Error accessing bucket {bucket_name}: {e}")
-            return False
+            try:
+                error_code = int(e.response["Error"]["Code"])
+                if error_code == 404:
+                    self.logger.error(f"Bucket {bucket_name} does not exist.")
+                else:
+                    self.logger.error(f"Error accessing bucket {bucket_name}: {e}")
+                return False
+            except ValueError:
+                error_code = e.response["Error"]["Code"]
+                if error_code == "NoSuchBucket":
+                    self.logger.error(f"Bucket {bucket_name} does not exist.")
+                elif error_code == "AccessDenied":
+                    self.logger.error(f"Access denied to bucket {bucket_name}.")
+                else:
+                    self.logger.error(f"Unexpected error accessing bucket {bucket_name}: {e}")
+                return False
 
     # Create bucket
     def create_bucket(self, bucket_name: Optional[str] = None, aws_region: Optional[str] = None, set_bucket: bool = True):
@@ -85,12 +96,22 @@ class S3FileManager(AbstractFileManager):
                         CreateBucketConfiguration={"LocationConstraint": aws_region},
                     )
                 else:
-                    self.s3.create_bucket(Bucket=bucket_name)
-                if set_bucket:
-                    self.bucket_name = bucket_name
+                    self.s3.create_bucket(
+                        Bucket=bucket_name,
+                        CreateBucketConfiguration=(
+                            {"LocationConstraint": self.s3._client_config.region_name}
+                            if self.s3._client_config.region_name
+                            else {}
+                        ),
+                    )
                 self.logger.info(f"Bucket {bucket_name} created successfully.")
             except ClientError as e:
                 self.logger.error(f"Error creating bucket {bucket_name}: {e}")
+            if set_bucket:
+                self.bucket_name = bucket_name
+                self.logger.info(f"Bucket set to {bucket_name}")
+        else:
+            self.logger.error("Bucket name must be provided to create a bucket.")
 
     # List buckets
     def list_buckets(self) -> List[str]:
@@ -154,14 +175,30 @@ class S3FileManager(AbstractFileManager):
         except ClientError as e:
             self.logger.error(f"Error downloading file {remote_path}: {e}")
 
-    def list_files(self, prefix: str = "") -> List[str]:
+    def list_files(self, prefix: str = "", page_size=1000) -> List[str]:
+        MAX_PAGE_SIZE = 1000
+        page_size = min(page_size, MAX_PAGE_SIZE)
         try:
-            response = self.s3.list_objects_v2(Bucket=self.bucket_name, Prefix=prefix)
-            files = [item["Key"] for item in response.get("Contents", [])]
+            # using paginator
+            paginator = self.s3.get_paginator("list_objects_v2")
+            files = []
+            page_number = 0
+            self.logger.info(f"Listing files with prefix '{prefix}' in bucket '{self.bucket_name}'...")
+            # Iterate through each page of results
+            for page in paginator.paginate(Bucket=self.bucket_name, Prefix=prefix):
+                # Extract 'key' from each object in the page
+                page_number += 1
+                page_files = [item["Key"] for item in page.get("Contents", [])]
+                files.extend(page_files)
+                # logging each page's files
+                self.logger.info(
+                    f"Page {page_number} in bucket {self.bucket_name} with prefix '{prefix}': {page_files}"
+                )
             self.logger.info(
-                f"Files in bucket {self.bucket_name} with prefix '{prefix}': {files}"
-            )
+                f"Total files in bucket {self.bucket_name} with prefix '{prefix}' across {page_number} page(s): {len(files)} files"
+                )
             return files
+
         except ClientError as e:
             self.logger.error(f"Error listing files with prefix '{prefix}': {e}")
             return []
@@ -213,14 +250,13 @@ class S3FileManager(AbstractFileManager):
         except ClientError as e:
             self.logger.error(f"Error deleting bucket {bucket_name}: {e}")
 
-
 """
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     bucket_name = S3_BUCKET_NAME or "datagems.zhaw.s3.demo"
-    s3_manager = S3FileManager(bucket_name)
+    s3_manager = S3FileManager(bucket_name, region_name=AWS_REGION)
     if not s3_manager.verify_bucket():
-        s3_manager.create_bucket()
+        s3_manager.create_bucket(bucket_name)
     s3_manager.list_buckets()
     # Example usage
     s3_manager.set_bucket("datagems.zhaw.s3.another-bucket-name")
