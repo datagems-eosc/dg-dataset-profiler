@@ -3,10 +3,11 @@ import json
 from dataset_profiler.profile_models import DatasetProfile
 
 
-def cedefop_skill_forecast():
-    profile = DatasetProfile(
-        dataset_specifications_path="tests/assets/cedefop-skill-forecast-2025/specification.json",
-    )
+def test_cedefop_skill_forecast():
+    with open("tests/assets/cedefop-skill-forecast-2025/specification.json") as json_file:
+        spec = json.load(json_file)
+
+    profile = DatasetProfile(spec)
     assert isinstance(
         profile, DatasetProfile
     )  # Not an actual test, just to check if the profile is created
@@ -17,4 +18,4 @@ def cedefop_skill_forecast():
 
 
 if __name__ == "__main__":
-    cedefop_skill_forecast()
+    test_cedefop_skill_forecast()

@@ -1,10 +1,12 @@
+import json
 from dataset_profiler.profile_models import DatasetProfile
 
 
 def profiler_dummy_data():
-    profile = DatasetProfile(
-        dataset_specifications_path="tests/assets/dummy_data/specifications.json",
-    )
+    with open("tests/assets/dummy_data/specifications.json") as json_file:
+        spec = json.load(json_file)
+
+    profile = DatasetProfile(spec)
     print(profile.to_json_str())
     import json
 

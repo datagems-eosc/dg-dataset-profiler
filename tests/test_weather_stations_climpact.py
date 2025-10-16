@@ -1,10 +1,12 @@
+import json
 from dataset_profiler.profile_models import DatasetProfile
 
 
 def test_profiler_weather_stations():
-    profile = DatasetProfile(
-        dataset_specifications_path="tests/assets/meteo_weather_stations_climpact/specifications.json",
-    )
+    with open("tests/assets/meteo_weather_stations_climpact/specifications.json") as json_file:
+        spec = json.load(json_file)
+
+    profile = DatasetProfile(spec)
     print(profile.to_json_str())
     import json
 

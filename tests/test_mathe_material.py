@@ -1,10 +1,12 @@
+import json
+
 from dataset_profiler.profile_models import DatasetProfile
 
 
 def test_profiler_mathe_material():
-    profile = DatasetProfile(
-        dataset_specifications_path="tests/assets/mathe_material/specifications.json",
-    )
+    with open("tests/assets/mathe_material/specifications.json") as json_file:
+        spec = json.load(json_file)
+    profile = DatasetProfile(spec)
     print(profile.to_json_str())
     assert isinstance(
         profile, DatasetProfile
