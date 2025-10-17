@@ -13,8 +13,6 @@ def test_profiler_mathe_integration_techniques():
         profile, DatasetProfile
     )  # Not an actual test, just to check if the profile is created
 
-    import json
-
     with open("generated_profiles/mathe_integration_techniques.json", "w") as f:
         json.dump(profile.to_dict(), f)
     assert isinstance(profile, DatasetProfile)

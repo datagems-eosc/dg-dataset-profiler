@@ -12,8 +12,6 @@ def test_profiler_subway_data():
         profile, DatasetProfile
     )  # Not an actual test, just to check if the profile is created
 
-    import json
-
     with open("generated_profiles/subway_data.json", "w") as f:
         json.dump(profile.to_dict(), f)
     assert isinstance(profile, DatasetProfile)

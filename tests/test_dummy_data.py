@@ -8,7 +8,6 @@ def profiler_dummy_data():
 
     profile = DatasetProfile(spec)
     print(profile.to_json_str())
-    import json
 
     with open("generated_profiles/mix_of_datasets_profile.json", "w") as f:
         json.dump(profile.to_dict(), f)

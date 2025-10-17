@@ -8,7 +8,6 @@ def test_profiler_weather_stations():
 
     profile = DatasetProfile(spec)
     print(profile.to_json_str())
-    import json
 
     with open("generated_profiles/weather_stations_climpact.json", "w") as f:
         json.dump(profile.to_dict(), f)
