@@ -1,0 +1,25 @@
+FROM rayproject/ray:2.50.0-py311 AS base
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential curl ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV UV_INSTALL_DIR=/usr/local/bin
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+RUN uv --version
+
+WORKDIR /home/ray/app
+
+COPY pyproject.toml uv.lock README.md ./
+RUN uv pip install --system .
+
+COPY . .
+
+# .env file is passed via compose
+RUN rm -f .env
+ENV PYTHONPATH="/usr/local/lib/python3.11/site-packages:${PYTHONPATH}"
+
+USER ray
+EXPOSE 6379 8265 10001
+CMD ["bash", "-c", "ray start --head --port=6379 --dashboard-host=0.0.0.0 --dashboard-port=8265 && tail -f /dev/null"]

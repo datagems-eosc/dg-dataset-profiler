@@ -4,7 +4,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class ProfileSpecification(BaseModel):
+class ProfileSpecificationEndpoint(BaseModel):
     id: uuid.UUID
     name: str
     description: str

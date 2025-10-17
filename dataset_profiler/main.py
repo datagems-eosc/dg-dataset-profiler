@@ -10,7 +10,8 @@ from dataset_profiler.routes.add_routes import initialize_routes
 
 # Connect to Ray cluster (the head node)
 RAY_ADDRESS = os.getenv("RAY_ADDRESS", "ray://ray-head:10001")
-ray.init(address=RAY_ADDRESS, ignore_reinit_error=True)
+if not ray.is_initialized():
+    ray.init(address=RAY_ADDRESS, ignore_reinit_error=True)
 
 app = FastAPI(
     openapi_url=app_config["fastapi"]["base_url"] + "/openapi.json",
