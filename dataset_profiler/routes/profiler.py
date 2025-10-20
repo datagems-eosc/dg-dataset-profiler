@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from dataset_profiler.configs.config_reader import app_config
 from dataset_profiler.job_manager import job_storing
 from dataset_profiler.job_manager.profile_job import profile_job, endpoint_specification_to_dataset
-from dataset_profiler.schemas.specification import ProfileSpecificationEndpoint
+from dataset_profiler.schemas.specification import ProfilingRequest
 
 router = APIRouter(
     prefix=f"{app_config['fastapi']['base_url']}/profiler",
@@ -24,12 +24,14 @@ TASKS = {}
 
 @router.post("/trigger_profile")
 async def trigger_dataset_profiling(
-    profile_spec: ProfileSpecificationEndpoint,
+    profile_req: ProfilingRequest,
 ) -> IngestionTriggerResponse:
     ingestion_job_id = str(uuid.uuid4())  # Not to be confused with the dataset id
 
     job_storing.store_job_status(ingestion_job_id, job_storing.JobStatus.SUBMITTING)
-    obj_ref = profile_job.remote(ingestion_job_id, endpoint_specification_to_dataset(profile_spec))
+    obj_ref = profile_job.remote(ingestion_job_id,
+                                 endpoint_specification_to_dataset(profile_req.profile_specification),
+                                 only_light_profile=profile_req.only_light_profile)
     TASKS[ingestion_job_id] = obj_ref
 
     return IngestionTriggerResponse(
@@ -73,3 +75,8 @@ async def get_profile(profile_job_id: str) -> job_storing.ProfilesResponse:
         raise HTTPException(status_code=404, detail="No profile found for the given job ID. "
                                                     "Profiling might still be in progress.")
     return response
+
+
+@router.post("/clean_up/{profile_job_id}")
+async def clean_up_job(profile_job_id: str) -> dict:
+    return {"detail": "SUCCESS"}

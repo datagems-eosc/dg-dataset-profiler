@@ -28,7 +28,7 @@ def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoin
 
 
 @ray.remote
-def profile_job(job_id: str, specification: dict):
+def profile_job(job_id: str, specification: dict, only_light_profile: bool = False) -> None:
     store_job_status(job_id, status=JobStatus.STARTING)
     profile = DatasetProfile(specification)
 
@@ -36,16 +36,21 @@ def profile_job(job_id: str, specification: dict):
     profile.extract_distributions()
     light_profile = profile.to_dict_light()
     store_job_response(job_id, ProfilesResponse(
-        moma_profile=light_profile,
+        moma_profile_light=light_profile,
+        moma_profile_heavy={},
         cdd_profile={},
     ))
     store_job_status(job_id, status=JobStatus.LIGHT_PROFILE_READY)
 
     # Calculate the heavy profiles (record sets, cdd profile)
+    if only_light_profile:
+        return None
+
     profile.extract_record_sets()
     heavy_profile = profile.to_dict()
     store_job_response(job_id, ProfilesResponse(
-        moma_profile=heavy_profile,
+        moma_profile_light=light_profile,
+        moma_profile_heavy=heavy_profile,
         cdd_profile={},
     ))
     store_job_status(job_id, status=JobStatus.HEAVY_PROFILES_READY)

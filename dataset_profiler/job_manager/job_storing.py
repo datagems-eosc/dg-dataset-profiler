@@ -15,7 +15,8 @@ class JobStatus(Enum):
 
 
 class ProfilesResponse(BaseModel):
-    moma_profile: dict
+    moma_profile_light: dict
+    moma_profile_heavy: dict
     cdd_profile: dict
 
 
@@ -39,7 +40,7 @@ def store_job_status(job_id: str, status: JobStatus):
 
 def get_job_status(job_id: str) -> JobStatus | None:
     client = get_redis_client()
-    status_value = client.hget(JOB_STATUS_GROUP, job_id)
+    status_value = client.hget(JOB_STATUS_GROUP, job_id).decode("utf-8")
     if status_value is None:
         return None
     return JobStatus(status_value)
