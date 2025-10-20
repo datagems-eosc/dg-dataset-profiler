@@ -32,8 +32,8 @@ from dataset_profiler.utilities import get_file_objects
 
 
 class DatasetProfile:
-    def __init__(self, dataset_specifications_path: str):
-        self.dataset_specification = DatasetSpecification(dataset_specifications_path)
+    def __init__(self, dataset_specification: dict):
+        self.dataset_specification = DatasetSpecification(dataset_specification)
         self.distribution_path = self.dataset_specification.dataPath
 
         self.file_objects, self.file_sets = get_file_objects(self.distribution_path)
@@ -58,12 +58,10 @@ class DatasetProfile:
         )
 
         # Distribution
-        self.distributions: List[DistributionFileObject | DistributionFileSet] = (
-            self.extract_distributions()
-        )
+        self.distributions: List[DistributionFileObject | DistributionFileSet] | None = None
 
         # RecordSet
-        self.record_sets: List[RecordSet] = self.extract_record_sets()
+        self.record_sets: List[RecordSet] | None = None
 
     def extract_distributions(
         self,
@@ -87,7 +85,23 @@ class DatasetProfile:
         return (extract_record_sets_of_file_objects(self.file_objects, self.distribution_path) +
                 extract_record_sets_of_file_sets(self.file_sets, self.distribution_path))
 
+    def to_dict_light(self):
+        if self.distributions is None:
+            self.distributions = self.extract_distributions()
+        return {
+            "@context": {**CONTEXT_TEMPLATE, **REFERENCES_TEMPLATE},
+            **self.dataset_top_level.to_dict(),
+            "distribution": [
+                distribution.to_dict() for distribution in self.distributions
+            ],
+        }
+
     def to_dict(self):
+        if self.distributions is None:
+            self.distributions = self.extract_distributions()
+        if self.record_sets is None:
+            self.record_sets = self.extract_record_sets()
+
         record_set_list = []
         for record_set in self.record_sets:
             if isinstance(record_set, DBRecordSet):

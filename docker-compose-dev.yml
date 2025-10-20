@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  ray-head:
+    build:
+      context: .
+      dockerfile: Dockerfile.ray
+    container_name: ray-head
+    ports:
+      - "6380:6379"   # cluster port (internal 6379 -> host 6380)
+      - "8265:8265"   # Ray dashboard
+      - "10001:10001" # Ray client API
+    networks:
+      - ray-net
+    environment:
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env_ray
+    volumes:
+      - ray-wheel-cache:/root/.cache/pip
+      - ./tests:/home/ray/app/tests
+    # optional: restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ray-net
+    volumes:
+      - redis_data:/data
+
+networks:
+  ray-net:
+    driver: bridge
+
+volumes:
+  ray-wheel-cache:
+  redis_data:

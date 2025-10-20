@@ -1,5 +1,5 @@
 [project]
-name = "dataset-profiler"
+name = "dataset_profiler"
 version = "0.0.1"
 description = "Repository of the dataset-profiler DataGEMS service"
 authors = [{ name = "DataGEMS", email = "mxydas@athenarc.gr" }]
@@ -21,7 +21,6 @@ dependencies = [
     "dotenv>=0.9.9",
     "loguru>=0.7.3",
     "pandas>=2.2.3",
-    "psycopg2>=2.9.10",
     "sqlalchemy>=2.0.40",
     "nltk>=3.9.1",
     "chardet>=5.2.0",
@@ -38,6 +37,9 @@ dependencies = [
     "ollama>=0.5.1",
     "pikepdf>=9.8.1",
     "fastapi[standard]>=0.115.14",
+    "ray[client]>=2.50.0",
+    "redis>=6.4.0",
+    "psycopg2-binary>=2.9.11",
 ]
 
 [dependency-groups]
@@ -54,6 +56,9 @@ build-backend = "hatchling.build"
 
 [tool.setuptools]
 py-modules = ["dataset_profiler"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["dataset_profiler"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

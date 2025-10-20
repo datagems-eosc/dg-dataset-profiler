@@ -1,10 +1,17 @@
 import uvicorn
+import os
+import ray
 
 from dataset_profiler.configs.config_reader import app_config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from dataset_profiler.routes.add_routes import initialize_routes
+
+# Connect to Ray cluster (the head node)
+RAY_ADDRESS = os.getenv("RAY_ADDRESS", "ray://ray-head:10001")
+if not ray.is_initialized():
+    ray.init(address=RAY_ADDRESS, ignore_reinit_error=True)
 
 app = FastAPI(
     openapi_url=app_config["fastapi"]["base_url"] + "/openapi.json",

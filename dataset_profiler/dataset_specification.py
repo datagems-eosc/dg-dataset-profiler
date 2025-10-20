@@ -7,9 +7,7 @@ class DatasetSpecification:
     The JSON file is provided by the user adding a dataset
     """
 
-    def __init__(self, dataset_specification_path: str):
-        with open(dataset_specification_path, "r") as file:
-            specifications = json.load(file)
+    def __init__(self, specifications: dict):
         self.id = specifications["id"]
 
         self.name = specifications["name"]

@@ -4,9 +4,9 @@ from dataset_profiler.profile_models import DatasetProfile
 
 
 def test_isco_taxonomy():
-    profile = DatasetProfile(
-        dataset_specifications_path="tests/assets/isco_taxonomy/specification.json",
-    )
+    with open("tests/assets/isco_taxonomy/specification.json") as json_file:
+        spec = json.load(json_file)
+    profile = DatasetProfile(spec)
     assert isinstance(
         profile, DatasetProfile
     )  # Not an actual test, just to check if the profile is created

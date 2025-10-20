@@ -1,6 +1,7 @@
 import shutil
 from dataset_profiler.profile_models import DatasetProfile
 import os
+import json
 
 import random
 
@@ -21,9 +22,10 @@ def sampling_pdf_document(filepath: str) -> None:
 
 
 def dumping_mathe_pdf_profile(filepath: str):
-    profile = DatasetProfile(
-        dataset_specifications_path="tests/assets/pdf/sampled_specifications.json"
-    )
+    with open("tests/assets/pdf/sampled_specifications.json") as json_file:
+        spec = json.load(json_file)
+
+    profile = DatasetProfile(spec)
     # check if the directory of path exists
 
     os.makedirs(os.path.dirname(filepath), exist_ok=True)

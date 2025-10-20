@@ -1,0 +1,3 @@
+tests/
+.venv/
+generated_profiles/
