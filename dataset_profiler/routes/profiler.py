@@ -77,6 +77,10 @@ async def get_profile(profile_job_id: str) -> job_storing.ProfilesResponse:
     return response
 
 
-@router.post("/clean_up/{profile_job_id}")
-async def clean_up_job(profile_job_id: str) -> dict:
+class CleanUpRequest(BaseModel):
+    profile_job_id: str
+
+
+@router.post("/clean_up}")
+async def clean_up_job(profile_job_id: CleanUpRequest) -> dict:
     return {"detail": "SUCCESS"}
