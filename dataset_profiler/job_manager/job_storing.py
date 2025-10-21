@@ -58,3 +58,23 @@ def get_job_response(job_id: str) -> ProfilesResponse | None:
         return None
     response_model = ProfilesResponse.model_validate(json.loads(response_value))
     return response_model
+
+
+def redis_health_check() -> dict:
+    try:
+        client = get_redis_client()
+        client.ping()
+        return {
+            "status": "healthy",
+            "message": "Connected to Redis server successfully.",
+        }
+    except redis.exceptions.ConnectionError as e:
+        return {
+            "status": "error",
+            "message": f"Cannot connect to Redis server. Error: {str(e)}",
+            "configuration": {
+                "REDIS_HOST": os.getenv("REDIS_HOST", "redis"),
+                "REDIS_PORT": os.getenv("REDIS_PORT", "6379"),
+                "REDIS_DB": os.getenv("REDIS_DB", "0"),
+            }
+        }

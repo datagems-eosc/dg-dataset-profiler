@@ -1,3 +1,4 @@
+import os
 import uuid
 
 import ray
@@ -56,6 +57,34 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
     store_job_status(job_id, status=JobStatus.HEAVY_PROFILES_READY)
 
     return None
+
+
+def ray_health_check():
+    ray_address = os.getenv("RAY_ADDRESS", "ray://ray-head:10001")
+    config = {"ray_address": ray_address}
+    try:
+        # Try connecting if not already connected
+        if not ray.is_initialized():
+            ray.init(address=ray_address, ignore_reinit_error=True)
+
+        # Ping the cluster
+        nodes = ray.nodes()
+        alive_nodes = [n for n in nodes if n["Alive"]]
+
+        if alive_nodes:
+            return {
+                "status": "healthy",
+                "message": f"Ray cluster reachable with {len(alive_nodes)} alive node(s).",
+            }
+        else:
+            return {
+                "status": "error",
+                "message": "No alive Ray nodes detected.",
+                "config": config
+            }
+
+    except Exception as e:
+        return {"status": "error", "message": str(e), "config": config}
 
 
 if __name__ == "__main__":
