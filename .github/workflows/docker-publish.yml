@@ -41,8 +41,8 @@ jobs:
           context: .
           file: ./Dockerfile.ray
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_ray_image.outputs.tags }}
+          labels: ${{ steps.meta_ray_image.outputs.labels }}
 
       - name: Extract metadata (tags, labels) for Docker image for API Image
         id: meta_api_image
@@ -58,5 +58,5 @@ jobs:
           context: .
           file: ./Dockerfile.api
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_api_image.outputs.tags }}
+          labels: ${{ steps.meta_api_image.outputs.labels }}
