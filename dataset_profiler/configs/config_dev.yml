@@ -10,4 +10,4 @@ logging:
   level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
   app_name: "dataset-profiler"
   enable_json_format: false
-  file_log_path: "./logs/dataset-profiler-dev.log"
+  file_log_path: "./dataset-profiler-dev.log"

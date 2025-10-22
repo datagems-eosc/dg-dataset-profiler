@@ -27,7 +27,7 @@ def read_configs() -> Dict:
         logger.warning(
             "Could not parse a config value. The default config file will be used."
         )
-        config_file = "dataset_profiler/configs/config_dev.yml"
+        config_file = "dataset_profiler/configs/config_prod.yml"
 
     with open(config_file) as stream:
         try:

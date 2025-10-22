@@ -20,6 +20,5 @@ COPY . .
 RUN rm -f .env
 ENV PYTHONPATH="/usr/local/lib/python3.11/site-packages:${PYTHONPATH}"
 
-USER ray
 EXPOSE 6379 8265 10001
 CMD ["bash", "-c", "ray start --head --port=6379 --dashboard-host=0.0.0.0 --dashboard-port=8265 && tail -f /dev/null"]

@@ -14,7 +14,10 @@ if not ray.is_initialized():
 
 app = FastAPI(
     version="0.0.1",
-    root_path=os.getenv("BASE_URL", "")
+    root_path=os.getenv("BASE_URL", ""),
+    openapi_url="/openapi.json",
+    docs_url="/swagger",
+    redoc_url="/redoc",
 )
 from dataset_profiler.configs.config_logging import logger
 logger.info(

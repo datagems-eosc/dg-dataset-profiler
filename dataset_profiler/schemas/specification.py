@@ -22,7 +22,9 @@ class ProfileSpecificationEndpoint(BaseModel):
         ""  # Official abbreviations https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
     )
     license: str
-    data_uri: str  # URI to the S3 bucket containing the raw dataset
+
+    dataset_file_path: str | None = None  # In deployed service case it should only be the same as the id field
+    database_name: str | None = None
 
     uploaded_by: str  # User who uploaded the dataset
 

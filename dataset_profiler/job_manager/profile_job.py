@@ -15,7 +15,6 @@ def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoin
         "id": str(specification.id),
         "citeAs": specification.cite_as,
         "country": specification.country,
-        "dataPath": specification.data_uri,
         "datePublished": specification.date_published,
         "description": specification.description,
         "fieldOfScience": specification.fields_of_science,
@@ -27,6 +26,7 @@ def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoin
         "url": specification.published_url,
         "access": "NOT IMPLEMENTED",
         "uploadedBy": specification.uploaded_by,
+        "dataPath": os.getenv('DATA_ROOT_PATH', '') + specification.dataset_file_path,
     }
 
 
