@@ -6,8 +6,8 @@ from dataset_profiler.profile_components.record_set.pdf.pdf_utilities import (
     get_pdf_document,
 )
 from dataset_profiler.profile_components.record_set.text.text_utilities import (
-    get_keywords_ollama,
-    get_summary_ollama,
+    get_keywords,
+    get_summary,
 )
 
 import os
@@ -47,13 +47,13 @@ class PdfRecordSet(RecordSet):
         document = get_pdf_document(distribution_path + file_object)
         print("Document extracted successfully.")
         print(document)
-        self.keywords = get_keywords_ollama(
+        self.keywords = get_keywords(
             document,
             model=OLLAMA_MODEL,
             base_url=OLLAMA_API_BASE_URL,
             max_keywords_num=5,
         ).keywords
-        self.summary = get_summary_ollama(
+        self.summary = get_summary(
             document, model=OLLAMA_MODEL, base_url=OLLAMA_API_BASE_URL, max_words=800
         )
         print("***KEY WORDS***", self.keywords)

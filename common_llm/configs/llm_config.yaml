@@ -1,0 +1,39 @@
+# Template for CommonLLMConnector configuration
+# Copy this file, rename it (e.g., to llm_config.yaml), and fill in your credentials.
+# Do not commit sensitive information to version control.
+
+logging:
+  level: "DEBUG"
+  log_path: "logs"
+
+tracking:
+  track_tokens: true
+  track_cost: true
+
+openai:
+  api_key: "your-openai-api-key-here"
+
+ollama:
+  api_base: "http://localhost:11434"  # or your custom Ollama endpoint
+  tracking:
+    track_tokens: True
+    track_cost: True
+  ollama/gpt-oss:120b:
+    cost_per_token:
+      prompt_cost_per_1M_tokens: 5
+      completion_cost_per_1M_tokens: 10
+    max_input_tokens: 8912
+    max_output_tokens: 8912
+    max_tokens: 8912
+
+
+bedrock:
+  aws_credentials:
+    access_key_id: "your-aws-access-key-here"
+    secret_access_key: "your-aws-secret-access-key-here"
+    region: "eu-central-1"  # or your preferred AWS region
+
+vllm:
+  api_base: "http://your-vllm-endpoint:8000/v1"  # or your custom vLLM endpoint
+
+# Add more providers as needed, following the same structure.
