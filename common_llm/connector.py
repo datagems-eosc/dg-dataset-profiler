@@ -112,13 +112,14 @@ def load_llm_config(
         config.update(
             {
                 "input_cost_per_token": config["input_cost_per_token"]
-                or mc.input_cost_per_token,
+                or mc["input_cost_per_token"],
                 "output_cost_per_token": config["output_cost_per_token"]
-                or mc.output_cost_per_token,
-                "max_input_tokens": config["max_input_tokens"] or mc.max_input_tokens,
+                or mc["output_cost_per_token"],
+                "max_input_tokens": config["max_input_tokens"]
+                or mc["max_input_tokens"],
                 "max_output_tokens": config["max_output_tokens"]
-                or mc.max_output_tokens,
-                "max_tokens": config["max_tokens"] or mc.max_tokens,
+                or mc["max_output_tokens"],
+                "max_tokens": config["max_tokens"] or mc["max_tokens"],
             }
         )
 
@@ -144,15 +145,16 @@ def setup_logger(
         logging.Logger: Configured logger instance.
     """
     logger = logging.getLogger(name)
-    if logger.hasHandlers():
-        return logger
 
     if log_config and isinstance(log_config, dict):
         level = getattr(logging, log_config.get("level", "INFO").upper(), logging.INFO)
-        logger.setLevel(level)
     else:
         level = logging.INFO
-        logger.setLevel(level)
+
+    logger.setLevel(level)  # Always set the level
+
+    if logger.hasHandlers():
+        return logger
 
     formatter = logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -407,7 +409,7 @@ class CommonLLMConnector:
                 track_cost=track_cost,
                 log_config=log_config,
             )
-        ).dict()
+        ).model_dump()
 
         self.provider = config["provider"]
         self.model = (
