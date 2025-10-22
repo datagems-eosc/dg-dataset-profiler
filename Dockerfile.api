@@ -20,6 +20,8 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 COPY . /app
 
+RUN rm -rf /app/.env
+
 WORKDIR /app/dataset_profiler
 
-CMD ["uv", "run", "python", "-W", "ignore", "-c", "import sys; sys.argv = ['uvicorn', '--config', 'configs/config_prod.yml']; import uvicorn; uvicorn.run('main:app', host='0.0.0.0', port=8000, workers=2, log_level='error')"]
+CMD ["uv", "run", "python", "-W", "ignore", "-c", "import sys; sys.argv = ['uvicorn', '--config', 'configs/config_prod.yml']; import uvicorn; uvicorn.run('main:app', host='0.0.0.0', port=8000, workers=1, log_level='error')"]

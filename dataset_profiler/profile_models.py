@@ -1,4 +1,5 @@
 import json
+import os
 from typing import List
 
 from dataset_profiler.dataset_specification import (
@@ -34,7 +35,7 @@ from dataset_profiler.utilities import get_file_objects
 class DatasetProfile:
     def __init__(self, dataset_specification: dict):
         self.dataset_specification = DatasetSpecification(dataset_specification)
-        self.distribution_path = self.dataset_specification.dataPath
+        self.distribution_path = os.getenv("DATA_ROOT_PATH", "") + self.dataset_specification.dataPath
 
         self.file_objects, self.file_sets = get_file_objects(self.distribution_path)
 

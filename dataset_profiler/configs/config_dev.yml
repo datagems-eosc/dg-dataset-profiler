@@ -6,4 +6,8 @@ fastapi:
   reload: True
   host: '0.0.0.0'
   port: 4557
-  base_url: ''
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  app_name: "dataset-profiler"
+  enable_json_format: false
+  file_log_path: "./logs/dataset-profiler-dev.log"

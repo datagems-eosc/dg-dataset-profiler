@@ -4,15 +4,17 @@ from fastapi import APIRouter, Depends, HTTPException
 from dataset_profiler.configs.config_reader import app_config
 from dataset_profiler.job_manager.job_storing import redis_health_check
 from dataset_profiler.job_manager.profile_job import ray_health_check
+from dataset_profiler.configs.config_logging import logger
 
 router = APIRouter(
-    prefix=f"{app_config['fastapi']['base_url']}/monitoring",
+    prefix=f"/monitoring",
     tags=["Health"],
 )
 
 
 @router.get("/health-check")
 async def check_health() -> dict:
+    logger.info("Health check endpoint accessed")
     redis_status = redis_health_check()
     ray_status = ray_health_check()
     status_report = {
@@ -20,6 +22,8 @@ async def check_health() -> dict:
         "ray": ray_status,
     }
     if redis_status['status'] == 'healthy' and ray_status['status'] == 'healthy':
+        logger.info("Health check passed", report=status_report)
         return status_report
     else:
+        logger.info("Health check failed", report=status_report)
         raise HTTPException(status_code=503, detail=status_report)

@@ -7,6 +7,8 @@ from dataset_profiler.schemas.specification import ProfileSpecificationEndpoint
 from dataset_profiler.job_manager.job_storing import store_job_status, JobStatus, store_job_response, \
     ProfilesResponse
 from dataset_profiler.profile_models import DatasetProfile
+from dataset_profiler.configs.config_logging import logger
+
 
 def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoint) -> dict:
     return {
@@ -30,12 +32,17 @@ def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoin
 
 @ray.remote
 def profile_job(job_id: str, specification: dict, only_light_profile: bool = False) -> None:
+    logger.info(f"Initiating profiling", job_id=job_id, only_light_profile=only_light_profile,
+                specification=specification)
     store_job_status(job_id, status=JobStatus.STARTING)
     profile = DatasetProfile(specification)
+    logger.info("Parsed dataset specification", job_id=job_id)
 
     # Calculate the light profile (dataset head, dataset distributions)
     profile.extract_distributions()
     light_profile = profile.to_dict_light()
+    logger.info("Generated light dataset profile", job_id=job_id)
+
     store_job_response(job_id, ProfilesResponse(
         moma_profile_light=light_profile,
         moma_profile_heavy={},
@@ -45,6 +52,7 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
 
     # Calculate the heavy profiles (record sets, cdd profile)
     if only_light_profile:
+        logger.info("Only light profiler was requested", job_id=job_id)
         return None
 
     profile.extract_record_sets()
@@ -55,6 +63,7 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
         cdd_profile={},
     ))
     store_job_status(job_id, status=JobStatus.HEAVY_PROFILES_READY)
+    logger.info("Generated heavy dataset profile", job_id=job_id)
 
     return None
 

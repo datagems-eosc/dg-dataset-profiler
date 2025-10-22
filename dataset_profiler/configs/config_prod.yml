@@ -1,9 +1,7 @@
 mode: "prod"
 
-fastapi:
-  workers: 2
-  debug: False
-  reload: False
-  host: '0.0.0.0'
-  port: 4557
-  base_url: '/dataset_profiler/api'
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  app_name: "dataset-profiler"
+  enable_json_format: true
+  file_log_path: "./logs/dataset-profiler-dev.log"
