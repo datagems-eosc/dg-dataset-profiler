@@ -41,6 +41,8 @@ dependencies = [
     "redis>=6.4.0",
     "psycopg2-binary>=2.9.11",
     "structlog>=25.4.0",
+    "litellm>=1.78.6",
+    "pyyaml>=6.0.2",
 ]
 
 [dependency-groups]
