@@ -1,4 +1,3 @@
-## Improved test_common_llm_connector.py
 import pytest
 import logging
 import pydantic
