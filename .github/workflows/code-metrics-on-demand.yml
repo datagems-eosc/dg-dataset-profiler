@@ -1,0 +1,81 @@
+name: "Code Metrics (On Demand)"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  metrics:
+    name: Python Code Metrics
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ github.workspace }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install radon
+        run: |
+          pip install --upgrade pip
+          pip install radon
+
+      - name: Create metrics directory
+        run: mkdir -p metrics
+
+      - name: Cyclomatic Complexity
+        run: |
+          radon cc \
+            --json \
+            --min C \
+            common_llm dataset_profiler \
+            > metrics/cc-report.json || echo "No high CC found"
+
+      - name: Maintainability Index
+        run: |
+          radon mi \
+            --json \
+            --min B \
+            common_llm dataset_profiler \
+            > metrics/mi-report.json || echo "No low MI found"
+
+      - name: Raw Metrics
+        run: |
+          radon raw \
+            --json \
+            common_llm dataset_profiler \
+            > metrics/raw-report.json
+
+      - name: Halstead Metrics
+        run: |
+          radon hal \
+            --json \
+            common_llm dataset_profiler \
+            > metrics/hal-report.json
+
+      - name: Show summary
+        run: |
+          echo "=== High Complexity Functions (CC >= 10) ==="
+          jq -r '.[] | select(.complexity >= 10) | "\(.filename):\(.name) → \(.complexity)"' metrics/cc-report.json 2>/dev/null || echo "None"
+          echo "=== Low Maintainability (MI < 70) ==="
+          jq -r '.[] | select(.mi < 70) | "\(.filename) → \(.mi)"' metrics/mi-report.json 2>/dev/null || echo "None"
+
+      - name: Upload metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-code-metrics
+          path: metrics/*.json
+          retention-days: 7
