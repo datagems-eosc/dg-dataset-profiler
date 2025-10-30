@@ -10,8 +10,8 @@ from dataset_profiler.profile_components.record_set.text.text_utilities import (
     read_file_with_encoding,
     find_substring_positions,
     text_preprocess,
-    get_keywords_ollama,
-    get_summary_ollama,
+    get_keywords,
+    get_summary,
 )
 from tqdm import tqdm
 import os
@@ -68,7 +68,7 @@ class TextRecordSet(RecordSet):
         self.flesch_kincaid_grade = profile["flesch_kincaid_grade"]
         print("\nGenerating summary...")
 
-        self.summary = get_summary_ollama(
+        self.summary = get_summary(
             self.body,
             model=OLLAMA_MODEL,
             base_url=OLLAMA_API_BASE_URL,
@@ -89,7 +89,7 @@ class TextRecordSet(RecordSet):
         for chunk in tqdm(chunks):
             sos, pos = find_substring_positions(self.text, chunk)
             if sos and pos:
-                keywords = get_keywords_ollama(chunk, model, base_url)
+                keywords = get_keywords(chunk, model, base_url)
                 temp = {
                     "text": chunk,
                     "sos": sos,

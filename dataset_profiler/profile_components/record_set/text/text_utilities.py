@@ -7,9 +7,12 @@ from typing import List
 from collections import Counter
 from langdetect import detect_langs
 from nltk.corpus import stopwords
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_ollama import ChatOllama
+from dataset_profiler.common_llm.connector import CommonLLMConnector
+from litellm.types.utils import ModelResponse
+import json
+from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langsmith import traceable
 from dotenv import load_dotenv, find_dotenv
@@ -321,7 +324,9 @@ class KeyWords(BaseModel):
     A class to represent keywords extracted from text.
     """
 
-    keywords: List[str]
+    keywords: list[str] = Field(
+        default_factory=list, description="List of extracted keywords"
+    )
 
 
 class TextSummary(BaseModel):
@@ -329,14 +334,14 @@ class TextSummary(BaseModel):
     A class to represent a summary of text.
     """
 
-    summary: str
+    summary: str = Field(default="", description="Concise summary of the text")
 
 
 @traceable(
-    tags=["keyword_extraction"], name="get_keywords_ollama", project_name="TextProfiler"
+    tags=["keyword_extraction"], name="get_keywords", project_name="TextProfiler"
 )
-def get_keywords_ollama(
-    text: str, model, base_url, max_keywords_num: int = 3
+def get_keywords(
+    text: str, model, base_url, max_keywords_num: int = 3, timeout: int = 60
 ) -> KeyWords:
     """
     Extract keywords from text using ChatOllama.
@@ -348,10 +353,21 @@ def get_keywords_ollama(
     Returns:
         KeyWords: A KeyWords object containing the list of extracted keywords.
     """
+    # Initialize environment variables for OLLAMA
+    llm_params = {
+        "provider": "ollama",
+        "model": model,
+        "temperature": 0.2,
+        "api_base": base_url,
+        "config_file": "dataset_profiler/common_llm/configs/llm_config.yaml",
+        "timeout": timeout,
+    }
+    # Initialize the ChatOllama model
+    llm = CommonLLMConnector(**llm_params)
+    if llm is None:
+        print("LLM initialization failed.")
+        return KeyWords(keywords=[])
     try:
-        # Initialize the ChatOllama model
-        llm = ChatOllama(model=model, temperature=0, base_url=base_url)
-
         # Define the prompt template
         prompt = ChatPromptTemplate.from_template(
             """Extract up to {max_keywords_num} keywords from the following text.
@@ -359,7 +375,7 @@ def get_keywords_ollama(
 
             Text: {text}
 
-            Output format:
+            Output format: (strict JSON)
             ```json
             {{
                 "keywords": ["keyword1", "keyword2", ...]
@@ -367,28 +383,39 @@ def get_keywords_ollama(
             ```"""
         )
 
-        # Create a chain with structured output
-        chain = prompt | llm.with_structured_output(KeyWords)
+        messages = prompt.format_messages(text=text, max_keywords_num=max_keywords_num)
+        messages_dict = [
+            {
+                "role": "user" if msg.type == "human" else "assistant",
+                "content": msg.content,
+            }
+            for msg in messages
+        ]
+        response = llm.chat(message=messages_dict, stream=False)
 
-        # Run the chain with the input parameters
-        result = chain.invoke({"text": text, "max_keywords_num": max_keywords_num})
+        if isinstance(response, ModelResponse):
+            # remove ```json ... ``` from response content
+            content = response.choices[0].message.content  # type: ignore
+            if content:
+                content = re.sub(r"```json\s*", "", content)
+                content = re.sub(r"\s*```", "", content)
+                result = json.loads(content)  # type: ignore
+                return KeyWords(**result)
 
-        # Ensure the result is always a KeyWords instance
-        if isinstance(result, KeyWords):
-            return result
-        elif isinstance(result, dict):
-            return KeyWords(**result)
-        else:
-            raise TypeError("Unexpected result type from chain.invoke")
+        llm.logging_obj.logger.error(f"Unexpected response format: {response}")
+        return KeyWords(keywords=[])
+
     except Exception as e:
-        print(f"Error in get_keywords_ollama: {e}")
+        llm.logging_obj.logger.error(f"Error in get_keywords: {e}")
         return KeyWords(keywords=[])
 
 
 @traceable(
-    tags=["summarization"], name="get_summary_ollama", project_name="TextProfiler"
+    tags=["summarization"], name="get_summary", project_name="TextProfiler"
 )
-def get_summary_ollama(text: str, model, base_url, max_words: int = 600) -> str:
+def get_summary(
+    text: str, model, base_url, max_words: int = 600, timeout: int = 60
+) -> str:
     """
     Get a description of the text using ChatOllama.
 
@@ -398,11 +425,21 @@ def get_summary_ollama(text: str, model, base_url, max_words: int = 600) -> str:
     Returns:
         str: A concise summary of the text.
     """
-    try:
-        # Initialize the ChatOllama model
-        llm = ChatOllama(model=model, temperature=0, base_url=base_url)
+    # Initialize the CommonLLMConnector
+    llm_params = {
+        "provider": "ollama",
+        "model": model,
+        "temperature": 0.2,
+        "api_base": base_url,
+        "config_file": "dataset_profiler/common_llm/configs/llm_config.yaml",
+        "timeout": timeout,
+    }
 
-        # Define the prompt template
+    llm = CommonLLMConnector(**llm_params)
+    if llm is None:
+        print("LLM initialization failed.")
+        return ""
+    try:        # Define the prompt template
         prompt = ChatPromptTemplate.from_template(
             """Generate a concise summary of the following text.
             The summary should be no more than {max_words} words and should capture the main ideas and themes of the text.
@@ -417,20 +454,54 @@ def get_summary_ollama(text: str, model, base_url, max_words: int = 600) -> str:
             ```"""
         )
 
-        # Create a chain with structured output
-        chain = prompt | llm.with_structured_output(TextSummary)
+        messages = prompt.format_messages(text=text, max_words=max_words)
+        messages_dict = [
+            {
+                "role": "user" if msg.type == "human" else "assistant",
+                "content": msg.content,
+            }
+            for msg in messages
+        ]
+        response = llm.chat(message=messages_dict, stream=False)
 
-        # Run the chain with the input parameters
-        result = chain.invoke({"text": text, "max_words": max_words})
+        if isinstance(response, ModelResponse):
+            # remove ```json ... ``` from response content
+            content = response.choices[0].message.content  # type: ignore
+            if content:
+                content = re.sub(r"```json\s*", "", content)
+                content = re.sub(r"\s*```", "", content)
+                result = json.loads(content)  # type: ignore
+                return result["summary"]
 
-        if isinstance(result, TextSummary):
-            return result.summary
-        elif isinstance(result, dict):
-            return TextSummary(**result).summary
-        else:
-            raise TypeError(
-                f"Unexpected result type from chain.invoke, {type(result)} | {result}"
-            )
-    except Exception as e:  # with errors output empty string
-        print(f"Error in get_summary_ollama: {e}")
+        llm.logging_obj.logger.error(f"Unexpected response format: {response}")
         return ""
+
+    except Exception as e:  # with errors output empty string
+        llm.logging_obj.logger.error(f"Error in get_summary: {e}")
+        return ""
+
+
+if __name__ == "__main__":
+    model = "ollama/gpt-oss:120b"
+    # test keyword extraction
+    sample_text = (
+        "Artificial Intelligence (AI) is transforming the world. "
+        "From self-driving cars to virtual assistants, AI technologies are becoming integral to our daily lives. "
+        "Machine learning, a subset of AI, enables systems to learn and improve from experience without being explicitly programmed. "
+        "Deep learning, a more advanced form of machine learning, uses neural networks to analyze various factors of data. "
+        "As AI continues to evolve, it promises to revolutionize industries such as healthcare, finance, and transportation."
+    )
+    keywords = get_keywords(
+        text=sample_text,
+        model=model,
+        base_url="http://localhost:11434",
+        max_keywords_num=5,
+    )
+
+    summary = get_summary(
+        text=sample_text, model=model, base_url="http://localhost:11434", max_words=100
+    )
+
+    print("Summary:", summary)
+
+    print("Extracted Keywords:", keywords)
