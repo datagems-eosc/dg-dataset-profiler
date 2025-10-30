@@ -27,21 +27,21 @@ jobs:
 
       - name: Run code metrics
         run: |
-          echo "## Code Metrics Report for cross_dataset_discovery/api_datagems_cross_dataset_discovery/app ##" > code-metrics-report.txt
+          echo "## Code Metrics Report for dataset profiler ##" > code-metrics-report.txt
           echo "" >> code-metrics-report.txt
 
           echo "--- Maintainability Index (MI) ---" >> code-metrics-report.txt
           echo "(A=Excellent, B=Good, C-F=Needs Improvement)" >> code-metrics-report.txt
-          radon mi cross_dataset_discovery/api_datagems_cross_dataset_discovery/app >> code-metrics-report.txt 2>&1
+          radon mi dataset_profiler >> code-metrics-report.txt 2>&1
           echo "" >> code-metrics-report.txt
 
           echo "--- Cyclomatic Complexity (CC) ---" >> code-metrics-report.txt
           echo "(A=Excellent, B=Good, C-F=Needs Improvement)" >> code-metrics-report.txt
-          radon cc cross_dataset_discovery/api_datagems_cross_dataset_discovery/app -s >> code-metrics-report.txt 2>&1
+          radon cc dataset_profiler -s >> code-metrics-report.txt 2>&1
           echo "" >> code-metrics-report.txt
 
           echo "--- Raw Lines of Code (LOC) ---" >> code-metrics-report.txt
-          radon raw cross_dataset_discovery/api_datagems_cross_dataset_discovery/app >> code-metrics-report.txt 2>&1
+          radon raw dataset_profiler >> code-metrics-report.txt 2>&1
 
       - name: Upload Metrics report
         uses: actions/upload-artifact@v4
