@@ -9,7 +9,7 @@ from litellm.types.utils import ModelResponse
 from litellm.litellm_core_utils.streaming_handler import CustomStreamWrapper
 from litellm.integrations.custom_logger import CustomLogger
 from litellm.exceptions import APIError, AuthenticationError, RateLimitError
-from common_llm.config_handler import load_config
+from dataset_profiler.common_llm.config_handler import load_config
 
 
 def load_llm_config(
@@ -558,7 +558,7 @@ if __name__ == "__main__":
     connector = CommonLLMConnector(
         provider="ollama",
         model="ollama/gpt-oss:120b",
-        config_file="common_llm/configs/llm_config.yaml",
+        config_file="dataset_profiler/common_llm/configs/llm_config.yaml",
     )
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},

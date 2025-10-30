@@ -9,7 +9,7 @@ from langdetect import detect_langs
 from nltk.corpus import stopwords
 from pydantic import BaseModel, Field
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from common_llm.connector import CommonLLMConnector
+from dataset_profiler.common_llm.connector import CommonLLMConnector
 from litellm.types.utils import ModelResponse
 import json
 from langchain_core.output_parsers import JsonOutputParser
@@ -353,19 +353,21 @@ def get_keywords(
     Returns:
         KeyWords: A KeyWords object containing the list of extracted keywords.
     """
+    # Initialize environment variables for OLLAMA
+    llm_params = {
+        "provider": "ollama",
+        "model": model,
+        "temperature": 0.2,
+        "api_base": base_url,
+        "config_file": "dataset_profiler/common_llm/configs/llm_config.yaml",
+        "timeout": timeout,
+    }
+    # Initialize the ChatOllama model
+    llm = CommonLLMConnector(**llm_params)
+    if llm is None:
+        print("LLM initialization failed.")
+        return KeyWords(keywords=[])
     try:
-        # Initialize environment variables for OLLAMA
-        llm_params = {
-            "provider": "ollama",
-            "model": model,
-            "temperature": 0.2,
-            "api_base": base_url,
-            "config_file": "common_llm/configs/llm_config.yaml",
-            "timeout": timeout,
-        }
-        # Initialize the ChatOllama model
-        llm = CommonLLMConnector(**llm_params)
-
         # Define the prompt template
         prompt = ChatPromptTemplate.from_template(
             """Extract up to {max_keywords_num} keywords from the following text.
@@ -404,7 +406,7 @@ def get_keywords(
         return KeyWords(keywords=[])
 
     except Exception as e:
-        print(f"Error in get_keywords: {e}")
+        llm.logging_obj.logger.error(f"Error in get_keywords: {e}")
         return KeyWords(keywords=[])
 
 
@@ -423,20 +425,21 @@ def get_summary(
     Returns:
         str: A concise summary of the text.
     """
-    try:
-        # Initialize the CommonLLMConnector
-        llm_params = {
-            "provider": "ollama",
-            "model": model,
-            "temperature": 0.2,
-            "api_base": base_url,
-            "config_file": "common_llm/configs/llm_config.yaml",
-            "timeout": timeout,
-        }
+    # Initialize the CommonLLMConnector
+    llm_params = {
+        "provider": "ollama",
+        "model": model,
+        "temperature": 0.2,
+        "api_base": base_url,
+        "config_file": "dataset_profiler/common_llm/configs/llm_config.yaml",
+        "timeout": timeout,
+    }
 
-        llm = CommonLLMConnector(**llm_params)
-
-        # Define the prompt template
+    llm = CommonLLMConnector(**llm_params)
+    if llm is None:
+        print("LLM initialization failed.")
+        return ""
+    try:        # Define the prompt template
         prompt = ChatPromptTemplate.from_template(
             """Generate a concise summary of the following text.
             The summary should be no more than {max_words} words and should capture the main ideas and themes of the text.
@@ -474,7 +477,7 @@ def get_summary(
         return ""
 
     except Exception as e:  # with errors output empty string
-        print(f"Error in get_summary: {e}")
+        llm.logging_obj.logger.error(f"Error in get_summary: {e}")
         return ""
 
 

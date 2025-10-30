@@ -6,7 +6,7 @@ from typing import Dict, List, Optional
 from litellm.types.utils import ModelResponse, Choices, Delta, Usage
 from litellm.litellm_core_utils.streaming_handler import CustomStreamWrapper
 from litellm.exceptions import AuthenticationError, RateLimitError
-from common_llm.connector import (
+from dataset_profiler.common_llm.connector import (
     CommonLLMConnector,
     LLMConfig,
     load_llm_config,
@@ -57,14 +57,14 @@ def sample_config():
 @pytest.fixture
 def mock_load_config(sample_config):
     """Mock load_config to return sample_config."""
-    with patch("common_llm.connector.load_config", return_value=sample_config) as mock:
+    with patch("dataset_profiler.common_llm.connector.load_config", return_value=sample_config) as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_completion():
     """Mock litellm.completion for non-streaming and streaming responses."""
-    with patch("common_llm.connector.completion") as mock:
+    with patch("dataset_profiler.common_llm.connector.completion") as mock:
         # Mock non-streaming response
         non_stream_response = ModelResponse(
             choices=[Choices(message={"content": "Hello, I'm a helpful assistant!"})],
