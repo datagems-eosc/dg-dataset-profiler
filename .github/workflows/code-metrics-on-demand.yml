@@ -1,0 +1,50 @@
+# .github/workflows/code-metrics-on-demand.yml
+
+name: "Code Metrics (On-Demand)"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Run Code Metrics
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install radon
+        run: pip install radon
+
+      - name: Run code metrics
+        run: |
+          echo "## Code Metrics Report for dataset profiler ##" > code-metrics-report.txt
+          echo "" >> code-metrics-report.txt
+
+          echo "--- Maintainability Index (MI) ---" >> code-metrics-report.txt
+          echo "(A=Excellent, B=Good, C-F=Needs Improvement)" >> code-metrics-report.txt
+          radon mi dataset_profiler >> code-metrics-report.txt 2>&1
+          echo "" >> code-metrics-report.txt
+
+          echo "--- Cyclomatic Complexity (CC) ---" >> code-metrics-report.txt
+          echo "(A=Excellent, B=Good, C-F=Needs Improvement)" >> code-metrics-report.txt
+          radon cc dataset_profiler -s >> code-metrics-report.txt 2>&1
+          echo "" >> code-metrics-report.txt
+
+          echo "--- Raw Lines of Code (LOC) ---" >> code-metrics-report.txt
+          radon raw dataset_profiler >> code-metrics-report.txt 2>&1
+
+      - name: Upload Metrics report
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-metrics-report
+          path: code-metrics-report.txt
