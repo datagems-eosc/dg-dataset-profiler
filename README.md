@@ -1,7 +1,7 @@
 # dataset-profiler
 
 Repository of the dataset-profiler DataGEMS service
-
+https://datagems-eosc.github.io/dg-dataset-profiler
 
 ## Getting started with your project
 
