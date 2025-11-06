@@ -29,7 +29,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs mkdocs-material mike neoteroi-mkdocs pymdown-extensions
+          pip install mkdocs mkdocs-material mike neoteroi-mkdocs pymdown-extensions mkdocstrings mkdocstrings-python
 
       - name: Configure git
         run: |
