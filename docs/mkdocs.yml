@@ -1,0 +1,75 @@
+site_name: Dataset Profiler Docs
+
+site_url: https://datagems-eosc.github.io/dataset-profiler/
+repo_url: https://github.com/datagems-eosc/dataset-profiler/
+
+
+nav:
+  - Overview: index.md
+  - Profile Examples:
+      - MoMa Profile: profile-examples-moma.md
+      - CDD Profile: profile-examples-cdd.md
+  - System:
+    - Architecture: architecture.md
+    - Security: security.md
+  - API:
+    - Overview: api-overview.md
+    - Status & Error Codes: error-codes.md
+    - OpenAPI: openapi.md
+  - Setup & Monitoring:
+    - Deployment: deployment.md
+    - Configuration: configuration.md
+    - Logging & Accounting: logging.md
+    - Maintenance: maintenance.md
+  - FAQ: faq.md
+  - License: license.md
+  - Home: https://datagems-eosc.github.io/
+
+theme:
+  name: 'material'
+  favicon: images/favicon.jpg
+  logo: images/datagems-portal-icon.png
+  icon:
+    repo: fontawesome/brands/github
+  custom_dir: overrides
+  features:
+    - navigation.path
+    - navigation.top
+
+extra_css:
+  - stylesheets/custom-footer.css
+  - stylesheets/mkdocsoad.css
+
+plugins:
+  - search
+  - mike
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [
+            "dataset_profiler"
+            ]
+  - neoteroi.mkdocsoad:
+      use_pymdownx: true
+
+markdown_extensions:
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+extra:
+  version:
+    provider: mike
+    alias: true
+    default: latest
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/datagems-eosc/
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/eosc-datagems

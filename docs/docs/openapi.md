@@ -1,0 +1,2 @@
+
+[OAD(content/openapi.json)]
