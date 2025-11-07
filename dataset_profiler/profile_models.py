@@ -1,5 +1,6 @@
 import json
 import os
+import uuid
 from typing import List
 
 from dataset_profiler.dataset_specification import (
@@ -16,7 +17,7 @@ from dataset_profiler.profile_components.distribution import (
     DistributionFileObject,
     DistributionFileSet,
     get_distribution_of_file_object,
-    get_distribution_of_file_set,
+    get_distribution_of_file_set, get_distribution_of_database_connection,
 )
 from dataset_profiler.profile_components.record_set.db.db_distribution import (
     get_added_distributions,
@@ -27,17 +28,35 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
 )
 from dataset_profiler.profile_components.record_set.record_set_extractor import (
-    extract_record_sets_of_file_objects, extract_record_sets_of_file_sets,
+    extract_record_sets_of_file_objects, extract_record_sets_of_file_sets, extract_record_sets_of_database_connections,
 )
 from dataset_profiler.utilities import get_file_objects
+from dataset_profiler.configs.config_logging import logger
 
 
 class DatasetProfile:
     def __init__(self, dataset_specification: dict):
         self.dataset_specification = DatasetSpecification(dataset_specification)
-        self.distribution_path = self.dataset_specification.dataPath
+        self.data_connectors = self.dataset_specification.data_connectors
+
+        self.distribution_path = ''
+        for connector in self.data_connectors:
+            if connector["type"] == "RawDataPath" and self.distribution_path != '':
+                logger.warning(f"Only one RawDataPath connector is supported. "
+                               f"Using {self.distribution_path} and ignoring {connector['path']}.")
+                continue
+            if connector["type"] == "RawDataPath":
+                self.distribution_path = connector["path"]
 
         self.file_objects, self.file_sets = get_file_objects(self.distribution_path)
+        self.databases_objects = [
+            {
+                "database_name": connector["database_name"],
+                "file_object_id": str(uuid.uuid4())
+            }
+            for connector in self.data_connectors
+            if connector["type"] == "DatabaseConnection"
+        ]
 
         self.dataset_top_level = DatasetTopLevel(
             dataset_id=self.dataset_specification.id,
@@ -73,6 +92,12 @@ class DatasetProfile:
             )
             for file_object in self.file_objects
         ]
+        database_connector_distributions = [
+            get_distribution_of_database_connection(
+                connection_id=db_connector['file_object_id'], database_name=db_connector["database_name"]
+            )
+            for db_connector in self.databases_objects
+        ]
         file_sets_distributions = [
             get_distribution_of_file_set(
                 self.distribution_path + file_set["path"], file_set["id"]
@@ -80,10 +105,11 @@ class DatasetProfile:
             for file_set in self.file_sets
         ]
 
-        return file_sets_distributions + file_object_distributions
+        return file_sets_distributions + database_connector_distributions + file_object_distributions
 
     def extract_record_sets(self) -> List[RecordSet]:
         return (extract_record_sets_of_file_objects(self.file_objects, self.distribution_path) +
+                extract_record_sets_of_database_connections(self.databases_objects) +
                 extract_record_sets_of_file_sets(self.file_sets, self.distribution_path))
 
     def to_dict_light(self):

@@ -4,6 +4,16 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
+class RawDataPath(BaseModel):
+    type: str
+    path: str
+
+
+class DatabaseConnection(BaseModel):
+    type: str
+    database_name: str
+
+
 class ProfileSpecificationEndpoint(BaseModel):
     id: uuid.UUID
     name: str
@@ -23,7 +33,7 @@ class ProfileSpecificationEndpoint(BaseModel):
     )
     license: str
 
-    dataset_file_path: str | None = None  # In deployed service case it should only be the same as the id field
+    data_connectors: List[RawDataPath | DatabaseConnection] = None
     database_name: str | None = None
 
     uploaded_by: str  # User who uploaded the dataset
@@ -42,7 +52,6 @@ Example request:
       "id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01",
       "cite_as": "",
       "country": "PT",
-      "data_uri": "tests/assets/mathe_assessment/data/",
       "date_published": "24-05-2025",
       "description": "This dataset was extracted from the MathE platform, an online educational platform developed to support mathematics teaching and learning in higher education. It contains 546 student responses to questions on several mathematical topics. Each record corresponds to an individual answer and includes the following features: Student ID, Student Country, Question ID, Type of Answer (correct or incorrect), Question Level (basic or advanced based on the assessment of the contributing professor), Math Topic (broader mathematical area of the question), Math Subtopic, and Question Keywords. The data spans from February 2019 to December 2023.",
       "fields_of_science": [
@@ -60,7 +69,13 @@ Example request:
       "license": "CC0 1.0",
       "name": "Mathematics Learning Assessment",
       "published_url": "https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY",
-      "uploaded_by": "ADMIN"
+      "uploaded_by": "ADMIN",
+      "data_connectors": [
+        {
+            "type": "RawDataPath",
+            "path": "dataset/8930240b-a0e8-46e7-ace8-aab2b42fcc01/"
+        }
+      ]
     },
   "only_light_profile": false
 }
