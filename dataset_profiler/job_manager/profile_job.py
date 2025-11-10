@@ -12,8 +12,8 @@ from dataset_profiler.configs.config_logging import logger
 
 def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoint) -> dict:
     for connector in specification.data_connectors:
-        if connector.type == 'file_system':
-            connector.path = os.getenv('DATA_ROOT_PATH', '') + connector.path
+        if connector.type == 'RawDataPath':
+            connector.dataset_id = os.getenv('DATA_ROOT_PATH', '') + connector.dataset_id + '/'
 
     return {
         "id": str(specification.id),
@@ -30,7 +30,7 @@ def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoin
         "url": specification.published_url,
         "access": "NOT IMPLEMENTED",
         "uploadedBy": specification.uploaded_by,
-        "dataPath": [connector.model_dump() for connector in specification.data_connectors]
+        "data_connectors": [connector.model_dump() for connector in specification.data_connectors]
     }
 
 

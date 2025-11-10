@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class RawDataPath(BaseModel):
     type: str
-    path: str
+    dataset_id: str
 
 
 class DatabaseConnection(BaseModel):
@@ -73,9 +73,9 @@ Example request:
       "data_connectors": [
         {
             "type": "RawDataPath",
-            "path": "dataset/8930240b-a0e8-46e7-ace8-aab2b42fcc01/"
+            "dataset_id": "/home/ray/app/tests/assets/mathe_assessment/data"
         }
-      ]
+    ]
     },
   "only_light_profile": false
 }

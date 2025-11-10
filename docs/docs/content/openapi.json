@@ -14,6 +14,24 @@
         "title": "CleanUpRequest",
         "type": "object"
       },
+      "DatabaseConnection": {
+        "properties": {
+          "database_name": {
+            "title": "Database Name",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "database_name"
+        ],
+        "title": "DatabaseConnection",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -74,6 +92,20 @@
             "title": "Country",
             "type": "string"
           },
+          "data_connectors": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RawDataPath"
+                },
+                {
+                  "$ref": "#/components/schemas/DatabaseConnection"
+                }
+              ]
+            },
+            "title": "Data Connectors",
+            "type": "array"
+          },
           "database_name": {
             "anyOf": [
               {
@@ -84,17 +116,6 @@
               }
             ],
             "title": "Database Name"
-          },
-          "dataset_file_path": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dataset File Path"
           },
           "date_published": {
             "title": "Date Published",
@@ -228,6 +249,24 @@
           "profile_specification"
         ],
         "title": "ProfilingRequest",
+        "type": "object"
+      },
+      "RawDataPath": {
+        "properties": {
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "dataset_id"
+        ],
+        "title": "RawDataPath",
         "type": "object"
       },
       "RunnerStatus": {
@@ -531,10 +570,5 @@
         ]
       }
     }
-  },
-  "servers": [
-    {
-      "url": "dg-dataset-profiler"
-    }
-  ]
+  }
 }

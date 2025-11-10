@@ -46,7 +46,7 @@ class DatasetProfile:
                                f"Using {self.distribution_path} and ignoring {connector['path']}.")
                 continue
             if connector["type"] == "RawDataPath":
-                self.distribution_path = connector["path"]
+                self.distribution_path = connector["dataset_id"]
 
         self.file_objects, self.file_sets = get_file_objects(self.distribution_path)
         self.databases_objects = [
