@@ -27,6 +27,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Clean up disk space
+        run: |
+          echo "Disk space before cleanup:"
+          df -h
+
+          # Remove large, non-essential packages
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/share/boost
+
+          # Prune docker
+          docker system prune -af
+
+          echo "Disk space after cleanup:"
+          df -h
+
       - name: Extract metadata (tags, labels) for Docker image for Ray Image
         id: meta_ray_image
         uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f

@@ -175,6 +175,7 @@ The profile specification object contains metadata about the dataset to be profi
 ### Data Connectors
 
 Data connectors specify how to access the raw data for profiling. The following connector types are supported:
+
 * RawDataPath: Specifies a path to the raw data files.
 * DatabaseConnection: Specifies connection details for a database.
 
@@ -192,6 +193,7 @@ Data connectors specify how to access the raw data for profiling. The following 
     }
 ]
 ```
+
 * The `dataset_id` field should be the unique identifier of the dataset in the storage system.
 * The `database_name` field should be the name of the database to connect to. We do not need any other info to connect to the database since the service has pre-configured access.
 
