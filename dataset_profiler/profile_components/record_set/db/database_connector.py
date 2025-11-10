@@ -257,4 +257,4 @@ class DatagemsPostgres:
 
 
 if __name__ == "__main__":
-    print(DatagemsPostgres(schema="mathe").get_foreign_keys())
+    print(DatagemsPostgres(database="ds_era5_land", schema="public").get_tables_and_columns())

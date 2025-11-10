@@ -62,6 +62,39 @@ def get_distribution_of_file_object(
     )
 
 
+class DistributionDatabaseConnection:
+    def __init__(
+        self,
+        connection_id: str,
+        database_name: str,
+        description: str = "",
+    ):
+        self.type = "dg:DatabaseConnection"
+        self.id = connection_id
+        self.name = database_name
+        self.description = description
+        self.database_name = database_name
+        self.encodingFormat = "text/sql"
+
+    def to_dict(self):
+        return {
+            "@type": self.type,
+            "@id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "databaseName": self.database_name,
+            "encodingFormat": self.encodingFormat
+        }
+
+
+def get_distribution_of_database_connection(
+    connection_id: str, database_name: str
+) -> DistributionDatabaseConnection:
+    return DistributionDatabaseConnection(
+        connection_id=connection_id,
+        database_name=database_name,
+    )
+
 class DistributionFileSet:
     def __init__(
         self,
