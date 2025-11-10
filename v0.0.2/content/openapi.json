@@ -1,0 +1,574 @@
+{
+  "components": {
+    "schemas": {
+      "CleanUpRequest": {
+        "properties": {
+          "profile_job_id": {
+            "title": "Profile Job Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "profile_job_id"
+        ],
+        "title": "CleanUpRequest",
+        "type": "object"
+      },
+      "DatabaseConnection": {
+        "properties": {
+          "database_name": {
+            "title": "Database Name",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "database_name"
+        ],
+        "title": "DatabaseConnection",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "IngestionTriggerResponse": {
+        "properties": {
+          "job_id": {
+            "title": "Job Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "title": "IngestionTriggerResponse",
+        "type": "object"
+      },
+      "JobStatus": {
+        "enum": [
+          "submitting",
+          "starting",
+          "light_profile_ready",
+          "heavy_profile_ready",
+          "cleaned_up"
+        ],
+        "title": "JobStatus",
+        "type": "string"
+      },
+      "ProfileSpecificationEndpoint": {
+        "properties": {
+          "cite_as": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": "",
+            "title": "Cite As"
+          },
+          "country": {
+            "title": "Country",
+            "type": "string"
+          },
+          "data_connectors": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RawDataPath"
+                },
+                {
+                  "$ref": "#/components/schemas/DatabaseConnection"
+                }
+              ]
+            },
+            "title": "Data Connectors",
+            "type": "array"
+          },
+          "database_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Database Name"
+          },
+          "date_published": {
+            "title": "Date Published",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "doi": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": "",
+            "title": "Doi"
+          },
+          "fields_of_science": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Fields Of Science",
+            "type": "array"
+          },
+          "headline": {
+            "title": "Headline",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "keywords": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keywords",
+            "type": "array"
+          },
+          "languages": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Languages",
+            "type": "array"
+          },
+          "license": {
+            "title": "License",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "published_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": "",
+            "title": "Published Url"
+          },
+          "uploaded_by": {
+            "title": "Uploaded By",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "headline",
+          "fields_of_science",
+          "languages",
+          "keywords",
+          "country",
+          "date_published",
+          "license",
+          "uploaded_by"
+        ],
+        "title": "ProfileSpecificationEndpoint",
+        "type": "object"
+      },
+      "ProfilesResponse": {
+        "properties": {
+          "cdd_profile": {
+            "additionalProperties": true,
+            "title": "Cdd Profile",
+            "type": "object"
+          },
+          "moma_profile_heavy": {
+            "additionalProperties": true,
+            "title": "Moma Profile Heavy",
+            "type": "object"
+          },
+          "moma_profile_light": {
+            "additionalProperties": true,
+            "title": "Moma Profile Light",
+            "type": "object"
+          }
+        },
+        "required": [
+          "moma_profile_light",
+          "moma_profile_heavy",
+          "cdd_profile"
+        ],
+        "title": "ProfilesResponse",
+        "type": "object"
+      },
+      "ProfilingRequest": {
+        "properties": {
+          "only_light_profile": {
+            "default": false,
+            "title": "Only Light Profile",
+            "type": "boolean"
+          },
+          "profile_specification": {
+            "$ref": "#/components/schemas/ProfileSpecificationEndpoint"
+          }
+        },
+        "required": [
+          "profile_specification"
+        ],
+        "title": "ProfilingRequest",
+        "type": "object"
+      },
+      "RawDataPath": {
+        "properties": {
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "dataset_id"
+        ],
+        "title": "RawDataPath",
+        "type": "object"
+      },
+      "RunnerStatus": {
+        "enum": [
+          "pending",
+          "in_progress",
+          "completed",
+          "failed",
+          "unknown"
+        ],
+        "title": "RunnerStatus",
+        "type": "string"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "FastAPI",
+    "version": "0.0.1"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "read_root__get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Read Root"
+      }
+    },
+    "/monitoring/health-check": {
+      "get": {
+        "operationId": "check_health_monitoring_health_check_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Check Health Monitoring Health Check Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Check Health",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/profiler/clean_up}": {
+      "post": {
+        "operationId": "clean_up_job_profiler_clean_up__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CleanUpRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Clean Up Job Profiler Clean Up  Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Clean Up Job",
+        "tags": [
+          "Profiler"
+        ]
+      }
+    },
+    "/profiler/job_status/{profile_job_id}": {
+      "get": {
+        "operationId": "get_job_status_profiler_job_status__profile_job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profile_job_id",
+            "required": true,
+            "schema": {
+              "title": "Profile Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Job Status",
+        "tags": [
+          "Profiler"
+        ]
+      }
+    },
+    "/profiler/profile/{profile_job_id}": {
+      "get": {
+        "operationId": "get_profile_profiler_profile__profile_job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profile_job_id",
+            "required": true,
+            "schema": {
+              "title": "Profile Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfilesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Profile",
+        "tags": [
+          "Profiler"
+        ]
+      }
+    },
+    "/profiler/runner_status/{profile_job_id}": {
+      "get": {
+        "operationId": "get_runner_status_profiler_runner_status__profile_job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profile_job_id",
+            "required": true,
+            "schema": {
+              "title": "Profile Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunnerStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Runner Status",
+        "tags": [
+          "Profiler"
+        ]
+      }
+    },
+    "/profiler/trigger_profile": {
+      "post": {
+        "operationId": "trigger_dataset_profiling_profiler_trigger_profile_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfilingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngestionTriggerResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Trigger Dataset Profiling",
+        "tags": [
+          "Profiler"
+        ]
+      }
+    }
+  }
+}
