@@ -70,7 +70,7 @@ class DBTableField:
 
     @staticmethod
     def _get_table_name(file_object, table):
-        return file_object + "/" + table["table_name"]
+        return table["table_name"]
 
     def extract_fields(self):
         fields = []

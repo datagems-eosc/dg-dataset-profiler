@@ -17,7 +17,7 @@ from dataset_profiler.profile_components.distribution import (
     DistributionFileObject,
     DistributionFileSet,
     get_distribution_of_file_object,
-    get_distribution_of_file_set, get_distribution_of_database_connection,
+    get_distribution_of_file_set, get_distribution_of_database_connection, get_distributions_of_tables_in_db,
 )
 from dataset_profiler.profile_components.record_set.db.db_distribution import (
     get_added_distributions,
@@ -39,16 +39,19 @@ class DatasetProfile:
         self.dataset_specification = DatasetSpecification(dataset_specification)
         self.data_connectors = self.dataset_specification.data_connectors
 
-        self.distribution_path = ''
+        self.distribution_path = None
         for connector in self.data_connectors:
-            if connector["type"] == "RawDataPath" and self.distribution_path != '':
+            if connector["type"] == "RawDataPath" and self.distribution_path is not None:
                 logger.warning(f"Only one RawDataPath connector is supported. "
                                f"Using {self.distribution_path} and ignoring {connector['path']}.")
                 continue
             if connector["type"] == "RawDataPath":
                 self.distribution_path = connector["dataset_id"]
 
-        self.file_objects, self.file_sets = get_file_objects(self.distribution_path)
+        if self.distribution_path is not None:
+            self.file_objects, self.file_sets = get_file_objects(self.distribution_path)
+        else:
+            self.file_objects, self.file_sets = [], []
         self.databases_objects = [
             {
                 "database_name": connector["database_name"],
@@ -98,6 +101,14 @@ class DatasetProfile:
             )
             for db_connector in self.databases_objects
         ]
+        database_table_distributions = []
+        for db_distribution in database_connector_distributions:
+            database_table_distributions += get_distributions_of_tables_in_db(
+                database_name=db_distribution.database_name,
+                databae_distribution_id=db_distribution.id,
+            )
+        database_connector_distributions += database_table_distributions
+
         file_sets_distributions = [
             get_distribution_of_file_set(
                 self.distribution_path + file_set["path"], file_set["id"]
@@ -145,13 +156,13 @@ class DatasetProfile:
             "recordSet": record_set_list,
         }
 
-        db_ids_with_file_obj_ids = get_db_ids_from_distributions(
-            profile_dict["distribution"]
-        )
-        for db_id, file_obj_id in db_ids_with_file_obj_ids:
-            profile_dict["distribution"].extend(
-                get_added_distributions(profile_dict["recordSet"], db_id, file_obj_id)
-            )
+        # db_ids_with_file_obj_ids = get_db_ids_from_distributions(
+        #     profile_dict["distribution"]
+        # )
+        # for db_id, file_obj_id in db_ids_with_file_obj_ids:
+        #     profile_dict["distribution"].extend(
+        #         get_added_distributions(profile_dict["recordSet"], db_id, file_obj_id)
+        #     )
 
         for record_set in self.record_sets:
             if record_set.inject_distribution:
