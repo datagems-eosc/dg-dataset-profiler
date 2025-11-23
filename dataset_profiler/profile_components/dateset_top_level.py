@@ -1,5 +1,9 @@
+import os
+
 from typing import Optional
 
+
+DATASET_ROOT_PATH = os.environ.get("DATA_ROOT_PATH", "")
 
 class DatasetTopLevel:
     def __init__(
@@ -47,6 +51,7 @@ class DatasetTopLevel:
             "@id": self.id,
             "name": self.name,
             "description": self.description,
+            "archivedAt": "s3:/" + DATASET_ROOT_PATH + self.id,
             "conformsTo": self.conforms_to,
             "citeAs": self.cite_as,
             "license": self.license,
@@ -59,6 +64,6 @@ class DatasetTopLevel:
             "inLanguage": self.in_language,
             "country": self.country,
             "datePublished": self.date_published,
-            "access": self.access,
+            "access": "",  # PROFILER DOES NOT DEFINE ACCESS LEVEL
             "uploadedBy": self.uploaded_by,
         }

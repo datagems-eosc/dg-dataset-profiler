@@ -5,6 +5,7 @@ from pathlib import Path
 
 from dataset_profiler.profile_components.record_set.db.database_connector import DatagemsPostgres
 
+DATASET_ROOT_PATH = os.environ.get("DATA_ROOT_PATH", "")
 
 class DistributionFileObject:
     def __init__(
@@ -63,7 +64,7 @@ def get_distribution_of_file_object(
         file_object_id=file_object_id,
         name=file_object.split("/")[-1],
         content_size=f"{Path(file_object).stat().st_size} B",
-        content_url=f"s3://datagems/dataset_id/{file_object.split('/')[-1]}",
+        content_url=f"s3:/{DATASET_ROOT_PATH}{file_object.split('/')[-1]}",
         encoding_format=encoding_format,
         sha256_check=sha,
     )
@@ -126,7 +127,6 @@ class DistributionFileSet:
         name: str,
         description: str = "",
         content_size: str = "",
-        content_url: str = "",
         encoding_format: str = "",
         includes: str = "",
     ):
@@ -135,9 +135,9 @@ class DistributionFileSet:
         self.name = name
         self.description = description
         self.content_size = content_size
-        self.content_url = content_url
+        self.content_url = "s3:/" + DATASET_ROOT_PATH + includes
         self.encoding_format = encoding_format
-        self.includes = includes
+        self.includes = includes + "/*"
 
     def to_dict(self):
         return {
@@ -180,7 +180,6 @@ def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
         file_set_id=file_set_id,
         name=file_set.split("/")[-1],
         content_size=f"{sum(file_sizes)} B",
-        content_url=f"s3://datagems/dataset_id/",
         encoding_format=encoding_format,
-        includes=f"{file_set.split('/')[-1]}/*",
+        includes=f"{file_set.split('/')[-1]}",
     )
