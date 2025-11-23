@@ -7,6 +7,16 @@ from pydantic import BaseModel
 
 
 class JobStatus(Enum):
+    """
+    Enumeration of possible profiling job statuses.
+
+    ## Values
+    * **SUBMITTING**: The job is being submitted to the processing queue
+    * **STARTING**: The job has been accepted and is starting
+    * **LIGHT_PROFILE_READY**: The light profile (basic metadata) is ready
+    * **HEAVY_PROFILES_READY**: The heavy profile (including record sets) is ready
+    * **CLEANED_UP**: Resources associated with the job have been cleaned up
+    """
     SUBMITTING = "submitting"
     STARTING = "starting"
     LIGHT_PROFILE_READY = "light_profile_ready"
@@ -15,6 +25,60 @@ class JobStatus(Enum):
 
 
 class ProfilesResponse(BaseModel):
+    """
+    Response model containing the generated profiles for a dataset.
+
+    ## Attributes
+    * **moma_profile_light** (dict): Basic metadata about the dataset and its distributions
+    * **moma_profile_heavy** (dict): Detailed information about record sets and fields
+    * **cdd_profile** (dict): Profile used by the Cross-Dataset Discovery service
+
+    ## Example
+    ```json
+    {
+      "moma_profile_light": {
+        "@context": {
+          "@language": "en",
+          "@vocab": "https://schema.org/",
+          "cr": "http://mlcommons.org/croissant/"
+        },
+        "@type": "sc:Dataset",
+        "name": "Mathematics Learning Assessment",
+        "description": "This dataset was extracted from the MathE platform...",
+        "distribution": [
+          {
+            "@type": "cr:FileObject",
+            "name": "mathe_assessment_dataset.csv",
+            "contentSize": "1057461 B",
+            "encodingFormat": "text/csv"
+          }
+        ]
+      },
+      "moma_profile_heavy": {
+        "@context": {
+          "@language": "en",
+          "@vocab": "https://schema.org/",
+          "cr": "http://mlcommons.org/croissant/"
+        },
+        "@type": "sc:Dataset",
+        "recordSet": [
+          {
+            "@type": "cr:RecordSet",
+            "name": "mathe_assessment_dataset",
+            "field": [
+              {
+                "@type": "cr:Field",
+                "name": "Student ID",
+                "dataType": "sc:Integer"
+              }
+            ]
+          }
+        ]
+      },
+      "cdd_profile": {}
+    }
+    ```
+    """
     moma_profile_light: dict
     moma_profile_heavy: dict
     cdd_profile: dict

@@ -14,6 +14,36 @@ router = APIRouter(
 
 @router.get("/health-check")
 async def check_health() -> dict:
+    """
+    Check the health status of the Dataset Profiler service and its dependencies.
+
+    This endpoint verifies the connectivity and operational status of critical service dependencies:
+
+    * **Redis**: Used for job status tracking and caching
+    * **Ray**: Used for distributed computing tasks
+
+    ## Returns
+    A status report containing health information for each dependency:
+    * redis: Status and connection details
+    * ray: Status and cluster information
+
+    ## Raises
+    * **HTTPException**: 503 Service Unavailable if any dependency is unhealthy
+
+    ## Example
+    ```json
+    {
+        "redis": {
+            "status": "healthy",
+            "message": "Connected to Redis at localhost:6379"
+        },
+        "ray": {
+            "status": "healthy",
+            "message": "Ray cluster reachable with 3 alive node(s)"
+        }
+    }
+    ```
+    """
     logger.info("Health check endpoint accessed")
     redis_status = redis_health_check()
     ray_status = ray_health_check()

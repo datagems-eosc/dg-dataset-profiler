@@ -2,6 +2,7 @@
   "components": {
     "schemas": {
       "CleanUpRequest": {
+        "description": "Request model for cleaning up resources associated with a profiling job.\n\n## Attributes\n* **profile_job_id** (str): The unique identifier of the profiling job to clean up\n    \n## Example\n```json\n{\n  \"profile_job_id\": \"550e8400-e29b-41d4-a716-446655440000\"\n}\n```",
         "properties": {
           "profile_job_id": {
             "title": "Profile Job Id",
@@ -15,6 +16,7 @@
         "type": "object"
       },
       "DatabaseConnection": {
+        "description": "Specifies connection details for a database to be profiled.\n\n## Attributes\n* **type** (str): The type of connector, must be \"DatabaseConnection\"\n* **database_name** (str): The name of the database to connect to\n    \n## Example\n```json\n{\n    \"type\": \"DatabaseConnection\",\n    \"database_name\": \"ds_era5_land\"\n}\n```",
         "properties": {
           "database_name": {
             "title": "Database Name",
@@ -46,6 +48,7 @@
         "type": "object"
       },
       "IngestionTriggerResponse": {
+        "description": "Response model for a submitted profiling job.\n\n## Attributes\n* **job_id**: Unique identifier for tracking the profiling job\n* **status**: Confirmation message that the job was submitted\n    \n## Example\n```json\n{\n  \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"status\": \"Job submitted\"\n}\n```",
         "properties": {
           "job_id": {
             "title": "Job Id",
@@ -64,6 +67,7 @@
         "type": "object"
       },
       "JobStatus": {
+        "description": "Enumeration of possible profiling job statuses.\n\n## Values\n* **SUBMITTING**: The job is being submitted to the processing queue\n* **STARTING**: The job has been accepted and is starting\n* **LIGHT_PROFILE_READY**: The light profile (basic metadata) is ready\n* **HEAVY_PROFILES_READY**: The heavy profile (including record sets) is ready\n* **CLEANED_UP**: Resources associated with the job have been cleaned up",
         "enum": [
           "submitting",
           "starting",
@@ -75,6 +79,7 @@
         "type": "string"
       },
       "ProfileSpecificationEndpoint": {
+        "description": "Metadata about the dataset to be profiled.\n\nThis class contains comprehensive metadata about a dataset, including its\nidentification, description, and access methods.\n\n## Attributes\n* **id** (uuid.UUID): Unique identifier for the dataset\n* **name** (str): Name of the dataset\n* **description** (str): Detailed description of the dataset\n* **headline** (str): Short headline describing the dataset\n* **fields_of_science** (List[str]): List of scientific fields based on OECD disciplines\n* **languages** (List[str]): List of languages used in the dataset (ISO 639 codes)\n* **keywords** (List[str]): List of keywords describing the dataset\n* **country** (str): Country code where the dataset originates\n* **published_url** (Optional[str]): URL where the dataset is published\n* **doi** (Optional[str]): Digital Object Identifier for the dataset\n* **date_published** (str): Publication date in format \"DD-MM-YYYY\"\n* **cite_as** (Optional[str]): Citation information\n* **license** (str): License information\n* **data_connectors** (List[Union[RawDataPath, DatabaseConnection]]): List of data connectors\n* **database_name** (Optional[str]): Name of the database (legacy field)\n* **uploaded_by** (str): User who uploaded the dataset\n    \n## Example\n```json\n{\n  \"id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\",\n  \"name\": \"Mathematics Learning Assessment\",\n  \"description\": \"This dataset was extracted from the MathE platform...\",\n  \"headline\": \"Dataset for Assessing Mathematics Learning in Higher Education.\",\n  \"fields_of_science\": [\"MATHEMATICS\"],\n  \"languages\": [\"en\"],\n  \"keywords\": [\"math\", \"student\", \"higher education\"],\n  \"country\": \"PT\",\n  \"published_url\": \"https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY\",\n  \"doi\": \"\",\n  \"date_published\": \"24-05-2025\",\n  \"cite_as\": \"\",\n  \"license\": \"CC0 1.0\",\n  \"uploaded_by\": \"ADMIN\",\n  \"data_connectors\": [\n    {\n      \"type\": \"RawDataPath\",\n      \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n    }\n  ]\n}\n```",
         "properties": {
           "cite_as": {
             "anyOf": [
@@ -209,6 +214,7 @@
         "type": "object"
       },
       "ProfilesResponse": {
+        "description": "Response model containing the generated profiles for a dataset.\n\n## Attributes\n* **moma_profile_light** (dict): Basic metadata about the dataset and its distributions\n* **moma_profile_heavy** (dict): Detailed information about record sets and fields\n* **cdd_profile** (dict): Profile used by the Cross-Dataset Discovery service\n    \n## Example\n```json\n{\n  \"moma_profile_light\": {\n    \"@context\": {\n      \"@language\": \"en\",\n      \"@vocab\": \"https://schema.org/\",\n      \"cr\": \"http://mlcommons.org/croissant/\"\n    },\n    \"@type\": \"sc:Dataset\",\n    \"name\": \"Mathematics Learning Assessment\",\n    \"description\": \"This dataset was extracted from the MathE platform...\",\n    \"distribution\": [\n      {\n        \"@type\": \"cr:FileObject\",\n        \"name\": \"mathe_assessment_dataset.csv\",\n        \"contentSize\": \"1057461 B\",\n        \"encodingFormat\": \"text/csv\"\n      }\n    ]\n  },\n  \"moma_profile_heavy\": {\n    \"@context\": {\n      \"@language\": \"en\",\n      \"@vocab\": \"https://schema.org/\",\n      \"cr\": \"http://mlcommons.org/croissant/\"\n    },\n    \"@type\": \"sc:Dataset\",\n    \"recordSet\": [\n      {\n        \"@type\": \"cr:RecordSet\",\n        \"name\": \"mathe_assessment_dataset\",\n        \"field\": [\n          {\n            \"@type\": \"cr:Field\",\n            \"name\": \"Student ID\",\n            \"dataType\": \"sc:Integer\"\n          }\n        ]\n      }\n    ]\n  },\n  \"cdd_profile\": {}\n}\n```",
         "properties": {
           "cdd_profile": {
             "additionalProperties": true,
@@ -235,6 +241,7 @@
         "type": "object"
       },
       "ProfilingRequest": {
+        "description": "Request model for triggering a dataset profiling job.\n\n## Attributes\n* **profile_specification** (ProfileSpecificationEndpoint): Metadata about the dataset to be profiled\n* **only_light_profile** (bool): Flag to generate only basic metadata (default: False)\n  * If True, only the light profile (basic metadata and distributions) is generated\n  * If False, both light and heavy profiles (including record sets) are generated\n        \n## Example\n```json\n{\n  \"profile_specification\": {\n    \"id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\",\n    \"name\": \"Mathematics Learning Assessment\",\n    \"description\": \"This dataset was extracted from the MathE platform...\",\n    \"headline\": \"Dataset for Assessing Mathematics Learning in Higher Education.\",\n    \"fields_of_science\": [\"MATHEMATICS\"],\n    \"languages\": [\"en\"],\n    \"keywords\": [\"math\", \"student\", \"higher education\"],\n    \"country\": \"PT\",\n    \"published_url\": \"https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY\",\n    \"date_published\": \"24-05-2025\",\n    \"license\": \"CC0 1.0\",\n    \"uploaded_by\": \"ADMIN\",\n    \"data_connectors\": [\n      {\n        \"type\": \"RawDataPath\",\n        \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n      }\n    ]\n  },\n  \"only_light_profile\": false\n}\n```",
         "properties": {
           "only_light_profile": {
             "default": false,
@@ -252,6 +259,7 @@
         "type": "object"
       },
       "RawDataPath": {
+        "description": "Specifies a path to the raw data files for profiling.\n\n## Attributes\n* **type** (str): The type of connector, must be \"RawDataPath\"\n* **dataset_id** (str): The unique identifier of the dataset in the storage system\n    \n## Example\n```json\n{\n    \"type\": \"RawDataPath\",\n    \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n}\n```",
         "properties": {
           "dataset_id": {
             "title": "Dataset Id",
@@ -270,6 +278,7 @@
         "type": "object"
       },
       "RunnerStatus": {
+        "description": "Enumeration of possible Ray task statuses.\n\n## Values\n* **PENDING**: The job is waiting to be processed\n* **IN_PROGRESS**: The job is currently being processed\n* **COMPLETED**: The job has completed successfully\n* **FAILED**: The job has failed\n* **UNKNOWN**: The job ID is not recognized",
         "enum": [
           "pending",
           "in_progress",
@@ -339,6 +348,7 @@
     },
     "/monitoring/health-check": {
       "get": {
+        "description": "Check the health status of the Dataset Profiler service and its dependencies.\n\nThis endpoint verifies the connectivity and operational status of critical service dependencies:\n\n* **Redis**: Used for job status tracking and caching\n* **Ray**: Used for distributed computing tasks\n\n## Returns\nA status report containing health information for each dependency:\n* redis: Status and connection details\n* ray: Status and cluster information\n          \n## Raises\n* **HTTPException**: 503 Service Unavailable if any dependency is unhealthy\n    \n## Example\n```json\n{\n    \"redis\": {\n        \"status\": \"healthy\",\n        \"message\": \"Connected to Redis at localhost:6379\"\n    },\n    \"ray\": {\n        \"status\": \"healthy\",\n        \"message\": \"Ray cluster reachable with 3 alive node(s)\"\n    }\n}\n```",
         "operationId": "check_health_monitoring_health_check_get",
         "responses": {
           "200": {
@@ -360,9 +370,10 @@
         ]
       }
     },
-    "/profiler/clean_up}": {
+    "/profiler/clean_up": {
       "post": {
-        "operationId": "clean_up_job_profiler_clean_up__post",
+        "description": "Clean up resources associated with a completed profiling job.\n\nThis endpoint releases resources and temporary storage used during the profiling process.\nIt should be called after retrieving and storing the profile data to free up system resources.\n\n## Parameters\n* **clean_up_req** (CleanUpRequest): Request containing:\n  * profile_job_id: The unique identifier of the profiling job to clean up\n\n## Returns\n* **dict**: A response indicating the success of the cleanup operation\n\n## Example\n```json\n{\n  \"detail\": \"SUCCESS\"\n}\n```\n\n## Note\nThis endpoint is currently a placeholder and cleanup functionality is not yet implemented.",
+        "operationId": "clean_up_job_profiler_clean_up_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -379,7 +390,7 @@
               "application/json": {
                 "schema": {
                   "additionalProperties": true,
-                  "title": "Response Clean Up Job Profiler Clean Up  Post",
+                  "title": "Response Clean Up Job Profiler Clean Up Post",
                   "type": "object"
                 }
               }
@@ -405,6 +416,7 @@
     },
     "/profiler/job_status/{profile_job_id}": {
       "get": {
+        "description": "Check the detailed status of a profiling job.\n\nThis endpoint retrieves the current status of a profiling job from the job store.\nIt provides more detailed information about the job's progress than the runner status.\n\n## Parameters\n* **profile_job_id** (str): The unique identifier of the profiling job\n\n## Returns\n* **JobStatus**: The current status of the profiling job, one of:\n  * SUBMITTING: The job is being submitted to the processing queue\n  * STARTING: The job has been accepted and is starting\n  * LIGHT_PROFILE_READY: The light profile (basic metadata) is ready\n  * HEAVY_PROFILES_READY: The heavy profile (including record sets) is ready\n  * FAILED: The job has failed\n\n## Example\n```\n\"LIGHT_PROFILE_READY\"\n```",
         "operationId": "get_job_status_profiler_job_status__profile_job_id__get",
         "parameters": [
           {
@@ -447,6 +459,7 @@
     },
     "/profiler/profile/{profile_job_id}": {
       "get": {
+        "description": "Retrieve the generated profile for a completed profiling job.\n\nThis endpoint returns the profile data generated for a dataset, including both light and heavy profiles\nif available. The profile contains metadata about the dataset structure, content, and characteristics.\n\n## Parameters\n* **profile_job_id** (str): The unique identifier of the profiling job\n\n## Returns\n* **ProfilesResponse**: The generated profiles, containing:\n  * moma_profile_light: Basic metadata about the dataset and its distributions\n  * moma_profile_heavy: Detailed information about record sets and fields\n  * cdd_profile: Profile used by the Cross-Dataset Discovery service\n\n## Raises\n* **HTTPException**: 404 Not Found if no profile exists for the given job ID or if profiling is still in progress\n\n## Example\n```json\n{\n  \"moma_profile_light\": {\n    \"@context\": {...},\n    \"@type\": \"sc:Dataset\",\n    \"name\": \"Mathematics Learning Assessment\",\n    \"description\": \"...\",\n    \"distribution\": [...]\n  },\n  \"moma_profile_heavy\": {\n    \"@context\": {...},\n    \"@type\": \"sc:Dataset\",\n    \"recordSet\": [...]\n  },\n  \"cdd_profile\": {}\n}\n```",
         "operationId": "get_profile_profiler_profile__profile_job_id__get",
         "parameters": [
           {
@@ -489,6 +502,7 @@
     },
     "/profiler/runner_status/{profile_job_id}": {
       "get": {
+        "description": "Check the status of the Ray task for a given profiling job.\n\nThis endpoint queries the Ray cluster to determine the current execution status of a profiling task.\nIt provides information about whether the task is pending, in progress, completed, failed, or unknown.\n\n## Parameters\n* **profile_job_id** (str): The unique identifier of the profiling job\n\n## Returns\n* **RunnerStatus**: The current status of the Ray task, one of:\n  * pending: The job is waiting to be processed\n  * in_progress: The job is currently being processed\n  * completed: The job has completed successfully\n  * failed: The job has failed\n  * unknown: The job ID is not recognized\n\n## Example\n```\n\"in_progress\"\n```",
         "operationId": "get_runner_status_profiler_runner_status__profile_job_id__get",
         "parameters": [
           {
@@ -531,6 +545,7 @@
     },
     "/profiler/trigger_profile": {
       "post": {
+        "description": "Submit a new dataset profiling job.\n\nThis endpoint accepts dataset specifications and initiates a profiling job. The profiling process\nanalyzes the dataset structure and content, generating metadata that describes its characteristics.\n\n## Parameters\n* **profile_req** (ProfilingRequest): The profiling request containing:\n  * profile_specification: Metadata about the dataset to be profiled\n  * only_light_profile: Flag to generate only basic metadata (default: False)\n\n## Returns\n* **IngestionTriggerResponse**: A response containing:\n  * job_id: Unique identifier for tracking the profiling job\n  * status: Confirmation message that the job was submitted\n\n## Example\n```json\n{\n  \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"status\": \"Job submitted\"\n}\n```",
         "operationId": "trigger_dataset_profiling_profiler_trigger_profile_post",
         "requestBody": {
           "content": {
