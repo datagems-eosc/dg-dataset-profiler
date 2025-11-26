@@ -80,3 +80,59 @@ Environment variables can be used to override configuration values. The followin
 | REDIS_HOST | Redis host | localhost |
 | REDIS_PORT | Redis port | 6379 |
 | REDIS_DB | Redis database number | 0 |
+| ENABLE_AUTH | Enable API authentication | false |
+
+## Authentication
+
+The Dataset Profiler service supports token-based authentication for all API endpoints. Authentication can be enabled or disabled using the `ENABLE_AUTH` environment variable.
+
+When authentication is enabled, all API requests must include a valid JWT token in the Authorization header using the Bearer scheme:
+
+```
+Authorization: Bearer <token>
+```
+
+The token is expected to be a JWT with the following claims:
+- `client_id`: Must be set to 'airflow' for authentication to succeed
+
+Example token payload:
+```json
+{
+  "exp": 1762422572,
+  "iat": 1762422272,
+  "jti": "trrtcc:208939ba-d97e-4271-af20-d7c3310456b2",
+  "iss": "https://datagems-dev.scayle.es/oauth/realms/dev",
+  "aud": "account",
+  "sub": "a35281e0-641e-41d9-b3ee-b94bf11d866f",
+  "typ": "Bearer",
+  "azp": "airflow",
+  "acr": "1",
+  "allowed-origins": [
+    "http://localhost:8088"
+  ],
+  "realm_access": {
+    "roles": [
+      "default-roles-dev",
+      "offline_access",
+      "uma_authorization"
+    ]
+  },
+  "resource_access": {
+    "account": {
+      "roles": [
+        "manage-account",
+        "manage-account-links",
+        "view-profile"
+      ]
+    }
+  },
+  "scope": "profile email",
+  "clientHost": "172.16.59.4",
+  "email_verified": false,
+  "preferred_username": "service-account-airflow",
+  "clientAddress": "172.16.59.4",
+  "client_id": "airflow"
+}
+```
+
+When authentication is disabled (`ENABLE_AUTH=false`), API endpoints can be accessed without providing a token.

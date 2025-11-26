@@ -1,13 +1,15 @@
 import uuid
 import ray
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from enum import Enum
 from pydantic import BaseModel
+from typing import Optional, Dict, Any
 
 from dataset_profiler.job_manager import job_storing
 from dataset_profiler.job_manager.profile_job import profile_job, endpoint_specification_to_dataset
 from dataset_profiler.schemas.specification import ProfilingRequest
 from dataset_profiler.configs.config_logging import logger
+from dataset_profiler.routes.auth import validate_token, get_token_if_enabled
 
 
 router = APIRouter(
@@ -41,6 +43,7 @@ TASKS = {}
 @router.post("/trigger_profile")
 async def trigger_dataset_profiling(
     profile_req: ProfilingRequest,
+    token: Optional[Dict[str, Any]] = Depends(validate_token)
 ) -> IngestionTriggerResponse:
     """
     Submit a new dataset profiling job.
@@ -100,7 +103,10 @@ class RunnerStatus(str, Enum):
 
 
 @router.get("/runner_status/{profile_job_id}")
-async def get_runner_status(profile_job_id: str) -> RunnerStatus:
+async def get_runner_status(
+    profile_job_id: str,
+    token: Optional[Dict[str, Any]] = Depends(validate_token)
+) -> RunnerStatus:
     """
     Check the status of the Ray task for a given profiling job.
 
@@ -138,7 +144,10 @@ async def get_runner_status(profile_job_id: str) -> RunnerStatus:
 
 
 @router.get("/job_status/{profile_job_id}")
-async def get_job_status(profile_job_id: str) -> job_storing.JobStatus:
+async def get_job_status(
+    profile_job_id: str,
+    token: Optional[Dict[str, Any]] = Depends(validate_token)
+) -> job_storing.JobStatus:
     """
     Check the detailed status of a profiling job.
 
@@ -168,7 +177,10 @@ async def get_job_status(profile_job_id: str) -> job_storing.JobStatus:
 
 
 @router.get("/profile/{profile_job_id}")
-async def get_profile(profile_job_id: str) -> job_storing.ProfilesResponse:
+async def get_profile(
+    profile_job_id: str,
+    token: Optional[Dict[str, Any]] = Depends(validate_token)
+) -> job_storing.ProfilesResponse:
     """
     Retrieve the generated profile for a completed profiling job.
 
@@ -237,7 +249,10 @@ class CleanUpRequest(BaseModel):
 
 
 @router.post("/clean_up")
-async def clean_up_job(clean_up_req: CleanUpRequest) -> dict:
+async def clean_up_job(
+    clean_up_req: CleanUpRequest,
+    token: Optional[Dict[str, Any]] = Depends(validate_token)
+) -> dict:
     """
     Clean up resources associated with a completed profiling job.
 

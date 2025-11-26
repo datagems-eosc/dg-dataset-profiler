@@ -2,6 +2,16 @@
 
 The Dataset Profiler service provides a RESTful API for submitting profiling jobs, checking job status, and retrieving generated profiles. This document provides an overview of the API endpoints, request/response formats, and usage patterns.
 
+## Authentication
+
+The API can be configured to require authentication using JWT tokens. When authentication is enabled (via the `ENABLE_AUTH` environment variable), all API requests must include a valid JWT token in the Authorization header:
+
+```
+Authorization: Bearer <token>
+```
+
+The token must contain a `client_id` claim with the value `airflow`. See the [Configuration](configuration.md#authentication) section for more details on authentication.
+
 ## Base URL
 
 The base URL for all API endpoints regarding profiling is:
@@ -211,7 +221,8 @@ The service generates three types of profiles:
 
 ## Typical API Usage Flow
 
-1. Submit a profiling job using `POST /profiler/trigger_profile`
-2. Poll the job status using `GET /profiler/job_status/{profile_job_id}`
-3. Once the status is `LIGHT_PROFILE_READY` or `HEAVY_PROFILES_READY`, retrieve the profile using `GET /profiler/profile/{profile_job_id}`
-4. Optionally, clean up resources using `POST /profiler/clean_up`
+1. If authentication is enabled, obtain a valid JWT token
+2. Submit a profiling job using `POST /profiler/trigger_profile` (with Authorization header if auth is enabled)
+3. Poll the job status using `GET /profiler/job_status/{profile_job_id}` (with Authorization header if auth is enabled)
+4. Once the status is `LIGHT_PROFILE_READY` or `HEAVY_PROFILES_READY`, retrieve the profile using `GET /profiler/profile/{profile_job_id}` (with Authorization header if auth is enabled)
+5. Optionally, clean up resources using `POST /profiler/clean_up` (with Authorization header if auth is enabled)
