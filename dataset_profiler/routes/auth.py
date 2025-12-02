@@ -1,6 +1,7 @@
 import os
-from typing import Optional
 import jwt
+from typing import Optional
+
 from fastapi import Depends, HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
@@ -38,7 +39,6 @@ def validate_token(credentials: HTTPAuthorizationCredentials = Security(security
                 status_code=403,
                 detail="Invalid client credentials"
             )
-
         return payload
     except jwt.PyJWTError as e:
         logger.warning("JWT validation error", error=str(e))
