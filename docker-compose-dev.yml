@@ -1,6 +1,22 @@
 version: "3.9"
 
 services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: profiler-api
+    ports:
+      - "8000:8000"
+    networks:
+      - ray-net
+    environment:
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env_api
+    volumes:
+      - ray-wheel-cache:/root/.cache/pip
+      - ./tests:/app/tests
   ray-head:
     build:
       context: .

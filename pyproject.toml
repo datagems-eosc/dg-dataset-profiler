@@ -44,6 +44,7 @@ dependencies = [
     "litellm>=1.78.6",
     "pyyaml>=6.0.2",
     "pyjwt>=2.8.0",
+    "jwt>=1.4.0",
 ]
 
 [dependency-groups]

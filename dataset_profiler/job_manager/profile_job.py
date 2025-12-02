@@ -36,39 +36,43 @@ def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoin
 
 @ray.remote
 def profile_job(job_id: str, specification: dict, only_light_profile: bool = False) -> None:
-    logger.info(f"Initiating profiling", job_id=job_id, only_light_profile=only_light_profile,
-                specification=specification)
-    store_job_status(job_id, status=JobStatus.STARTING)
-    profile = DatasetProfile(specification)
-    logger.info("Parsed dataset specification", job_id=job_id)
+    try:
+        logger.info(f"Initiating profiling", job_id=job_id, only_light_profile=only_light_profile,
+                    specification=specification)
+        store_job_status(job_id, status=JobStatus.STARTING)
+        profile = DatasetProfile(specification)
+        logger.info("Parsed dataset specification", job_id=job_id)
 
-    # Calculate the light profile (dataset head, dataset distributions)
-    profile.extract_distributions()
-    light_profile = profile.to_dict_light()
-    logger.info("Generated light dataset profile", job_id=job_id)
+        # Calculate the light profile (dataset head, dataset distributions)
+        profile.extract_distributions()
+        light_profile = profile.to_dict_light()
+        logger.info("Generated light dataset profile", job_id=job_id)
 
-    store_job_response(job_id, ProfilesResponse(
-        moma_profile_light=light_profile,
-        moma_profile_heavy={},
-        cdd_profile={},
-    ))
-    store_job_status(job_id, status=JobStatus.LIGHT_PROFILE_READY)
+        store_job_response(job_id, ProfilesResponse(
+            moma_profile_light=light_profile,
+            moma_profile_heavy={},
+            cdd_profile={},
+        ))
+        store_job_status(job_id, status=JobStatus.LIGHT_PROFILE_READY)
 
-    # Calculate the heavy profiles (record sets, cdd profile)
-    if only_light_profile:
-        logger.info("Only light profiler was requested", job_id=job_id)
-        return None
+        # Calculate the heavy profiles (record sets, cdd profile)
+        if only_light_profile:
+            logger.info("Only light profiler was requested", job_id=job_id)
+            return None
 
-    profile.extract_record_sets()
-    heavy_profile = profile.to_dict()
-    store_job_response(job_id, ProfilesResponse(
-        moma_profile_light=light_profile,
-        moma_profile_heavy=heavy_profile,
-        cdd_profile={},
-    ))
-    store_job_status(job_id, status=JobStatus.HEAVY_PROFILES_READY)
-    logger.info("Generated heavy dataset profile", job_id=job_id)
-
+        profile.extract_record_sets()
+        heavy_profile = profile.to_dict()
+        store_job_response(job_id, ProfilesResponse(
+            moma_profile_light=light_profile,
+            moma_profile_heavy=heavy_profile,
+            cdd_profile={},
+        ))
+        store_job_status(job_id, status=JobStatus.HEAVY_PROFILES_READY)
+        logger.info("Generated heavy dataset profile", job_id=job_id)
+    except Exception as ex:
+        logger.error("Profiling job failed on ray runner", job_id=job_id, error=str(ex))
+        store_job_status(job_id, status=JobStatus.FAILED)
+        raise ex
     return None
 
 

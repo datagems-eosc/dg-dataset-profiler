@@ -2,6 +2,7 @@
 
 tests/assets/**
 generated_profiles/**/*.json
+.env_api
 
 docs/source
 generated_profiles/hardcoded_ui_profiles/*

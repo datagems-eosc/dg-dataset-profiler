@@ -16,13 +16,14 @@ class JobStatus(Enum):
     * **LIGHT_PROFILE_READY**: The light profile (basic metadata) is ready
     * **HEAVY_PROFILES_READY**: The heavy profile (including record sets) is ready
     * **CLEANED_UP**: Resources associated with the job have been cleaned up
+    * **FAILED**: The job failed to complete
     """
     SUBMITTING = "submitting"
     STARTING = "starting"
     LIGHT_PROFILE_READY = "light_profile_ready"
     HEAVY_PROFILES_READY = "heavy_profile_ready"
     CLEANED_UP = "cleaned_up"
-
+    FAILED = "failed"
 
 class ProfilesResponse(BaseModel):
     """
