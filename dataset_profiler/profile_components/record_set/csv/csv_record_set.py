@@ -4,6 +4,9 @@ import tempfile
 import pandas as pd
 import uuid
 import numpy as np
+
+from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
+from dataset_profiler.profile_components.record_set.csv.calculate_statistics import calculate_column_statistics
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
     ColumnField,
@@ -58,7 +61,8 @@ class TableColumnField(ColumnField):
             "fileObject": {"@id": file_object_id},
             "extract": {"column": column_name},
         }
-        self.sample = column.sample(3).replace({np.nan: None}).tolist()
+        self.sample = column.sample(10).replace({np.nan: None}).tolist()
+        self.statistics: ColumnStatistics = calculate_column_statistics(column)
 
     def to_dict(self):
         return {
@@ -69,6 +73,7 @@ class TableColumnField(ColumnField):
             "dataType": self.dataType,
             "source": self.source,
             "sample": self.sample,
+            "statistics": self.statistics.to_dict(),
         }
 
 

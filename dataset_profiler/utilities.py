@@ -62,7 +62,7 @@ def find_column_type_in_db(db_type):
     match db_type:
         case "INTEGER":
             return "sc:Integer"
-        case "FLOAT":
+        case "FLOAT", "DOUBLE PRECISION":
             return "sc:Float"
         case "DATE":
             return "sc:Date"
