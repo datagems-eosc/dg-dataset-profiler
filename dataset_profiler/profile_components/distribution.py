@@ -102,7 +102,7 @@ def get_distribution_of_database_connection(
         database_name=database_name,
     )
 
-def get_distributions_of_tables_in_db(database_name: str, databae_distribution_id: str) -> list[DistributionFileObject]:
+def get_distributions_of_tables_in_db(database_name: str, database_distribution_id: str) -> list[DistributionFileObject]:
     db = DatagemsPostgres(database=database_name, schema="public")
     tables = db.get_tables_and_columns()
 
@@ -112,7 +112,7 @@ def get_distributions_of_tables_in_db(database_name: str, databae_distribution_i
             DistributionFileObject(
                 file_object_id=str(uuid.uuid4()),
                 name=table,
-                contained_in=databae_distribution_id,
+                contained_in=database_distribution_id,
                 encoding_format="text/sql"
             )
         )

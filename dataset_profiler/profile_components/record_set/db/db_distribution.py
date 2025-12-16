@@ -16,7 +16,7 @@ def get_added_distributions(record_sets: list, db_id, file_object_id) -> list:
     for record_set in record_sets:
         if record_set["name"].split("/")[0] == db_id:
             record_set["name"] = record_set["name"].split("/")[-1]
-            distribution_id = str(uuid.uuid4())
+            distribution_id = record_set["@id"]
             added_distributions.append(
                 {
                     "@type": "cr:FileObject",

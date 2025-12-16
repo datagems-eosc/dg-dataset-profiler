@@ -58,7 +58,7 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
     return record_sets
 
 
-def extract_record_sets_of_database_connections(databases: list[dict]) -> List[RecordSet]:
+def extract_record_sets_of_database_connections(databases: list[dict], distributions:list) -> List[RecordSet]:
     record_sets = []
     for database in databases:
         db_record_set = DBRecordSet(
@@ -67,6 +67,7 @@ def extract_record_sets_of_database_connections(databases: list[dict]) -> List[R
             file_object_id=database["file_object_id"],
             db_name=database["database_name"],
             db_specific_schema="public",
+            distributions=distributions
         )
         record_sets.append(db_record_set)
 

@@ -8,7 +8,7 @@ def calculate_statistics_of_db(column_name: str, table_name: str, db_connector: 
     """
     if data_type == "sc:Integer" or data_type == "sc:Float":
         row_count = db_connector.execute(f"SELECT COUNT({column_name}) FROM {table_name}").iloc[0, 0]
-        table_name = f"(SELECT {column_name} FROM {table_name} LIMIT 1000000)" if row_count > 1000000 else table_name
+        table_name = f"(SELECT {column_name} FROM {table_name} LIMIT 1000)" if row_count > 1000 else table_name
 
         mean = db_connector.execute(f"SELECT AVG({column_name}) FROM {table_name}").iloc[0, 0]
         # median = db_connector.execute(f"SELECT PERCENTILE_CONT(0.5) "
@@ -34,8 +34,8 @@ def calculate_statistics_of_db(column_name: str, table_name: str, db_connector: 
                 bucket, count = row
                 if bucket is not None:
                     bin_range = [
-                        float((bucket - 1) * (max_value.iloc[0, 0] - min_value.iloc[0, 0]) / 10 + min_value.iloc[0, 0]),
-                        float(bucket * (max_value.iloc[0, 0] - min_value.iloc[0, 0]) / 10 + min_value.iloc[0, 0])
+                        float((bucket - 1) * (max_value - min_value) / 10 + min_value),
+                        float(bucket * (max_value - min_value) / 10 + min_value)
                     ]
                     histogram.append({"binRange": bin_range, "count": int(count)})
 

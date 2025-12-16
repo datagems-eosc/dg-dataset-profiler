@@ -105,7 +105,7 @@ class DatasetProfile:
         for db_distribution in database_connector_distributions:
             database_table_distributions += get_distributions_of_tables_in_db(
                 database_name=db_distribution.database_name,
-                databae_distribution_id=db_distribution.id,
+                database_distribution_id=db_distribution.id,
             )
         database_connector_distributions += database_table_distributions
 
@@ -120,7 +120,7 @@ class DatasetProfile:
 
     def extract_record_sets(self) -> List[RecordSet]:
         return (extract_record_sets_of_file_objects(self.file_objects, self.distribution_path) +
-                extract_record_sets_of_database_connections(self.databases_objects) +
+                extract_record_sets_of_database_connections(self.databases_objects, self.distributions) +
                 extract_record_sets_of_file_sets(self.file_sets, self.distribution_path))
 
     def to_dict_light(self):
