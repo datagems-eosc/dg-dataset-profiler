@@ -1,4 +1,5 @@
 import csv
+import json
 import tempfile
 
 import pandas as pd
@@ -24,6 +25,7 @@ class CSVRecordSet(RecordSet):
         self.name = file_object.split(".")[-2]
         self.description = ""
         self.fields = self.extract_fields()
+        self.examples = self.extract_examples()
 
     def extract_fields(self):
         csv_object = pd.read_csv(self.distribution_path + self.file_object, sep=None, encoding = "ISO-8859-1")
@@ -37,14 +39,19 @@ class CSVRecordSet(RecordSet):
             )
         return fields
 
+    def extract_examples(self):
+        csv_object = pd.read_csv(self.distribution_path + self.file_object, sep=None, encoding = "ISO-8859-1")
+        return csv_object.head(30).replace({np.nan: None}).to_dict(orient="list")
+
     def to_dict(self):
         return {
             "@type": self.type,
             "@id": str(uuid.uuid4()),
             "name": self.name,
-            "description": self.description,
+            # "description": self.description,
             # "key": self.key,
             "field": [field.to_dict() for field in self.fields],
+            "examples": json.dumps(self.examples, default=str),
         }
 
 

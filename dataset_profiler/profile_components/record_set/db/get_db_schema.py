@@ -283,6 +283,28 @@ def obtain_schema_from_db(
     return ret_schema
 
 
+def get_table_sample(
+    db: DatagemsPostgres,
+    table_name: str,
+    sample_size: int,
+) -> pd.DataFrame:
+    """
+    Get a sample of rows from a table in the database.
+
+    Args:
+        db: The database object
+        table_name: The table name
+        sample_size: The sample size to return
+
+    Returns:
+        A dataframe with the sample of rows from the table.
+    """
+    query = f'SELECT * FROM {table_name} LIMIT {sample_size}'
+    sample_df = db.execute(query)
+
+    return sample_df
+
+
 if __name__ == "__main__":
     # Example usage
     db = DatagemsPostgres(schema="mathe")

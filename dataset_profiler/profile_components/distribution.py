@@ -34,6 +34,7 @@ class DistributionFileObject:
             "@type": self.type,
             "@id": self.id,
             "name": self.name,
+            "description": self.description,
             "contentSize": self.content_size,
             "contentUrl": self.content_url,
             "encodingFormat": self.encoding_format,
@@ -81,7 +82,6 @@ class DistributionDatabaseConnection:
         self.id = connection_id
         self.name = database_name
         self.description = description
-        self.database_name = database_name
         self.encodingFormat = "text/sql"
 
     def to_dict(self):
@@ -89,8 +89,9 @@ class DistributionDatabaseConnection:
             "@type": self.type,
             "@id": self.id,
             "name": self.name,
-            "databaseName": self.database_name,
-            "encodingFormat": self.encodingFormat
+            # "databaseName": self.database_name,
+            "encodingFormat": self.encodingFormat,
+            "description": self.description
         }
 
 
