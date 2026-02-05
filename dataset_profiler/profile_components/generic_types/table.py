@@ -1,3 +1,6 @@
+import uuid
+
+
 class ColumnStatistics:
     def __init__(
             self,
@@ -25,14 +28,16 @@ class ColumnStatistics:
 
     def to_dict(self) -> dict:
         return {
-            "row_count": self.row_count,
-            "mean": self.mean,
-            "median": self.median,
-            "standardDeviation": self.standard_deviation,
-            "min": self.min_value,
-            "max": self.max_value,
-            "missingCount": self.missing_count,
-            "missingPercentage": self.missing_percentage,
-            "histogram": self.histogram,
-            "uniqueCount": self.unique_count,
+            "@id": str(uuid.uuid4()),
+            "@type": "dg:ColumnStatistics",
+            "dg:rowCount": self.row_count,
+            "dg:mean": self.mean,
+            "dg:median": self.median,
+            "dg:standardDeviation": self.standard_deviation,
+            "dg:min": self.min_value,
+            "dg:max": self.max_value,
+            "dg:missingCount": self.missing_count,
+            "dg:missingPercentage": self.missing_percentage,
+            "dg:histogram": self.histogram,
+            "dg:uniqueCount": self.unique_count,
         }
