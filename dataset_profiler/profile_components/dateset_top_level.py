@@ -58,12 +58,13 @@ class DatasetTopLevel:
             "url": self.url,
             "dg:doi": self.doi,
             "version": self.version,
-            "headline": self.headline,
+            "dg:headline": self.headline,
             "dg:keywords": self.keywords,
             "dg:fieldOfScience": self.field_of_science,
             "inLanguage": self.in_language,
             "country": self.country,
             "datePublished": self.date_published,
             "dg:access": "",  # PROFILER DOES NOT DEFINE ACCESS LEVEL
+            "dg:status": "loaded",
             "dg:uploadedBy": self.uploaded_by,
         }
