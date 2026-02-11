@@ -68,7 +68,10 @@ class TableColumnField(ColumnField):
             "fileObject": {"@id": file_object_id},
             "extract": {"column": column_name},
         }
-        self.sample = column.sample(10).replace({np.nan: None}).tolist()
+        if len(column) > 10:
+            self.sample = column.sample(10).replace({np.nan: None}).tolist()
+        else:
+            self.sample = column.replace({np.nan: None}).tolist()
         self.statistics: ColumnStatistics = calculate_column_statistics(column)
 
     def to_dict(self):
