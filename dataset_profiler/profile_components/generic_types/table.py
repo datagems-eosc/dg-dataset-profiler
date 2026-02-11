@@ -1,3 +1,4 @@
+import json
 import uuid
 
 
@@ -23,7 +24,7 @@ class ColumnStatistics:
         self.max_value = max_value
         self.missing_count = missing_count
         self.missing_percentage = missing_percentage
-        self.histogram = histogram
+        self.histogram = json.dumps(histogram) if histogram is not None else None
         self.unique_count = unique_count
 
     def to_dict(self) -> dict:
