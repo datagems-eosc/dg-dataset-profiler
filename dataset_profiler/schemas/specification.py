@@ -82,7 +82,7 @@ class ProfileSpecificationEndpoint(BaseModel):
       "country": "PT",
       "published_url": "https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY",
       "doi": "",
-      "date_published": "24-05-2025",
+      "date_published": "2025-04-23",
       "cite_as": "",
       "license": "CC0 1.0",
       "uploaded_by": "ADMIN",
@@ -142,7 +142,7 @@ class ProfilingRequest(BaseModel):
         "keywords": ["math", "student", "higher education"],
         "country": "PT",
         "published_url": "https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY",
-        "date_published": "24-05-2025",
+        "date_published": "2025-04-23",
         "license": "CC0 1.0",
         "uploaded_by": "ADMIN",
         "data_connectors": [
@@ -168,7 +168,7 @@ Example request:
       "id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01",
       "cite_as": "",
       "country": "PT",
-      "date_published": "24-05-2025",
+      "date_published": "2025-04-23",
       "description": "This dataset was extracted from the MathE platform, an online educational platform developed to support mathematics teaching and learning in higher education. It contains 546 student responses to questions on several mathematical topics. Each record corresponds to an individual answer and includes the following features: Student ID, Student Country, Question ID, Type of Answer (correct or incorrect), Question Level (basic or advanced based on the assessment of the contributing professor), Math Topic (broader mathematical area of the question), Math Subtopic, and Question Keywords. The data spans from February 2019 to December 2023.",
       "fields_of_science": [
         "MATHEMATICS"
