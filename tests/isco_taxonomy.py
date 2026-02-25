@@ -3,7 +3,7 @@ import json
 from dataset_profiler.profile_models import DatasetProfile
 
 
-def test_isco_taxonomy():
+def isco_taxonomy():
     with open("tests/assets/isco_taxonomy/specification.json") as json_file:
         spec = json.load(json_file)
     profile = DatasetProfile(spec)
@@ -14,3 +14,7 @@ def test_isco_taxonomy():
     with open("generated_profiles/isco_taxonomy.json", "w") as f:
         json.dump(profile.to_dict(), f)
     assert isinstance(profile, DatasetProfile)
+
+
+if __name__ == "__main__":
+    isco_taxonomy()

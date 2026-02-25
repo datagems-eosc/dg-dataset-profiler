@@ -101,7 +101,8 @@ def get_record_sets_from_excel(distribution_path: str, file_object: str, file_ob
                     file_object_id=file_object_id,
                 )
             except (pd.errors.ParserError, csv.Error) as e:
-                print(f"Failed to process sheet {sheet_name} in {file_object}. Skipping this sheet.")
+                # print the stack trace for debugging purposes
+                print(f"Failed to process sheet {sheet_name} in {file_object} with error {e}. Skipping this sheet.")
                 continue
             record_sets.append(record_set)
 
