@@ -1,24 +1,33 @@
 {
   "access": "PUBLIC",
   "citeAs": "",
-  "country": "PT",
-  "dataPath": "tests/assets/dummy_data/data/",
-  "datePublished": "24-05-2025",
-  "description": "A collection of datasets of multiple types for testing reasons",
-  "fieldOfScience": [
-    "CIVIL ENGINEERING"
+  "country": "GR",
+  "data_connectors": [
+    {
+      "database_name": "ds_era5_land",
+      "type": "DatabaseConnection"
+    },
+    {
+      "dataset_id": "tests/assets/dummy_data/data/",
+      "type": "RawDataPath"
+    }
   ],
-  "headline": "A collection of datasets of multiple types for testing reasons.",
-  "id": "c661f361-3f61-4ccf-a001-7c28d065c30d",
+  "datePublished": "2025-05-25",
+  "description": "Dummy data.",
+  "fieldOfScience": [
+    "EARTH AND RELATED ENVIRONMENTAL SCIENCES"
+  ],
+  "headline": "Dummy data.",
+  "id": "7c4d20a0-33e8-471e-8a3f-a7a54aa09f68",
   "inLanguage": [
     "el"
   ],
   "keywords": [
-    "dev",
-    "keyword"
+    "weather",
+    "weather prediction"
   ],
-  "license": "???",
-  "name": "Dev Data",
+  "license": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=download",
+  "name": "Dummy data.",
   "uploadedBy": "ADMIN",
-  "url": ""
+  "url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=download"
 }

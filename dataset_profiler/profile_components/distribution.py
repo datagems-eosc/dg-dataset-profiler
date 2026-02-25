@@ -90,7 +90,7 @@ class DistributionDatabaseConnection:
             "@id": self.id,
             "name": self.name,
             # "databaseName": self.database_name,
-            "encodingFormat": self.encodingFormat,
+            "sc:encodingFormat": self.encodingFormat,
             "description": self.description
         }
 
@@ -147,7 +147,7 @@ class DistributionFileSet:
             "name": self.name,
             "contentSize": self.content_size,
             "contentUrl": self.content_url,
-            "encodingFormat": self.encoding_format,
+            "sc:encodingFormat": self.encoding_format,
             "includes": self.includes,
         }
 
@@ -155,8 +155,10 @@ class DistributionFileSet:
 def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
     sample_file_of_dir = next(Path(file_set).glob("*"), None)
 
-    if sample_file_of_dir.suffix.lower() in [".png", ".jpg", ".jpeg"]:
+    if sample_file_of_dir.suffix.lower() == ".png":
         encoding_format = "image/" + sample_file_of_dir.suffix[1:]
+    elif sample_file_of_dir.suffix.lower() == ".jpg" or sample_file_of_dir.suffix.lower() == ".jpeg":
+        encoding_format = "image/jpeg"
     elif sample_file_of_dir.suffix.lower() == ".pdf":
         encoding_format = "application/pdf"
     elif sample_file_of_dir.suffix.lower() == ".txt":
