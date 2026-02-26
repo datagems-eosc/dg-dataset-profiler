@@ -90,7 +90,7 @@ class DistributionDatabaseConnection:
             "@id": self.id,
             "name": self.name,
             # "databaseName": self.database_name,
-            "sc:encodingFormat": self.encodingFormat,
+            "encodingFormat": self.encodingFormat,
             "description": self.description
         }
 
@@ -147,7 +147,7 @@ class DistributionFileSet:
             "name": self.name,
             "contentSize": self.content_size,
             "contentUrl": self.content_url,
-            "sc:encodingFormat": self.encoding_format,
+            "encodingFormat": self.encoding_format,
             "includes": self.includes,
         }
 
