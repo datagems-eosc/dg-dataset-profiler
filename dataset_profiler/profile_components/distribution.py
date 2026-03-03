@@ -58,6 +58,10 @@ def get_distribution_of_file_object(
         encoding_format = "text/sql"
     elif file_extension == ".xlsx":
         encoding_format = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    elif file_extension == ".pdf":
+        encoding_format = "application/pdf"
+    elif file_extension == ".txt":
+        encoding_format = "text/plain"
     else:
         raise ValueError("Unsupported file type for distribution: " + file_extension)
 

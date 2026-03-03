@@ -6,13 +6,13 @@ from dataset_profiler.profile_components.record_set.csv.csv_record_set import (
 )
 from dataset_profiler.profile_components.record_set.db.db_record_set import DBRecordSet
 from dataset_profiler.profile_components.record_set.documents.document_record_set import FileType, DocumentRecordSet
-from dataset_profiler.profile_components.record_set.documents.text.text_record_set import (
+from dataset_profiler.profile_components.record_set.text.text_record_set import (
     TextRecordSet,
 )
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
 )
-from dataset_profiler.profile_components.record_set.documents.pdf.pdf_record_set import (
+from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
     PdfRecordSet,
 )
 
@@ -40,6 +40,18 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
                 file_object_id=file_object["id"],
             )
             record_sets.append(csv_record_set)
+        elif file_extension == ".pdf":
+            pdf_record_set = PdfRecordSet(
+                distribution_path=distribution_path,
+                file_object=file_object["path"],
+            )
+            record_sets.append(pdf_record_set)
+        elif file_extension == ".txt":
+            text_record_set = TextRecordSet(
+                distribution_path=distribution_path,
+                file_object=file_object["path"],
+            )
+            record_sets.append(text_record_set)
         # elif file_extension == ".db" or file_extension == ".sql":
         #     db_name_schema = file_object["path"].split("/")[-1].split(".")[-2]
         #     db_name, db_specific_schema = db_name_schema.split("-", 1)

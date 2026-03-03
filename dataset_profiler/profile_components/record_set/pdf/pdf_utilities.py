@@ -1,4 +1,3 @@
-
 from collections.abc import Iterable
 from typing import Dict, Union
 from pathlib import Path
@@ -11,7 +10,8 @@ from docling.document_converter import DocumentConverter, PdfFormatOption
 from docling.models.base_model import BaseItemAndImageEnrichmentModel
 from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
 from io import BytesIO
-from ollama import Client
+from dataset_profiler.common_llm.connector import CommonLLMConnector
+from litellm.types.utils import ModelResponse
 import base64
 import logging
 import os
@@ -19,7 +19,7 @@ import os
 
 class LLMFormulaUnderstandingPipelineOptions(PdfPipelineOptions):
     do_formula_understanding: bool = False
-    model: str = "granite3.2-vision"
+    model: str = "kimi-k2.5"  # Default VLM model for Scayle
 
 
 # A new enrichment model using both the document element and its image as input
@@ -37,26 +37,65 @@ class LLMFormulaUnderstandingEnrichmentModel(BaseItemAndImageEnrichmentModel):
             and element.label == DocItemLabel.FORMULA
         )
 
-    def process_image_with_ollama(self, image):
+    def process_image_with_llm(self, image):
+        """
+        Process an image using Scayle-LLM vision model (kimi-k2.5).
+
+        Args:
+            image: PIL Image object to process
+
+        Returns:
+            str: Extracted formula in markdown math format, or None if processing fails
+        """
         # Convert the image to base64
         buffered = BytesIO()
         image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
         logging.info(
-            "Starting Ollama generate for formula image (size: %d bytes)", len(img_str)
+            "Starting VLM processing for formula image (size: %d bytes)", len(img_str)
         )
-        # Call the ollama API
+
         try:
-            client = Client(timeout=30)
-            response = client.generate(
+            # Use CommonLLMConnector with Scayle-LLM kimi-k2.5 for vision
+            connector = CommonLLMConnector(
+                provider="scayle-llm",
                 model=self.model,
-                prompt="Extract the formula from this image in a markdown math format. All greek letters should be escaped with a backslash.",
-                images=[img_str],  # Pass the base64 encoded image
+                config_file="dataset_profiler/common_llm/configs/llm_config.yaml",
+                timeout=60,
             )
-            logging.info("Ollama response received successfully.")
-            return response["response"].strip()
+
+            # Construct vision message with image
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Extract the formula from this image in a markdown math format. All greek letters should be escaped with a backslash.",
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": f"data:image/png;base64,{img_str}"},
+                        },
+                    ],
+                }
+            ]
+
+            response = connector.chat(messages, stream=False)
+
+            # Extract content from ModelResponse
+            if isinstance(response, ModelResponse):
+                if response.choices and response.choices[0].message:  # type: ignore
+                    content = response.choices[0].message.content  # type: ignore
+                    if content:
+                        logging.info("VLM response received successfully.")
+                        return content.strip()
+
+            logging.error(f"Unexpected response format: {response}")
+            return None
+
         except Exception as e:
-            logging.error(f"Error processing formula with ollama: {e}")
+            logging.error(f"Error processing formula with VLM: {e}")
             return None
 
     def __call__(
@@ -70,8 +109,8 @@ class LLMFormulaUnderstandingEnrichmentModel(BaseItemAndImageEnrichmentModel):
         for enrich_element in element_batch:
             # enrich_element.image.show()
             image = enrich_element.image
-            # Process the image with ollama to extract the formula
-            processed_formula = self.process_image_with_ollama(image)
+            # Process the image with LLM to extract the formula
+            processed_formula = self.process_image_with_llm(image)
             logging.info(
                 f"Processed formula: {processed_formula} for element: {enrich_element.item}"
             )
@@ -104,8 +143,8 @@ class LLMFormulaUnderstandingPipeline(StandardPdfPipeline):
 
     @classmethod
     def get_default_options(cls) -> LLMFormulaUnderstandingPipelineOptions:
-        # Provide a default model name, we use Granite here
-        return LLMFormulaUnderstandingPipelineOptions(model="granite3.2-vision")
+        # Provide a default model name, we use kimi-k2.5 for VLM
+        return LLMFormulaUnderstandingPipelineOptions(model="kimi-k2.5")
 
 
 def get_pdf_document(input_doc_path: Path | str) -> str:

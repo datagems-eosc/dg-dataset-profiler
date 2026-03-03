@@ -19,13 +19,8 @@ OLLAMA_API_BASE_URL = os.getenv("OLLAMA_API_BASE_URL", None)
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", None)
 
 
-class PdfRecordSet:
-    def __init__(
-        self,
-        distribution_path: str,
-        file_object: str,
-        file_set_id
-    ):
+class PdfRecordSet(RecordSet):
+    def __init__(self, distribution_path: str, file_object: str, file_set_id):
         super().__init__()
         self.distribution_path = distribution_path
         self.file_object = file_object
@@ -36,7 +31,7 @@ class PdfRecordSet:
         # self.key = {"@id": self.name}
         self.id = str(uuid.uuid4())
 
-        path_from_folder = '/'.join(file_object.split("/")[-2:])
+        path_from_folder = "/".join(file_object.split("/")[-2:])
         self.content_url = f"s3://datagems/dataset_id/{path_from_folder}"
 
         profile = get_pdf_profile(file_object)
@@ -67,7 +62,6 @@ class PdfRecordSet:
         self.keywords = ["Keyword 1", "Keyword 2"]
         self.summary = "This is an example summary"
 
-
     def to_dict(self) -> Dict[str, Any]:
         """
         Converts the PdfRecordSet to a dictionary representation.
@@ -91,5 +85,5 @@ class PdfRecordSet:
             # "pages_count": self.pages_count,
             "keywords": self.keywords,
             "summary": self.summary,
-            "source": self.source
+            "source": self.source,
         }

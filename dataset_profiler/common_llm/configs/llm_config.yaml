@@ -36,4 +36,14 @@ bedrock:
 vllm:
   api_base: "http://your-vllm-endpoint:8000/v1"  # or your custom vLLM endpoint
 
+scayle-llm:
+  api_base: "${SCAYLE_BASE_URL}"
+  username: "${SCAYLE_USERNAME}"
+  password: "${SCAYLE_PASSWORD}"
+  verify_ssl: "${SCAYLE_VERIFY_SSL}"
+  timeout: 30
+  tracking:
+    track_tokens: true
+    track_cost: true
+
 # Add more providers as needed, following the same structure.

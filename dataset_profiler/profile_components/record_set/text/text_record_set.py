@@ -14,13 +14,9 @@ from dataset_profiler.profile_components.record_set.text.text_utilities import (
     get_summary,
 )
 from tqdm import tqdm
-import os
-from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
-
-OLLAMA_API_BASE_URL = os.getenv("OLLAMA_API_BASE_URL", None)
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", None)
+# Default model for text processing using Scayle-LLM
+SCAYLE_MODEL = "llama-3.3"
 
 
 class TextRecordSet(RecordSet):
@@ -32,6 +28,7 @@ class TextRecordSet(RecordSet):
         header_index: int = 0,
         main_text_index: int = 1,
     ):
+        super().__init__()
         self.distribution_path = distribution_path
         self.file_object = file_object
         self.separator = separator
@@ -70,8 +67,7 @@ class TextRecordSet(RecordSet):
 
         self.summary = get_summary(
             self.body,
-            model=OLLAMA_MODEL,
-            base_url=OLLAMA_API_BASE_URL,
+            model=SCAYLE_MODEL,
         )
 
         self.fields = self.extract_fields()
@@ -81,15 +77,14 @@ class TextRecordSet(RecordSet):
         # text_content = text_object.read()
         # text_object.close()
         chunks = chunk_text_by_paragraph(self.body, chunk_size=300, chunk_overlap=20)
-        model = OLLAMA_MODEL
-        base_url = OLLAMA_API_BASE_URL
+        model = SCAYLE_MODEL
         fields = []
         print("\nExtracting fields...")
 
         for chunk in tqdm(chunks):
             sos, pos = find_substring_positions(self.text, chunk)
             if sos and pos:
-                keywords = get_keywords(chunk, model, base_url)
+                keywords = get_keywords(chunk, model)
                 temp = {
                     "text": chunk,
                     "sos": sos,

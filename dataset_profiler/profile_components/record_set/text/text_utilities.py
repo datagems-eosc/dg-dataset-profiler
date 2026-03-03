@@ -341,10 +341,10 @@ class TextSummary(BaseModel):
     tags=["keyword_extraction"], name="get_keywords", project_name="TextProfiler"
 )
 def get_keywords(
-    text: str, model, base_url, max_keywords_num: int = 3, timeout: int = 60
+    text: str, model, max_keywords_num: int = 3, timeout: int = 60
 ) -> KeyWords:
     """
-    Extract keywords from text using ChatOllama.
+    Extract keywords from text using Scayle-LLM.
 
     Args:
         text (str): The input text to extract keywords from.
@@ -353,16 +353,15 @@ def get_keywords(
     Returns:
         KeyWords: A KeyWords object containing the list of extracted keywords.
     """
-    # Initialize environment variables for OLLAMA
+    # Initialize scayle-llm connector
     llm_params = {
-        "provider": "ollama",
+        "provider": "scayle-llm",
         "model": model,
         "temperature": 0.2,
-        "api_base": base_url,
         "config_file": "dataset_profiler/common_llm/configs/llm_config.yaml",
         "timeout": timeout,
     }
-    # Initialize the ChatOllama model
+    # Initialize the CommonLLMConnector with Scayle-LLM
     llm = CommonLLMConnector(**llm_params)
     if llm is None:
         print("LLM initialization failed.")
@@ -414,10 +413,10 @@ def get_keywords(
     tags=["summarization"], name="get_summary", project_name="TextProfiler"
 )
 def get_summary(
-    text: str, model, base_url, max_words: int = 600, timeout: int = 60
+    text: str, model, max_words: int = 600, timeout: int = 60
 ) -> str:
     """
-    Get a description of the text using ChatOllama.
+    Get a description of the text using Scayle-LLM.
 
     Args:
         text (str): The input text to describe.
@@ -427,10 +426,9 @@ def get_summary(
     """
     # Initialize the CommonLLMConnector
     llm_params = {
-        "provider": "ollama",
+        "provider": "scayle-llm",
         "model": model,
         "temperature": 0.2,
-        "api_base": base_url,
         "config_file": "dataset_profiler/common_llm/configs/llm_config.yaml",
         "timeout": timeout,
     }
@@ -482,7 +480,7 @@ def get_summary(
 
 
 if __name__ == "__main__":
-    model = "ollama/gpt-oss:120b"
+    model = "llama-3.3"
     # test keyword extraction
     sample_text = (
         "Artificial Intelligence (AI) is transforming the world. "
@@ -494,7 +492,6 @@ if __name__ == "__main__":
     keywords = get_keywords(
         text=sample_text,
         model=model,
-        base_url="http://localhost:11434",
         max_keywords_num=5,
     )
 
