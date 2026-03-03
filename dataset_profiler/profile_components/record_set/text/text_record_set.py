@@ -70,6 +70,13 @@ class TextRecordSet(RecordSet):
             model=SCAYLE_MODEL,
         )
 
+        print("Generating keywords...")
+        self.keywords = get_keywords(
+            self.body,
+            model=SCAYLE_MODEL,
+            max_keywords_num=5,
+        ).keywords
+
         self.fields = self.extract_fields()
 
     def extract_fields(self):
@@ -108,6 +115,7 @@ class TextRecordSet(RecordSet):
             "@type": self.type,
             "name": self.name,
             "summary": self.summary,
+            "keywords": self.keywords,
             "file_size_bytes": self.file_size_bytes,
             "encoding": self.encoding,
             "language": self.language,

@@ -18,7 +18,10 @@ from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
 
 
 def get_file_type(file_set, distribution_path) -> FileType | None:
-    sample_file_suffix = next(Path(distribution_path + file_set["path"]).glob("*"), None).suffix.lower()
+    sample_file = next(Path(distribution_path + file_set["path"]).glob("*"), None)
+    if sample_file is None:
+        return None
+    sample_file_suffix = sample_file.suffix.lower()
     match sample_file_suffix:
         case ".txt":
             return FileType.TEXT
@@ -85,12 +88,13 @@ def extract_record_sets_of_database_connections(databases: list[dict], distribut
 
     return record_sets
 
-def extract_record_sets_of_file_sets(file_sets: dict, distribution_path: str) -> List[RecordSet]:
+def extract_record_sets_of_file_sets(file_sets: list, distribution_path: str) -> List[RecordSet]:
     record_sets = []
 
     for file_set in file_sets:
         file_type = get_file_type(file_set, distribution_path)
-        doc_record_set = DocumentRecordSet(distribution_path, file_set["path"],  file_set["id"], file_type)
-        record_sets.append(doc_record_set)
+        if file_type is not None:
+            doc_record_set = DocumentRecordSet(distribution_path, file_set["path"],  file_set["id"], file_type)
+            record_sets.append(doc_record_set)
 
     return record_sets

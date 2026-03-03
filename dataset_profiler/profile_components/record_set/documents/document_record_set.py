@@ -5,13 +5,18 @@ import pandas as pd
 import uuid
 import numpy as np
 
-from dataset_profiler.profile_components.record_set.documents.pdf.pdf_record_set import PdfRecordSet
-from dataset_profiler.profile_components.record_set.documents.text.text_record_set import TextRecordSet
+from dataset_profiler.profile_components.record_set.documents.pdf.pdf_record_set import (
+    PdfRecordSet,
+)
+from dataset_profiler.profile_components.record_set.documents.text.text_record_set import (
+    TextRecordSet,
+)
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
     ColumnField,
 )
 from dataset_profiler.utilities import find_column_type_in_csv
+
 
 class FileType(Enum):
     TEXT = "text"
@@ -19,7 +24,13 @@ class FileType(Enum):
 
 
 class DocumentRecordSet(RecordSet):
-    def __init__(self, distribution_path: str, file_set: str, file_set_id: str, file_type: FileType):
+    def __init__(
+        self,
+        distribution_path: str,
+        file_set: str,
+        file_set_id: str,
+        file_type: FileType,
+    ):
         super().__init__()
         self.distribution_path = distribution_path
         self.file_set = file_set
@@ -38,12 +49,20 @@ class DocumentRecordSet(RecordSet):
             match self.file_type:
                 case FileType.TEXT:
                     try:
-                        document_content = TextRecordSet(self.distribution_path, doc_path, self.file_set_id)
+                        document_content = TextRecordSet(
+                            self.distribution_path, doc_path, self.file_set_id # type: ignore
+                        )
                     except UnicodeDecodeError:
                         print(f"Failed to decode {doc_path}. Skipping this file.")
                         continue
                 case FileType.PDF:
-                    document_content = PdfRecordSet(self.distribution_path, doc_path, self.file_set_id)
+                    try:
+                        document_content = PdfRecordSet(
+                            self.distribution_path, doc_path, self.file_set_id # type: ignore
+                        )
+                    except Exception as e:
+                        print(f"Failed to process {doc_path} as PDF. Error: {e}. Skipping this file.")
+                        continue
                 case _:
                     continue
             document_list.append(document_content)

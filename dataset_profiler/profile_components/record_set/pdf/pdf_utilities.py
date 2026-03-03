@@ -5,7 +5,7 @@ from pikepdf import Pdf
 from docling_core.types.doc.labels import DocItemLabel
 from docling_core.types.doc.document import DoclingDocument, TextItem, NodeItem
 from docling.datamodel.base_models import InputFormat, ItemAndImageEnrichmentElement
-from docling.datamodel.pipeline_options import PdfPipelineOptions
+from docling.datamodel.pipeline_options import PdfPipelineOptions, EasyOcrOptions
 from docling.document_converter import DocumentConverter, PdfFormatOption
 from docling.models.base_model import BaseItemAndImageEnrichmentModel
 from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
@@ -147,11 +147,50 @@ class LLMFormulaUnderstandingPipeline(StandardPdfPipeline):
         return LLMFormulaUnderstandingPipelineOptions(model="kimi-k2.5")
 
 
-def get_pdf_document(input_doc_path: Path | str) -> str:
+def _has_extractable_text(input_doc_path: Path | str) -> bool:
+    """
+    Quick check if PDF has extractable text without running full OCR.
+    :param input_doc_path: Path to the input PDF document.
+    :return: True if text is extractable, False if it's likely image-only.
+    """
+    if isinstance(input_doc_path, str):
+        input_doc_path = Path(input_doc_path)
+
+    try:
+        # Quick conversion without OCR to check for text
+        ocr_options = EasyOcrOptions(force_full_page_ocr=False)
+        pipeline_options = LLMFormulaUnderstandingPipelineOptions()
+        pipeline_options.do_formula_understanding = False
+        pipeline_options.do_ocr = False  # Disable OCR for quick check
+        pipeline_options.ocr_options = ocr_options
+
+        doc_converter = DocumentConverter(
+            format_options={
+                InputFormat.PDF: PdfFormatOption(
+                    pipeline_cls=LLMFormulaUnderstandingPipeline,
+                    pipeline_options=pipeline_options,
+                )
+            }
+        )
+        doc = doc_converter.convert(input_doc_path).document
+        md_doc = doc.export_to_markdown()
+
+        # If we got meaningful text, it's extractable
+        return len(md_doc.strip()) > 100
+    except Exception as e:
+        logging.debug(f"Error checking text extraction: {e}")
+        return False
+
+
+def get_pdf_document(input_doc_path: Path | str, enable_ocr: bool = True) -> str:
     """
     Converts a PDF document to a DoclingDocument using the LLMFormulaUnderstandingPipeline.
+    Implements a two-pass approach: first extracts text normally, then applies aggressive
+    OCR only if needed.
+
     :param input_doc_path: Path to the input PDF document.
-    :return: DoclingDocument object.
+    :param enable_ocr: Whether to enable OCR for image-based PDFs. Defaults to True.
+    :return: Markdown string representation of the document.
     """
     if isinstance(input_doc_path, str):
         input_doc_path = Path(input_doc_path)
@@ -166,8 +205,20 @@ def get_pdf_document(input_doc_path: Path | str) -> str:
         # Configure logging to output to console
         logging.basicConfig(level=logging.INFO)
 
+    # FIRST PASS: Try standard extraction with minimal OCR
+    ocr_options_first_pass = EasyOcrOptions(
+        # Only OCR areas that aren't already text (skip pure image pages initially)
+        force_full_page_ocr=False,
+        use_gpu=True,
+        lang=["en"],
+        bitmap_area_threshold=0.1,
+        confidence_threshold=0.6,
+    )
+
     pipeline_options = LLMFormulaUnderstandingPipelineOptions()
     pipeline_options.do_formula_understanding = True
+    pipeline_options.do_ocr = enable_ocr
+    pipeline_options.ocr_options = ocr_options_first_pass
 
     doc_converter = DocumentConverter(
         format_options={
@@ -179,6 +230,38 @@ def get_pdf_document(input_doc_path: Path | str) -> str:
     )
     doc = doc_converter.convert(input_doc_path).document
     md_doc = doc.export_to_markdown()
+
+    # If we got minimal text, it's likely a pure image PDF
+    # SECOND PASS: Run aggressive OCR on the full document
+    if enable_ocr and len(md_doc.strip()) < 100:
+        logging.info(
+            f"Minimal text extracted ({len(md_doc.strip())} chars). Running full-page OCR..."
+        )
+
+        ocr_options_second_pass = EasyOcrOptions(
+            # Force OCR on all pages to handle pure image PDFs
+            force_full_page_ocr=True,
+            use_gpu=True,
+            lang=["en"],
+            bitmap_area_threshold=0.05,  # Lower threshold to catch smaller text
+            confidence_threshold=0.5,  # Lower threshold for better coverage
+        )
+
+        pipeline_options.do_ocr = True
+        pipeline_options.ocr_options = ocr_options_second_pass
+
+        doc_converter = DocumentConverter(
+            format_options={
+                InputFormat.PDF: PdfFormatOption(
+                    pipeline_cls=LLMFormulaUnderstandingPipeline,
+                    pipeline_options=pipeline_options,
+                )
+            }
+        )
+        doc = doc_converter.convert(input_doc_path).document
+        md_doc = doc.export_to_markdown()
+        logging.info(f"After full-page OCR: {len(md_doc.strip())} characters extracted")
+
     if not isinstance(doc, DoclingDocument):
         raise ValueError("Converted document is not a DoclingDocument.")
     return md_doc
