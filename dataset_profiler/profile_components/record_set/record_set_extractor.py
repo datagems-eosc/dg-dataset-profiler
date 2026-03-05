@@ -40,18 +40,6 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
                 file_object_id=file_object["id"],
             )
             record_sets.append(csv_record_set)
-        # elif file_extension == ".db" or file_extension == ".sql":
-        #     db_name_schema = file_object["path"].split("/")[-1].split(".")[-2]
-        #     db_name, db_specific_schema = db_name_schema.split("-", 1)
-        #
-        #     db_record_set = DBRecordSet(
-        #         distribution_path=distribution_path,
-        #         file_object=file_object["path"],
-        #         file_object_id=file_object["id"],
-        #         db_name=db_name,
-        #         db_specific_schema=db_specific_schema,
-        #     )
-        #     record_sets.append(db_record_set)
         elif file_extension == ".xlsx":
             record_sets += get_record_sets_from_excel(distribution_path, file_object["path"], file_object["id"])
 

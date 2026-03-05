@@ -58,6 +58,8 @@ def get_distribution_of_file_object(
         encoding_format = "text/sql"
     elif file_extension == ".xlsx":
         encoding_format = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    elif file_extension == ".json":
+        encoding_format = "application/json"
     else:
         raise ValueError("Unsupported file type for distribution: " + file_extension)
 
@@ -65,7 +67,7 @@ def get_distribution_of_file_object(
         file_object_id=file_object_id,
         name=file_object.split("/")[-1],
         content_size=f"{Path(file_object).stat().st_size} B",
-        content_url=f"s3:/{DATASET_ROOT_PATH}{file_object.split('/')[-1]}",
+        content_url=f"{DATASET_ROOT_PATH}{file_object.split('/')[-1]}",
         encoding_format=encoding_format,
         sha256_check=sha,
     )
@@ -136,7 +138,7 @@ class DistributionFileSet:
         self.name = name
         self.description = description
         self.content_size = content_size
-        self.content_url = "s3:/" + DATASET_ROOT_PATH + includes
+        self.content_url = DATASET_ROOT_PATH + includes
         self.encoding_format = encoding_format
         self.includes = includes + "/*"
 
