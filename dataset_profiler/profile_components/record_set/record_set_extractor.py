@@ -6,19 +6,22 @@ from dataset_profiler.profile_components.record_set.csv.csv_record_set import (
 )
 from dataset_profiler.profile_components.record_set.db.db_record_set import DBRecordSet
 from dataset_profiler.profile_components.record_set.documents.document_record_set import FileType, DocumentRecordSet
-from dataset_profiler.profile_components.record_set.documents.text.text_record_set import (
+from dataset_profiler.profile_components.record_set.text.text_record_set import (
     TextRecordSet,
 )
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
 )
-from dataset_profiler.profile_components.record_set.documents.pdf.pdf_record_set import (
+from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
     PdfRecordSet,
 )
 
 
 def get_file_type(file_set, distribution_path) -> FileType | None:
-    sample_file_suffix = next(Path(distribution_path + file_set["path"]).glob("*"), None).suffix.lower()
+    sample_file = next(Path(distribution_path + file_set["path"]).glob("*"), None)
+    if sample_file is None:
+        return None
+    sample_file_suffix = sample_file.suffix.lower()
     match sample_file_suffix:
         case ".txt":
             return FileType.TEXT
@@ -40,6 +43,18 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
                 file_object_id=file_object["id"],
             )
             record_sets.append(csv_record_set)
+        elif file_extension == ".pdf":
+            pdf_record_set = PdfRecordSet(
+                distribution_path=distribution_path,
+                file_object=file_object["path"],
+            )
+            record_sets.append(pdf_record_set)
+        elif file_extension == ".txt":
+            text_record_set = TextRecordSet(
+                distribution_path=distribution_path,
+                file_object=file_object["path"],
+            )
+            record_sets.append(text_record_set)
         # elif file_extension == ".db" or file_extension == ".sql":
         #     db_name_schema = file_object["path"].split("/")[-1].split(".")[-2]
         #     db_name, db_specific_schema = db_name_schema.split("-", 1)
@@ -73,12 +88,13 @@ def extract_record_sets_of_database_connections(databases: list[dict], distribut
 
     return record_sets
 
-def extract_record_sets_of_file_sets(file_sets: dict, distribution_path: str) -> List[RecordSet]:
+def extract_record_sets_of_file_sets(file_sets: list, distribution_path: str) -> List[RecordSet]:
     record_sets = []
 
     for file_set in file_sets:
         file_type = get_file_type(file_set, distribution_path)
-        doc_record_set = DocumentRecordSet(distribution_path, file_set["path"],  file_set["id"], file_type)
-        record_sets.append(doc_record_set)
+        if file_type is not None:
+            doc_record_set = DocumentRecordSet(distribution_path, file_set["path"],  file_set["id"], file_type)
+            record_sets.append(doc_record_set)
 
     return record_sets

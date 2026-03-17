@@ -51,7 +51,7 @@ class DatasetTopLevel:
             "@id": self.id,
             "name": self.name,
             "description": self.description,
-            "archivedAt": "s3:/" + DATASET_ROOT_PATH + self.id,
+            "archivedAt": DATASET_ROOT_PATH + self.id,
             "conformsTo": self.conforms_to,
             "citeAs": self.cite_as,
             "license": self.license,

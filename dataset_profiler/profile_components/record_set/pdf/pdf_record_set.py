@@ -10,12 +10,8 @@ from dataset_profiler.profile_components.record_set.text.text_utilities import (
     get_summary,
 )
 
-import os
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(find_dotenv())
-OLLAMA_API_BASE_URL = os.getenv("OLLAMA_API_BASE_URL", None)
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", None)
+# Default model for text processing using Scayle-LLM
+SCAYLE_MODEL = "llama-3.3"
 
 
 class PdfRecordSet(RecordSet):
@@ -24,6 +20,7 @@ class PdfRecordSet(RecordSet):
         distribution_path: str,
         file_object: str,
     ):
+        super().__init__()
         self.distribution_path = distribution_path
         self.file_object = file_object
         self.type = "cr:RecordSet"
@@ -49,13 +46,10 @@ class PdfRecordSet(RecordSet):
         print(document)
         self.keywords = get_keywords(
             document,
-            model=OLLAMA_MODEL,
-            base_url=OLLAMA_API_BASE_URL,
+            model=SCAYLE_MODEL,
             max_keywords_num=5,
         ).keywords
-        self.summary = get_summary(
-            document, model=OLLAMA_MODEL, base_url=OLLAMA_API_BASE_URL, max_words=800
-        )
+        self.summary = get_summary(document, model=SCAYLE_MODEL, max_words=800)
         print("***KEY WORDS***", self.keywords)
         print("***SUMMARY***", self.summary)
 

@@ -55,4 +55,5 @@ REFERENCES_TEMPLATE = {
     "histogram": "dg:histogram",
     "uniqueCount": "dg:uniqueCount",
     "wd": "https://www.wikidata.org/wiki/",
+    "containedIn": "cr:containedIn"
 }

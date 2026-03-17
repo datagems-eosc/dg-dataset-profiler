@@ -1,14 +1,23 @@
 {
+  "access": "public",
   "citeAs": "",
   "country": "ES",
   "dataPath": "tests/assets/pdf/sampled/",
+  "data_connectors": [
+    {
+      "dataset_id": "tests/assets/pdf/sampled/",
+      "type": "RawDataPath"
+    }
+  ],
   "datePublished": "24-05-2025",
-  "description": "The dataset includes up to 100 sampled Math Education materials.(LLM used: Llama-3.3-70B)",
+  "description": "The dataset includes up to 100 sampled Math Education materials.(LLM used: Llama-3.3-70B with kimi-k2.5 for VLM)",
+  "doi": "",
   "fieldOfScience": [
     "Mathematics",
     "Education"
   ],
   "headline": "Math Education Materials",
+  "id": "math-education-materials",
   "inLanguage": [
     "en"
   ],
@@ -17,5 +26,6 @@
   ],
   "license": "CC-BY-SA 4.0 - Creative Commons Attribution-ShareAlike 4.0 International",
   "name": "Mathematics Education Materials",
+  "uploadedBy": "test",
   "url": ""
 }

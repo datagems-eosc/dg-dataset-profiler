@@ -11,8 +11,10 @@ from dataset_profiler.profile_components.record_set.documents.text.text_utilitie
     read_file_with_encoding,
     find_substring_positions,
     text_preprocess,
-    get_keywords_ollama,
-    get_summary_ollama,
+)
+from dataset_profiler.profile_components.record_set.text.text_utilities import (
+    get_keywords,
+    get_summary,
 )
 from tqdm import tqdm
 import os
@@ -22,6 +24,9 @@ load_dotenv(find_dotenv())
 
 OLLAMA_API_BASE_URL = os.getenv("OLLAMA_API_BASE_URL", None)
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", None)
+
+# Default model for text processing using Scayle-LLM
+SCAYLE_MODEL = "llama-3.3"
 
 
 class TextRecordSet(RecordSet):
@@ -42,13 +47,11 @@ class TextRecordSet(RecordSet):
         self.name = file_object.split("/")[-1].split(".")[-2]
         self.id = str(uuid.uuid4())
 
-        path_from_folder = '/'.join(file_object.split("/")[-2:])
+        path_from_folder = "/".join(file_object.split("/")[-2:])
         self.content_url = f"s3://datagems/dataset_id/{path_from_folder}"
 
         # self.description = ""
-        text_content, encoding = read_file_with_encoding(
-            self.file_object
-        )
+        text_content, encoding = read_file_with_encoding(self.file_object)
         self.encoding = encoding
         # header, content = text_preprocess(
         #     text_content,
@@ -61,9 +64,7 @@ class TextRecordSet(RecordSet):
         # self.body = content
 
         # self.key = {"@id": self.name}
-        profile = profile_text_file(
-            file_object, separator=self.separator
-        )
+        profile = profile_text_file(file_object, separator=self.separator)
 
         self.file_size_bytes = profile["file_size_bytes"]
         self.encoding = encoding
@@ -75,44 +76,48 @@ class TextRecordSet(RecordSet):
         self.num_paragraphs = profile["num_paragraphs"]
         self.flesch_kincaid_grade = profile["flesch_kincaid_grade"]
 
-        self.keywords = ["Keyword 1", "Keyword 2"]
-        self.summary = "This is an example summary"
+        print("\nGenerating summary...")
+        self.summary = get_summary(
+            text_content,
+            model=SCAYLE_MODEL,
+            max_words=800,
+        )
+
+        print("Generating keywords...")
+        self.keywords = get_keywords(
+            text_content,
+            model=SCAYLE_MODEL,
+            max_keywords_num=5,
+        ).keywords
+
         self.source = {
             "fileSet": {"@id": file_set_id},
         }
-        # self.summary = get_summary_ollama(
-        #     self.body,
-        #     model=OLLAMA_MODEL,
-        #     base_url=OLLAMA_API_BASE_URL,
-        # )
-        #
-        # self.fields = self.extract_fields()
 
-    def extract_fields(self):
-        # text_object = open(self.distribution_path + self.file_object, "r")
-        # text_content = text_object.read()
-        # text_object.close()
-        chunks = chunk_text_by_paragraph(self.body, chunk_size=300, chunk_overlap=20)
-        model = OLLAMA_MODEL
-        base_url = OLLAMA_API_BASE_URL
-        fields = []
-        print("\nExtracting fields...")
-
-        for chunk in tqdm(chunks):
-            sos, pos = find_substring_positions(self.text, chunk)
-            if sos and pos:
-                keywords = get_keywords_ollama(chunk, model, base_url)
-                temp = {
-                    "text": chunk,
-                    "sos": sos,
-                    "eos": pos,
-                    "references": [],
-                    "keywords": keywords.keywords,
-                }
-                fields.append(ConcreteTextChunk(**temp))
-            else:
-                raise ValueError(f"Chunk '{chunk}' not found in the original text.")
-        return fields
+    # TODO: extract_fields method is currently unused and references removed attributes/functions
+    # This method would need to be refactored to work with current text extraction pipeline
+    # def extract_fields(self):
+    #     chunks = chunk_text_by_paragraph(self.text_content, chunk_size=300, chunk_overlap=20)
+    #     model = OLLAMA_MODEL
+    #     base_url = OLLAMA_API_BASE_URL
+    #     fields = []
+    #     print("\nExtracting fields...")
+    #
+    #     for chunk in tqdm(chunks):
+    #         sos, pos = find_substring_positions(self.text_content, chunk)
+    #         if sos and pos:
+    #             keywords = get_keywords(chunk, model=SCAYLE_MODEL)
+    #             temp = {
+    #                 "text": chunk,
+    #                 "sos": sos,
+    #                 "eos": pos,
+    #                 "references": [],
+    #                 "keywords": keywords.keywords,
+    #             }
+    #             fields.append(ConcreteTextChunk(**temp))
+    #         else:
+    #             raise ValueError(f"Chunk '{chunk}' not found in the original text.")
+    #     return fields
 
     def header_process(self):
         # extract metainfo from the header
@@ -137,7 +142,7 @@ class TextRecordSet(RecordSet):
             # "flesch_kincaid_grade": self.flesch_kincaid_grade,  # readability score
             "summary": self.summary,
             "keywords": self.keywords,
-            "source": self.source
+            "source": self.source,
         }
 
 

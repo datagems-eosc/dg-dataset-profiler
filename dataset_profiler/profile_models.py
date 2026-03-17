@@ -16,8 +16,11 @@ from dataset_profiler.profile_components.dateset_top_level import (
 from dataset_profiler.profile_components.distribution import (
     DistributionFileObject,
     DistributionFileSet,
+    DistributionDatabaseConnection,
     get_distribution_of_file_object,
-    get_distribution_of_file_set, get_distribution_of_database_connection, get_distributions_of_tables_in_db,
+    get_distribution_of_file_set,
+    get_distribution_of_database_connection,
+    get_distributions_of_tables_in_db,
 )
 from dataset_profiler.profile_components.record_set.db.db_distribution import (
     get_added_distributions,
@@ -28,7 +31,9 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
 )
 from dataset_profiler.profile_components.record_set.record_set_extractor import (
-    extract_record_sets_of_file_objects, extract_record_sets_of_file_sets, extract_record_sets_of_database_connections,
+    extract_record_sets_of_file_objects,
+    extract_record_sets_of_file_sets,
+    extract_record_sets_of_database_connections,
 )
 from dataset_profiler.utilities import get_file_objects
 from dataset_profiler.configs.config_logging import logger
@@ -41,9 +46,14 @@ class DatasetProfile:
 
         self.distribution_path = None
         for connector in self.data_connectors:
-            if connector["type"] == "RawDataPath" and self.distribution_path is not None:
-                logger.warning(f"Only one RawDataPath connector is supported. "
-                               f"Using {self.distribution_path} and ignoring {connector['path']}.")
+            if (
+                connector["type"] == "RawDataPath"
+                and self.distribution_path is not None
+            ):
+                logger.warning(
+                    f"Only one RawDataPath connector is supported. "
+                    f"Using {self.distribution_path} and ignoring {connector['path']}."
+                )
                 continue
             if connector["type"] == "RawDataPath":
                 self.distribution_path = connector["dataset_id"]
@@ -55,7 +65,7 @@ class DatasetProfile:
         self.databases_objects = [
             {
                 "database_name": connector["database_name"],
-                "file_object_id": str(uuid.uuid4())
+                "file_object_id": str(uuid.uuid4()),
             }
             for connector in self.data_connectors
             if connector["type"] == "DatabaseConnection"
@@ -81,23 +91,39 @@ class DatasetProfile:
         )
 
         # Distribution
-        self.distributions: List[DistributionFileObject | DistributionFileSet] | None = None
+        self.distributions: (
+            List[
+                DistributionFileObject
+                | DistributionFileSet
+                | DistributionDatabaseConnection
+            ]
+            | None
+        ) = None
 
         # RecordSet
         self.record_sets: List[RecordSet] | None = None
 
     def extract_distributions(
         self,
-    ) -> List[DistributionFileObject | DistributionFileSet]:
-        file_object_distributions = [
-            get_distribution_of_file_object(
-                self.distribution_path + file_object["path"], file_object["id"]
-            )
-            for file_object in self.file_objects
-        ]
+    ) -> List[
+        DistributionFileObject | DistributionFileSet | DistributionDatabaseConnection
+    ]:
+        file_object_distributions = []
+        if self.distribution_path is not None:
+            file_object_distributions = [
+                dist
+                for dist in [
+                    get_distribution_of_file_object(
+                        self.distribution_path + file_object["path"], file_object["id"]
+                    )
+                    for file_object in self.file_objects
+                ]
+                if dist is not None  # Filter out unsupported file types
+            ]
         database_connector_distributions = [
             get_distribution_of_database_connection(
-                connection_id=db_connector['file_object_id'], database_name=db_connector["database_name"]
+                connection_id=db_connector["file_object_id"],
+                database_name=db_connector["database_name"],
             )
             for db_connector in self.databases_objects
         ]
@@ -109,19 +135,44 @@ class DatasetProfile:
             )
         database_connector_distributions += database_table_distributions
 
-        file_sets_distributions = [
-            get_distribution_of_file_set(
-                self.distribution_path + file_set["path"], file_set["id"]
-            )
-            for file_set in self.file_sets
-        ]
+        file_sets_distributions = []
+        if self.distribution_path is not None:
+            file_sets_distributions = [
+                dist
+                for dist in [
+                    get_distribution_of_file_set(
+                        self.distribution_path + file_set["path"], file_set["id"]
+                    )
+                    for file_set in self.file_sets
+                ]
+                if dist is not None  # Filter out unsupported file types
+            ]
 
-        return file_sets_distributions + database_connector_distributions + file_object_distributions
+        return (
+            file_sets_distributions
+            + database_connector_distributions
+            + file_object_distributions
+        )
 
     def extract_record_sets(self) -> List[RecordSet]:
-        return (extract_record_sets_of_file_objects(self.file_objects, self.distribution_path) +
-                extract_record_sets_of_database_connections(self.databases_objects, self.distributions) +
-                extract_record_sets_of_file_sets(self.file_sets, self.distribution_path))
+        record_sets = []
+
+        if self.distribution_path is not None:
+            record_sets += extract_record_sets_of_file_objects(
+                self.file_objects, self.distribution_path
+            )
+
+        if self.distributions is not None:
+            record_sets += extract_record_sets_of_database_connections(
+                self.databases_objects, self.distributions
+            )
+
+        if self.distribution_path is not None:
+            record_sets += extract_record_sets_of_file_sets(
+                self.file_sets, self.distribution_path
+            )
+
+        return record_sets
 
     def to_dict_light(self):
         if self.distributions is None:
