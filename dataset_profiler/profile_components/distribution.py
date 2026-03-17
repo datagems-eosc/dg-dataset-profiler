@@ -227,3 +227,17 @@ def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet |
         encoding_format=encoding_format or "",
         includes=f"{file_set.split('/')[-1]}",
     )
+
+
+def get_file_objects_of_file_set(contained_in_id: str, file_set_path: str) -> list[DistributionFileObject]:
+    file_objects = []
+    for file_path in Path(file_set_path).glob("*"):
+        if file_path.is_file():
+            file_object = get_distribution_of_file_object(
+                file_object=str(file_path),
+                file_object_id=str(uuid.uuid4()),
+            )
+            if file_object:
+                file_object.contained_in = contained_in_id
+                file_objects.append(file_object)
+    return file_objects

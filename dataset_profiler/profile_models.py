@@ -20,7 +20,7 @@ from dataset_profiler.profile_components.distribution import (
     get_distribution_of_file_object,
     get_distribution_of_file_set,
     get_distribution_of_database_connection,
-    get_distributions_of_tables_in_db,
+    get_distributions_of_tables_in_db, get_file_objects_of_file_set,
 )
 from dataset_profiler.profile_components.record_set.db.db_distribution import (
     get_added_distributions,
@@ -136,22 +136,32 @@ class DatasetProfile:
         database_connector_distributions += database_table_distributions
 
         file_sets_distributions = []
+        file_object_of_set_distributions = []
         if self.distribution_path is not None:
-            file_sets_distributions = [
-                dist
-                for dist in [
-                    get_distribution_of_file_set(
-                        self.distribution_path + file_set["path"], file_set["id"]
+            for file_set in self.file_sets:
+                # Get the distribution for the current file set
+                dist = get_distribution_of_file_set(
+                    self.distribution_path + file_set["path"],
+                    file_set["id"]
+                )
+                if dist is not None:
+                    file_sets_distributions.append(dist)
+
+                    # Fetch objects for this specific distribution
+                    file_objects = get_file_objects_of_file_set(
+                        contained_in_id=dist.id,
+                        file_set_path=self.distribution_path + file_set["path"]
                     )
-                    for file_set in self.file_sets
-                ]
-                if dist is not None  # Filter out unsupported file types
-            ]
+
+                    # Flatten the list of file objects and add them to the main list of distributions
+                    for item in file_objects:
+                        file_object_of_set_distributions.append(item)
 
         return (
             file_sets_distributions
             + database_connector_distributions
             + file_object_distributions
+            + file_object_of_set_distributions
         )
 
     def extract_record_sets(self) -> List[RecordSet]:
@@ -167,10 +177,10 @@ class DatasetProfile:
                 self.databases_objects, self.distributions
             )
 
-        if self.distribution_path is not None:
-            record_sets += extract_record_sets_of_file_sets(
-                self.file_sets, self.distribution_path
-            )
+        # if self.distribution_path is not None:
+        #     record_sets += extract_record_sets_of_file_sets(
+        #         self.file_sets, self.distribution_path
+        #     )
 
         return record_sets
 
