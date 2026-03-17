@@ -2,7 +2,7 @@ import shutil
 from dataset_profiler.profile_models import DatasetProfile
 import os
 import json
-
+from pathlib import Path
 import random
 
 
@@ -37,6 +37,11 @@ def dumping_mathe_pdf_profile(filepath: str):
 
 
 if __name__ == "__main__":
-    sampling_pdf_document("tests/assets/pdf")
+    # Skip sampling if sampled directory already has files
+    sampled_dir = "tests/assets/pdf/sampled"
+    if os.path.exists(sampled_dir) and len(list(Path(sampled_dir).glob("*.pdf"))) > 0:
+        print(f"Using existing PDFs in {sampled_dir}")
+    else:
+        sampling_pdf_document("tests/assets/pdf")
 
-    dumping_mathe_pdf_profile("tests/assets/pdf/sampled/mathe_pdf_profile.json")
+    dumping_mathe_pdf_profile("tests/assets/pdf/output/mathe_pdf_profile.json")

@@ -35,6 +35,7 @@ services:
     volumes:
       - ray-wheel-cache:/root/.cache/pip
       - ./tests:/home/ray/app/tests
+      - ./dataset_profiler:/home/ray/app/dataset_profiler
     # optional: restart: unless-stopped
 
   redis:

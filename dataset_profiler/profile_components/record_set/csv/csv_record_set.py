@@ -7,7 +7,9 @@ import uuid
 import numpy as np
 
 from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
-from dataset_profiler.profile_components.record_set.csv.calculate_statistics import calculate_column_statistics
+from dataset_profiler.profile_components.record_set.csv.calculate_statistics import (
+    calculate_column_statistics,
+)
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
     ColumnField,
@@ -28,7 +30,9 @@ class CSVRecordSet(RecordSet):
         self.examples = self.extract_examples()
 
     def extract_fields(self):
-        csv_object = pd.read_csv(self.distribution_path + self.file_object, sep=None, encoding = "ISO-8859-1")
+        csv_object = pd.read_csv(
+            self.distribution_path + self.file_object, sep=None, encoding="ISO-8859-1"
+        )
 
         fields = []
         for column in csv_object.columns:
@@ -40,7 +44,9 @@ class CSVRecordSet(RecordSet):
         return fields
 
     def extract_examples(self):
-        csv_object = pd.read_csv(self.distribution_path + self.file_object, sep=None, encoding = "ISO-8859-1")
+        csv_object = pd.read_csv(
+            self.distribution_path + self.file_object, sep=None, encoding="ISO-8859-1"
+        )
         return csv_object.head(30).replace({np.nan: None}).to_dict(orient="list")
 
     def to_dict(self):
@@ -87,35 +93,37 @@ class TableColumnField(ColumnField):
         }
 
 
-def get_record_sets_from_excel(distribution_path: str, file_object: str, file_object_id: str) -> list[CSVRecordSet]:
+def get_record_sets_from_excel(
+    distribution_path: str, file_object: str, file_object_id: str
+) -> list[CSVRecordSet]:
     with tempfile.TemporaryDirectory() as temp_dir:
         xls = pd.ExcelFile(distribution_path + file_object)
         record_sets = []
         for sheet_name in xls.sheet_names:
             df = pd.read_excel(xls, sheet_name=sheet_name)
-            df.to_csv(temp_dir + '/' + f"{sheet_name}.csv", index=False, sep=',')
+            df.to_csv(temp_dir + "/" + f"{sheet_name}.csv", index=False, sep=",")
             try:
                 record_set = CSVRecordSet(
-                    distribution_path=temp_dir + '/',
+                    distribution_path=temp_dir + "/",
                     file_object=f"{sheet_name}.csv",
                     file_object_id=file_object_id,
                 )
             except (pd.errors.ParserError, csv.Error) as e:
                 # print the stack trace for debugging purposes
-                print(f"Failed to process sheet {sheet_name} in {file_object} with error {e}. Skipping this sheet.")
+                print(
+                    f"Failed to process sheet {sheet_name} in {file_object} with error {e}. Skipping this sheet."
+                )
                 continue
             record_sets.append(record_set)
 
     for record_set in record_sets:
         record_set.inject_distribution = {
-          "@type": "cr:FileObject",
-          "@id": str(uuid.uuid4()),
-          "name": sheet_name,
-          "description": "",
-          "containedIn": {
-            "@id": file_object_id
-          },
-          "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            "@type": "cr:FileObject",
+            "@id": str(uuid.uuid4()),
+            "name": sheet_name,
+            "description": "",
+            "containedIn": {"@id": file_object_id},
+            "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         }
 
     return record_sets
