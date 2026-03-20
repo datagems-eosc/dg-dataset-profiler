@@ -78,6 +78,7 @@ def get_file_objects(distribution_path):
         for item in path.iterdir()
         if item.is_file()
     ]
+
     file_sets = [
         {"path": item.name, "id": str(uuid.uuid4())}
         for item in path.iterdir()

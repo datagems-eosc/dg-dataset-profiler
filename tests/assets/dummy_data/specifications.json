@@ -4,12 +4,12 @@
   "country": "GR",
   "data_connectors": [
     {
-      "database_name": "ds_era5_land",
-      "type": "DatabaseConnection"
-    },
-    {
       "dataset_id": "tests/assets/dummy_data/data/",
       "type": "RawDataPath"
+    },
+    {
+      "database_name": "ds_mathe",
+      "type": "DatabaseConnection"
     }
   ],
   "datePublished": "2025-05-25",

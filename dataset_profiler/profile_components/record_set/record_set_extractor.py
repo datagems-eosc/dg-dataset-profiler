@@ -46,7 +46,7 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
         # elif file_extension == ".pdf":
         #     pdf_record_set = PdfRecordSet(
         #         distribution_path=distribution_path,
-        #         file_object=file_object["path"],
+        #         file_object=file_object,
         #     )
         #     record_sets.append(pdf_record_set)
         # elif file_extension == ".txt":
@@ -96,5 +96,25 @@ def extract_record_sets_of_file_sets(file_sets: list, distribution_path: str) ->
         if file_type is not None:
             doc_record_set = DocumentRecordSet(distribution_path, file_set["path"],  file_set["id"], file_type)
             record_sets.append(doc_record_set)
+
+    return record_sets
+
+
+def extract_record_sets_of_file_objects_in_file_sets(file_object_of_set_distributions, distribution_path) -> List[RecordSet]:
+    record_sets = []
+    for distribution in file_object_of_set_distributions:
+        file_extension = Path(distribution.content_url).suffix
+        if file_extension == ".pdf":
+            pdf_record_set = PdfRecordSet(
+                file_object=distribution.content_url,
+                distribution_id=distribution.id
+            )
+            record_sets.append(pdf_record_set)
+        elif file_extension == ".txt":
+            text_record_set = TextRecordSet(
+                file_object=distribution.content_url,
+                distribution_id=distribution.id
+            )
+            record_sets.append(text_record_set)
 
     return record_sets

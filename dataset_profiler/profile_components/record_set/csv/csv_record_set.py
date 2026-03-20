@@ -60,6 +60,16 @@ class CSVRecordSet(RecordSet):
             "examples": json.dumps(self.examples, default=str),
         }
 
+    def to_dict_cdd(self):
+        return {
+            "file_object_id": self.file_object_id,
+            "original_format": "csv",
+            "source_file": self.distribution_path + self.file_object,
+            "name": self.name,
+            "description": "",
+            "keywords": [],
+            "columns": [field.to_dict_cdd() for field in self.fields],
+        }
 
 class TableColumnField(ColumnField):
     def __init__(
@@ -90,6 +100,15 @@ class TableColumnField(ColumnField):
             "source": self.source,
             "sample": self.sample,
             "statistics": self.statistics.to_dict(),
+        }
+
+    def to_dict_cdd(self):
+        return {
+            "name": self.name,
+            "primitive_type": self.dataType,
+            "semantic_types": [],
+            "description": self.description,
+            "statistics": self.statistics.to_dict_cdd(),
         }
 
 

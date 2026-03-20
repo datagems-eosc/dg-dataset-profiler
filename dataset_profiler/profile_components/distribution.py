@@ -88,7 +88,7 @@ def get_distribution_of_file_object(
         file_object_id=file_object_id,
         name=file_object.split("/")[-1],
         content_size=f"{Path(file_object).stat().st_size} B",
-        content_url=f"{DATASET_ROOT_PATH}{file_object.split('/')[-1]}",
+        content_url=f"{DATASET_ROOT_PATH}{file_object}",
         encoding_format=encoding_format,
         sha256_check=sha,
     )
@@ -105,7 +105,7 @@ class DistributionDatabaseConnection:
         self.id = connection_id
         self.name = database_name
         self.description = description
-        self.encodingFormat = "text/sql"
+        self.encoding_format = "text/sql"
 
     def to_dict(self):
         return {
@@ -113,7 +113,7 @@ class DistributionDatabaseConnection:
             "@id": self.id,
             "name": self.name,
             # "databaseName": self.database_name,
-            "encodingFormat": self.encodingFormat,
+            "encodingFormat": self.encoding_format,
             "description": self.description,
         }
 

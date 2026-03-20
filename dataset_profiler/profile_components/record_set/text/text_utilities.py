@@ -304,7 +304,7 @@ def text_preprocess(
         and main_text is the text after the separator. Returns (None, str)
         if separator is not found.
     """
-    if separator not in text:
+    if (not separator) or (separator not in text):
         return None, text.strip()
 
     # Split the text at the first occurrence of the separator

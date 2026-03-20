@@ -63,6 +63,32 @@ class DBRecordSet(RecordSet):
         #     "tables": [table.to_dict() for table in self.tables],
         # }
 
+    def to_dict_cdd(self):
+        """
+        "file_object_id": "2560eadd-5f6a-4a59-a85c-f89a4996fac8",
+          "original_format": "sql-db",
+          "source_file": "file/to/s3/8930240b-a0e8-46e7-ace8-aab2b42fcc01/dummy.sql",
+          "name": "Airline Fuel Consumption 2017-2018",
+          "description": "Historical data regarding fuel gallons consumed and total operating expenses for the fleet.",
+          "keywords": [
+            "aviation",
+            "energy",
+            "transportation",
+            "economics"
+          ],
+          "tables": [
+
+        """
+        return {
+            "file_object_id": self.file_object_id,
+            "original_format": "sql-db",
+            "source_file": self.distribution_path,
+            "name": self.db_name,
+            "description": "",
+            "keywords": [],
+            "tables": [table.to_dict_cdd() for table in self.tables],
+        }
+
 
 class DBTableField:
     def __init__(self, table: Dict, table_distribution_id: str, file_object: str, file_object_id: str, db_connection: DatagemsPostgres):
@@ -110,6 +136,13 @@ class DBTableField:
             "examples": json.dumps(self.examples, default=str),
         }
 
+    def to_dict_cdd(self):
+        return {
+            "name": self.name,
+            "description": "",
+            "columns": [field.to_dict_cdd() for field in self.fields],
+        }
+
 
 class DBColumnField(ColumnField):
     def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str):
@@ -137,4 +170,13 @@ class DBColumnField(ColumnField):
             "source": self.source,
             "sample": self.sample,
             "statistics": self.statistics.to_dict()
+        }
+
+    def to_dict_cdd(self):
+        return {
+            "name": self.name,
+            "primitive_type": self.dataType,
+            "semantic_type": [],
+            "description": self.description,
+            "statistics": self.statistics.to_dict_cdd()
         }

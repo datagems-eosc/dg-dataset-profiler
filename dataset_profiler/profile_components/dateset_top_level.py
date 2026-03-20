@@ -68,3 +68,14 @@ class DatasetTopLevel:
             "status": "loaded",
             "uploadedBy": self.uploaded_by,
         }
+
+    def to_dict_cdd(self):
+        return {
+            "@id": self.id,
+            "content_url": DATASET_ROOT_PATH + self.id,
+            "name": self.name,
+            "headline": self.headline,
+            "description": self.description,
+            "keywords": self.keywords,
+            "field_of_science": self.field_of_science
+        }

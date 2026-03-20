@@ -1,3 +1,4 @@
+import uuid
 from typing import Union, Dict, List
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
@@ -22,21 +23,21 @@ SCAYLE_MODEL = "llama-3.3"
 class TextRecordSet(RecordSet):
     def __init__(
         self,
-        distribution_path: str,
         file_object: str,
+        distribution_id: str,
         separator: Union[str, None] = None,
         header_index: int = 0,
         main_text_index: int = 1,
     ):
         super().__init__()
-        self.distribution_path = distribution_path
         self.file_object = file_object
+        self.file_object_id = distribution_id
         self.separator = separator
         self.type = "cr:RecordSet"
         self.name = file_object.split(".")[-2]
         # self.description = ""
         text_content, encoding = read_file_with_encoding(
-            self.distribution_path + self.file_object
+            self.file_object
         )
         self.encoding = encoding
         header, content = text_preprocess(
@@ -51,7 +52,7 @@ class TextRecordSet(RecordSet):
 
         self.key = {"@id": self.name}
         profile = profile_text_file(
-            distribution_path + file_object, separator=self.separator
+            file_object, separator=self.separator
         )
 
         self.file_size_bytes = profile["file_size_bytes"]
@@ -65,17 +66,19 @@ class TextRecordSet(RecordSet):
         self.flesch_kincaid_grade = profile["flesch_kincaid_grade"]
         print("\nGenerating summary...")
 
-        self.summary = get_summary(
-            self.body,
-            model=SCAYLE_MODEL,
-        )
-
-        print("Generating keywords...")
-        self.keywords = get_keywords(
-            self.body,
-            model=SCAYLE_MODEL,
-            max_keywords_num=5,
-        ).keywords
+        # self.summary = get_summary(
+        #     self.body,
+        #     model=SCAYLE_MODEL,
+        # )
+        #
+        # print("Generating keywords...")
+        # self.keywords = get_keywords(
+        #     self.body,
+        #     model=SCAYLE_MODEL,
+        #     max_keywords_num=5,
+        # ).keywords
+        self.summary = ""
+        self.keywords = []
 
         self.fields = self.extract_fields()
 
@@ -90,14 +93,14 @@ class TextRecordSet(RecordSet):
 
         for chunk in tqdm(chunks):
             sos, pos = find_substring_positions(self.text, chunk)
-            if sos and pos:
-                keywords = get_keywords(chunk, model)
+            if sos is not None and pos is not None:
+                # keywords = get_keywords(chunk, model)
                 temp = {
                     "text": chunk,
                     "sos": sos,
                     "eos": pos,
                     "references": [],
-                    "keywords": keywords.keywords,
+                    "keywords": [],
                 }
                 fields.append(ConcreteTextChunk(**temp))
             else:
@@ -113,19 +116,45 @@ class TextRecordSet(RecordSet):
     def to_dict(self):
         return {
             "@type": self.type,
+            "@id": str(uuid.uuid4()),
             "name": self.name,
+            "source": {
+                "@type": "cr:FileObject",
+                "@id": self.file_object_id,
+            },
             "summary": self.summary,
             "keywords": self.keywords,
-            "file_size_bytes": self.file_size_bytes,
-            "encoding": self.encoding,
+            # "file_size_bytes": self.file_size_bytes,
+            # "encoding": self.encoding,
             "language": self.language,
-            "num_lines": self.num_lines,
-            "num_words": self.num_words,
-            "num_characters": self.num_characters,
-            "avg_sentence_length": self.avg_sentence_length,
-            "num_paragraphs": self.num_paragraphs,
-            "flesch_kincaid_grade": self.flesch_kincaid_grade,  # readability score
-            "chunks": [chunk.to_dict() for chunk in self.fields],
+            "numLines": self.num_lines,
+            "numWords": self.num_words,
+            "numCharacters": self.num_characters,
+            "avgSentenceLength": self.avg_sentence_length,
+            "numParagraphs": self.num_paragraphs,
+            "fleschKincaidGrade": self.flesch_kincaid_grade,  # readability score
+            "field": [chunk.to_dict() for chunk in self.fields],
+        }
+
+    def to_dict_cdd(self):
+        return {
+            "file_object_id": self.file_object_id,
+            "original_format": "text",
+            "source_file": self.file_object,
+            "name": self.name,
+            "description": self.summary,
+            "keywords": self.keywords,
+            "chunked_content": [
+                {
+                    "section": "",
+                    "subsection": "",
+                    "chunks": [chunk.text for chunk in self.fields],
+                }
+            ],
+            "content": {
+                "type": "text",
+                "file_path": self.file_object,
+            },
         }
 
 
@@ -140,8 +169,12 @@ class ConcreteTextChunk(TextChunk):
 
     def to_dict(self) -> Dict:
         return {
-            "sos": self.sos,
-            "eos": self.eos,
-            "references": self.references,
+            "@id": str(uuid.uuid4()),
+            "@type": "dg:Chunk",
+            "inFileId": "page:1",
+            "dataType": "sc:Text",
+            # "sos": self.sos,
+            # "eos": self.eos,
+            # "references": self.references,
             "keywords": self.keywords,
         }

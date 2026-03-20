@@ -486,7 +486,7 @@ class CommonLLMConnector:
                 verify_ssl_env = os.getenv("SCAYLE_VERIFY_SSL", "true").lower()
                 self.scayle_verify_ssl = verify_ssl_env in ["1", "true", "yes", "on"]
             if not self.scayle_timeout:
-                timeout_env = os.getenv("SCAYLE_TIMEOUT", "30")
+                timeout_env = os.getenv("SCAYLE_TIMEOUT", "120")
                 self.scayle_timeout = float(timeout_env)
 
             if not self.api_base:
@@ -617,7 +617,7 @@ class CommonLLMConnector:
         verify_ssl = (
             self.scayle_verify_ssl if self.scayle_verify_ssl is not None else True
         )
-        timeout = self.scayle_timeout if self.scayle_timeout is not None else 30.0
+        timeout = self.scayle_timeout if self.scayle_timeout is not None else 120.0
 
         self.logging_obj.logger.debug(
             f"Scayle API request: model={self.model}, messages={len(messages)} message(s)"

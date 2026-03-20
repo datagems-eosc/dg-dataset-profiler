@@ -42,3 +42,17 @@ class ColumnStatistics:
             "histogram": self.histogram,
             "uniqueCount": self.unique_count,
         }
+
+    def to_dict_cdd(self):
+        return {
+            "rowCount": self.row_count,
+            "mean": self.mean,
+            "median": self.median,
+            "standardDeviation": self.standard_deviation,
+            "min": self.min_value,
+            "max": self.max_value,
+            "missingCount": self.missing_count,
+            "missingPercentage": self.missing_percentage,
+            "histogram": self.histogram,
+            "uniqueCount": self.unique_count,
+        }

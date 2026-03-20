@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+from collections import defaultdict
 from typing import List
 
 from dataset_profiler.dataset_specification import (
@@ -22,19 +23,22 @@ from dataset_profiler.profile_components.distribution import (
     get_distribution_of_database_connection,
     get_distributions_of_tables_in_db, get_file_objects_of_file_set,
 )
+from dataset_profiler.profile_components.record_set.csv.csv_record_set import CSVRecordSet
 from dataset_profiler.profile_components.record_set.db.db_distribution import (
     get_added_distributions,
     get_db_ids_from_distributions,
 )
 from dataset_profiler.profile_components.record_set.db.db_record_set import DBRecordSet
+from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import PdfRecordSet
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
 )
 from dataset_profiler.profile_components.record_set.record_set_extractor import (
     extract_record_sets_of_file_objects,
     extract_record_sets_of_file_sets,
-    extract_record_sets_of_database_connections,
+    extract_record_sets_of_database_connections, extract_record_sets_of_file_objects_in_file_sets,
 )
+from dataset_profiler.profile_components.record_set.text.text_record_set import TextRecordSet
 from dataset_profiler.utilities import get_file_objects
 from dataset_profiler.configs.config_logging import logger
 
@@ -43,7 +47,7 @@ class DatasetProfile:
     def __init__(self, dataset_specification: dict):
         self.dataset_specification = DatasetSpecification(dataset_specification)
         self.data_connectors = self.dataset_specification.data_connectors
-
+        self.record_sets_per_file_object = {}
         self.distribution_path = None
         for connector in self.data_connectors:
             if (
@@ -99,6 +103,10 @@ class DatasetProfile:
             ]
             | None
         ) = None
+        self.file_sets_distributions = None
+        self.database_connector_distributions = None
+        self.file_object_distributions = None
+        self.file_object_of_set_distributions = None
 
         # RecordSet
         self.record_sets: List[RecordSet] | None = None
@@ -157,6 +165,11 @@ class DatasetProfile:
                     for item in file_objects:
                         file_object_of_set_distributions.append(item)
 
+        self.file_sets_distributions = file_sets_distributions
+        self.database_connector_distributions = database_connector_distributions
+        self.file_object_distributions = file_object_distributions
+        self.file_object_of_set_distributions = file_object_of_set_distributions
+
         return (
             file_sets_distributions
             + database_connector_distributions
@@ -177,10 +190,10 @@ class DatasetProfile:
                 self.databases_objects, self.distributions
             )
 
-        # if self.distribution_path is not None:
-        #     record_sets += extract_record_sets_of_file_sets(
-        #         self.file_sets, self.distribution_path
-        #     )
+        if self.file_object_of_set_distributions is not None:
+            record_sets += extract_record_sets_of_file_objects_in_file_sets(
+                self.file_object_of_set_distributions, self.distribution_path
+            )
 
         return record_sets
 
@@ -231,5 +244,74 @@ class DatasetProfile:
 
         return profile_dict
 
+    def to_dict_cdd(self):
+        if self.distributions is None:
+            self.distributions = self.extract_distributions()
+        if self.record_sets is None:
+            self.record_sets = self.extract_record_sets()
+        distributions_and_record_sets = match_distributions_with_record_sets(self.distributions, self.record_sets)
+
+        files = []
+        for matched_dist_and_record_set in distributions_and_record_sets:
+            dist = matched_dist_and_record_set["distribution"]
+            record_sets = matched_dist_and_record_set["record_sets"]
+
+            if dist.encoding_format in ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                       "application/vnd.ms-excel"]:
+                tables = [{
+                    "name": record_set.name,
+                    "description": record_set.description,
+                    "columns": [column.to_dict_cdd() for column in record_set.fields]
+                } for record_set in record_sets]
+                files.append(
+                    {
+                        "file_object_id": dist.id,
+                        "original_format": "xlsx",
+                        "source_file": dist.content_url,
+                        "name": dist.name,
+                        "description": dist.description,
+                        "keywords": [],
+                        "tables": tables
+                    }
+                )
+            else:
+                if len(record_sets) > 1:
+                    logger.error("Unexpected length of records sets when generating CDD profile",
+                                 file_object_id=dist.id, num_record_sets=len(record_sets))
+                files.append(record_sets[0].to_dict_cdd())
+
+
+        return {
+            **self.dataset_top_level.to_dict_cdd(),
+            "files": files
+        }
+
+
     def to_json_str(self):
         return json.dumps(self.to_dict(), indent=3)
+
+
+def match_distributions_with_record_sets(distributions, record_sets) -> list[dict]:
+    matched_distributions = {}
+    distribution_id_index = {distribution.id: distribution for distribution in distributions}
+    for record_set in record_sets:
+        if (isinstance(record_set, CSVRecordSet) or isinstance(record_set, PdfRecordSet)
+                or isinstance(record_set, TextRecordSet)):
+            distribution = distribution_id_index.get(record_set.file_object_id)
+            if record_set.file_object_id not in matched_distributions:
+                matched_distributions[record_set.file_object_id] = {
+                    "distribution": distribution,
+                    "record_sets": [record_set],
+                }
+            else:
+                matched_distributions[record_set.file_object_id]["record_sets"].append(record_set)
+        elif isinstance(record_set, DBRecordSet):
+            db_connection_distribution = distribution_id_index.get(record_set.file_object_id)
+            matched_distributions[record_set.file_object_id] = {
+                "distribution": db_connection_distribution,
+                "record_sets": [record_set],
+            }
+        else:
+            print("Not covered yet")
+
+    return list(matched_distributions.values())
