@@ -1,6 +1,8 @@
 import csv
 import json
 import tempfile
+import os
+from pathlib import Path
 
 import pandas as pd
 import uuid
@@ -15,6 +17,7 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     ColumnField,
 )
 from dataset_profiler.utilities import find_column_type_in_csv
+from dataset_profiler.configs.config_logging import logger
 
 
 class CSVRecordSet(RecordSet):
@@ -30,30 +33,39 @@ class CSVRecordSet(RecordSet):
         self.examples = self.extract_examples()
 
     def extract_fields(self):
-        csv_object = pd.read_csv(
-            self.distribution_path + self.file_object, sep=None, encoding="ISO-8859-1"
-        )
+        file_path = os.path.join(self.distribution_path, self.file_object)
+        if os.path.exists(file_path):
+            logger.info("Extracting fields from CSV file", file=file_path)
+            try:
+                csv_object = pd.read_csv(file_path, encoding="ISO-8859-1")
 
-        fields = []
-        for column in csv_object.columns:
-            fields.append(
-                TableColumnField(
-                    csv_object[column], column, self.name, self.file_object_id
-                )
-            )
-        return fields
+                fields = []
+                for column in csv_object.columns:
+                    fields.append(
+                        TableColumnField(
+                            csv_object[column], column, self.name, self.file_object_id
+                        )
+                    )
+                return fields
+            except Exception as e:
+                logger.error(f"Error reading CSV file: {str(e)}", file=file_path)
+                raise
+        else:
+            logger.error("CSV file not found for field extraction", file=file_path)
+            raise FileNotFoundError(f"CSV file not found: {file_path}")
+
 
     def extract_examples(self):
-        csv_object = pd.read_csv(
-            self.distribution_path + self.file_object, sep=None, encoding="ISO-8859-1"
-        )
+        file_path = os.path.join(self.distribution_path, self.file_object)
+        csv_object = pd.read_csv(file_path, encoding="ISO-8859-1")
         return csv_object.head(30).replace({np.nan: None}).to_dict(orient="list")
+
 
     def to_dict(self):
         return {
             "@type": self.type,
             "@id": str(uuid.uuid4()),
-            "name": self.name,
+            "name": Path(self.name).name,
             # "description": self.description,
             # "key": self.key,
             "field": [field.to_dict() for field in self.fields],
@@ -65,7 +77,7 @@ class CSVRecordSet(RecordSet):
             "file_object_id": self.file_object_id,
             "original_format": "csv",
             "source_file": self.distribution_path + self.file_object,
-            "name": self.name,
+            "name": Path(self.name).name,
             "description": "",
             "keywords": [],
             "columns": [field.to_dict_cdd() for field in self.fields],

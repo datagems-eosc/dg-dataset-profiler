@@ -1,3 +1,4 @@
+import json
 import os
 import uuid
 
@@ -62,10 +63,18 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
 
         profile.extract_record_sets()
         heavy_profile = profile.to_dict()
+        cdd_profile = profile.to_dict_cdd()
+        cdd_profile_path = os.getenv('CDD_PROFILE_PATH', '') + cdd_profile['@id'] + ".json"
+
+        with open(cdd_profile_path, "w") as f:
+            json.dump(heavy_profile, f)
+
         store_job_response(job_id, ProfilesResponse(
             moma_profile_light=light_profile,
             moma_profile_heavy=heavy_profile,
-            cdd_profile={},
+            cdd_profile={
+                "path": cdd_profile_path
+            },
         ))
         store_job_status(job_id, status=JobStatus.HEAVY_PROFILES_READY)
         logger.info("Generated heavy dataset profile", job_id=job_id)

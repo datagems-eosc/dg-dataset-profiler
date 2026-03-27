@@ -41,6 +41,10 @@ class DatabaseConnection(BaseModel):
     ```
     """
     type: str
+    protocol: str
+    engine: str
+    host: str
+    port: int
     database_name: str
 
 

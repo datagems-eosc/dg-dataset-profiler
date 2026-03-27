@@ -9,10 +9,14 @@
     },
     {
       "database_name": "ds_mathe",
+      "engine": "PostgreSQL",
+      "host": "localhost",
+      "port": 5432,
+      "protocol": "postgresql",
       "type": "DatabaseConnection"
     }
   ],
-  "datePublished": "2025-05-25",
+  "datePublished": "2025-08-23",
   "description": "Dummy data.",
   "fieldOfScience": [
     "EARTH AND RELATED ENVIRONMENTAL SCIENCES"

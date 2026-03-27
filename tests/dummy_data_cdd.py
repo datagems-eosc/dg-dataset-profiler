@@ -7,9 +7,8 @@ def profiler_dummy_data():
         spec = json.load(json_file)
 
     profile = DatasetProfile(spec)
-    cdd_profile = json.dumps(profile.to_dict_cdd())
     with open("generated_profiles/mix_of_datasets_profile_cdd.json", "w") as f:
-        json.dump(cdd_profile, f, indent=3)
+        json.dump(profile.to_dict_cdd(), f)
     assert isinstance(
         profile, DatasetProfile
     )  # Not an actual test, just to check if the profile is created

@@ -1,5 +1,6 @@
 import uuid
 import os
+from pathlib import Path
 from typing import Dict, List, Any
 from dataset_profiler.profile_components.record_set.record_set_abc import RecordSet
 from langchain_community.document_loaders import PyMuPDFLoader
@@ -124,7 +125,7 @@ class PdfRecordSet(RecordSet):
             "file_object_id": self.file_object_id,
             "original_format": "application/pdf",
             "source_file": self.file_object,
-            "name": self.name,
+            "name": Path(self.name).name,
             "description": self.summary,
             "keywords": self.keywords,
             "chunked_content": [

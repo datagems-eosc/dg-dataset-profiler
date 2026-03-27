@@ -99,12 +99,17 @@ class DistributionDatabaseConnection:
         self,
         connection_id: str,
         database_name: str,
+        protocol: str,
+        engine: str,
+        host: str,
+        port: int,
         description: str = "",
     ):
         self.type = "dg:DatabaseConnection"
         self.id = connection_id
         self.name = database_name
         self.description = description
+        self.content_url = f"{protocol}://{host}:{port}/{database_name}"
         self.encoding_format = "text/sql"
 
     def to_dict(self):
@@ -113,17 +118,22 @@ class DistributionDatabaseConnection:
             "@id": self.id,
             "name": self.name,
             # "databaseName": self.database_name,
+            "contentUrl": self.content_url,
             "encodingFormat": self.encoding_format,
             "description": self.description,
         }
 
 
 def get_distribution_of_database_connection(
-    connection_id: str, database_name: str
+    connection_id: str, database_name: str, protocol: str, engine: str, host: str, port: int
 ) -> DistributionDatabaseConnection:
     return DistributionDatabaseConnection(
         connection_id=connection_id,
         database_name=database_name,
+        protocol=protocol,
+        engine=engine,
+        host=host,
+        port=port,
     )
 
 

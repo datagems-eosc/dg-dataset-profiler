@@ -7,1478 +7,5464 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
 !!! note
     As the Dataset Profiler service is under active development, the examples provided here are illustrative and may not represent the full capabilities of the service. Future versions may include additional features and improvements.
 
-## Example 1: Single Tabular Dataset (CSV)
+## Example: Mix of different file types
 
-Dataset Page: TODO WHEN AVAILABLE
-
-??? note "Show profile"
-
-    ```json
-    {
-    "@context": {
-        "@language": "en",
-        "@vocab": "https://schema.org/",
-        "cr": "http://mlcommons.org/croissant/",
-        "rai": "http://mlcommons.org/croissant/RAI/",
-        "dg": "http://datagems.eu/TBD",
-        "data": {
-        "@id": "cr:data",
-        "@type": "@json"
-        },
-        "dataType": {
-        "@id": "cr:dataType",
-        "@type": "@vocab"
-        },
-        "examples": {
-        "@id": "cr:examples",
-        "@type": "@json"
-        },
-        "conformsTo": "dct:conformsTo",
-        "citeAs": "cr:citeAs",
-        "column": "cr:column",
-        "extract": "cr:extract",
-        "field": "cr:field",
-        "fileProperty": "cr:fileProperty",
-        "fileObject": "cr:fileObject",
-        "fileSet": "cr:fileSet",
-        "format": "cr:format",
-        "includes": "cr:includes",
-        "isLiveDataset": "cr:isLiveDataset",
-        "jsonPath": "cr:jsonPath",
-        "key": "cr:key",
-        "md5": "cr:md5",
-        "parentField": "cr:parentField",
-        "path": "cr:path",
-        "recordSet": "cr:recordSet",
-        "references": "cr:references",
-        "regex": "cr:regex",
-        "repeated": "cr:repeated",
-        "replace": "cr:replace",
-        "sc": "https://schema.org/",
-        "separator": "cr:separator",
-        "source": "cr:source",
-        "subField": "cr:subField",
-        "transform": "cr:transform",
-        "access": "dg:access",
-        "uploadedBy": "dg:uploadedBy",
-        "wd": "https://www.wikidata.org/wiki/"
+```json
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "dg": "http://datagems.eu/TBD/",
+    "dct": "http://purl.org/dc/terms/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
     },
-    "@type": "sc:Dataset",
-    "@id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01",
-    "name": "Mathematics Learning Assessment",
-    "description": "This dataset was extracted from the MathE platform, an online educational platform developed to support mathematics teaching and learning in higher education. It contains 546 student responses to questions on several mathematical topics. Each record corresponds to an individual answer and includes the following features: Student ID, Student Country, Question ID, Type of Answer (correct or incorrect), Question Level (basic or advanced based on the assessment of the contributing professor), Math Topic (broader mathematical area of the question), Math Subtopic, and Question Keywords. The data spans from February 2019 to December 2023.",
-    "conformsTo": "",
-    "citeAs": "",
-    "license": "CC0 1.0",
-    "url": "https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY",
-    "doi": "",
-    "version": "",
-    "headline": "Dataset for Assessing Mathematics Learning in Higher Education.",
-    "keywords": [
-        "math",
-        "student",
-        "higher education"
-    ],
-    "fieldOfScience": [
-        "MATHEMATICS"
-    ],
-    "inLanguage": [
-        "en"
-    ],
-    "country": "PT",
-    "datePublished": "24-05-2025",
-    "access": "PUBLIC",
-    "uploadedBy": "ADMIN",
-    "distribution": [
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "conformsTo": "dct:conformsTo",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "access": "dg:access",
+    "uploadedBy": "dg:uploadedBy",
+    "statistics": "dg:statistics",
+    "doi": "dg:doi",
+    "fieldOfScience": "dg:fieldOfScience",
+    "status": "dg:status",
+    "rowCount": "dg:rowCount",
+    "mean": "dg:mean",
+    "median": "dg:median",
+    "standardDeviation": "dg:standardDeviation",
+    "min": "dg:min",
+    "max": "dg:max",
+    "missingCount": "dg:missingCount",
+    "missingPercentage": "dg:missingPercentage",
+    "histogram": "dg:histogram",
+    "uniqueCount": "dg:uniqueCount",
+    "wd": "https://www.wikidata.org/wiki/",
+    "containedIn": "cr:containedIn"
+  },
+  "@type": "sc:Dataset",
+  "@id": "7c4d20a0-33e8-471e-8a3f-a7a54aa09f68",
+  "name": "Dummy data.",
+  "description": "Dummy data.",
+  "archivedAt": "7c4d20a0-33e8-471e-8a3f-a7a54aa09f68",
+  "conformsTo": "",
+  "citeAs": "",
+  "license": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=download",
+  "url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=download",
+  "doi": "",
+  "version": "",
+  "headline": "Dummy data.",
+  "keywords": [
+    "weather",
+    "weather prediction"
+  ],
+  "fieldOfScience": [
+    "EARTH AND RELATED ENVIRONMENTAL SCIENCES"
+  ],
+  "inLanguage": [
+    "el"
+  ],
+  "country": "GR",
+  "datePublished": "2025-08-23",
+  "access": "",
+  "status": "loaded",
+  "uploadedBy": "ADMIN",
+  "distribution": [
+    {
+      "@type": "cr:FileSet",
+      "@id": "e68ecbe2-41db-43ff-afb9-420b002c1186",
+      "name": "word_docs",
+      "contentSize": "3394468 B",
+      "contentUrl": "word_docs",
+      "encodingFormat": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "includes": "word_docs/*"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "4a09ec77-ec88-4e61-98ed-9da7d1a8dc1f",
+      "name": "txt_files",
+      "contentSize": "17454 B",
+      "contentUrl": "txt_files",
+      "encodingFormat": "text/plain",
+      "includes": "txt_files/*"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "43b517df-b784-497d-8c83-28eb3dae03cc",
+      "name": "pdfs",
+      "contentSize": "148957 B",
+      "contentUrl": "pdfs",
+      "encodingFormat": "application/pdf",
+      "includes": "pdfs/*"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "be0f543b-a194-481e-8fd9-fb19529ed83c",
+      "name": "imgs",
+      "contentSize": "77587 B",
+      "contentUrl": "imgs",
+      "encodingFormat": "image/jpeg",
+      "includes": "imgs/*"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "1a78909b-8f1d-4d62-8a34-6abb0af116f3",
+      "name": "notebooks",
+      "contentSize": "1230 B",
+      "contentUrl": "notebooks",
+      "encodingFormat": "application/x-ipynb+json",
+      "includes": "notebooks/*"
+    },
+    {
+      "@type": "dg:DatabaseConnection",
+      "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1",
+      "name": "ds_mathe",
+      "contentUrl": "postgresql://localhost:5432/ds_mathe",
+      "encodingFormat": "text/sql",
+      "description": ""
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448",
+      "name": "user_final",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "7e267d92-71d4-4280-adb9-530240d8e448",
+      "name": "learning_style",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "e0cfd557-b634-4337-99aa-6af73bc94841",
+      "name": "platform_materials",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "bfea412b-9b75-415d-ba77-3f3418e9dc0d",
+      "name": "platform__degree",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "0a1e384f-5b80-4596-be9d-f5fd363e8d06",
+      "name": "teaching_style",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f",
+      "name": "platform__sna__questions",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7",
+      "name": "platform__university",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "19c39e76-a150-4db6-b253-3f5e575931ff",
+      "name": "platform_material_keyword",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "6e122e4b-642d-4e22-a032-7bf2760679b1",
+      "name": "hobbies",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca",
+      "name": "assessment",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "3d953947-ee22-4d8f-86b6-60438cda8a7d",
+      "name": "countries",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "dfa2a7aa-c5c5-4210-9dd2-d523e59dd4b1",
+      "name": "roles",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "955f4d90-ef24-48fe-93ab-4cc6bd01bec9",
+      "name": "work_preference",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "72aa95b4-33a4-48f8-898f-75508670ac3b",
+      "name": "platform__keywords",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "27124896-452c-44d4-b40d-6342a4f1cb8f",
+      "name": "platform__percentage_degree",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "2b18d6f6-5191-4874-897d-92ac0b2533dc",
+      "name": "platform__topic",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "39b3b3d4-5391-4afa-9335-cf43e2cb47fe",
+      "name": "material_top_sub",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "856805da-c1ae-470e-8003-a57b038e209f",
+      "name": "material_type",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "d04e89f1-d40f-40c6-8ee3-01e643033ff0",
+      "name": "user_gender",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "b9ca5e5c-a893-4680-b5a3-e839c4d087f2",
+      "name": "platform__subtopic",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "24780209-28ba-4cf8-85b1-6c0153ce11ac",
+      "name": "teacher_position",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "65c2f73b-6118-443b-9ef3-73ee895317fa",
+      "name": "studentwork_preference",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "6a859279-955a-44f2-b9ef-95bb766c730b",
+      "name": "teacher_experience",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "a0234c12-d0de-4d20-98f3-bda8d917415f",
+      "name": "platform__course",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "adeb12a1-3626-44a2-9e8e-9a9dd7d1d8a2",
+      "name": "platform_keyword_snaquestion",
+      "description": "",
+      "contentSize": "",
+      "contentUrl": "",
+      "encodingFormat": "text/sql",
+      "sha256": "",
+      "containedIn": {
+        "@id": "33bb4573-1db8-4f2d-9e87-b93c101755c1"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee",
+      "name": "csv_1.csv",
+      "description": "",
+      "contentSize": "2386685 B",
+      "contentUrl": "tests/assets/dummy_data/data/csv_1.csv",
+      "encodingFormat": "text/csv",
+      "sha256": "01c3cf8783e21961ed68d5170f1806035759066a3abdacc4e2c4942ababab055"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82",
+      "name": "ISCO-08 EN Structure and definitions.xlsx",
+      "description": "",
+      "contentSize": "238263 B",
+      "contentUrl": "tests/assets/dummy_data/data/ISCO-08 EN Structure and definitions.xlsx",
+      "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "sha256": "8c0c1b98205ab68adc43c594dfa336965c508eff65f07a992322d0f9917e5a9a"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "8f57e2d2-df94-45d5-a7e5-6168bf15ae72",
+      "name": "text1.txt",
+      "description": "",
+      "contentSize": "8727 B",
+      "contentUrl": "tests/assets/dummy_data/data/txt_files/text1.txt",
+      "encodingFormat": "text/plain",
+      "sha256": "12e6e8491de0403678bc5ae0e05df0e2d14358208385eb91d5ed109d155b1bc6",
+      "containedIn": {
+        "@id": "4a09ec77-ec88-4e61-98ed-9da7d1a8dc1f"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "99244a37-6240-4d7b-92e5-a00ec590d5f6",
+      "name": "text2.txt",
+      "description": "",
+      "contentSize": "8727 B",
+      "contentUrl": "tests/assets/dummy_data/data/txt_files/text2.txt",
+      "encodingFormat": "text/plain",
+      "sha256": "1cc2c7458c42e95a96b565bb4786de9ee3e8206f64906e36100495216da4f256",
+      "containedIn": {
+        "@id": "4a09ec77-ec88-4e61-98ed-9da7d1a8dc1f"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "1059ce33-1f88-4c8f-8601-0d8c10a13863",
+      "name": "960.pdf",
+      "description": "",
+      "contentSize": "148957 B",
+      "contentUrl": "tests/assets/dummy_data/data/pdfs/960.pdf",
+      "encodingFormat": "application/pdf",
+      "sha256": "69de15307063a25e5e39998f94ac420109a74889e0f495e27d6dcdc3d5936c05",
+      "containedIn": {
+        "@id": "43b517df-b784-497d-8c83-28eb3dae03cc"
+      }
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "6292358c-d117-4214-bcff-7540eefa1367",
+      "name": "Sheet1",
+      "description": "",
+      "containedIn": {
+        "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+      },
+      "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "b466ddb4-2667-4e7b-aa15-2e0d47900022",
+      "name": "Sheet1",
+      "description": "",
+      "containedIn": {
+        "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+      },
+      "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "0c1afbbb-0ec6-46d7-8b8f-1f20295cb4ef",
+      "name": "csv_1",
+      "field": [
         {
+          "@type": "cr:Field",
+          "@id": "a2c99e5f-d314-4b6e-a93a-aa91d2afd9b8",
+          "name": "dv_agency",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "dv_agency"
+            }
+          },
+          "sample": [
+            3,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2
+          ],
+          "statistics": {
+            "@id": "b54ca57f-6f87-4381-a91a-d5ee9fac928e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": 2.1724713857641107,
+            "median": 2.0,
+            "standardDeviation": 0.41898436210185863,
+            "min": 1.0,
+            "max": 4.0,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [0.997, 1.3], \"count\": 193}, {\"binRange\": [1.3, 1.6], \"count\": 0}, {\"binRange\": [1.6, 1.9], \"count\": 0}, {\"binRange\": [1.9, 2.2], \"count\": 16601}, {\"binRange\": [2.2, 2.5], \"count\": 0}, {\"binRange\": [2.5, 2.8], \"count\": 0}, {\"binRange\": [2.8, 3.1], \"count\": 3422}, {\"binRange\": [3.1, 3.4], \"count\": 0}, {\"binRange\": [3.4, 3.7], \"count\": 0}, {\"binRange\": [3.7, 4.0], \"count\": 141}]",
+            "uniqueCount": 4
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "81d283ab-f58d-40e6-a090-2c3c7f9dfb0c",
+          "name": "dv_platenum_station",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "dv_platenum_station"
+            }
+          },
+          "sample": [
+            "\u00ce\u0091\u00ce\u00a1\u00ce\u0093\u00ce\u00a5\u00ce\u00a1\u00ce\u009f\u00ce\u00a5\u00ce\u00a0\u00ce\u009f\u00ce\u009b\u00ce\u0097",
+            "\u00ce\u0091\u00ce\u0093\u00ce\u0099\u00ce\u009f\u00ce\u00a3 \u00ce\u0091\u00ce\u009d\u00ce\u00a4\u00ce\u00a9\u00ce\u009d\u00ce\u0099\u00ce\u009f\u00ce\u00a3",
+            "\u00ce\u0091\u00ce\u0099\u00ce\u0093\u00ce\u0091\u00ce\u009b\u00ce\u0095\u00ce\u00a9",
+            "\u00ce\u00a4\u00ce\u0091\u00ce\u00a5\u00ce\u00a1\u00ce\u009f\u00ce\u00a3",
+            "\u00ce\u00a0\u00ce\u0095\u00ce\u00a4\u00ce\u00a1\u00ce\u0091\u00ce\u009b\u00ce\u00a9\u00ce\u009d\u00ce\u0091",
+            "\u00ce\u00a0\u00ce\u0095\u00ce\u009d\u00ce\u00a4\u00ce\u0095\u00ce\u009b\u00ce\u0097\u00ce\u00a3",
+            "\u00ce\u009c\u00ce\u009f\u00ce\u009d\u00ce\u0091\u00ce\u00a3\u00ce\u00a4\u00ce\u0097\u00ce\u00a1\u00ce\u0091\u00ce\u009a\u00ce\u0099",
+            "\u00ce\u0091\u00ce\u0098\u00ce\u0097\u00ce\u009d\u00ce\u0091",
+            "\u00ce\u00a6\u00ce\u0091\u00ce\u009b\u00ce\u0097\u00ce\u00a1\u00ce\u009f",
+            "\u00ce\u0091\u00ce\u009d\u00ce\u0098\u00ce\u009f\u00ce\u00a5\u00ce\u00a0\u00ce\u009f\u00ce\u009b\u00ce\u0097"
+          ],
+          "statistics": {
+            "@id": "4dd802d8-ca3e-492d-836c-85f532688adc",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 83
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "72403870-bdd3-49d8-8d43-1ec7d1fd4ca6",
+          "name": "dv_validations",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "dv_validations"
+            }
+          },
+          "sample": [
+            4,
+            2198,
+            304,
+            57,
+            589,
+            19,
+            11,
+            18,
+            125,
+            412
+          ],
+          "statistics": {
+            "@id": "48da9321-6980-4956-886a-47b969fbe522",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": 351.1354325293511,
+            "median": 192.0,
+            "standardDeviation": 700.3838578383433,
+            "min": 1.0,
+            "max": 17606.0,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [-16.605, 1761.5], \"count\": 19931}, {\"binRange\": [1761.5, 3522.0], \"count\": 336}, {\"binRange\": [3522.0, 5282.5], \"count\": 39}, {\"binRange\": [5282.5, 7043.0], \"count\": 7}, {\"binRange\": [7043.0, 8803.5], \"count\": 10}, {\"binRange\": [8803.5, 10564.0], \"count\": 10}, {\"binRange\": [10564.0, 12324.5], \"count\": 13}, {\"binRange\": [12324.5, 14085.0], \"count\": 4}, {\"binRange\": [14085.0, 15845.5], \"count\": 1}, {\"binRange\": [15845.5, 17606.0], \"count\": 6}]",
+            "uniqueCount": 1673
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "29456700-f42e-4795-9cd8-0c6a11d2a868",
+          "name": "dv_route",
+          "description": "",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "dv_route"
+            }
+          },
+          "sample": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "statistics": {
+            "@id": "2e3afd54-59d8-4ae2-af4a-d022640c4e70",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 0,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 20357,
+            "missingPercentage": 100.0,
+            "histogram": "[]",
+            "uniqueCount": 0
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "01a103b0-3277-4769-82cd-9f68a0468bf6",
+          "name": "routes_per_hour",
+          "description": "",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "routes_per_hour"
+            }
+          },
+          "sample": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "statistics": {
+            "@id": "132bc83a-2b22-406d-8762-bc5fa53620e9",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 0,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 20357,
+            "missingPercentage": 100.0,
+            "histogram": "[]",
+            "uniqueCount": 0
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f2b345dd-f03d-42d2-a205-ddce8d3e27a3",
+          "name": "load_dt",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "load_dt"
+            }
+          },
+          "sample": [
+            "2025-05-28T07:54:59",
+            "2025-05-27T07:56:05",
+            "2025-05-25T07:52:01",
+            "2025-05-28T07:54:59",
+            "2025-05-26T07:55:10",
+            "2025-05-27T07:58:26",
+            "2025-05-25T07:52:01",
+            "2025-05-27T07:56:05",
+            "2025-05-24T07:55:55",
+            "2025-05-25T07:52:01"
+          ],
+          "statistics": {
+            "@id": "e48984c7-468b-4a52-82ba-4e21023373f8",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 20
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "5fc544f8-69f1-4d3e-a6d8-040376f885d8",
+          "name": "date_hour",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "date_hour"
+            }
+          },
+          "sample": [
+            "2025-05-25T14:00:00",
+            "2025-05-24T19:00:00",
+            "2025-05-26T11:00:00",
+            "2025-05-24T16:00:00",
+            "2025-05-25T15:00:00",
+            "2025-05-25T18:00:00",
+            "2025-05-26T18:00:00",
+            "2025-05-25T23:00:00",
+            "2025-05-25T09:00:00",
+            "2025-05-27T08:00:00"
+          ],
+          "statistics": {
+            "@id": "e1d46a99-65a8-45d4-99d1-7b39b5136659",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 96
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "9b5055e7-8e19-41d9-af8f-0e057159950c",
+          "name": "etl_extraction_dt",
+          "description": "",
+          "dataType": "sc:Date",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "etl_extraction_dt"
+            }
+          },
+          "sample": [
+            "2025-05-25",
+            "2025-05-25",
+            "2025-05-25",
+            "2025-05-24",
+            "2025-05-24",
+            "2025-05-26",
+            "2025-05-25",
+            "2025-05-27",
+            "2025-05-27",
+            "2025-05-25"
+          ],
+          "statistics": {
+            "@id": "82cd3121-22d2-47ad-87c1-e49f07e48452",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 5
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "ffb8e658-6ed4-4b76-8129-06e07a957aab",
+          "name": "etl_load_dt",
+          "description": "",
+          "dataType": "sc:Date",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "etl_load_dt"
+            }
+          },
+          "sample": [
+            "2025-05-26",
+            "2025-05-27",
+            "2025-05-28",
+            "2025-05-26",
+            "2025-05-28",
+            "2025-05-26",
+            "2025-05-27",
+            "2025-05-28",
+            "2025-05-24",
+            "2025-05-25"
+          ],
+          "statistics": {
+            "@id": "6a205e4e-a107-40f2-8ec8-dd4a9a3051d7",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 5
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "acc40dbb-598f-4481-bad5-fd9afdcaa4b5",
+          "name": "dv_agency_desc",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "dv_agency_desc"
+            }
+          },
+          "sample": [
+            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 1",
+            "\u00ce\u00a0\u00ce\u00a1\u00ce\u009f\u00ce\u0091\u00ce\u00a3\u00ce\u00a4\u00ce\u0099\u00ce\u0091\u00ce\u009a\u00ce\u009f\u00ce\u00a3",
+            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 2",
+            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 3",
+            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 2",
+            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 3",
+            "\u00ce\u00a0\u00ce\u00a1\u00ce\u009f\u00ce\u0091\u00ce\u00a3\u00ce\u00a4\u00ce\u0099\u00ce\u0091\u00ce\u009a\u00ce\u009f\u00ce\u00a3",
+            "\u00ce\u00a0\u00ce\u00a1\u00ce\u009f\u00ce\u0091\u00ce\u00a3\u00ce\u00a4\u00ce\u0099\u00ce\u0091\u00ce\u009a\u00ce\u009f\u00ce\u00a3",
+            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 2",
+            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 3"
+          ],
+          "statistics": {
+            "@id": "77c1dc28-2bb3-4ad8-a5c4-1c261880df33",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 6
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "ee1687a5-c4b9-4f94-8b1d-44f7e1f7deee",
+          "name": "boarding_disembark_desc",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee"
+            },
+            "extract": {
+              "column": "boarding_disembark_desc"
+            }
+          },
+          "sample": [
+            "Boarding",
+            "Boarding",
+            "Disembark",
+            "Disembark",
+            "Disembark",
+            "Disembark",
+            "Disembark",
+            "Boarding",
+            "Disembark",
+            "Boarding"
+          ],
+          "statistics": {
+            "@id": "32717a39-cff6-4c4c-9003-1e1729f5fa3d",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 20357,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 2
+          }
+        }
+      ],
+      "examples": "{\"dv_agency\": [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], \"dv_platenum_station\": [\"UKN\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u0091 \\u00ce\\u0092\\u00ce\\u0091\\u00ce\\u00a1\\u00ce\\u0092\\u00ce\\u0091\\u00ce\\u00a1\\u00ce\\u0091\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u0091 \\u00ce\\u0092\\u00ce\\u0091\\u00ce\\u00a1\\u00ce\\u0092\\u00ce\\u0091\\u00ce\\u00a1\\u00ce\\u0091\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u0091 \\u00ce\\u009c\\u00ce\\u0091\\u00ce\\u00a1\\u00ce\\u0099\\u00ce\\u009d\\u00ce\\u0091\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u0091 \\u00ce\\u009c\\u00ce\\u0091\\u00ce\\u00a1\\u00ce\\u0099\\u00ce\\u009d\\u00ce\\u0091\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u0091 \\u00ce\\u00a0\\u00ce\\u0091\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u00a3\\u00ce\\u009a\\u00ce\\u0095\\u00ce\\u00a5\\u00ce\\u0097\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u0091 \\u00ce\\u00a0\\u00ce\\u0091\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u00a3\\u00ce\\u009a\\u00ce\\u0095\\u00ce\\u00a5\\u00ce\\u0097\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u0091\\u00ce\\u009d\\u00ce\\u00a4\\u00ce\\u00a9\\u00ce\\u009d\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u0091\\u00ce\\u009d\\u00ce\\u00a4\\u00ce\\u00a9\\u00ce\\u009d\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u0094\\u00ce\\u0097\\u00ce\\u009c\\u00ce\\u0097\\u00ce\\u00a4\\u00ce\\u00a1\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u0094\\u00ce\\u0097\\u00ce\\u009c\\u00ce\\u0097\\u00ce\\u00a4\\u00ce\\u00a1\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u0095\\u00ce\\u009b\\u00ce\\u0095\\u00ce\\u00a5\\u00ce\\u0098\\u00ce\\u0095\\u00ce\\u00a1\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u0095\\u00ce\\u009b\\u00ce\\u0095\\u00ce\\u00a5\\u00ce\\u0098\\u00ce\\u0095\\u00ce\\u00a1\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u0099\\u00ce\\u00a9\\u00ce\\u0091\\u00ce\\u009d\\u00ce\\u009d\\u00ce\\u0097\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u0099\\u00ce\\u00a9\\u00ce\\u0091\\u00ce\\u009d\\u00ce\\u009d\\u00ce\\u0097\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u009d\\u00ce\\u0099\\u00ce\\u009a\\u00ce\\u009f\\u00ce\\u009b\\u00ce\\u0091\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0093\\u00ce\\u0099\\u00ce\\u009f\\u00ce\\u00a3 \\u00ce\\u009d\\u00ce\\u0099\\u00ce\\u009a\\u00ce\\u009f\\u00ce\\u009b\\u00ce\\u0091\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u0095\\u00ce\\u00a1\\u00ce\\u009f\\u00ce\\u0094\\u00ce\\u00a1\\u00ce\\u009f\\u00ce\\u009c\\u00ce\\u0099\\u00ce\\u009f\", \"\\u00ce\\u0091\\u00ce\\u0095\\u00ce\\u00a1\\u00ce\\u009f\\u00ce\\u0094\\u00ce\\u00a1\\u00ce\\u009f\\u00ce\\u009c\\u00ce\\u0099\\u00ce\\u009f\", \"\\u00ce\\u0091\\u00ce\\u0099\\u00ce\\u0093\\u00ce\\u0091\\u00ce\\u009b\\u00ce\\u0095\\u00ce\\u00a9\", \"\\u00ce\\u0091\\u00ce\\u0099\\u00ce\\u0093\\u00ce\\u0091\\u00ce\\u009b\\u00ce\\u0095\\u00ce\\u00a9\", \"\\u00ce\\u0091\\u00ce\\u009a\\u00ce\\u00a1\\u00ce\\u009f\\u00ce\\u00a0\\u00ce\\u009f\\u00ce\\u009b\\u00ce\\u0097\", \"\\u00ce\\u0091\\u00ce\\u009a\\u00ce\\u00a1\\u00ce\\u009f\\u00ce\\u00a0\\u00ce\\u009f\\u00ce\\u009b\\u00ce\\u0097\", \"\\u00ce\\u0091\\u00ce\\u009b\\u00ce\\u0099\\u00ce\\u009c\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u009b\\u00ce\\u0099\\u00ce\\u009c\\u00ce\\u009f\\u00ce\\u00a3\", \"\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u00a0\\u00ce\\u0095\\u00ce\\u009b\\u00ce\\u009f\\u00ce\\u009a\\u00ce\\u0097\\u00ce\\u00a0\\u00ce\\u009f\\u00ce\\u0099\", \"\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u00a0\\u00ce\\u0095\\u00ce\\u009b\\u00ce\\u009f\\u00ce\\u009a\\u00ce\\u0097\\u00ce\\u00a0\\u00ce\\u009f\\u00ce\\u0099\", \"\\u00ce\\u0091\\u00ce\\u009d\\u00ce\\u0098\\u00ce\\u009f\\u00ce\\u00a5\\u00ce\\u00a0\\u00ce\\u009f\\u00ce\\u009b\\u00ce\\u0097\", \"\\u00ce\\u0091\\u00ce\\u009d\\u00ce\\u0098\\u00ce\\u009f\\u00ce\\u00a5\\u00ce\\u00a0\\u00ce\\u009f\\u00ce\\u009b\\u00ce\\u0097\", \"\\u00ce\\u0091\\u00ce\\u009d\\u00ce\\u00a9 \\u00ce\\u00a0\\u00ce\\u0091\\u00ce\\u00a4\\u00ce\\u0097\\u00ce\\u00a3\\u00ce\\u0099\\u00ce\\u0091\"], \"dv_validations\": [3135, 149, 288, 323, 588, 108, 151, 279, 461, 491, 313, 216, 316, 259, 354, 228, 399, 256, 123, 591, 652, 459, 255, 180, 192, 649, 608, 286, 534, 204], \"dv_route\": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], \"routes_per_hour\": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], \"load_dt\": [\"2025-05-24T07:54:47\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\", \"2025-05-24T07:55:55\"], \"date_hour\": [\"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\", \"2025-05-24T00:00:00\"], \"etl_extraction_dt\": [\"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\", \"2025-05-23\"], \"etl_load_dt\": [\"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\", \"2025-05-24\"], \"dv_agency_desc\": [\"\\u00ce\\u009f\\u00ce\\u00a3\\u00ce\\u00a5\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 1\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 1\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 1\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 1\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 3\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 2\", \"\\u00ce\\u0093\\u00ce\\u00a1\\u00ce\\u0091\\u00ce\\u009c\\u00ce\\u009c\\u00ce\\u0089 1\"], \"boarding_disembark_desc\": [\"Boarding\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\", \"Disembark\", \"Boarding\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "d13bc0bd-bf53-4ac6-8fc5-da5a3daef511",
+      "name": "Sheet3",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "0f146289-aff5-4222-b55b-e9b7f31c61d5",
+          "name": "Level",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Level"
+            }
+          },
+          "sample": [
+            1,
+            2,
+            3,
+            4,
+            4,
+            4,
+            4,
+            3,
+            4
+          ],
+          "statistics": {
+            "@id": "236e7a11-aba9-46fe-afa0-5e8e10edef4f",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 9,
+            "mean": 3.2222222222222223,
+            "median": 4.0,
+            "standardDeviation": 1.092906420717,
+            "min": 1.0,
+            "max": 4.0,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [0.997, 1.3], \"count\": 1}, {\"binRange\": [1.3, 1.6], \"count\": 0}, {\"binRange\": [1.6, 1.9], \"count\": 0}, {\"binRange\": [1.9, 2.2], \"count\": 1}, {\"binRange\": [2.2, 2.5], \"count\": 0}, {\"binRange\": [2.5, 2.8], \"count\": 0}, {\"binRange\": [2.8, 3.1], \"count\": 2}, {\"binRange\": [3.1, 3.4], \"count\": 0}, {\"binRange\": [3.4, 3.7], \"count\": 0}, {\"binRange\": [3.7, 4.0], \"count\": 5}]",
+            "uniqueCount": 4
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "0b8e05ee-5999-4a97-a928-2cdc079b2d99",
+          "name": "ISCO 08 Code",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "ISCO 08 Code"
+            }
+          },
+          "sample": [
+            1,
+            11,
+            111,
+            1111,
+            1112,
+            1113,
+            1114,
+            112,
+            1120
+          ],
+          "statistics": {
+            "@id": "ad99b5da-9cea-4785-b088-79a036a58ab7",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 9,
+            "mean": 645.0,
+            "median": 1111.0,
+            "standardDeviation": 557.4262283029029,
+            "min": 1.0,
+            "max": 1120.0,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [-0.119, 112.9], \"count\": 4}, {\"binRange\": [112.9, 224.8], \"count\": 0}, {\"binRange\": [224.8, 336.7], \"count\": 0}, {\"binRange\": [336.7, 448.6], \"count\": 0}, {\"binRange\": [448.6, 560.5], \"count\": 0}, {\"binRange\": [560.5, 672.4], \"count\": 0}, {\"binRange\": [672.4, 784.3], \"count\": 0}, {\"binRange\": [784.3, 896.2], \"count\": 0}, {\"binRange\": [896.2, 1008.1], \"count\": 0}, {\"binRange\": [1008.1, 1120.0], \"count\": 5}]",
+            "uniqueCount": 9
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f78b5a33-bc9e-4f2e-9c8c-190737ffdd8c",
+          "name": "Title EN",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Title EN"
+            }
+          },
+          "sample": [
+            "Managers",
+            "Chief Executives, Senior Officials and Legislators",
+            "Legislators and Senior Officials",
+            "Legislators",
+            "Senior Government Officials",
+            "Traditional Chiefs and Heads of Villages",
+            "Senior Officials of Special-interest Organizations",
+            "Managing Directors and Chief Executives",
+            "Managing Directors and Chief Executives"
+          ],
+          "statistics": {
+            "@id": "41ee34c5-fa72-4368-8c13-f6aedf02df5d",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 9,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 8
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "199363b1-6b11-4f7f-9f15-cdeac24a60de",
+          "name": "Definition",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Definition"
+            }
+          },
+          "sample": [
+            "Managers plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations, or of organizational units within them, and formulate and review their policies, laws, rules and regulations. Competent performance in most occupations in this major group requires skills at the fourth ISCO skill level, except for Sub-major group 14: Hospitality, Retail and Other Services Managers, for which skills at the third ISCO skill level are generally required.",
+            "Chief executives, senior officials and legislators formulate and review the policies, and plan, direct, coordinate and evaluate the overall activities, of enterprises, governments and other organizations with the support of other managers. Competent performance in most occupations in this sub-major group requires skills at the fourth ISCO skill level.",
+            "Legislators and senior officials determine, formulate, advise on and direct the implementation of policies of national, state, regional or local governments or communities, and of special interest organizations. They make, ratify, amend or repeal laws, public rules and regulations and plan, organize, direct, control and evaluate the overall activities of government departments and agencies, traditional communities and special-interest organizations.",
+            "Legislators determine, formulate, and direct policies of national, state, regional or local governments and international governmental agencies, and make, ratify, amend or repeal laws, public rules and regulations. They include elected and non-elected members of parliaments, councils and governments.",
+            "Senior government officials advise governments on policy matters, oversee the interpretation and implementation of government policies and legislation by government departments and agencies, represent their country abroad and act on its behalf, or carry out similar tasks in intergovernmental organizations. They plan, organize, direct, control and evaluate the overall activities of municipal or local, regional and national government departments, boards, agencies or commissions in accordance with legislation and policies established by government and legislative bodies.",
+            "Traditional chiefs and heads of villages perform a variety of legislative, administrative and ceremonial tasks and duties, determined by ancient traditions, as well as by the division of rights and responsibilities \tbetween village chiefs and the local, regional and national authorities.",
+            "Senior officials of special-interest organizations determine, formulate and direct the implementation of policies of special-interest organizations, such as political-party organizations, trade unions, employers' organizations, trade and industry associations, humanitarian or charity organizations, or sports associations, and represent their organizations and act on their behalf.",
+            "Managing directors and chief executives formulate and review the policies and plan, direct, coordinate and evaluate the overall activities of enterprises or organizations (except special-interest organizations and government departments) with the support of other managers, usually within guidelines established by a board of directors or a governing body to whom they are answerable for the operations undertaken and results.",
+            "Managing directors and chief executives formulate and review the policies and plan, direct, coordinate and evaluate the overall activities of enterprises or organizations (except special-interest organizations and government departments) with the support of other managers, usually within guidelines established by a board of directors or a governing body to whom they are answerable for the operations undertaken and results."
+          ],
+          "statistics": {
+            "@id": "92e38ef1-22b7-4841-91a2-c5ce35237697",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 9,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 8
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "7d511b53-ce7a-4a2e-9a47-8125d4158e6f",
+          "name": "Tasks include",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Tasks include"
+            }
+          },
+          "sample": [
+            "Tasks performed by managers usually include: formulating and advising on the policy, budgets, laws and regulations of enterprises, governments and other organizational units; establishing objectives and standards and formulating and evaluating programmes and policies and procedures for their implementation; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; authorising material, human and financial resources to implement policies and programmes; monitoring and evaluating performance of the organization or enterprise and of its staff; selecting or approving the selection of  staff; ensuring compliance with health and safety requirements; planning and directing daily operations; representing and negotiating on behalf of the government, enterprise or organizational unit managed in meetings and other forums.",
+            "Tasks performed by workers in this sub-major group usually include: presiding over or participating in the proceedings of legislative bodies, boards of directors and committees; formulating and advising on the policy budgets, laws and regulations of enterprises, governments and other organizations; establishing objectives for enterprises, government departments or agencies and other organizations; formulating or approving and evaluating programmes and policies and  procedures for their implementation; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; authorizing material, human and financial resources to implement policies and programmmes; monitoring and evaluating performance of the organization or enterprise; selecting or approving the selection of senior staff; performing ceremonial duties and representing the enterprise, government, organization or community at official occasions and in meetings, negotiations, conventions and public hearings.",
+            "Tasks performed usually include: presiding over or participating in the proceedings of legislative bodies and administrative councils of governments, legislative assemblies, local communities and special-interest organizations; serving on government administrative boards or official committees; investigating matters of concern to the public and promoting the interests of constituents; formulating and advising on government policy, budgets, laws and regulations; establishing objectives for organizations and formulating or approving and evaluating programmes and policies and  procedures for their implementation; recommending, reviewing, evaluating and approving documents, briefs and reports submitted; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; allocating the use of communal land and other resources; performing ceremonial duties and representing the government, organization or community at official occasions and in meetings, negotiations, conventions and public hearings.",
+            "Tasks include -\n(a)  presiding over or participating in the proceedings of legislative bodies and administrative councils of national, state, regional or local governments or legislative assemblies;\n(b)  determining, formulating and directing policies of national, state, regional or local governments;\n(c)  making, ratifying, amending or repealing laws, public rules and regulations within a statutory or constitutional framework;\n(d)  serving on government administrative boards or official committees;\n(e)  investigating matters of concern to the public and promoting the interests of the constituencies which they represent;\n(f)  attending community functions and meetings to provide service to the community, understand public opinion and provide information on government plans;\n(g)  negotiating with other legislators and representatives of interest groups in order to reconcile differing interests, and to create policies and agreements;\n(h)  as members of the government, directing senior administrators and officials of government departments and agencies in the interpretation and implementation of government policies.",
+            "Tasks include -\n(a)  advising national, state, regional or local governments and legislators on policy matters;\n(b)  advising on the preparation of government budgets, laws and regulations, including amendments;\n(c)  establishing objectives for government departments or agencies in accordance with government legislation and policy;\n(d)  formulating or approving and evaluating programmes and procedures for the implementation of government policies in conjunction or consultation with government;\n(e)  recommending, reviewing, evaluating and approving documents, briefs and reports submitted by middle managers and senior staff members;\n(f)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\n(g)  coordinating activities with other senior government managers and officials;\n(h)  making presentations to legislative and other government committees regarding policies programmes or budgets;\n(i)  overseeing the interpretation and implementation of government policies and legislation by government departments and agencies.",
+            "Tasks include -\n(a)  allocating the use of communal land and other resources among households in the community or village;\n(b)  collecting and distributing surplus production of the community or village;\n(c)  settling disputes between members of the community or village;\n(d)  disciplining members of the community or village for violation of rules and customs;\n(e)  performing ceremonial duties in connection with births, marriages, deaths, harvests and other important occasions;\n(f)  representing the community or village on local or regional councils;\n(g)  informing the community or village about government rules and regulations.",
+            "Tasks include -\n(a)  determining and formulating the policies, rules and regulations of the organization;\n(b)  planning, directing and coordinating the general functioning of the organization;\n(c)  reviewing the operations and results of the organization and reporting to boards of directors and governing bodies, the organization\u00e2\u0080\u0099s membership and funding agencies;\n(d)  negotiating on behalf of the organization, its members and relevant special-interest groups; \n(e)  promoting the interests of the organization, its members and relevant special-interest groups before the legislature, government or general public; \n(f)  planning, organizing and directing sections charged with implementing the organization's policies, programmes, rules and regulations;\n(g)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\n(h)   monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, public hearings and forums.",
+            "Tasks performed usually include: planning, directing and coordinating the general functioning of an enterprise or organization; reviewing the operations and results of the enterprise or organization, and reporting to boards of directors and governing bodies; determining objectives, strategies, policies and programmes for the enterprise or organization; providing overall direction and management to organizations; establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources; authorizing material, human and financial resources to implement organizational policies and programmes; monitoring and evaluating performance of the organization or enterprise against established objectives and policies; consulting with senior subordinate staff and reviewing recommendations and reports; representing the organization at official occasions, in negotiations, at conventions, seminars, public hearings and forums; selecting or approving the selection of senior staff; ensuring the organization complies with relevant legislation and regulations.",
+            "Tasks include -\n(a)  planning, directing and coordinating the general functioning of an enterprise or organization;\n(b)  reviewing the operations and results of the enterprise, or organization and reporting to boards of directors and governing bodies;\n(c)  determining objectives, strategies, policies and programmes for the enterprise or organization;\n(d)  providing overall leadership and management to the enterprise or organization;\n(e)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\n(f)  authorising material, human and financial resources to implement organizational policies and programmes;\n(g)  monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\n(h)  consulting with senior subordinate staff and reviewing recommendations and reports;\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, seminars, public hearings and forums; \n(j)  selecting or approving the selection of senior staff;\n(k)  ensuring the organization complies with relevant legislation and regulations."
+          ],
+          "statistics": {
+            "@id": "175df870-fc83-434a-b067-d02e949a086e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 9,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 9
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "85ebc2fd-36b3-4692-a3da-5260db0c8df5",
+          "name": "Included occupations",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Included occupations"
+            }
+          },
+          "sample": [
+            "Occupations in this major group are classified into the following sub-major groups:\n11 Chief executives, Senior Officials and Legislators\n12 Administrative and Commercial Managers\n13 Production and Specialized Services Managers\n14 Hospitality, Retail and Other Services Managers",
+            "Occupations in this sub-major group are classified into the following minor groups:\n111 Legislators and Senior Officials\n112 Managing Directors and Chief Executives",
+            "Occupations in this minor group are classified into the following unit groups:\n1111 Legislators\n1112 Senior Government Officials\n1113 Traditional Chiefs and Heads of Villages\n1114 Senior Officials of Special-interest Organizations",
+            "Examples of the occupations classified here:\n- City councillor\n- Government minister\n- Mayor\n- Member of parliament\n- President (government)\n- Secretary of State\n- Senator\n- State governor",
+            "Examples of the occupations classified here:\n- Ambassador\n- City administrator\n- Civil service commissioner\n- Consul-general\n- Director-general (government department)\n- Director-general (intergovernmental organization)\n- Fire commissioner\n- Inspector-general (police)\n- Permanent head (government department)\n- Police chief constable\n- Police commissioner\n- Secretary-General (government administration)\n- Under-secretary (government)",
+            "Examples of the occupations classified here:\n- Village chief\n- Village head",
+            "Examples of the occupations classified here:\n- Chairperson, trade union\n- Director-general, employers' organization\n- Leader, political party\n- President, political party\n- Secretary-general, environment protection organization\n- Secretary-general, human rights organization",
+            "Occupations in this minor group are classified into the following unit group:\n1120 Managing Directors and Chief Executives",
+            "Examples of the occupations classified here:\n- Chief executive\n- Managing director\n- Regional manager"
+          ],
+          "statistics": {
+            "@id": "6ed058b9-0967-4dab-ae9b-f8c486c57bfb",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 9,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 9
+          }
+        }
+      ],
+      "examples": "{\"Level\": [1, 2, 3, 4, 4, 4, 4, 3, 4], \"ISCO 08 Code\": [1, 11, 111, 1111, 1112, 1113, 1114, 112, 1120], \"Title EN\": [\"Managers\", \"Chief Executives, Senior Officials and Legislators\", \"Legislators and Senior Officials\", \"Legislators\", \"Senior Government Officials\", \"Traditional Chiefs and Heads of Villages\", \"Senior Officials of Special-interest Organizations\", \"Managing Directors and Chief Executives\", \"Managing Directors and Chief Executives\"], \"Definition\": [\"Managers plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations, or of organizational units within them, and formulate and review their policies, laws, rules and regulations. Competent performance in most occupations in this major group requires skills at the fourth ISCO skill level, except for Sub-major group 14: Hospitality, Retail and Other Services Managers, for which skills at the third ISCO skill level are generally required.\", \"Chief executives, senior officials and legislators formulate and review the policies, and plan, direct, coordinate and evaluate the overall activities, of enterprises, governments and other organizations with the support of other managers. Competent performance in most occupations in this sub-major group requires skills at the fourth ISCO skill level.\", \"Legislators and senior officials determine, formulate, advise on and direct the implementation of policies of national, state, regional or local governments or communities, and of special interest organizations. They make, ratify, amend or repeal laws, public rules and regulations and plan, organize, direct, control and evaluate the overall activities of government departments and agencies, traditional communities and special-interest organizations.\", \"Legislators determine, formulate, and direct policies of national, state, regional or local governments and international governmental agencies, and make, ratify, amend or repeal laws, public rules and regulations. They include elected and non-elected members of parliaments, councils and governments.\", \"Senior government officials advise governments on policy matters, oversee the interpretation and implementation of government policies and legislation by government departments and agencies, represent their country abroad and act on its behalf, or carry out similar tasks in intergovernmental organizations. They plan, organize, direct, control and evaluate the overall activities of municipal or local, regional and national government departments, boards, agencies or commissions in accordance with legislation and policies established by government and legislative bodies.\", \"Traditional chiefs and heads of villages perform a variety of legislative, administrative and ceremonial tasks and duties, determined by ancient traditions, as well as by the division of rights and responsibilities \\tbetween village chiefs and the local, regional and national authorities.\", \"Senior officials of special-interest organizations determine, formulate and direct the implementation of policies of special-interest organizations, such as political-party organizations, trade unions, employers' organizations, trade and industry associations, humanitarian or charity organizations, or sports associations, and represent their organizations and act on their behalf.\", \"Managing directors and chief executives formulate and review the policies and plan, direct, coordinate and evaluate the overall activities of enterprises or organizations (except special-interest organizations and government departments) with the support of other managers, usually within guidelines established by a board of directors or a governing body to whom they are answerable for the operations undertaken and results.\", \"Managing directors and chief executives formulate and review the policies and plan, direct, coordinate and evaluate the overall activities of enterprises or organizations (except special-interest organizations and government departments) with the support of other managers, usually within guidelines established by a board of directors or a governing body to whom they are answerable for the operations undertaken and results.\"], \"Tasks include\": [\"Tasks performed by managers usually include: formulating and advising on the policy, budgets, laws and regulations of enterprises, governments and other organizational units; establishing objectives and standards and formulating and evaluating programmes and policies and procedures for their implementation; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; authorising material, human and financial resources to implement policies and programmes; monitoring and evaluating performance of the organization or enterprise and of its staff; selecting or approving the selection of  staff; ensuring compliance with health and safety requirements; planning and directing daily operations; representing and negotiating on behalf of the government, enterprise or organizational unit managed in meetings and other forums.\", \"Tasks performed by workers in this sub-major group usually include: presiding over or participating in the proceedings of legislative bodies, boards of directors and committees; formulating and advising on the policy budgets, laws and regulations of enterprises, governments and other organizations; establishing objectives for enterprises, government departments or agencies and other organizations; formulating or approving and evaluating programmes and policies and  procedures for their implementation; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; authorizing material, human and financial resources to implement policies and programmmes; monitoring and evaluating performance of the organization or enterprise; selecting or approving the selection of senior staff; performing ceremonial duties and representing the enterprise, government, organization or community at official occasions and in meetings, negotiations, conventions and public hearings.\", \"Tasks performed usually include: presiding over or participating in the proceedings of legislative bodies and administrative councils of governments, legislative assemblies, local communities and special-interest organizations; serving on government administrative boards or official committees; investigating matters of concern to the public and promoting the interests of constituents; formulating and advising on government policy, budgets, laws and regulations; establishing objectives for organizations and formulating or approving and evaluating programmes and policies and  procedures for their implementation; recommending, reviewing, evaluating and approving documents, briefs and reports submitted; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; allocating the use of communal land and other resources; performing ceremonial duties and representing the government, organization or community at official occasions and in meetings, negotiations, conventions and public hearings.\", \"Tasks include -\\n(a)  presiding over or participating in the proceedings of legislative bodies and administrative councils of national, state, regional or local governments or legislative assemblies;\\n(b)  determining, formulating and directing policies of national, state, regional or local governments;\\n(c)  making, ratifying, amending or repealing laws, public rules and regulations within a statutory or constitutional framework;\\n(d)  serving on government administrative boards or official committees;\\n(e)  investigating matters of concern to the public and promoting the interests of the constituencies which they represent;\\n(f)  attending community functions and meetings to provide service to the community, understand public opinion and provide information on government plans;\\n(g)  negotiating with other legislators and representatives of interest groups in order to reconcile differing interests, and to create policies and agreements;\\n(h)  as members of the government, directing senior administrators and officials of government departments and agencies in the interpretation and implementation of government policies.\", \"Tasks include -\\n(a)  advising national, state, regional or local governments and legislators on policy matters;\\n(b)  advising on the preparation of government budgets, laws and regulations, including amendments;\\n(c)  establishing objectives for government departments or agencies in accordance with government legislation and policy;\\n(d)  formulating or approving and evaluating programmes and procedures for the implementation of government policies in conjunction or consultation with government;\\n(e)  recommending, reviewing, evaluating and approving documents, briefs and reports submitted by middle managers and senior staff members;\\n(f)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\\n(g)  coordinating activities with other senior government managers and officials;\\n(h)  making presentations to legislative and other government committees regarding policies programmes or budgets;\\n(i)  overseeing the interpretation and implementation of government policies and legislation by government departments and agencies.\", \"Tasks include -\\n(a)  allocating the use of communal land and other resources among households in the community or village;\\n(b)  collecting and distributing surplus production of the community or village;\\n(c)  settling disputes between members of the community or village;\\n(d)  disciplining members of the community or village for violation of rules and customs;\\n(e)  performing ceremonial duties in connection with births, marriages, deaths, harvests and other important occasions;\\n(f)  representing the community or village on local or regional councils;\\n(g)  informing the community or village about government rules and regulations.\", \"Tasks include -\\n(a)  determining and formulating the policies, rules and regulations of the organization;\\n(b)  planning, directing and coordinating the general functioning of the organization;\\n(c)  reviewing the operations and results of the organization and reporting to boards of directors and governing bodies, the organization\\u00e2\\u0080\\u0099s membership and funding agencies;\\n(d)  negotiating on behalf of the organization, its members and relevant special-interest groups; \\n(e)  promoting the interests of the organization, its members and relevant special-interest groups before the legislature, government or general public; \\n(f)  planning, organizing and directing sections charged with implementing the organization's policies, programmes, rules and regulations;\\n(g)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\\n(h)   monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, public hearings and forums.\", \"Tasks performed usually include: planning, directing and coordinating the general functioning of an enterprise or organization; reviewing the operations and results of the enterprise or organization, and reporting to boards of directors and governing bodies; determining objectives, strategies, policies and programmes for the enterprise or organization; providing overall direction and management to organizations; establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources; authorizing material, human and financial resources to implement organizational policies and programmes; monitoring and evaluating performance of the organization or enterprise against established objectives and policies; consulting with senior subordinate staff and reviewing recommendations and reports; representing the organization at official occasions, in negotiations, at conventions, seminars, public hearings and forums; selecting or approving the selection of senior staff; ensuring the organization complies with relevant legislation and regulations.\", \"Tasks include -\\n(a)  planning, directing and coordinating the general functioning of an enterprise or organization;\\n(b)  reviewing the operations and results of the enterprise, or organization and reporting to boards of directors and governing bodies;\\n(c)  determining objectives, strategies, policies and programmes for the enterprise or organization;\\n(d)  providing overall leadership and management to the enterprise or organization;\\n(e)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(f)  authorising material, human and financial resources to implement organizational policies and programmes;\\n(g)  monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\\n(h)  consulting with senior subordinate staff and reviewing recommendations and reports;\\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, seminars, public hearings and forums; \\n(j)  selecting or approving the selection of senior staff;\\n(k)  ensuring the organization complies with relevant legislation and regulations.\"], \"Included occupations\": [\"Occupations in this major group are classified into the following sub-major groups:\\n11 Chief executives, Senior Officials and Legislators\\n12 Administrative and Commercial Managers\\n13 Production and Specialized Services Managers\\n14 Hospitality, Retail and Other Services Managers\", \"Occupations in this sub-major group are classified into the following minor groups:\\n111 Legislators and Senior Officials\\n112 Managing Directors and Chief Executives\", \"Occupations in this minor group are classified into the following unit groups:\\n1111 Legislators\\n1112 Senior Government Officials\\n1113 Traditional Chiefs and Heads of Villages\\n1114 Senior Officials of Special-interest Organizations\", \"Examples of the occupations classified here:\\n- City councillor\\n- Government minister\\n- Mayor\\n- Member of parliament\\n- President (government)\\n- Secretary of State\\n- Senator\\n- State governor\", \"Examples of the occupations classified here:\\n- Ambassador\\n- City administrator\\n- Civil service commissioner\\n- Consul-general\\n- Director-general (government department)\\n- Director-general (intergovernmental organization)\\n- Fire commissioner\\n- Inspector-general (police)\\n- Permanent head (government department)\\n- Police chief constable\\n- Police commissioner\\n- Secretary-General (government administration)\\n- Under-secretary (government)\", \"Examples of the occupations classified here:\\n- Village chief\\n- Village head\", \"Examples of the occupations classified here:\\n- Chairperson, trade union\\n- Director-general, employers' organization\\n- Leader, political party\\n- President, political party\\n- Secretary-general, environment protection organization\\n- Secretary-general, human rights organization\", \"Occupations in this minor group are classified into the following unit group:\\n1120 Managing Directors and Chief Executives\", \"Examples of the occupations classified here:\\n- Chief executive\\n- Managing director\\n- Regional manager\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "52d02c23-7195-4338-a56b-d0479f94f537",
+      "name": "ISCO-08 EN Struct and defin",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "42b04786-b09f-4197-839d-6696fa10d82e",
+          "name": "Level",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Level"
+            }
+          },
+          "sample": [
+            4,
+            4,
+            4,
+            4,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4
+          ],
+          "statistics": {
+            "@id": "c65647d3-db43-47cd-b32e-3c4e889c954b",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 619,
+            "mean": 3.602584814216478,
+            "median": 4.0,
+            "standardDeviation": 0.6900071106725839,
+            "min": 1.0,
+            "max": 4.0,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [0.997, 1.3], \"count\": 10}, {\"binRange\": [1.3, 1.6], \"count\": 0}, {\"binRange\": [1.6, 1.9], \"count\": 0}, {\"binRange\": [1.9, 2.2], \"count\": 43}, {\"binRange\": [2.2, 2.5], \"count\": 0}, {\"binRange\": [2.5, 2.8], \"count\": 0}, {\"binRange\": [2.8, 3.1], \"count\": 130}, {\"binRange\": [3.1, 3.4], \"count\": 0}, {\"binRange\": [3.4, 3.7], \"count\": 0}, {\"binRange\": [3.7, 4.0], \"count\": 436}]",
+            "uniqueCount": 4
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "a438d0d0-d369-42fa-8c3c-0debfedfb56a",
+          "name": "ISCO 08 Code",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "ISCO 08 Code"
+            }
+          },
+          "sample": [
+            7127,
+            8219,
+            9329,
+            633,
+            6114,
+            5113,
+            2351,
+            2263,
+            8143,
+            325
+          ],
+          "statistics": {
+            "@id": "7db110fa-4ddf-464a-9b0f-56b74ad53763",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 619,
+            "mean": 3493.928917609047,
+            "median": 3111.0,
+            "standardDeviation": 2954.134840377685,
+            "min": 0.0,
+            "max": 9629.0,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [-9.629, 962.9], \"count\": 186}, {\"binRange\": [962.9, 1925.8], \"count\": 31}, {\"binRange\": [1925.8, 2888.7], \"count\": 92}, {\"binRange\": [2888.7, 3851.6], \"count\": 84}, {\"binRange\": [3851.6, 4814.5], \"count\": 29}, {\"binRange\": [4814.5, 5777.4], \"count\": 40}, {\"binRange\": [5777.4, 6740.3], \"count\": 18}, {\"binRange\": [6740.3, 7703.2], \"count\": 66}, {\"binRange\": [7703.2, 8666.1], \"count\": 40}, {\"binRange\": [8666.1, 9629.0], \"count\": 33}]",
+            "uniqueCount": 613
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "2c31548f-4bc0-4eb2-9561-b3d87d7f1224",
+          "name": "Title EN",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Title EN"
+            }
+          },
+          "sample": [
+            "Dancers and Choreographers",
+            "Sewing Machine Operators",
+            "Bicycle and Related Repairers",
+            "Sewing, Embroidery and Related Workers",
+            "Business Services and Administration Managers Not Elsewhere Classified",
+            "Dispensing Opticians",
+            "Armed Forces Occupations, Other Ranks",
+            "Mobile Farm and Forestry Plant Operators",
+            "Street and Related Sales and Service Workers",
+            "Information and Communications Technology Operations and User Support Technicians"
+          ],
+          "statistics": {
+            "@id": "74c1b0bd-b01b-4644-bf20-215515fddca0",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 619,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 585
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "55ae4e90-fb2c-40d2-a7a3-35e7c717482d",
+          "name": "Definition",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Definition"
+            }
+          },
+          "sample": [
+            "Glass and ceramics plant operators operate and monitor kilns, furnaces and other machinery and equipment used in the manufacture of glass, ceramics, porcelain, tiles or bricks. They operate machines to anneal, harden or decorate glass and ceramics.",
+            "Tobacco preparers and tobacco products makers prepare tobacco leaves and make various tobacco products.",
+            "Wood processing and papermaking plant operators monitor, operate, and control machinery to saw wood, cut veneer, make plywood, produce pulp and paper, and to otherwise prepare wood, pulp and paper for further use.",
+            "This unit group covers managers that plan, direct and coordinate the provision of services and are not classified in Sub-major Group 13: Production and Specialized Services Managers or elsewhere in Sub-major Group 14: Hospitality, Retail and Other Services Managers. For instance, managers of travel agencies, conference centres, contact centres and shopping centres are classified here.",
+            "Government tax and excise officials examine tax returns, bills of sale and other documents to determine the type and amount of taxes, duties and other types of fees to be paid by individuals or businesses, referring exceptional or important cases to accountants, senior government officials or Managers.",
+            "Environmental engineers conduct research, advise on, design and direct implementation of solutions to prevent, control or remedy negative impacts of human activity on the environment utilizing a variety of engineering disciplines. They conduct environmental assessments of construction and civil engineering projects and apply engineering principles to pollution control, recycling and waste disposal.",
+            "Industrial and production engineers conduct research and design, organize and oversee the construction, operation and maintenance of industrial production processes and installations. They establish programmes for the coordination of manufacturing activities and assess cost effectiveness and safety.",
+            "Cartographers and surveyors determine the exact position of, or prepare and revise digital, graphic and pictorial maps, charts or other visual representation of, natural and constructed features and boundaries of land, seas, underground areas and celestial bodies, applying scientific and mathematical principles.",
+            "Economists conduct research, monitor data, analyse information and prepare reports and plans to resolve economic and business problems and develop models to analyse, explain and forecast economic behaviour and patterns. They provide advice to business, interest groups and governments to formulate solutions to present or projected economic and business problems.",
+            "Handicraft and printing workers combine artistic and manual skills to design, produce, maintain and decorate precision instruments, musical instruments, jewellery and other precious-metals, pottery, porcelain and glassware, items made of wood or textile, leather or related materials, and printed products such as books, newspapers and magazines. They apply traditional and/or recently developed techniques to carve, mould, assemble, weave and decorate various articles; to compose and set type prior to printing; to set up and operate printing presses; to bind and finish printed products; and to prepare stencils and operate screen printing equipment. Competent performance in most occupations in this sub-major group requires skills at the second ISCO skill level.\n\nThe work may be carried out by hand or involve the use of hand tools, hand-held power tools and in some cases the set-up and operation of machinery and machine tools. The tasks call for an understanding of the work organisation, the materials and tools used, and the nature and purpose of the final product."
+          ],
+          "statistics": {
+            "@id": "d01ad6c7-b352-4a51-ac94-e97d67062bea",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 619,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 602
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "9dfa1cd6-aeff-4338-b294-0c66ce5e87c6",
+          "name": "Tasks include",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Tasks include"
+            }
+          },
+          "sample": [
+            "Tasks include -\n(a)  weighing, wrapping, sealing and packing material and various products by hand;\n(b)  filling bottles, cans, boxes, bags and other containers with products by hand;\n(c)  labelling products, packages and various containers by hand.",
+            "Tasks include \u00e2\u0080\u0093 \n(a)  developing, implementing and monitoring strategic plans, programmes, policies, processes, systems and procedures to achieve goals, objectives and work standards; \n(b)  developing, directing, administering and participating in policy research and analysis;\n(c)  coordinating the implementation of policies and practices; \n(d)  establishing activity measures and measurements of accountability;\n(e)  planning and directing daily operations;\n(f)  leading and managing the activities of policy development and strategic planning staff;\n(g)  overseeing the selection, training and performance of staff; \n(h)  consulting with senior management and with managers of other departments;\n(i)  representing the enterprise or organization in negotiations, and at conventions, seminars, public hearings and forums.",
+            "Tasks include -\n(a)  digging holes for tree planting;\n(b)  stacking and loading logs and timber;\n(c)  clearing undergrowth in forest stands and thinning young plantations;\n(d)  maintaining look-out for fires in forests;\n(e)  removing major branches and tree tops, trimming branches and sawing trunks into logs;\n(f)  operating and maintaining manual and hand-held machine saws to fell trees and cut felled trees and branches into logs;\n(g)  collecting seeds, and planting seedlings;\n(h)  performing minor repairs and maintenance of forest roads, buildings, facilities, and equipment.",
+            "Tasks include -\n(a)  preparing and revising working drawings from sketches and specifications prepared by engineers and designers for the manufacture, installation and erection of machinery and equipment or for the construction, modification, maintenance and repair of buildings, dams, bridges, roads and other architectural and civil engineering projects;\n(b)  operating computer-aided design and drafting equipment to create, modify and generate hard-copy and digital representations of working drawings;\n(c)  operating digitizing table or similar equipment to transfer hard-copy representation of working drawings, maps and other curves to digital form;\n(d)  preparing and revising illustrations for reference works, brochures and technical manuals dealing with the assembly, installation, operation, maintenance and repair of machinery and other equipment and goods;\n(e)  copying drawings and paintings onto stone or metal plates for printing;\n(f)  preparing wiring diagrams, circuit board assembly diagrams and layout drawings used for manufacture, installation and repair of electrical equipment in factories, power plants, and buildings;\n(g)  creating detailed working diagrams of machinery and mechanical devices, including dimensions, fastening methods and other engineering information;\n(h)  arranging for completed drawings to be reproduced for use as working drawings.",
+            "Tasks include -\n(a)  evaluating and preserving records for administrative, historical, legal, evidential and other purposes;\n(b)  directing or carrying out the preparation of indexes, bibliographies, microfilm copies and other reference aids to the collected material and making them available to users;\n(c)  researching the origin, distribution and use of materials and objects of cultural and historical interest;\n(d)  organizing, developing and maintaining collections of artistic, cultural, scientific or historically significant items;\n(e)  directing or undertaking classification and cataloguing of museum and art gallery collections and organizing exhibitions;\n(f)  researching into, appraising, organizing and preserving historically significant and valuable documents such as government papers, private papers, photographs, maps, manuscripts and audiovisual materials;\n(g)  preparing scholarly papers and reports;\n(h)  planning and implementing the computerized management of archives and electronic records;\n(i)  organizing exhibitions at museums and art galleries, publicizing exhibits and arranging special displays for general, specialized or educational interest;\n(j)  appraising and acquiring archival materials to build and develop an archival collection for research purposes.",
+            "Tasks performed usually include: providing basic care services for the prevention and treatment of diseases and disorders of the teeth and mouth; advising communities and individuals on hygiene, diet and other preventive measures to reduce potential risks to health; compiling and maintaining patients\u00e2\u0080\u0099 medical records to document condition and treatment and to provide data for research, billing, cost control and care improvement; assisting families to develop the necessary skills and resources to improve their health status; providing advice and education on sanitation and hygiene to limit the spread of infectious diseases; fitting and dispensing optical lenses; investigate the implementation of rules and regulations relating to environmental and occupational factors that may potentially affect human health; massaging the soft tissues of the body; showing patients to examination rooms and preparing them for examination; attending and responding to accidents and emergencies and to requests for medical assistance.",
+            "Tasks include -\n(a)  undertaking research in laboratories and in the field to increase scientific knowledge of living organisms; to discover new information; to test hypotheses; to solve problems in areas such as the environment, agriculture and health; and to develop new products, processes and techniques for pharmaceutical, agricultural and environmental use;\n(b)  designing and conducting experiments and tests;\n(c)  gathering human, animal, insect and plant specimens and data, and studying their origin, development, chemical and physical form, structure, composition, and life and reproductive processes;\n(d)  examining living organisms using a variety of specialised equipment, instruments, technologies and techniques such as electron microscopes, telemetry, global positioning systems, biotechnology, satellite imaging, genetic engineering, digital imaging analysis, polymerase chain reaction and computer modelling;\n(e)  identifying, classifying, recording and monitoring living organisms and maintaining databases;\n(f)  writing scientific papers and reports detailing research and any new findings which are then made available to the scientific community in scientific journals or at conferences for scrutiny and further debate;\n(g)  designing and carrying out environmental impact assessments to identify changes caused by natural or human factors;\n(h)  providing advice to governments, organizations and businesses in areas such as conservation, management of natural resources, the effects of climate change and pollution.",
+            "Tasks include -\n(a)  operating and monitoring machines which mark patterns and cut shoe parts;\n(b)  operating and monitoring machines which sew shoe parts together, or edge, polish, or apply ornaments and perform finishing tasks;\n(c)  operating and monitoring machines which produce luggage, handbags, belts and other accessories, as well as other items such as saddles, collars or harnesses.",
+            "Tasks include -\n(a)  preparing wood, straw, rattan, reeds, shells, or similar materials;\n(b)  carving floral and artistic designs on wooden surfaces for decorative purposes;\n(c)  painting freehand decorative designs on glass and pottery or porcelain ware;\n(d)  carving, assembling, weaving, painting and decorating various articles for personal or household use such as salad bowls, serving-spoons, cutting-boards, trays, vases, jugs, baskets, straw hats, straw mats and similar objects;\n(e)  carving, assembling, weaving and painting various decorative articles such as statues and other sculptures, chess pieces, jewellery and similar objects;\n(f)  making wicker furniture from peeled and softened rattan, reeds, rushes, willow branches and similar materials;\n(g)  making various kinds of baskets by interlacing osier, rattan, reeds, rushes or similar materials;\n(h)  forming bottom of basket by interlacing strips of rattan, wood veneer or other material with framework of rods of material such as willow;\n(i)  inserting rods around edge of bottom between woven sections of bottom and bending them upright to serve as framework for sides;\n(j)  selecting and preparing brush materials, such as bristles, nylon, fibres and wire, and setting them in brush base;\n(k)  selecting and preparing materials, such as broom corn, bass, whisker and fibre, and fastening them to broom handles.",
+            "Tasks include -\n(a)  planning, directing and coordinating the advertising and public relations activities of an enterprise or organization;\n(b)  negotiating advertising contracts with clients or with newspapers, radio and television stations, sports and cultural organizations and advertising agencies;\n(c)  planning and managing information programmes to inform legislators, the mass media and the general public about the plans, accomplishments and points of view of the enterprise or organization;\n(d)  leading and managing the activities of advertising and public relations staff;\n(e)  establishing and managing budgets and controlling expenditure and ensuring the efficient use of resources;\n(f)  establishing and directing operational and administrative procedures;\n(g)  planning and directing daily operations;\n(h)  overseeing the selection, training and performance of staff."
+          ],
+          "statistics": {
+            "@id": "5eed8d49-9f8e-4acf-b3fd-152fabecb40b",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 603,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 16,
+            "missingPercentage": 2.5848142164781907,
+            "histogram": null,
+            "uniqueCount": 603
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "967c1d23-f0e1-4fe4-9a40-60fa7ba2e8a1",
+          "name": "Included occupations",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Included occupations"
+            }
+          },
+          "sample": [
+            "Occupations in this major group are classified into the following sub-major groups:\n81 Stationary Plant and Machine Operators\n82 Assemblers\n83 Drivers and Mobile Plant Operators",
+            "Examples of the occupations classified here:\n- Oyster diver\n- Salvage frogman\n- Sponge diver\n- Underwater worker",
+            "Occupations in this minor group are classified into the following unit groups:\n9121 Hand Launderers and Pressers\n9122 Vehicle Cleaners\n9123 Window Cleaners\n9129 Other Cleaning Workers",
+            "Occupations in this major group are classified into the following sub-major groups:\n91 Cleaners and Helpers\n92 Agricultural, Forestry and Fishery Labourers\n93 Labourers in Mining, Construction, Manufacturing and Transport\n94 Food Preparation Assistants\n95 Street and Related Sales and Service Workers\n96 Refuse Workers and Other Elementary Workers",
+            "Occupations in this minor group are classified into the following unit groups:\n1211 Finance Managers\n1212 Human Resource Managers\n1213 Policy and Planning Managers\n1219 Business Services and Administration Managers Not Elsewhere Classified",
+            "Examples of the occupations classified here:\n- Carpenter\n- Door installer\n- Finish Carpenter\n- Framer\n- Joiner\n- Shipwright (wood)",
+            "Examples of the occupations classified here:\n- Clearing agent\n- Forwarding agent\n- Shipping agent",
+            "Examples of the occupations classified here:\n- Ambulance officer\n- Ambulance paramedic\n- Emergency medical technician\n- Emergency paramedic",
+            "Occupations in this sub-major group are classified into the following minor groups:\n231 University and Higher Education Teachers\n232 Vocational Education Teachers\n233 Secondary Education Teachers \n234 Primary School and Early Childhood Teachers\n235 Other Teaching Professionals",
+            "Examples of the occupations classified here:\n- Bed and breakfast operator\n- Butler\n- Domestic Housekeeper"
+          ],
+          "statistics": {
+            "@id": "2f10d57c-86a1-418e-95da-0e10cd27e7bc",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 619,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 619
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f0d73c95-3bef-4fa1-b164-90ffadf89582",
+          "name": "Excluded occupations",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Excluded occupations"
+            }
+          },
+          "sample": [
+            "Some related occupations classified elsewhere:\n- Vocational education teacher - 2320\n- Secondary school teacher - 2330\n- Primary school teacher - 2341",
+            "Some related occupations classified elsewhere:\n- Environmental Engineer - 2143",
+            null,
+            null,
+            null,
+            "Some related occupations classified elsewhere:\n- Subsistence crop farmer - 6310\n- Subsistence livestock farmer - 6320\n- Livestock farm labourer - 9212\n- Water and firewood collectors - 9624",
+            null,
+            "Some related occupations classified elsewhere:\n- Street food vendor - 5212\n- Shopkeeper - 5221\n- Shop sales assistant - 5223\n- Food service counter attendant - 5246\n- Street vendor (excluding food) - 9520",
+            null,
+            null
+          ],
+          "statistics": {
+            "@id": "bd35541d-01a2-4012-92f8-9b0525f2cd19",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 311,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 308,
+            "missingPercentage": 49.75767366720517,
+            "histogram": null,
+            "uniqueCount": 302
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "a184b271-d486-4b96-b08c-6d6b63982014",
+          "name": "Notes",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "02e8c16e-5492-4346-b4a5-4a03cc0bfe82"
+            },
+            "extract": {
+              "column": "Notes"
+            }
+          },
+          "sample": [
+            "Specialized qualifications and extensive experience relevant to one or more occupations classified in Major Group 2: Professionals, or Major Group 3: Technicians and Associate Professionals, are usually required.  Regional managers and other senior managers who coordinate and supervise the activities of subordinate managers who have a diverse range of functional responsibilities are included in Unit Group 1120: Managing Directors and Chief Executives.",
+            null,
+            null,
+            null,
+            null,
+            "Sales managers are classified in Minor Group 122: Sales, Marketing and Development Managers. Technical, medical and ICT sales professionals are classified in Minor Group 243: Sales, Marketing and Public Relations Professionals. Commercial sales and insurance representatives are classified in Minor Group 332: Sales and Purchasing Agents and Brokers.",
+            null,
+            null,
+            null,
+            null
+          ],
+          "statistics": {
+            "@id": "b70d1c30-0ecf-442d-b908-2a99a0e35105",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": 92,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 527,
+            "missingPercentage": 85.1373182552504,
+            "histogram": null,
+            "uniqueCount": 87
+          }
+        }
+      ],
+      "examples": "{\"Level\": [1, 2, 3, 4, 4, 4, 4, 3, 4, 2, 3, 4, 4, 4, 4, 3, 4, 4, 4, 2, 3, 4, 4, 3, 4, 4, 4, 4, 3, 4], \"ISCO 08 Code\": [1, 11, 111, 1111, 1112, 1113, 1114, 112, 1120, 12, 121, 1211, 1212, 1213, 1219, 122, 1221, 1222, 1223, 13, 131, 1311, 1312, 132, 1321, 1322, 1323, 1324, 133, 1330], \"Title EN\": [\"Managers\", \"Chief Executives, Senior Officials and Legislators\", \"Legislators and Senior Officials\", \"Legislators\", \"Senior Government Officials\", \"Traditional Chiefs and Heads of Villages\", \"Senior Officials of Special-interest Organizations\", \"Managing Directors and Chief Executives\", \"Managing Directors and Chief Executives\", \"Administrative and Commercial Managers\", \"Business Services and Administration Managers\", \"Finance Managers\", \"Human Resource Managers\", \"Policy and Planning Managers\", \"Business Services and Administration Managers Not Elsewhere Classified\", \"Sales, Marketing and Development Managers\", \"Sales and Marketing Managers\", \"Advertising and Public Relations Managers\", \"Research and Development Managers\", \"Production and Specialized Services Managers\", \"Production Managers in Agriculture, Forestry and Fisheries\", \"Agricultural and Forestry Production Managers\", \"Aquaculture and Fisheries Production Managers\", \"Manufacturing, Mining, Construction and Distribution Managers\", \"Manufacturing Managers\", \"Mining Managers\", \"Construction Managers\", \"Supply, Distribution and Related Managers\", \"Information and Communications Technology Service managers\", \"Information and Communications Technology Service Managers\"], \"Definition\": [\"Managers plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations, or of organizational units within them, and formulate and review their policies, laws, rules and regulations. Competent performance in most occupations in this major group requires skills at the fourth ISCO skill level, except for Sub-major group 14: Hospitality, Retail and Other Services Managers, for which skills at the third ISCO skill level are generally required.\", \"Chief executives, senior officials and legislators formulate and review the policies, and plan, direct, coordinate and evaluate the overall activities, of enterprises, governments and other organizations with the support of other managers. Competent performance in most occupations in this sub-major group requires skills at the fourth ISCO skill level.\", \"Legislators and senior officials determine, formulate, advise on and direct the implementation of policies of national, state, regional or local governments or communities, and of special interest organizations. They make, ratify, amend or repeal laws, public rules and regulations and plan, organize, direct, control and evaluate the overall activities of government departments and agencies, traditional communities and special-interest organizations.\", \"Legislators determine, formulate, and direct policies of national, state, regional or local governments and international governmental agencies, and make, ratify, amend or repeal laws, public rules and regulations. They include elected and non-elected members of parliaments, councils and governments.\", \"Senior government officials advise governments on policy matters, oversee the interpretation and implementation of government policies and legislation by government departments and agencies, represent their country abroad and act on its behalf, or carry out similar tasks in intergovernmental organizations. They plan, organize, direct, control and evaluate the overall activities of municipal or local, regional and national government departments, boards, agencies or commissions in accordance with legislation and policies established by government and legislative bodies.\", \"Traditional chiefs and heads of villages perform a variety of legislative, administrative and ceremonial tasks and duties, determined by ancient traditions, as well as by the division of rights and responsibilities \\tbetween village chiefs and the local, regional and national authorities.\", \"Senior officials of special-interest organizations determine, formulate and direct the implementation of policies of special-interest organizations, such as political-party organizations, trade unions, employers' organizations, trade and industry associations, humanitarian or charity organizations, or sports associations, and represent their organizations and act on their behalf.\", \"Managing directors and chief executives formulate and review the policies and plan, direct, coordinate and evaluate the overall activities of enterprises or organizations (except special-interest organizations and government departments) with the support of other managers, usually within guidelines established by a board of directors or a governing body to whom they are answerable for the operations undertaken and results.\", \"Managing directors and chief executives formulate and review the policies and plan, direct, coordinate and evaluate the overall activities of enterprises or organizations (except special-interest organizations and government departments) with the support of other managers, usually within guidelines established by a board of directors or a governing body to whom they are answerable for the operations undertaken and results.\", \"Administrative and commercial managers plan, organize, direct, control and coordinate the financial, administrative, human resource, policy, planning, research and development, advertising, public relations, and sales and marketing activities of enterprises and organizations, or of enterprises that provide such services to other enterprises and organizations. Competent performance in most occupations in this sub-major group requires skills at the fourth ISCO skill level.\", \"Business services and administration managers plan, organize, direct, control and coordinate the financial, administrative, human resource, policy and planning activities of organizations, or of enterprises that provide such services to other enterprises and organizations.\", \"Finance managers plan, direct and coordinate the financial operations of an enterprise or organization, in consultation with senior managers and with managers of other departments or sections, or of enterprises that provide financial services to other enterprises and organizations.\", \"Human resource managers, plan, direct and coordinate policies concerning the personnel, industrial relations and occupational health and safety activities of an enterprise or organization, or of enterprises that provide human resource services to other enterprises and organizations.\", \"Policy and planning managers plan, organize, direct and coordinate policy advice and strategic planning activities within government or for non-government organizations and private sector agencies, or manage the activities of enterprises that provide policy and strategic planning services.\", \"This unit group covers business services and administration managers not classified elsewhere in Minor Group 121: Business Services and Administration Managers. For instance, the group includes occupations such as facilities manager, cleaning services manager, administrative services manager employed either as the manager of a department of a large enterprise and organization, or of an enterprise that provides such services to other enterprises and organizations.\", \"Sales, marketing and development managers plan, organize, direct, control and coordinate the advertising, public relations, research and development, and sales and marketing activities of enterprises and organizations, or of enterprises that provide such services to other enterprises and organizations.\", \"Sales and marketing managers plan, direct and coordinate the sales and marketing activities of an enterprise or organization, or of enterprises that provide sales and marketing services to other enterprises and organizations.\", \"Advertising and public relations managers plan, direct and coordinate the advertising, public relations and public information activities of enterprises and organizations or of enterprises that provide related services to other enterprises and organizations.\", \"Research and development managers plan, direct and coordinate the research and development activities of an enterprise or organization or of enterprises that provide related services to other enterprises and organizations.\", \"Production and specialized services managers plan direct and coordinate the production of the goods and the provision of the specialized professional and technical services provided by an enterprise or organization either as the manager of a department or as the general manager of an enterprise or organization that does not have a hierarchy of managers. They are responsible for manufacturing, mining, construction, logistics, information and communications technology operations, for large scale agricultural, forestry and fisheries operations, and for the provision of health, education, social welfare, banking, insurance and other professional and technical services. Competent performance in most occupations in this sub-major group requires skills at the fourth ISCO skill level.\", \"Production managers in agriculture, forestry and fisheries plan, direct, and coordinate production in large scale agricultural, horticultural, forestry aquaculture and fishery operations such as plantations, large ranches, collective farms and co-operatives to grow and harvest crops,  breed and raise livestock, fish and shellfish and to catch and harvest fish and other forms of aquatic life.\", \"Agricultural and forestry production managers plan, direct, and coordinate production in large scale agricultural, horticultural and forestry operations such as plantations, large ranches, collective farms and agricultural cooperatives to grow and harvest crops, and breed and raise livestock.\", \"Aquaculture and fisheries production managers plan, direct, and coordinate production in large-scale aquaculture and fishery operations to catch and harvest fish and shellfish, and to grow fish shellfish or other forms of aquatic life, as cash crops or for release into freshwater or saltwater.\", \"Manufacturing, mining, construction, and distribution managers plan, organize, and coordinate the manufacturing, mineral extraction, construction, supply, storage and transportation operations, either as the manager of a department or as the general manager of an enterprise or organization that does not have a hierarchy of managers.\", \"Manufacturing managers plan, direct and coordinate activities concerned with the production of goods, the production and distribution of electricity gas and water, and the collection, treatment and disposal of waste. They may manage the production departments of large enterprises or be the managers of small manufacturing companies.\", \"Mining managers plan, direct and coordinate the production of activities of mining, quarrying and oil and gas extraction operations, either as the manager of a department or as the general manager of an enterprise or organization that does not have a hierarchy of managers.\", \"Construction managers plan, direct and coordinate the construction of civil engineering projects, buildings and dwellings, either as the manager of a department or as the general manager of an enterprise or organization that does not have a hierarchy of managers.\", \"Supply, distribution and related managers plan, direct and coordinate passenger transportation systems and facilities and the supply, transportation, storage and distribution of goods, either as the manager of a department or as the general manager of an enterprise or organization that does not have a hierarchy of managers.\", \"Information and communications technology service managers plan, direct, and coordinate the acquisition, development, maintenance and use of computer and telecommunication systems, either as the manager of a department or as the general manager of an enterprise or organization that does not have a hierarchy of managers.\", \"Information and communications technology service managers plan, direct and coordinate the acquisition, development, maintenance and use of computer and telecommunication systems, either as the manager of a department or as the general manager of an enterprise or organization that does not have a hierarchy of managers.\"], \"Tasks include\": [\"Tasks performed by managers usually include: formulating and advising on the policy, budgets, laws and regulations of enterprises, governments and other organizational units; establishing objectives and standards and formulating and evaluating programmes and policies and procedures for their implementation; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; authorising material, human and financial resources to implement policies and programmes; monitoring and evaluating performance of the organization or enterprise and of its staff; selecting or approving the selection of  staff; ensuring compliance with health and safety requirements; planning and directing daily operations; representing and negotiating on behalf of the government, enterprise or organizational unit managed in meetings and other forums.\", \"Tasks performed by workers in this sub-major group usually include: presiding over or participating in the proceedings of legislative bodies, boards of directors and committees; formulating and advising on the policy budgets, laws and regulations of enterprises, governments and other organizations; establishing objectives for enterprises, government departments or agencies and other organizations; formulating or approving and evaluating programmes and policies and  procedures for their implementation; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; authorizing material, human and financial resources to implement policies and programmmes; monitoring and evaluating performance of the organization or enterprise; selecting or approving the selection of senior staff; performing ceremonial duties and representing the enterprise, government, organization or community at official occasions and in meetings, negotiations, conventions and public hearings.\", \"Tasks performed usually include: presiding over or participating in the proceedings of legislative bodies and administrative councils of governments, legislative assemblies, local communities and special-interest organizations; serving on government administrative boards or official committees; investigating matters of concern to the public and promoting the interests of constituents; formulating and advising on government policy, budgets, laws and regulations; establishing objectives for organizations and formulating or approving and evaluating programmes and policies and  procedures for their implementation; recommending, reviewing, evaluating and approving documents, briefs and reports submitted; ensuring appropriate systems and procedures are developed and implemented to provide budgetary control; allocating the use of communal land and other resources; performing ceremonial duties and representing the government, organization or community at official occasions and in meetings, negotiations, conventions and public hearings.\", \"Tasks include -\\n(a)  presiding over or participating in the proceedings of legislative bodies and administrative councils of national, state, regional or local governments or legislative assemblies;\\n(b)  determining, formulating and directing policies of national, state, regional or local governments;\\n(c)  making, ratifying, amending or repealing laws, public rules and regulations within a statutory or constitutional framework;\\n(d)  serving on government administrative boards or official committees;\\n(e)  investigating matters of concern to the public and promoting the interests of the constituencies which they represent;\\n(f)  attending community functions and meetings to provide service to the community, understand public opinion and provide information on government plans;\\n(g)  negotiating with other legislators and representatives of interest groups in order to reconcile differing interests, and to create policies and agreements;\\n(h)  as members of the government, directing senior administrators and officials of government departments and agencies in the interpretation and implementation of government policies.\", \"Tasks include -\\n(a)  advising national, state, regional or local governments and legislators on policy matters;\\n(b)  advising on the preparation of government budgets, laws and regulations, including amendments;\\n(c)  establishing objectives for government departments or agencies in accordance with government legislation and policy;\\n(d)  formulating or approving and evaluating programmes and procedures for the implementation of government policies in conjunction or consultation with government;\\n(e)  recommending, reviewing, evaluating and approving documents, briefs and reports submitted by middle managers and senior staff members;\\n(f)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\\n(g)  coordinating activities with other senior government managers and officials;\\n(h)  making presentations to legislative and other government committees regarding policies programmes or budgets;\\n(i)  overseeing the interpretation and implementation of government policies and legislation by government departments and agencies.\", \"Tasks include -\\n(a)  allocating the use of communal land and other resources among households in the community or village;\\n(b)  collecting and distributing surplus production of the community or village;\\n(c)  settling disputes between members of the community or village;\\n(d)  disciplining members of the community or village for violation of rules and customs;\\n(e)  performing ceremonial duties in connection with births, marriages, deaths, harvests and other important occasions;\\n(f)  representing the community or village on local or regional councils;\\n(g)  informing the community or village about government rules and regulations.\", \"Tasks include -\\n(a)  determining and formulating the policies, rules and regulations of the organization;\\n(b)  planning, directing and coordinating the general functioning of the organization;\\n(c)  reviewing the operations and results of the organization and reporting to boards of directors and governing bodies, the organization\\u00e2\\u0080\\u0099s membership and funding agencies;\\n(d)  negotiating on behalf of the organization, its members and relevant special-interest groups; \\n(e)  promoting the interests of the organization, its members and relevant special-interest groups before the legislature, government or general public; \\n(f)  planning, organizing and directing sections charged with implementing the organization's policies, programmes, rules and regulations;\\n(g)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\\n(h)   monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, public hearings and forums.\", \"Tasks performed usually include: planning, directing and coordinating the general functioning of an enterprise or organization; reviewing the operations and results of the enterprise or organization, and reporting to boards of directors and governing bodies; determining objectives, strategies, policies and programmes for the enterprise or organization; providing overall direction and management to organizations; establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources; authorizing material, human and financial resources to implement organizational policies and programmes; monitoring and evaluating performance of the organization or enterprise against established objectives and policies; consulting with senior subordinate staff and reviewing recommendations and reports; representing the organization at official occasions, in negotiations, at conventions, seminars, public hearings and forums; selecting or approving the selection of senior staff; ensuring the organization complies with relevant legislation and regulations.\", \"Tasks include -\\n(a)  planning, directing and coordinating the general functioning of an enterprise or organization;\\n(b)  reviewing the operations and results of the enterprise, or organization and reporting to boards of directors and governing bodies;\\n(c)  determining objectives, strategies, policies and programmes for the enterprise or organization;\\n(d)  providing overall leadership and management to the enterprise or organization;\\n(e)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(f)  authorising material, human and financial resources to implement organizational policies and programmes;\\n(g)  monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\\n(h)  consulting with senior subordinate staff and reviewing recommendations and reports;\\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, seminars, public hearings and forums; \\n(j)  selecting or approving the selection of senior staff;\\n(k)  ensuring the organization complies with relevant legislation and regulations.\", \"Tasks performed by workers in this sub-major group usually include: formulating and administering policy advice, strategic and financial planning; establishing and directing operational and administrative procedures; implementing, monitoring and evaluating strategies and policies; providing advice to senior Managers; directing the development of initiatives for new products, marketing, public relations and advertising campaigns; determining and directing sales activities, product mix, customer service standards; setting prices and credit arrangements; ensuring compliance with relevant legislation, regulations and standards; controlling selection, training and performance of staff; preparing budgets and overseeing financial operations; consulting with the chief executive and with managers of other departments or sections; controlling expenditure and ensuring the efficient use of resources; representing the enterprise or organization in negotiations, and at conventions, seminars, public hearings and forums.\", \"Tasks performed usually include: formulating and administering policy advice, strategic and financial planning; establishing and directing operational and administrative procedures; implementing, monitoring and evaluating strategies and policies; providing advice to senior managers and board members on financial, administrative strategic, policy, programme and legislative issues; ensuring compliance with relevant legislation, regulations and standards; controlling selection, training and performance of staff; preparing budgets and overseeing financial operations; consulting with the chief executive and with managers of other departments or sections; controlling expenditure and ensuring the efficient use of resources; representing the organization in negotiations, and at conventions, seminars, public hearings and forums.\", \"Tasks include -\\n(a)  planning, directing and coordinating the financial operations of an enterprise or organization;\\n(b)  assessing the financial situation of the enterprise or organization, preparing budgets and overseeing financial operations;\\n(c)  consulting with the chief executive and with managers of other departments or sections\\n(d)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(e)  establishing and directing operational and administrative procedures;\\n(f)  planning and directing daily operations;\\n(g)  overseeing the selection, training and performance of staff;\\n(h)  representing the enterprise or organization in dealings with outside bodies.\", \"Tasks include -\\n(a)  planning, directing and coordinating the personnel and industrial relations activities, policies and practices of an enterprise or organization;\\n(b)  planning and organizing procedures for recruitment, training, promotion, transfer and dismissal of staff;\\n(c)  planning and organizing negotiations and procedures for determination of wage structures and level and for consultation with workers on conditions of employment;\\n(d)  overseeing safety, health and related programmes and activities;\\n(e)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(f)  establishing and directing operational and administrative procedures;\\n(g)  overseeing the development and implementation of management information systems;\\n(h)  ensuring compliance with standards and legislation relating to employees rights, health and safety, equal opportunity and related concerns;\\n(i)  overseeing the selection, training and performance of staff for the entire enterprise or organization;\\n(j)  consulting with senior management and with managers of other departments;\\n(k)  representing the enterprise or organization in dealings with outside bodies.\", \"Tasks include \\u00e2\\u0080\\u0093 \\n(a)  developing, implementing and monitoring strategic plans, programmes, policies, processes, systems and procedures to achieve goals, objectives and work standards; \\n(b)  developing, directing, administering and participating in policy research and analysis;\\n(c)  coordinating the implementation of policies and practices; \\n(d)  establishing activity measures and measurements of accountability;\\n(e)  planning and directing daily operations;\\n(f)  leading and managing the activities of policy development and strategic planning staff;\\n(g)  overseeing the selection, training and performance of staff; \\n(h)  consulting with senior management and with managers of other departments;\\n(i)  representing the enterprise or organization in negotiations, and at conventions, seminars, public hearings and forums.\", \"In such cases tasks would include:\\n(a)  providing administrative, strategic planning and operational support, research and advice to senior management on matters such as the management of building facilities and administrative services;\\n(b)  developing and managing the organization's administrative and physical resources;\\n(c)  developing and implementing administrative and procedural statements and guidelines for use by staff in the organization; \\n(d)  analysing complex resource management issues and initiatives that affect the organization, and preparing associated reports, correspondence and submissions;\\n(e)  providing information and support for the preparation of financial reports and budgets;\\n(f)  leading, managing and developing administrative staff to ensure smooth business operations and the provision of accurate and timely information;\\n(g)  representing the enterprise or organization in negotiations, and at conventions, seminars, public hearings and forums;\\n(h)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(i)  planning and directing daily operations;\\n(j)  overseeing the selection, training and performance of staff.\", \"Tasks performed usually include: formulating and implementing policies and plans for advertising, public relations, product development, sales and marketing in consultation with other managers; directing the development of initiatives for new products or scientific research; marketing, public relations and advertising campaigns; determining and directing sales activities, product mix, customer service standards and merchandising methods and distribution policy; setting prices and credit arrangements; establishing and managing budgets and controlling expenditure to ensure the efficient use of resources; overseeing the selection, training and performance of staff; representing the enterprise or organization at conventions, trade exhibitions and other forums.\", \"Tasks include -\\n(a)  planning and organizing special sales and marketing programmes based on sales records and market assessments;\\n(b)  determining price lists, discount and delivery terms, sales promotion budgets, sales methods, special incentives and campaigns;\\n(c)  establishing and directing operational and administrative procedures related to sales and marketing activities;\\n(d)  leading and managing the activities of sales and marketing staff;\\n(e)  planning and directing daily operations; \\n(f)  establishing and managing budgets and controlling expenditure to ensure the efficient use of resources;\\n(g)  overseeing the selection, training and performance of staff;\\n(h)  representing the enterprise or organization at sales and marketing conventions, trade exhibitions and other forums.\", \"Tasks include -\\n(a)  planning, directing and coordinating the advertising and public relations activities of an enterprise or organization;\\n(b)  negotiating advertising contracts with clients or with newspapers, radio and television stations, sports and cultural organizations and advertising agencies;\\n(c)  planning and managing information programmes to inform legislators, the mass media and the general public about the plans, accomplishments and points of view of the enterprise or organization;\\n(d)  leading and managing the activities of advertising and public relations staff;\\n(e)  establishing and managing budgets and controlling expenditure and ensuring the efficient use of resources;\\n(f)  establishing and directing operational and administrative procedures;\\n(g)  planning and directing daily operations;\\n(h)  overseeing the selection, training and performance of staff.\", \"Tasks include -\\n(a)  planning, directing and coordinating research and development activities, in-house or commissioned from external research organizations, to develop new or improved technical processes, products, knowledge, or utilization of materials;\\n(b)  planning the overall research and development programme of an enterprise or organization, specifying goals and budgetary requirements;\\n(c)  leading and managing the activities of research and development staff;\\n(d)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(e)  establishing and directing operational and administrative procedures;\\n(f)  planning and directing daily operations;\\n(g)  overseeing the selection, training and performance of staff;\\n(h)  representing the enterprise or organization at conventions, seminars and conferences.\", \"Tasks performed by workers in this sub-major group usually include: planning details of activities in terms of output, services provided, quality, quantity, cost, timeliness and labour requirements; setting standards and objectives; controlling the operation of plant and of procedures; assuring quality of the goods produced and services provided; preparing tenders and contract bids; establishing and managing budgets, monitoring costs, and adjusting activities, procedures and resources to minimize costs; overseeing the acquisition and installation of new plant and equipment; coordinating the implementation of health and safety requirements; planning and directing daily operations; overseeing the selection, training and performance of staff; preparing, or arranging for the preparation of, reports, budgets and forecasts; representing the enterprise or organization in negotiations with other agencies, and at conventions, seminars, public hearings and forums.\", \"Tasks performed usually include: monitoring market activity and planning production to meet contract requirements and market demand; establishing and managing budgets, monitoring production output and costs, recording information such as farm and fisheries  management practices, and preparing financial and operational reports; conferring with buyers to arrange for the sale of crops, catch and stock;  contracting with farmers, skippers or independent owners for production of produce and  management of production; planning the type, intensity and sequence of operations; purchasing machinery, equipment, and supplies; identifying and controlling environmental toxins, weeds, pests and diseases; organizing  operations such as maintaining buildings, water supply systems and equipment; overseeing the selection, training and performance of workers and contractors.\", \"Tasks include -\\n(a)  monitoring agricultural and forestry market activity and planning production to meet contract requirements and market demand;\\n(b)  establishing and managing budgets, monitoring production output and costs, recording information such as farm management practices, and preparing financial and operational reports; \\n(c)  conferring with buyers to arrange for the sale of crops and livestock;\\n(d)  contracting with farmers or independent owners for production of crops and livestock, or for management of production;\\n(e)  planning the type, intensity and sequence of farm operations (e.g. determining the best times for planting, spraying and harvesting);\\n(f)  analysing soil to determine types and quantities of fertilizer required for maximum production;\\n(g)  purchasing machinery, equipment, and supplies such as tractors, seed, fertilizer, and chemicals; \\n(h)  identifying and controlling agricultural and forest environmental toxins, weeds, pests and diseases;\\n(i)  organizing farming operations such as maintaining buildings, water supply systems and equipment;\\n(j)  directing and coordinating activities such as planting, irrigation, chemical application, harvesting, and grading; \\n(k)  inspecting plantations and fields to determine maturity dates of crops, or to estimate potential crop damage from weather; \\n(l)  overseeing the selection, training and performance of agricultural and forestry workers and contractors.\", \"Tasks include -\\n(a)  monitoring aquaculture and fishery market activity and planning production and fishing activities to meet contract requirements and market demand;\\n(b)  establishing and managing budgets, monitoring production output and costs, recording information such as fisheries management practices, and preparing financial and operational reports; \\n(c)  conferring with buyers to arrange for the sale of produce and catches;\\n(d)  contracting with fishing skippers or owners of vessels and aquaculture farms for fishing and aquaculture operations, or for management of production;\\n(e)  conducting and organizing aquaculture or fishery stock examinations in order to identify diseases or parasites;\\n(f)  devising and coordinating activities to improve fish hatching and growth rates, and to prevent disease in hatcheries;\\n(g)  monitoring environments to maintain or improve conditions for aquatic life;\\n(h)  directing and monitoring trapping and spawning of fish, egg incubation, and fry rearing, applying knowledge of management and fish culturing techniques;\\n(i)  coordinating the selection and maintenance of brood stock;\\n(j)  directing and monitoring the transfer of mature fish to lakes, ponds, streams, or commercial tanks;\\n(k)  purchasing machinery, equipment, and supplies such as vessels and nets;\\n(l)  organizing operations such as maintenance of ships, boats and equipment;\\n(m)  overseeing the selection, training and performance of aquaculture or fishery workers and contractors.\", \"Tasks performed usually include: planning details of activities in terms of output quality and quantity, cost, timeliness and labour requirements; controlling the operation of plant and quality procedures through planning of maintenance, designation of operating hours and supply of equipment; preparing tenders and contract bids; establishing and managing budgets, monitoring production output and costs, and adjusting processes and resources to minimize costs; overseeing the acquisition and installation of new plant and equipment; controlling the preparation of production records and reports; coordinating the implementation of health and safety requirements; planning and directing daily operations; overseeing the selection, training and performance of staff.\", \"Tasks include -\\n(a)  determining, implementing and monitoring production strategies, policies and plans; \\n(b)  planning details of production activities in terms of output quality and quantity, cost, time available and labour requirements;\\n(c)  controlling the operation of production plant and quality procedures through planning of maintenance, designation of operating hours and supply of parts and tools; \\n(d)  establishing and managing budgets, monitoring production output and costs, and adjusting processes and resources to minimize costs;\\n(e)  consulting with and informing other managers about production matters;\\n(f)  overseeing the acquisition and installation of new plant and equipment; \\n(g)  controlling the preparation of production records and reports;\\n(h)  coordinating the implementation of occupational health and safety requirements;\\n(i)  identifying business opportunities and determining products to be manufactured;\\n(j)  researching and implementing regulatory and statutory requirements affecting manufacturing operations and the environment;\\n(k)  overseeing the provision of quotes for the manufacture of specialized goods and establishing contracts with customers and suppliers;\\n(l)  overseeing the selection, training and performance of staff.\", \"Tasks include -\\n(a)  conferring with other managers to set production quotas, plan extraction sites and develop policies for the removal of raw materials;\\n(b)  evaluating efficiency of production sites to determine adequacy of personnel, equipment and technologies used, and make changes to work schedule or equipment when necessary;\\n(c)  planning details of production activities in terms of output quality and quantity, cost, time available and labour requirements;\\n(d)  controlling the operation of plant and quality procedures through planning of maintenance, designation of operating hours and supply of equipment;\\n(e)  establishing and managing budgets, monitoring production output and costs, and adjusting processes and resources to minimize costs;\\n(f)  overseeing the acquisition and installation of new plant and equipment; \\n(g)  controlling the preparation of production records and reports;\\n(h)  coordinating the implementation of health and safety requirements;\\n(i)  researching and implementing regulatory and statutory requirements affecting mineral extraction operations and the environment;\\n(j)  overseeing the selection, training and performance of staff.\", \"Tasks include - \\n(a)  interpreting architectural drawings and specifications;\\n(b)  coordinating labour resources and procurement and delivery of materials, plant and equipment; \\n(c)  negotiating with building owners, property developers and subcontractors involved in the construction process to ensure projects are completed on time and within budget;\\n(d)  preparing tenders and contract bids; \\n(e)  operating and implementing coordinated work programmes for sites; \\n(f)  ensuring adherence to building legislation and standards of performance, quality, cost and safety;\\n(g)  arranging submission of plans to local authorities; \\n(h)  building under contract, or subcontracting specialized building services;\\n(i)  arranging building inspections by relevant authorities;\\n(j)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(k)  overseeing the selection, training and performance of staff and subcontractors;\", \"Tasks include - \\n(a)  determining, implementing and monitoring purchasing, storage and distribution strategies, policies and plans; \\n(b)  preparing and implementing plans to maintain required stock levels at minimum cost; \\n(c)  negotiating contracts with suppliers to meet quality, cost and delivery requirements; \\n(d)  monitoring and reviewing storage and inventory systems to meet supply requirements and control stock levels; \\n(e)  overseeing the dispatch of road vehicles, trains, vessels or aircraft;\\n(f)  operating recording systems to track all movements of goods, and ensuring reordering and restocking at optimal times;\\n(g)  liaising with other departments and customers concerning requirements for outward goods and associated forwarding transportation;\\n(h)  overseeing the recording of purchase, storage and distribution transactions;\\n(i)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(j)  establishing and directing operational and administrative procedures; \\n(k)  planning and directing daily operations;\\n(l)  overseeing the selection, training and performance of staff.\", \"Tasks performed usually include: consulting with users, management, vendors, and technicians to assess computing needs and system requirements and specifying technology to meet those needs; formulating and directing information and communication technology (ICT) strategies, policies and plans; directing the selection and installation of ICT resources and the provision of user training; directing ICT operations, analysing workflow, establishing priorities, developing standards and setting deadlines; overseeing the security of ICT systems; assigning, reviewing, managing and leading the work of systems analysts, programmers, and other computer-related workers; evaluating the organization's technology use and needs and recommending improvements such as hardware and software upgrades; establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources; establishing and directing operational and administrative procedures; overseeing the selection, training and performance of staff; representing the enterprise or organization at ICT-related conventions, seminars and conferences.\", \"Tasks include -\\n(a)  consulting with users, management, vendors, and technicians to assess computing needs and system requirements and specifying technology to meet those needs; \\n(b)  formulating and directing information and communication technology (ICT) strategies, policies and plans; \\n(c)  directing the selection and installation of ICT resources and the provision of user training; \\n(d)  directing ICT operations, analysing workflow, establishing priorities, developing standards and setting deadlines;\\n(e)  overseeing the security of ICT systems;\\n(f)  assigning, reviewing, managing and leading the work of systems analysts, programmers, and other computer-related workers;\\n(g)  evaluating the organization's technology use and needs and recommending improvements such as hardware and software upgrades;\\n(h)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\\n(i)  establishing and directing operational and administrative procedures; \\n(j)  overseeing the selection, training and performance of staff; \\n(k)  representing the enterprise or organization at ICT related conventions, seminars and conferences.\"], \"Included occupations\": [\"Occupations in this major group are classified into the following sub-major groups:\\n11 Chief executives, Senior Officials and Legislators\\n12 Administrative and Commercial Managers\\n13 Production and Specialized Services Managers\\n14 Hospitality, Retail and Other Services Managers\", \"Occupations in this sub-major group are classified into the following minor groups:\\n111 Legislators and Senior Officials\\n112 Managing Directors and Chief Executives\", \"Occupations in this minor group are classified into the following unit groups:\\n1111 Legislators\\n1112 Senior Government Officials\\n1113 Traditional Chiefs and Heads of Villages\\n1114 Senior Officials of Special-interest Organizations\", \"Examples of the occupations classified here:\\n- City councillor\\n- Government minister\\n- Mayor\\n- Member of parliament\\n- President (government)\\n- Secretary of State\\n- Senator\\n- State governor\", \"Examples of the occupations classified here:\\n- Ambassador\\n- City administrator\\n- Civil service commissioner\\n- Consul-general\\n- Director-general (government department)\\n- Director-general (intergovernmental organization)\\n- Fire commissioner\\n- Inspector-general (police)\\n- Permanent head (government department)\\n- Police chief constable\\n- Police commissioner\\n- Secretary-General (government administration)\\n- Under-secretary (government)\", \"Examples of the occupations classified here:\\n- Village chief\\n- Village head\", \"Examples of the occupations classified here:\\n- Chairperson, trade union\\n- Director-general, employers' organization\\n- Leader, political party\\n- President, political party\\n- Secretary-general, environment protection organization\\n- Secretary-general, human rights organization\", \"Occupations in this minor group are classified into the following unit group:\\n1120 Managing Directors and Chief Executives\", \"Examples of the occupations classified here:\\n- Chief executive\\n- Managing director\\n- Regional manager\", \"Occupations in this sub-major group are classified into the following minor groups:\\n121 Business Services and Administration Managers\\n122 Sales, Marketing and Development Managers\", \"Occupations in this minor group are classified into the following unit groups:\\n1211 Finance Managers\\n1212 Human Resource Managers\\n1213 Policy and Planning Managers\\n1219 Business Services and Administration Managers Not Elsewhere Classified\", \"Examples of the occupations classified here:\\n- Company secretary\\n- Finance manager\", \"Examples of the occupations classified here:\\n- Industrial relations manager\\n- Personnel manager \\n- Recruitment manager\", \"Examples of the occupations classified here: \\n- Corporate planning manager\\n- Policy manager\\n- Strategic planning manager\", \"Examples of the occupations classified here:\\n- Administrative services manager\\n- Cleaning services manager\\n- Corporate services manager\\n- Facilities manager\", \"Occupations in this minor group are classified into the following unit groups:\\n1221 Sales and Marketing Managers\\n1222 Advertising and Public Relations Managers \\n1223 Research and Development Managers\", \"Examples of the occupations classified here:\\n- Marketing manager\\n- Sales manager\", \"Examples of the occupations classified here:\\n- Advertising manager\\n- Public relations manager\", \"Examples of the occupations classified here:\\n- Product development manager\\n- Research manager\", \"Occupations in this sub-major group are classified into the following minor groups:\\n131 Production Managers in Agriculture, Forestry and Fisheries\\n132 Manufacturing, Mining, Construction, and Distribution Managers\\n133 Information and Communications Technology Service Managers\\n134 Professional Services Managers\", \"Occupations in this minor group are classified into the following unit groups:\\n1311 Agricultural and Forestry Production Managers\\n1312 Aquaculture and Fisheries Production Managers\", \"Examples of the occupations classified here:\\n-  Forestry manager\\n-  Plantation manager\\n-  Ranch manager\", \"Examples of the occupations classified here:\\n- Aquaculture production manager\\n- Fishing operations manager\\n- Shore captain (fishing)\\n- Trawler manager\", \"Occupations in this minor group are classified into the following unit groups:\\n1321 Manufacturing Managers\\n1322 Mining Managers\\n1323 Construction Managers\\n1324 Supply, Distribution and Related Managers\", \"Examples of the occupations classified here:\\n- Manufacturer\\n- Manufacturing manager\\n- Production and operations manager (manufacturing)\", \"Examples of the occupations classified here:\\n- Mine manager\\n- Production manager (mine)\\n- Production manager (oil and gas extraction)\\n- Production manager (quarry)\\n- Quarry manager\", \"Examples of the occupations classified here:\\n- Civil engineering project manager\\n- Construction project manager \\n- Project builder\", \"Examples of the occupations classified here:\\n- Bus station manager\\n- Logistics manager \\n- Purchasing manager\\n- Railway station manager\\n- Railway station master\\n- Supply and distribution manager\\n- Supply chain manager\\n- Transport company manager\\n- Urban transit system manager\\n- Warehouse manager\", \"Occupations in this minor group are classified into the following unit groups:\\n1330 Information and Communications Technology Service Managers\", \"Examples of the occupations classified here:\\n- Application development manager\\n- Chief information officer\\n- Data operations manager \\n- Data processing manager\\n- ICT development manager\\n- Information systems director\\n- Information technology manager (IT Manager)\\n- Internet service provider\\n- Network manager\"], \"Excluded occupations\": [null, null, null, null, null, null, null, null, null, null, null, \"Some related occupations classified elsewhere:\\n- Financial institution branch manager - 1346\\n- Financial controller - 2411\\n- Management accountant - 2411\", null, null, null, null, null, null, null, null, null, null, \"Some related occupations classified elsewhere:\\n- Fish farmer - 6221\\n- Fish hatchery manager - 6221\\n- Oyster Farmer - 6221\\n- Seafood Farmer - 6221 \\n- Fishing vessel skipper (coastal waters) - 6222\\n- Fishing master (deep sea) \\u00e2\\u0080\\u0093 6223\", null, \"Some related occupations classified elsewhere:\\n - Production supervisor (manufacturing) - 3122\", \"Some related occupations classified elsewhere:\\nMine deputy - 3121\\nMine supervisor - 3121\\nMine under-manager - 3121\\nQuarry supervisor - 3121\", \"Some related occupations classified elsewhere:\\n- Building construction supervisor - 3123\\n- House builder - 7111\", null, null, null], \"Notes\": [\"In distinguishing between managers classified in Major Group 1: Managers, and supervisors, classified in other major groups, it should be noted that both managers and supervisors may plan, organize, coordinate, control and direct the work done by others. In addition, managers usually have responsibility for and make decisions about: the overall strategic and operational direction of a business or organizational unit (for example about the kinds, quantity and quality of goods to be produced); budgets (how much money is to be spent and for what purposes); and the selection, appointment and dismissal of staff. Supervisors may provide advice and assistance to managers on these matters, especially in relation to staff selection and dismissal, but do not have authority to make decisions.\\nIt should be noted that it is not a necessary condition that managers have responsibility for all three of strategic and operational direction, budgets and staff selection and dismissal. The degree of autonomy they exercise may also vary. The critical difference is that supervisors are responsible only for the supervision of the activities of other workers, whereas managers have overall responsibility for the operations of an organizational unit.\", null, null, null, \"Chief executives of Government-owned enterprises are included in Unit Group 1120: Managing Directors and Chief Executives.\", null, null, null, \"Regional managers and other senior managers who coordinate and supervise the activities of subordinate managers who have a diverse range of functional responsibilities are included in Unit Group 1120: Managing Directors and Chief Executives. Managers responsible for specialized functions within a specific geographic area are excluded from this unit group. For example, regional sales managers are classified in Unit Group 1221: Sales and Marketing Managers. Jobs whose principle responsibility is to participate as a member of the board of directors of one or more enterprises or organizations are included in Unit Group 1120: Managing Directors and Chief Executives.\\nChief executives of government owned enterprises are included in Unit Group 1120, Managing directors and chief executives.\", \"Specialized qualifications and extensive experience relevant to one or more occupations classified in Major Group 2: Professionals, or Major Group 3: Technicians and Associate Professionals, are usually required. Regional managers and other senior managers who coordinate and supervise the activities of subordinate managers who have a diverse range of functional responsibilities are included in Unit Group 1120: Managing Directors and Chief Executives\", null, null, null, null, null, null, null, null, null, \"Specialized qualifications and extensive experience relevant to one or more occupations classified in Major Group 2: Professionals, or Major Group 3: Technicians and Associate Professionals, are usually required.  Regional managers and other senior managers who coordinate and supervise the activities of subordinate managers who have a diverse range of functional responsibilities are included in Unit Group 1120: Managing Directors and Chief Executives.\", null, null, null, null, null, null, null, \"Chief executives of major airports, railway companies, urban transit systems and other transportation corporations that have hierarchies of managers are included in Unit Group 1120: Managing directors and chief executives.\", null, null]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "b0e49e1c-d9c8-4d10-b9a7-b5c9cf7f1e19",
+      "name": "user_final",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "6c5fca6b-62e3-4694-b76e-8a80a404707e",
+          "name": "years_of_experience",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "years_of_experience"
+            }
+          },
+          "sample": [
+            "2",
+            "3",
+            "4"
+          ],
+          "statistics": {
+            "@id": "c0fc4179-37bf-40b7-a673-25fbabcb03b6",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "a9e77a86-c230-48bf-9e18-51e7efeebffc",
+          "name": "field_research",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "field_research"
+            }
+          },
+          "sample": [
+            "Algebraic Geometry, Complex Geometry",
+            "Probability theory and statistics",
+            "Optimization. Mathematical Modelling. Learning Innovative Tools "
+          ],
+          "statistics": {
+            "@id": "75c160a1-afb0-4d81-9e9c-afc677f6e66f",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "21b79555-7d51-4971-b275-79f74a9c3652",
+          "name": "university",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "university"
+            }
+          },
+          "sample": [
+            "2",
+            "1"
+          ],
+          "statistics": {
+            "@id": "61b2b619-293d-4097-81d8-6fa24af03205",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "e76eb4c6-3632-47e4-952e-6f13a02cf14e",
+          "name": "student_work",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "student_work"
+            }
+          },
+          "sample": [
+            "1",
+            "2"
+          ],
+          "statistics": {
+            "@id": "7ab1716e-f3ec-45d9-87eb-58f616a3b0eb",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "74d92887-53e0-4b29-98d8-64a0ac22b951",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1798",
+            "1489",
+            "1269"
+          ],
+          "statistics": {
+            "@id": "7eeb9f6a-8f5b-49f0-bda9-3d210354edde",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "e5a83c63-84d6-4888-8081-613edc5f9a56",
+          "name": "teaching",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "teaching"
+            }
+          },
+          "sample": [
+            "1",
+            "3",
+            "5"
+          ],
+          "statistics": {
+            "@id": "246f96d4-9c78-4dce-b332-af67d04e1968",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "d315a89a-131a-469e-8556-7a96805797e4",
+          "name": "uni_degree",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "uni_degree"
+            }
+          },
+          "sample": [
+            "6",
+            "1",
+            "3"
+          ],
+          "statistics": {
+            "@id": "d294be26-8210-4356-8c0b-f4f4064e9d5b",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "410c171d-b4b8-46d3-9915-cb02fde20723",
+          "name": "uni_courses",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "uni_courses"
+            }
+          },
+          "sample": [
+            "1"
+          ],
+          "statistics": {
+            "@id": "8c938205-bbb6-45b3-b65c-262f567d20be",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "6685ffc1-9e2d-4d77-accc-f99c0ef965a9",
+          "name": "subject_taught",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "subject_taught"
+            }
+          },
+          "sample": [
+            "Operational Research",
+            "analysis and probability",
+            "Discrete mathematics, Calculus, Linear Algebra."
+          ],
+          "statistics": {
+            "@id": "46378f53-6e4b-4662-a3f3-517891939821",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cddd580d-32ca-4e3e-82f0-3d6e54306c0c",
+          "name": "position",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "position"
+            }
+          },
+          "sample": [
+            "1",
+            "2"
+          ],
+          "statistics": {
+            "@id": "0aa1f5db-62ad-4773-aa96-91267e85d895",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f92faa5a-6bc8-4765-a638-902ceff0db16",
+          "name": "work",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "work"
+            }
+          },
+          "sample": [
+            "1",
+            "2"
+          ],
+          "statistics": {
+            "@id": "633b6316-501e-4b24-b94e-dd313e9f825e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "ff27448c-cea6-4fe3-9c5a-7604d9f7d9d0",
+          "name": "degree_percentage",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "degree_percentage"
+            }
+          },
+          "sample": [
+            "1"
+          ],
+          "statistics": {
+            "@id": "9c8ad58e-41d4-4fbc-8796-fa51a2d82f3e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "7d8c3010-9f9e-4afa-92cd-37550479565d",
+          "name": "learning",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "learning"
+            }
+          },
+          "sample": [
+            "7",
+            "1",
+            "5"
+          ],
+          "statistics": {
+            "@id": "d187b175-b602-4561-a97f-f5e30a3b60f5",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "04c496e9-c734-4192-8001-ea651e7f2d27",
+          "name": "gender",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "gender"
+            }
+          },
+          "sample": [
+            "1",
+            "3",
+            "4"
+          ],
+          "statistics": {
+            "@id": "53e85849-7a98-406c-bb43-3a51d776209e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "91dc2fb6-c852-4543-acdd-2c82e89dc081",
+          "name": "study_country",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "study_country"
+            }
+          },
+          "sample": [
+            "209",
+            "235",
+            "4"
+          ],
+          "statistics": {
+            "@id": "ac58c4db-5ae2-4547-9f9a-0f44c5047787",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "2ee0bd56-4548-4a3b-a983-5f7df32fe156",
+          "name": "enjoy_math",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "enjoy_math"
+            }
+          },
+          "sample": [
+            "1",
+            "5"
+          ],
+          "statistics": {
+            "@id": "f8b6e4b6-d888-4af3-a937-456d7271f0ca",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "324eecf8-8fe4-487e-a9a2-097ae27025af",
+          "name": "typology",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "typology"
+            }
+          },
+          "sample": [
+            "7811",
+            "5584",
+            "5139"
+          ],
+          "statistics": {
+            "@id": "4cba7cd0-d39a-465f-830c-919eb7965d8b",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "90e52a40-8f75-4241-a894-f36aea3b0be7",
+          "name": "birth_year",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "birth_year"
+            }
+          },
+          "sample": [
+            "1994",
+            "1974",
+            "2000"
+          ],
+          "statistics": {
+            "@id": "64896f07-c6fc-4931-8e66-fdae647821fa",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "2a6bda49-4c85-4ba4-bd0d-e1e927493032",
+          "name": "hobbies",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a66bc147-7364-4d8e-ad69-ef72dec72448"
+            },
+            "extract": {
+              "column": "hobbies"
+            }
+          },
+          "sample": [
+            "6",
+            "1"
+          ],
+          "statistics": {
+            "@id": "809c06bc-fb4d-4885-9f5c-33123d75a832",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [24, 26, 28, 32, 36, 37, 38, 39, 41, 42, 43, 45, 50, 52, 53, 57, 58, 59, 61, 64, 66, 67, 69, 71, 72, 74, 75, 78, 79, 80], \"typology\": [5584, 5139, 5139, 5584, 5584, 7811, 7811, 5139, 8079, 8079, 8079, 5139, 5139, 8079, 8079, 5139, 5139, 5139, 8079, 7811, 5139, 8079, 5584, 5584, 5139, 8079, 5139, 5139, 5139, 7811], \"university\": [4, 18, 11, 1, 18, 1, 1, 2, 4, 3, 3, 2, 2, 4, 5, 2, 5, 5, 5, 1, 2, 2, 3, 1, 1, 1, 1, 1, 1, 1], \"uni_degree\": [6, 6, 6, 6, 6, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5], \"degree_percentage\": [1.0, NaN, NaN, 1.0, 1.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 1.0, 5.0, NaN, NaN, NaN, NaN, NaN, NaN], \"uni_courses\": [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], \"field_research\": [null, \"Theoretical Physic\", \"Education\", null, null, \"Optimization. Mathematical Modelling. Learning Innovative Tools \", \"Optimization and applications in industry\", \"\", \"Probability theory and statistics\", \"\", \"Algebraic Geometry, Complex Geometry\", \"Mathematics\", \"Maths\", \"\", \"nonlinear nnalysis, nonsmooth nnalysis, set-valued optimization\", \"\", \"Differential Equations\", \"Differential Equations\\r\\n\", \"Differential Geometry\", \"\", \"Renewable energy from the sea waves, using innovative mechanical motion rectifier.\\r\\nRisk sharing contracts in the supply chain.\\r\\n\", \"pharmacokinetics and pharmacodynamics, science communication\", null, null, \"\", \"\", \"Spectral graph theory and combinatorics\", \"Dynamical Systems, Game Theory\", \"\", \"\"], \"subject_taught\": [null, \"Space and Time\", \"Blended Learning\", null, null, \"Calculus. Algebra. Numerical Methods. Applied Math\", \"Calculus, Linear Algebra, Numerical Methods\", \"Maths, Measurement, Project Cost Management, Interior Surveying and Quantification\", \"Statistics\", \"Mathematical analysis\", \"Linear Algebra, Analytical Geometry, Topology, Algebraic Geometry, Complex Geometry\", \"Engineering mathematics, property management, estate agency practice and marketing\", \"Maths, data analysis, statistical process control\", \"Mathematics\", \"differential equations, extremum points for functions of several variables\", \"Maths, Statistics, Computing and Programming\", \"Partial Differential Equations\", \"Partial Differential Equations\", \"Lagrange spaces, Riemannian geometry, Operators Theory\", \"Discrete mathematics, Calculus, Linear Algebra.\", \"Engineering Mathematics, Lean Six Sigma methodology, Global logistics and Operation engineering. \", \"chemistry, pharmaceutical science\", null, null, \"Linear Algebra and Analytic Geometry; Algebra; Mathematical Analysis II; Statistics; Data Analysis in Social Service; Quantitative Methods.\", \"Operations Research\", \"Discrete Mathematics, Fundamentals of Mathematics, Mathematics for Games, Linear Algebra\", \"Calculus, Linear Algebra, Applied Mathematics\", \"Statistics; Operational Research\", \"Calculus\"], \"years_of_experience\": [NaN, NaN, NaN, NaN, NaN, 4.0, 4.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 4.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 2.0], \"gender\": [4, 4, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 1, 4, 4, 4, 4, 4, 1], \"birth_year\": [2000, 2000, 2000, 2000, 2000, 1973, 1974, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 1970, 2000, 2000, 2000, 1973, 2000, 2000, 2000, 2000, 2000, 1994], \"study_country\": [251, 251, 251, 251, 251, 178, 178, 251, 251, 251, 251, 251, 251, 251, 251, 107, 251, 251, 251, 178, 251, 251, 251, 178, 251, 251, 251, 251, 251, 178], \"work\": [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2], \"student_work\": [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 2.0], \"learning\": [1.0, NaN, NaN, 1.0, 1.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 1.0, 1.0, NaN, NaN, NaN, NaN, NaN, 1.0], \"teaching\": [NaN, NaN, NaN, NaN, NaN, 1.0, 3.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 5.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 6.0], \"hobbies\": [6.0, NaN, NaN, 6.0, 6.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 6.0, 6.0, NaN, NaN, NaN, NaN, NaN, NaN], \"enjoy_math\": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 5], \"position\": [NaN, NaN, NaN, NaN, NaN, 1.0, 1.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 1.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 2.0]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "f35d31f1-3943-4568-aff9-2877fdd33b9b",
+      "name": "learning_style",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "c030e5ba-b2a7-47c6-97e5-faccd3599a8a",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "7e267d92-71d4-4280-adb9-530240d8e448"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Logical (patterns and statistics)",
+            "Solitary (independent and individual)",
+            "Auditory (lecture and music)"
+          ],
+          "statistics": {
+            "@id": "22264a23-c6bc-4974-9cd8-8bf617f090f2",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "b6b72cc1-4b72-48a6-8d10-874bf606aade",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "7e267d92-71d4-4280-adb9-530240d8e448"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "3",
+            "5",
+            "4"
+          ],
+          "statistics": {
+            "@id": "f9933e84-a37a-43b3-b78e-5a42669a5c89",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6, 7], \"label\": [\"Visual (graphs and frashcards)\", \"Auditory (lecture and music)\", \"Physical (hands-on and movement)\", \"Verbal (writing and presenting)\", \"Logical (patterns and statistics)\", \"Social (collaboration and teams)\", \"Solitary (independent and individual)\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "770c4883-1455-4d4f-9010-fc9f230d4aa5",
+      "name": "platform_materials",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "4669f2eb-d633-46c9-acfa-9ba5b69db9ae",
+          "name": "clicks",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "clicks"
+            }
+          },
+          "sample": [
+            "4",
+            "2",
+            "13"
+          ],
+          "statistics": {
+            "@id": "852778c4-50f6-4601-bd47-0c15c18b7dfe",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "90364fd1-17ed-4e8a-849a-e60354f95e29",
+          "name": "title",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "title"
+            }
+          },
+          "sample": [
+            "Definite integral of a rational function - example (Part II)",
+            "The Lagrangian",
+            "Introduction to the Linear Programming "
+          ],
+          "statistics": {
+            "@id": "0e76ce43-8e25-4aab-8d9a-2ea54cada7a3",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "364f9a4a-3f1d-4ffb-90c0-f54b62de5da3",
+          "name": "date",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "date"
+            }
+          },
+          "sample": [
+            "2019-11-17 22:04:47+00:00",
+            "2025-01-09 16:58:59+00:00",
+            "2020-10-30 16:08:31+00:00"
+          ],
+          "statistics": {
+            "@id": "242d1888-abec-465a-8d0b-1a40fe54b1ee",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "77107a1b-d44a-41b6-9d77-0284a8e90fa9",
+          "name": "description",
+          "description": "",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "description"
+            }
+          },
+          "sample": [
+            "Explains how to solve equations where x is in the power by using the rules of Logarithms. ",
+            "An exercise about the definite integral of a trigonometric function (tan) is solved.",
+            "The video introduces the concept of the locus of complex numbers - the geometric representation in the Argand plane - and sketch the loci for several examples.\r\n"
+          ],
+          "statistics": {
+            "@id": "0a58422f-9e62-4af0-bbac-dd0d471e73c5",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "fb0f82bd-8876-42ba-adb3-3c827513e81e",
+          "name": "link",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "link"
+            }
+          },
+          "sample": [
+            "jDHaMQzx2G8",
+            "v_aO3mSiAjo",
+            "s2IEyZLrAUQ"
+          ],
+          "statistics": {
+            "@id": "7a7dc6c1-93fc-4a9e-ad21-ba5c42c872b0",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "44390110-790a-4788-beda-c7e09c2eb647",
+          "name": "file_name",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "file_name"
+            }
+          },
+          "sample": [
+            "VennDiagram.pdf",
+            "LinearRecurrenceRelation.pdf",
+            "47.pdf"
+          ],
+          "statistics": {
+            "@id": "01804959-e7fa-4f78-bd84-51fdd0f2af68",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "b8e1642d-dcc3-4e87-bf00-14db459e2ed0",
+          "name": "author",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "author"
+            }
+          },
+          "sample": [
+            "Numberphile",
+            "Charles Baccari",
+            "Izaias Neri"
+          ],
+          "statistics": {
+            "@id": "d143f3a4-7196-4534-8190-90dd60b6dfe9",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cf465cb4-c81e-44f9-a849-214d99fad8fa",
+          "name": "languages",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "languages"
+            }
+          },
+          "sample": [
+            "key_2_",
+            "key_1_4_",
+            "key_4_"
+          ],
+          "statistics": {
+            "@id": "d69fedf6-2d0a-4782-a760-26f4ce23de5e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "29f2005a-0bd0-4864-a2fa-8383071052b8",
+          "name": "file_ext",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "file_ext"
+            }
+          },
+          "sample": [
+            "docx",
+            "",
+            "pptx"
+          ],
+          "statistics": {
+            "@id": "f1d6b61a-c0b4-4474-b4b2-ce21df24dd16",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f6252e1f-4964-4641-a3d3-37f48a3a2745",
+          "name": "type",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "type"
+            }
+          },
+          "sample": [
+            "1",
+            "3",
+            "2"
+          ],
+          "statistics": {
+            "@id": "86ab7e6f-a466-482e-bd6f-83ac8f2abf00",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "d8869a3a-23fa-4b43-a1dd-13bbbf88abb7",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "e0cfd557-b634-4337-99aa-6af73bc94841"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "742",
+            "912",
+            "55"
+          ],
+          "statistics": {
+            "@id": "e88b7827-3fb0-4487-a9a8-38e88c0d78ee",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 38, 39, 40, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52], \"title\": [\"Change to polar coordinates in double integration\", \"Notes on Introduction to The Product Rule \", \"PowerPoint Slides for Differentiation \\u00d4\\u00c7\\u00f4 The Product Rule Set 1\", \"Notes on The Product Rule - Trigonometric Functions\", \"Derivative of the product - solved exercice\", \"Derivative of the Product - Solved Example\", \"Derivative of the Product - Example\", \"Derivative of the Product - Worked Example\", \"Derivative of the Product - Worked Example\", \"The rule for the derivative of the product  - Tutorial 1\", \"Discussion of a linear system depending on a parameter\", \"Systems of linear equations - classification according to the number of solutions\", \"Systems of linear equations - equivalence  of systems\", \"Systems of linear equations - properties\", \"Systems of linear equations - Gauss' method\", \"Systems of linear equations - discussion depending on the values of the parameters\", \"Basic Concepts of Logarithms\", \"Indices 1\", \"Indices 2: Worked Examples\", \"Manipulating Formula 1\", \"Manipulation of Formula - worked examples (basic)\", \"Manipulation of Formula: Worked Examples (Advanced)\", \"Simplifying Algebraic Expressions\", \"Solving Exponential Equations\", \"Solving Logarithmic Equations\", \"System of linear equations - 3 different methods to find the solution\", \"Systems of linear equations  - Gaussian elimination\", \"Systems of linear equations - how many solutions?\", \"Systems of linear equations - Gauss' method\", \"GLOSSARY: A DICTIONARY FOR LINEAR ALGEBRA\"], \"author\": [\"IPB\", \"Dr Rita Scully\", \"Dr Rita Scully\", \"Dr Rita Scully\", \"Dr Rita Scully\", \"Dr Rita Scully\", \"Dr Rita Scully\", \"Dr Rita Scully\", \"Dr Rita Scully\", \"Dr Rita Scully\", \"UniGe\", \"UniGe\", \"UniGe\", \"UniGe\", \"UniGe\", \"UniGe\", \"Dr Siobhan Curtin\", \"Roz Whelan\", \"Roz Whelan\", \"Roz Whelan\", \"Roz Whelan\", \"Roz Whelan\", \"Dr Siobhan Curtin\", \"Dr Siobhan Curtin\", \"Dr Siobhan Curtin\", \"UniGe\", \"UniGe\", \"UniGe\", \"UniGe\", \"Source: Massachusetts Institute of Technology   \"], \"type\": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], \"description\": [\"Some notes about the polar coordinates and double integration.\", \"The notes on Introduction to The Product Rule explain the development of the product rule and how it is used. It includes 2 worked examples. These explanations are of particular use for students who may be finding differentiation or the product rule difficult. \", \"The PowerPoint slides attached allow each step of the information to be seen. Having control of the slides means that you can stop, review and move on as is appropriate to the class. They also facilitate editing if additional notes or information wish to be added to the slides.\", \"The notes on The Product Rule - Trigonometric Functions include two worked examplesdealing with trigonometric functions. These explanations are of particular use for students who may be finding differentiation or the product rule difficult. \", \"Solved examples performs an important role in developing understanding in Maths, giving insight in the teaching and learning process. They support repetition and promote familiarity with the new  skill being learned and help to imbed that skill.\", \"Using examples have an important role in developing understanding in Maths. Using examples of questions is a method practiced by teachers to explain and give mathematical understanding in the teaching and learning process. They support repetition and promote familiarity with the new Maths skill being learned and help to embed that skill.\", \"Using examples performs an important role in developing understanding in Maths. Using examples with solved questions is a method practiced by teachers to explain and give mathematical understanding in the teaching and learning process. They support repetition and promote familiarity with the new Maths skill being learned and help to imbed that skill.\", \"Using examples have an important role in developing understanding in Maths. Using examples of questions is a method practiced by teachers to explain and give mathematical understanding in the teaching and learning process. They support repetition and promote familiarity with the new Maths skill being learned and help to imbed that skill.\", \"Using examples have an important role in developing understanding in Maths. Using examples of questions is a method practiced by teachers to explain and give mathematical understanding in the teaching and learning process. They support repetition and promote familiarity with the new Maths skill being learned and help to imbed that skill.\", \"The notes on the rule for the derivative of the product - Tutorial 1 explain two worked examples. These explanations are of particular use for students who may be finding differentiation or the product rule difficult. \", \"We solve a typical exercice about the resolution of a linear system depending on a real parameter and, in particular, discuss how many solutions the system has.\", \"We present a list of true/false questions about properties of square linear systems, in particular about the number of solutions they have.\", \"We study two linear systems which have different number of equations but the same number of variables, and study if they are equivalent.\", \"We provide a true/false list of questions about properties of linear systems, in particular about how they do change when operating on the rows by multiplication of a scalar and by addition of rows.\", \"We present the complete solution of a linear system of equations (not depending on parameters) by making use of the Gauss algorithm.\", \"We show how to solve completely a linear systems depending on two parameters by making use of the Gauss algorithm.\", \"These introductory notes to the basic concepts of logarithms forms the basis of manipulation of logarithms. It includes a number of worked examples which will aid students that are finding the intricacies of logarithms hard to grasp.  \\r\\n\", \"Slides explain how numbers can be written as a base with index, the Laws of Indices are outlined and practical examples are provided for each law.\", \"Three worked examples based on SNA and SFA questions for Indices, varying in degree of difficulty to aid students in their understanding of this topic and it\\u00d4\\u00c7\\u00d6s application.\", \"Slides explain how formulas can be manipulated so that one element can be isolated from the remainder of the formula. This will aid student\\u00d4\\u00c7\\u00d6s understanding and ability to manipulate a variety of formula of differing complexity.\", \"Three worked examples based on SNA and SFA questions for Manipulating Formula, varying in degree of difficulty to aid students in their understanding of this topic and it\\u00d4\\u00c7\\u00d6s application.\", \"Three worked examples based on SNA and SFA questions for Manipulating Formula, varying in degree of difficulty to aid students in their understanding of this topic and it\\u00d4\\u00c7\\u00d6s application.\", \"These notes provide information on how to simplify algebraic expressions. Algebraic fractions can be added, subtracted, multiplied and divided in the same way as numerical fractions.  Examples of how to do all of these are presented. These notes provide the assistance students need to get to grasp with the simplification of algebraic fractions.\", \"Worked examples are included for students to go through in their own time. These notes provide the assistance students need to get to grasp solving exponential expressions.\", \"Slides are presented on more solving logarithmic equations. These examples pull a number of strands of algebraic manipulation together. By using slides, students can take their time to go over each questions completely understanding how answers are arrived at. \", \"We show how to solve a general square linear system associated to an invertible matrix, by using the Cramer rule, the Gauss algorithm and the inverse matrix.\", \"We show how to perform the Gauss algorithm to put a matrix in a row echelon form and how to use this to solve a linear system.\", \"We show how to calculate the rank of a matrix by using the Gauss algorithm and how to use it to decide how many solutions a linear system has.\", \"We show how to use the Gauss algorithm to decide how many solutions a linear system has and how to calculate them.\", \"In the glossary, a dictionary is provided, with definitions and theorems for all topics of Linear Algebra, including matrices and determinants. \\r\\n\"], \"link\": [\" \", \"\", \" \", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \"No link.\", \"No link.\", \"No link.\", \"No link.\", \"http://web.mit.edu/18.06/www/Essays/glossary.pdf\"], \"languages\": [\"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\", \"key_1_\"], \"file_name\": [\"change_of_variables.pdf\", \"Intro to Product Rule.docx\", \"Differentiation Product Rule Set 1.pptx\", \"Product Rule Tutorial Trigonometric Functions.docx\", \"Example 82.docx\", \"Example 95.docx\", \"Example 96.docx\", \"Example 98.docx\", \"Example 101.docx\", \"Product Rule Tutorial 1 Notes.docx\", \"Teach1.pdf\", \"TMLS2.pdf\", \"TMLS3.pdf\", \"TMLS4.pdf\", \"TMLS5.pdf\", \"TMLS8.pdf\", \"Basic concepts.docx\", \"Indices.pdf\", \"Indices Worked Examples.docx\", \"Manipulating Formula.pdf\", \"Manipulation of Formula Worked Examples Basic.docx\", \"Manipulation of Formula Worked Examples Advanced.docx\", \"Simplifying algebraic fractions.docx\", \"Solving exponential equations.docx\", \"Solving logarithmic equations.pdf\", \"TMLS6.pdf\", \"TMLS7.pdf\", \"TMLS9.pdf\", \"TMLS10.pdf\", \"glossary.pdf\"], \"file_ext\": [\"pdf\", \"docx\", \"pptx\", \"docx\", \"docx\", \"docx\", \"docx\", \"docx\", \"docx\", \"docx\", \"pdf\", \"pdf\", \"pdf\", \"pdf\", \"pdf\", \"pdf\", \"docx\", \"pdf\", \"docx\", \"pdf\", \"docx\", \"docx\", \"docx\", \"docx\", \"pdf\", \"pdf\", \"pdf\", \"pdf\", \"pdf\", \"pdf\"], \"date\": [\"2020-05-29 23:47:15+00:00\", \"2020-06-15 15:20:54+00:00\", \"2020-06-15 15:24:58+00:00\", \"2020-06-15 15:33:34+00:00\", \"2020-06-15 15:37:55+00:00\", \"2020-06-15 15:40:54+00:00\", \"2020-06-15 15:42:57+00:00\", \"2020-06-15 15:45:37+00:00\", \"2020-06-15 15:48:27+00:00\", \"2020-06-15 15:52:04+00:00\", \"2020-06-23 19:00:31+00:00\", \"2020-06-23 19:07:37+00:00\", \"2020-06-23 19:14:04+00:00\", \"2020-06-23 19:28:20+00:00\", \"2020-06-23 19:34:00+00:00\", \"2020-06-23 19:38:02+00:00\", \"2020-06-24 12:32:26+00:00\", \"2020-06-24 12:35:51+00:00\", \"2020-06-24 12:39:08+00:00\", \"2020-06-24 12:44:31+00:00\", \"2020-06-24 12:48:21+00:00\", \"2020-06-24 12:51:00+00:00\", \"2020-06-24 14:17:25+00:00\", \"2020-06-24 14:23:17+00:00\", \"2020-06-24 14:27:16+00:00\", \"2020-06-24 19:19:28+00:00\", \"2020-06-24 19:24:03+00:00\", \"2020-06-24 19:30:25+00:00\", \"2020-06-24 19:35:06+00:00\", \"2020-06-25 17:07:20+00:00\"], \"clicks\": [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "b8e82bd7-5f5c-4326-9fb7-ac023958cb24",
+      "name": "platform__degree",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "ebdf632e-6e64-44ab-8eb9-c68f1ef2aa24",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "bfea412b-9b75-415d-ba77-3f3418e9dc0d"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Professional",
+            "Other",
+            "High school"
+          ],
+          "statistics": {
+            "@id": "664f3b68-3f02-43d0-842d-efb47f858d06",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "6996b952-351d-4693-9744-8c5436d033ee",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "bfea412b-9b75-415d-ba77-3f3418e9dc0d"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "3",
+            "5",
+            "4"
+          ],
+          "statistics": {
+            "@id": "220df29b-64ed-41ca-96b1-d5aa2524d440",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6, 7], \"label\": [\"High school\", \"Professional\", \"Bachelor\", \"Master\", \"Doctoral\", \"Other\", \"Pos-Graduate\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "0e181daf-e202-4b6c-b7ce-4ba5d64fd96a",
+      "name": "teaching_style",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "802ed14f-c5b9-4751-a6b1-8d959cbdb1a5",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "0a1e384f-5b80-4596-be9d-f5fd363e8d06"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Logical (patterns and statistics)",
+            "Solitary (independent and individual)",
+            "Auditory (lecture and music)"
+          ],
+          "statistics": {
+            "@id": "b233cf04-0b03-47d6-9f82-996f4d9bb656",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "87ef275f-8b1b-470f-8cdd-0cb479b36776",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "0a1e384f-5b80-4596-be9d-f5fd363e8d06"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "3",
+            "5",
+            "4"
+          ],
+          "statistics": {
+            "@id": "5b1fc063-931f-410b-80eb-e27579408afa",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6, 7], \"label\": [\"Visual (graphs and frashcards)\", \"Auditory (lecture and music)\", \"Physical (hands-on and movement)\", \"Verbal (writing and presenting)\", \"Logical (patterns and statistics)\", \"Social (collaboration and teams)\", \"Solitary (independent and individual)\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "e6f7bacd-2365-4f0d-963e-a7be1aae8f1a",
+      "name": "platform__sna__questions",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "fad41ae3-a767-4d42-a32f-371757a18e26",
+          "name": "date",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f"
+            },
+            "extract": {
+              "column": "date"
+            }
+          },
+          "sample": [
+            "2019-05-03 21:37:49+00:00",
+            "2019-03-29 14:44:08+00:00",
+            "2019-05-12 11:45:00+00:00"
+          ],
+          "statistics": {
+            "@id": "2f94680c-bfbb-4c9d-9087-cb9a57f3ca8f",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "b089df4a-17d4-48f2-9330-fe892dfe978e",
+          "name": "algorithmlevel",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f"
+            },
+            "extract": {
+              "column": "algorithmlevel"
+            }
+          },
+          "sample": [
+            "6",
+            "1",
+            "3"
+          ],
+          "statistics": {
+            "@id": "25d8f0a1-4c22-44f9-ae71-9798efa9d5c2",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "94733cfc-afe5-4648-a581-5c50ac5aee0b",
+          "name": "subtopic",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f"
+            },
+            "extract": {
+              "column": "subtopic"
+            }
+          },
+          "sample": [
+            "42",
+            "4",
+            "41"
+          ],
+          "statistics": {
+            "@id": "513dd8aa-9c14-41a3-b11a-7104b0a019c7",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "9d21e3fa-6c00-44b7-b929-2d864e46823c",
+          "name": "level",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f"
+            },
+            "extract": {
+              "column": "level"
+            }
+          },
+          "sample": [
+            "1",
+            "3",
+            "5"
+          ],
+          "statistics": {
+            "@id": "1879588a-ac87-4546-ae06-861f0cd141cc",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "9198e461-a426-49bc-b756-da554f4d8b28",
+          "name": "file_name",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f"
+            },
+            "extract": {
+              "column": "file_name"
+            }
+          },
+          "sample": [
+            "graph42.JPG",
+            "graphic4.png",
+            "tables.pdf"
+          ],
+          "statistics": {
+            "@id": "9905c60b-1b70-4abf-9156-658ada7dae2e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "df34bd89-6fc2-499b-b5f0-01a44dc3e8f8",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "652",
+            "273",
+            "1091"
+          ],
+          "statistics": {
+            "@id": "bbc9cb41-faf3-4952-b8c6-f4f870e6f7e9",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f63bca73-bfbc-4c34-b3f7-031b4e0c175a",
+          "name": "topic",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f"
+            },
+            "extract": {
+              "column": "topic"
+            }
+          },
+          "sample": [
+            "25",
+            "4",
+            "14"
+          ],
+          "statistics": {
+            "@id": "fc968ce8-316b-4022-9f09-f5cadae6df0a",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "90b932e0-7b00-495d-9c3d-5b7f75f390a2",
+          "name": "file_ext",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "0c4547ef-8e08-4544-b745-fef4d44b352f"
+            },
+            "extract": {
+              "column": "file_ext"
+            }
+          },
+          "sample": [
+            "pdf",
+            "jpg",
+            "png"
+          ],
+          "statistics": {
+            "@id": "6f8e6f9c-8976-4910-b99f-0a76c0ff4cf3",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 100, 101, 102, 104, 108, 112, 113, 114, 117, 118], \"topic\": [14, 14, 14, 4, 3, 3, 3, 3, 3, 18, 18, 18, 18, 18, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7], \"subtopic\": [NaN, NaN, NaN, 3.0, 39.0, 37.0, 37.0, 39.0, 37.0, 9.0, 9.0, 9.0, 9.0, 9.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0], \"file_name\": [null, null, null, \"\", null, null, null, null, null, null, null, null, null, null, null, \"\", \"\", \"\", \"\", \"\", \"\", \"\", null, null, null, null, null, null, null, null], \"file_ext\": [null, null, null, \"\", null, null, null, null, null, null, null, null, null, null, null, \"\", \"\", \"\", \"\", \"\", \"\", \"\", null, null, null, null, null, null, null, null], \"date\": [\"2019-03-07 09:01:55+00:00\", \"2019-03-07 09:07:40+00:00\", \"2019-03-07 09:09:19+00:00\", \"2019-03-07 14:43:24+00:00\", \"2019-03-11 09:38:11+00:00\", \"2019-03-11 09:47:15+00:00\", \"2019-03-11 09:48:46+00:00\", \"2019-03-11 09:49:57+00:00\", \"2019-03-11 09:50:55+00:00\", \"2019-03-11 12:19:53+00:00\", \"2019-03-11 12:25:11+00:00\", \"2019-03-11 12:37:27+00:00\", \"2019-03-11 12:57:41+00:00\", \"2019-03-11 13:15:34+00:00\", \"2019-03-11 16:52:39+00:00\", \"2019-03-11 17:39:32+00:00\", \"2019-03-11 17:51:32+00:00\", \"2019-03-11 17:57:00+00:00\", \"2019-03-11 18:18:55+00:00\", \"2019-03-11 18:23:31+00:00\", \"2019-03-11 18:31:25+00:00\", \"2019-03-11 18:46:39+00:00\", \"2019-03-20 16:26:08+00:00\", \"2019-03-20 16:34:41+00:00\", \"2019-03-20 21:54:01+00:00\", \"2019-03-20 22:16:48+00:00\", \"2019-03-20 22:26:08+00:00\", \"2019-03-21 14:20:42+00:00\", \"2019-03-21 14:36:06+00:00\", \"2019-03-21 15:03:26+00:00\"], \"level\": [1, 1, 1, 1, 2, 5, 3, 5, 3, 3, 2, 4, 3, 3, 1, 2, 2, 3, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2], \"algorithmlevel\": [3, 3, 3, 1, 1, 3, 2, 3, 1, 4, 5, 3, 3, 4, 1, 1, 4, 3, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 3, 1]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "d2e48b39-9101-44e5-8bb0-f0a60158848c",
+      "name": "platform__university",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "73a7418c-0824-4acf-b154-e7bc4f482705",
+          "name": "name",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "name"
+            }
+          },
+          "sample": [
+            "University of Athens",
+            "Agrupamento de Escolas Abade de Ba\u251c\u00baal",
+            "University of Crete"
+          ],
+          "statistics": {
+            "@id": "dbfc7632-3365-4f86-9b60-c37c6b43f7ed",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "89cb7596-7656-4d61-8305-31c4ee6aa1d5",
+          "name": "vis",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "vis"
+            }
+          },
+          "sample": [
+            "1"
+          ],
+          "statistics": {
+            "@id": "e22681aa-8a2e-421f-ae6c-50c082069721",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "1cb737ea-5fb1-43d1-8f45-e91539fec2e9",
+          "name": "latitude",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "latitude"
+            }
+          },
+          "sample": [
+            "40.208989",
+            "35.72139",
+            "37.55768"
+          ],
+          "statistics": {
+            "@id": "d3fa364a-2a28-4742-be77-b7f6cd719759",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "0fb82234-8553-49dc-a5c3-51b48e16e27b",
+          "name": "validated",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "validated"
+            }
+          },
+          "sample": [
+            "0",
+            "1"
+          ],
+          "statistics": {
+            "@id": "92698991-e2f1-4228-a8bc-daa54df1b2a8",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "a5cb4727-7127-48f4-b4f4-6f500bf59a5d",
+          "name": "country",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "country"
+            }
+          },
+          "sample": [
+            "Turkey",
+            "Switzerland",
+            "Italy"
+          ],
+          "statistics": {
+            "@id": "89a85f52-2745-4e73-9af6-8698b3d92019",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "08b0df0d-72fc-4f67-8d19-8d73138ba130",
+          "name": "suggested_by",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "suggested_by"
+            }
+          },
+          "sample": [
+            "3564",
+            "3658",
+            "3608"
+          ],
+          "statistics": {
+            "@id": "b74d4f2c-7541-4556-9f95-f7e9308f12f6",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cda2e1f4-61db-4e3d-b13a-f2e717ef568f",
+          "name": "longitude",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "longitude"
+            }
+          },
+          "sample": [
+            "121.5405",
+            "-71.5307",
+            "-6.766581"
+          ],
+          "statistics": {
+            "@id": "991164fc-1ddc-4f5d-be78-81cf15112c41",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "d81ebb2b-d498-4ec7-b5c6-c88f99202330",
+          "name": "timezone",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "timezone"
+            }
+          },
+          "sample": [
+            "Europe/Kyiv",
+            "Europe/Sofia",
+            "Europe/Lisbon"
+          ],
+          "statistics": {
+            "@id": "783d8299-4095-4a93-9cca-0d54ba79858a",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cb35ca23-2e91-4c47-9e59-459e9caf5c10",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "437d6cdf-c392-4c7f-9b7a-3a4d80506cc7"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "87",
+            "54",
+            "29"
+          ],
+          "statistics": {
+            "@id": "ca3e44b9-2a9c-4f77-9648-3519b156663b",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33], \"name\": [\"Instituto Polit\\u251c\\u00aecnico de Bragan\\u251c\\u00baa\", \"Limerick Institute of Technology\", \"Universit\\u251c\\u00e1 degli Studi di Genova\", \"Kaunas University of Technology\", \"Technical University Gheorghe Asachi Iasi\", \"Saint Petersburg University\", \"Universitat Catalunya\", \"Portuguese National Agency\", \"Liceo Scientifico Leonardo Da Vinci\", \"Universidade do Minho\", \"Universidade Tecnol\\u251c\\u2502gica Federal do Paran\\u251c\\u00ed (UTFPR)\", \"Hanze University of Applied Sciences\", \"Polit\\u251c\\u00aecnico do Porto\", \"Instituto Polit\\u251c\\u00aecnico de Viana do Castelo\", \"Universidade de Tr\\u251c\\u00eds-os-Montes e Alto Douro\", \"Platform Administrators\", \"Universidade de Coimbra\", \"Liceo M.L King di Genova\", \"Universidad de Zaragoza\", \"Al-Farabi Kazakh National University\", \"HAW Hamburg\", \"Aksaray University\", \"Stefan cel Mare University\", \"Institute of Technology Carlow\", \"Agrupamento de Escolas Em\\u251c\\u00a1dio Garcia\", \"Agrupamento de Escolas Abade de Ba\\u251c\\u00baal\", \"Agrupamento de Escolas de Mirandela\", \"Agrupamento de Escolas de Macedo de Cavaleiros\", \"Agrupamento de Escolas Alberto Sampaio\", \"Agrupamento de Escolas Miguel Torga\"], \"country\": [\"Portugal\", \"Ireland\", \"Italy\", \"Lithuania\", \"Romania\", \"Russia\", \"Spain\", \"Portugal\", \"Italy\", \"Portugal\", \"Brazil\", \"Netherlands\", \"Portugal\", \"Portugal\", \"Portugal\", \"Europe\", \"Portugal\", \"Italy\", \"Spain\", \"Kazakhstan\", \"Germany\", \"Turkey\", \"Romania\", \"Ireland\", \"Portugal\", \"Portugal\", \"Portugal\", \"Portugal\", \"Portugal\", \"Portugal\"], \"timezone\": [\"Europe/Lisbon\", \"Europe/Dublin\", \"Europe/Rome\", \"Europe/Vilnius\", \"Europe/Bucharest\", \"Europe/Moscow\", \"Europe/Madrid\", \"Europe/Lisbon\", \"Europe/Rome\", \"Europe/Lisbon\", \"America/Sao_Paulo\", \"Europe/Ljubljana\", \"Europe/Lisbon\", \"Europe/Lisbon\", \"Europe/Lisbon\", \"Europe/Rome\", \"Europe/Lisbon\", \"Europe/Rome\", \"Europe/Madrid\", \"Asia/Qostanay\", \"Europe/Berlin\", \"Europe/Istanbul\", \"Europe/Bucharest\", \"Europe/Dublin\", \"Europe/Lisbon\", \"Europe/Lisbon\", \"Europe/Lisbon\", \"Europe/Lisbon\", \"Europe/Lisbon\", \"Europe/Lisbon\"], \"vis\": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], \"latitude\": [41.798157, 52.67503, 44.415098, 54.89915, 47.154772, 59.942022, 41.405988, 38.753714, 43.79, 41.560865, -25.438982, 53.240409, 41.181456, 41.69218, 41.287314, 0.0, 40.208989, 44.407059, 41.64274, 43.225479, 53.56893503, 38.33016049, 47.64189, 52.82718, 41.80378, 41.80771, 41.47828, 41.53871, 41.54297, 41.80949], \"longitude\": [-6.766581, -8.64894, 8.926888, 23.91291, 27.5994, 30.298914, 2.123584, -9.143843, 11.234546, -8.39622, -49.269641, 6.531598, -8.5971, -8.834808, -7.738881, 0.0, -8.424237, 8.93399, -0.90151, 76.922645, 10.03296614, 33.98311617, 26.24567, -6.936, -6.76334, -6.76206, -7.18274, -6.96792, -8.41349, -6.74855], \"validated\": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], \"suggested_by\": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "4e0e1045-8473-48d7-8b32-c6d29f0c6758",
+      "name": "platform_material_keyword",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "a3b10c9a-5012-4c8b-b7c9-253eeddab301",
+          "name": "platformkeywordid",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "19c39e76-a150-4db6-b253-3f5e575931ff"
+            },
+            "extract": {
+              "column": "platformkeywordid"
+            }
+          },
+          "sample": [
+            "58",
+            "8",
+            "87"
+          ],
+          "statistics": {
+            "@id": "b3c30752-c1f4-4d14-9877-3ded51ce4723",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "905a248f-8dee-4f85-b387-8f3d1c4e24a1",
+          "name": "platformmaterialid",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "19c39e76-a150-4db6-b253-3f5e575931ff"
+            },
+            "extract": {
+              "column": "platformmaterialid"
+            }
+          },
+          "sample": [
+            "184",
+            "87",
+            "652"
+          ],
+          "statistics": {
+            "@id": "9e8d5e55-5562-43a6-b04a-31aad0cc4cc6",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"platformmaterialid\": [20, 21, 22, 24, 24, 25, 26, 27, 28, 29, 30, 31, 31, 31, 32, 32, 32, 33, 33, 33, 34, 34, 34, 34, 34, 35, 36, 36, 36, 36], \"platformkeywordid\": [109, 85, 85, 85, 92, 85, 85, 85, 85, 85, 85, 138, 139, 140, 138, 139, 140, 138, 139, 140, 138, 139, 140, 141, 143, 138, 138, 139, 140, 141]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "f2281a73-8202-46c3-b6e0-490b5d97c425",
+      "name": "hobbies",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "9d2b08fa-096c-47c3-b1b2-c1afcea916d8",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "6e122e4b-642d-4e22-a032-7bf2760679b1"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Sport",
+            "Others",
+            "Reading books"
+          ],
+          "statistics": {
+            "@id": "e638acf7-889a-42bf-b4c2-d1ffe7a0aced",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "d21a2754-447e-41b5-90b3-35a1b3e84d3e",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "6e122e4b-642d-4e22-a032-7bf2760679b1"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "6",
+            "1",
+            "3"
+          ],
+          "statistics": {
+            "@id": "74e58b36-c533-40c3-abd7-8fc72b239ddd",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6], \"label\": [\"Music\", \"Sport\", \"Computer games\", \"Reading books\", \"All of the above\", \"Others\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "d80ba0e3-1558-43a7-91d1-2dd4e313749f",
+      "name": "assessment",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "85b38ba2-b2cb-4dc8-b308-670d6c0ec0b1",
+          "name": "subtopic",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "subtopic"
+            }
+          },
+          "sample": [
+            "1",
+            "2"
+          ],
+          "statistics": {
+            "@id": "20ea4b0b-5836-49b0-97a0-41a3b049aaed",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f9f61e12-79fa-41f2-a895-97b9e8ec7a8f",
+          "name": "student_id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "student_id"
+            }
+          },
+          "sample": [
+            "91",
+            "128",
+            "84"
+          ],
+          "statistics": {
+            "@id": "4535a1db-da0b-4ea0-a2f3-eefc3281c2c9",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "fd810e2e-9e71-47c8-a24f-e6a89e71c32c",
+          "name": "option_selected",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "option_selected"
+            }
+          },
+          "sample": [],
+          "statistics": {
+            "@id": "e71ab240-11f6-4503-a648-4a1c33b98d60",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "6682280f-3a5f-4305-ba48-bd72f26209ed",
+          "name": "answer",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "answer"
+            }
+          },
+          "sample": [
+            "0",
+            "1",
+            "-1"
+          ],
+          "statistics": {
+            "@id": "a9f48e4a-3dc2-4fd1-ade7-57d17d359ccc",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f1d0b791-6393-453c-b304-d4c8b1dcd5c7",
+          "name": "duration",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "duration"
+            }
+          },
+          "sample": [],
+          "statistics": {
+            "@id": "2edbe3ad-5564-4e3d-8e6f-471fdffc5c9b",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "840df4e7-329a-49e3-a279-5e5c99998b85",
+          "name": "question_id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "question_id"
+            }
+          },
+          "sample": [
+            "113",
+            "91",
+            "84"
+          ],
+          "statistics": {
+            "@id": "456306d4-7176-4553-a45b-360eb749c61c",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "9aa58724-b9a2-4a98-8bf6-748f3c4cde5f",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1269",
+            "273",
+            "1091"
+          ],
+          "statistics": {
+            "@id": "66a14544-0d12-4814-b10a-4ddd4b78bb84",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "4dd101ee-c2e7-4917-adb1-c28f0281c872",
+          "name": "topic",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "topic"
+            }
+          },
+          "sample": [
+            "4",
+            "3"
+          ],
+          "statistics": {
+            "@id": "dbab2c79-30e1-4096-93e4-ec776b2275ad",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bbec4ceb-a9cb-4d02-9f4f-33818da9e8d7",
+          "name": "question_level",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "question_level"
+            }
+          },
+          "sample": [
+            "7",
+            "1",
+            "5"
+          ],
+          "statistics": {
+            "@id": "cec7d09d-07fb-4b6a-8880-912d6d1cf051",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "1f9f8918-d300-4633-bb2f-2a7d2c5140ec",
+          "name": "date",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "47004b74-f6d2-46c5-bded-63a0c8e69bca"
+            },
+            "extract": {
+              "column": "date"
+            }
+          },
+          "sample": [
+            "2019-05-16 00:24:53+00:00",
+            "2019-11-02 17:55:19+00:00",
+            "2019-05-23 11:16:29+00:00"
+          ],
+          "statistics": {
+            "@id": "16fe37fa-b000-40da-998e-f501187ca64e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], \"student_id\": [36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36], \"question_id\": [182, 81, 186, 181, 180, 179, 80, 89, 90, 220, 91, 219, 218, 221, 81, 178, 186, 179, 182, 79, 181, 182, 181, 180, 183, 79, 178, 81, 143, 147], \"topic\": [14, 14, 14, 14, 14, 14, 14, 18, 18, 18, 18, 18, 18, 18, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 4, 4], \"subtopic\": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], \"question_level\": [1, 2, 2, 2, 1, 1, 2, 4, 2, 3, 2, 2, 3, 4, 2, 1, 2, 1, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 4, 1], \"answer\": [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], \"date\": [\"2019-04-18 08:11:32+00:00\", \"2019-04-18 08:11:32+00:00\", \"2019-04-18 08:11:32+00:00\", \"2019-04-18 08:11:32+00:00\", \"2019-04-18 08:11:32+00:00\", \"2019-04-18 08:11:32+00:00\", \"2019-04-18 08:11:32+00:00\", \"2019-04-18 08:52:09+00:00\", \"2019-04-18 08:52:09+00:00\", \"2019-04-18 08:52:09+00:00\", \"2019-04-18 08:52:09+00:00\", \"2019-04-18 08:52:09+00:00\", \"2019-04-18 08:52:09+00:00\", \"2019-04-18 08:52:09+00:00\", \"2019-04-18 09:20:21+00:00\", \"2019-04-18 09:20:21+00:00\", \"2019-04-18 09:20:21+00:00\", \"2019-04-18 09:20:21+00:00\", \"2019-04-18 09:20:21+00:00\", \"2019-04-18 09:20:21+00:00\", \"2019-04-18 09:20:21+00:00\", \"2019-04-18 09:27:04+00:00\", \"2019-04-18 09:27:04+00:00\", \"2019-04-18 09:27:04+00:00\", \"2019-04-18 09:27:04+00:00\", \"2019-04-18 09:27:04+00:00\", \"2019-04-18 09:27:04+00:00\", \"2019-04-18 09:27:04+00:00\", \"2019-04-18 09:42:55+00:00\", \"2019-04-18 09:42:55+00:00\"], \"duration\": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], \"option_selected\": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "d6a38493-055f-4895-9381-6d7a160d0a0f",
+      "name": "countries",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "02aeec93-1ef4-41cf-bab4-0b73de63a8ce",
+          "name": "name",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "3d953947-ee22-4d8f-86b6-60438cda8a7d"
+            },
+            "extract": {
+              "column": "name"
+            }
+          },
+          "sample": [
+            "Bangladesh",
+            "Mayotte",
+            "Brunei Darussalam"
+          ],
+          "statistics": {
+            "@id": "fb3e3997-ed17-4243-8aef-0db7831fb58a",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "70998e85-9435-40d1-8159-9c10f782e92e",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "3d953947-ee22-4d8f-86b6-60438cda8a7d"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "184",
+            "116",
+            "87"
+          ],
+          "statistics": {
+            "@id": "cd899bb2-5614-4bce-95ce-f9bb1c36cc11",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "3da83923-1969-4cac-9731-661daadc3fc9",
+          "name": "alpha_3",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "3d953947-ee22-4d8f-86b6-60438cda8a7d"
+            },
+            "extract": {
+              "column": "alpha_3"
+            }
+          },
+          "sample": [
+            "tjk",
+            "tca",
+            "prk"
+          ],
+          "statistics": {
+            "@id": "de54bed5-76f3-49ba-9e0f-83922eb0a472",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "295c7b7b-677a-41f9-bbb3-3ab3f35e90f3",
+          "name": "alpha_2",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "3d953947-ee22-4d8f-86b6-60438cda8a7d"
+            },
+            "extract": {
+              "column": "alpha_2"
+            }
+          },
+          "sample": [
+            "bs",
+            "bh",
+            "sk"
+          ],
+          "statistics": {
+            "@id": "2dcc6e58-c864-46c0-a71c-f43109e778fd",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], \"name\": [\"Afghanistan\", \"Aland Islands\", \"Albania\", \"Algeria\", \"American Samoa\", \"Andorra\", \"Angola\", \"Anguilla\", \"Antarctica\", \"Antigua and Barbuda\", \"Argentina\", \"Armenia\", \"Aruba\", \"Australia\", \"Austria\", \"Azerbaijan\", \"Bahamas\", \"Bahrain\", \"Bangladesh\", \"Barbados\", \"Belarus\", \"Belgium\", \"Belize\", \"Benin\", \"Bermuda\", \"Bhutan\", \"Bolivia, Plurinational State of\", \"Bonaire, Sint Eustatius and Saba\", \"Bosnia and Herzegovina\", \"Botswana\"], \"alpha_2\": [\"af\", \"ax\", \"al\", \"dz\", \"as\", \"ad\", \"ao\", \"ai\", \"aq\", \"ag\", \"ar\", \"am\", \"aw\", \"au\", \"at\", \"az\", \"bs\", \"bh\", \"bd\", \"bb\", \"by\", \"be\", \"bz\", \"bj\", \"bm\", \"bt\", \"bo\", \"bq\", \"ba\", \"bw\"], \"alpha_3\": [\"afg\", \"ala\", \"alb\", \"dza\", \"asm\", \"and\", \"ago\", \"aia\", \"\", \"atg\", \"arg\", \"arm\", \"abw\", \"aus\", \"aut\", \"aze\", \"bhs\", \"bhr\", \"bgd\", \"brb\", \"blr\", \"bel\", \"blz\", \"ben\", \"bmu\", \"btn\", \"bol\", \"bes\", \"bih\", \"bwa\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "b211a2a7-82e4-4701-9a70-90162cb38b89",
+      "name": "roles",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "678a922a-0650-4faf-b84e-dcd6eee762ea",
+          "name": "description",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "dfa2a7aa-c5c5-4210-9dd2-d523e59dd4b1"
+            },
+            "extract": {
+              "column": "description"
+            }
+          },
+          "sample": [
+            "Lecturer",
+            "Student",
+            "Lecturer Reviewer"
+          ],
+          "statistics": {
+            "@id": "1f1d6669-35df-4b29-a981-998f3053c8db",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "0680054e-2695-481f-b793-4f08c35e174b",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "dfa2a7aa-c5c5-4210-9dd2-d523e59dd4b1"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "7811",
+            "5584",
+            "5139"
+          ],
+          "statistics": {
+            "@id": "d780ac8e-857e-4ec9-bf76-0edbe807bb9e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [4367, 5139, 5584, 7811, 8079], \"description\": [\"Lecturer not verified\", \"Lecturer\", \"Student\", \"Admin\", \"Lecturer Reviewer\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "26fc4301-d038-4a11-9cb1-3f7bb0d93964",
+      "name": "work_preference",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "671c8d93-782c-41c0-8cf8-64a47d86ffe3",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "955f4d90-ef24-48fe-93ab-4cc6bd01bec9"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Individual",
+            "Teamwork"
+          ],
+          "statistics": {
+            "@id": "0a89820f-f470-43b3-9c3b-b27526767120",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "3238a8aa-7ade-432d-81ba-9844a36c28f1",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "955f4d90-ef24-48fe-93ab-4cc6bd01bec9"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1",
+            "2"
+          ],
+          "statistics": {
+            "@id": "1552f9f6-d67c-4669-b34a-4dd89f87035e",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2], \"label\": [\"Individual\", \"Teamwork\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "e169d26b-6907-45d4-94eb-bd465a5093b7",
+      "name": "platform__keywords",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "f4a57426-6fc7-4116-ada1-19a8c8767436",
+          "name": "hidden",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "72aa95b4-33a4-48f8-898f-75508670ac3b"
+            },
+            "extract": {
+              "column": "hidden"
+            }
+          },
+          "sample": [
+            "0",
+            "1"
+          ],
+          "statistics": {
+            "@id": "819c6e7f-781e-4605-9114-9cf8db38ee13",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "0c2ffc4e-2b4b-4052-a79c-2ec212ad22b0",
+          "name": "id_top",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "72aa95b4-33a4-48f8-898f-75508670ac3b"
+            },
+            "extract": {
+              "column": "id_top"
+            }
+          },
+          "sample": [
+            "25",
+            "4",
+            "14"
+          ],
+          "statistics": {
+            "@id": "d11c687a-6d90-4266-b95a-722a48bdaea2",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "6d3428ea-4cca-4df2-a07d-41b33cfe26a4",
+          "name": "id_sub",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "72aa95b4-33a4-48f8-898f-75508670ac3b"
+            },
+            "extract": {
+              "column": "id_sub"
+            }
+          },
+          "sample": [
+            "42",
+            "4",
+            "41"
+          ],
+          "statistics": {
+            "@id": "8c84160c-b49a-49db-aaa2-96898a0d21b4",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "9dcc3a7a-b861-4567-89a7-b52513010572",
+          "name": "name",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "72aa95b4-33a4-48f8-898f-75508670ac3b"
+            },
+            "extract": {
+              "column": "name"
+            }
+          },
+          "sample": [
+            "Kernel",
+            "First order",
+            "Permutation"
+          ],
+          "statistics": {
+            "@id": "252dbc8e-818b-4fc3-b817-43e6d2a429fa",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "1c8b2f5f-8772-4e20-b326-de46b86dc437",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "72aa95b4-33a4-48f8-898f-75508670ac3b"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "422",
+            "264",
+            "185"
+          ],
+          "statistics": {
+            "@id": "8e733260-8e5f-4666-8a98-652d1dff8b12",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], \"id_top\": [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 10, 10, 10, 10, 10, 10, 10], \"id_sub\": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN], \"name\": [\"Trigonometric functions\", \"Exponential function\", \"Linear equations\", \"Quadratic equations\", \"Simplify expressions\", \"Logarithmic function\", \"Absolute value\", \"Square roots\", \"Geometrical figures\", \"Geometric solids\", \"Classification of geometric solids\", \"Classification of geometrical figures\", \"Polyhedrons\", \"Platonic solids\", \"Polygons\", \"Triangles\", \"Quadrilaterals\", \"Triangle inequality\", \"Geometric transformations\", \"Symmetry\", \"Regular polygon\", \"Rhombus\", \"Real part\", \"Imaginary part\", \"Modulus of a complex number\", \"Conjugate number\", \"Polar representation\", \"De Moivre formulas\", \"Nth root\", \"Complex plane \"], \"hidden\": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "26e3f429-551d-4578-a141-1742e17d1f94",
+      "name": "platform__percentage_degree",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "99a15e78-46bf-4d8c-95ed-f33a8816836f",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "27124896-452c-44d4-b40d-6342a4f1cb8f"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1",
+            "3",
+            "5"
+          ],
+          "statistics": {
+            "@id": "f8867836-6bc0-4f53-ac13-289ca6d41b8c",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "f838e9ef-d1eb-49bb-970d-812638286a75",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "27124896-452c-44d4-b40d-6342a4f1cb8f"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Between 25% and 50%",
+            "Between 51% and 75%",
+            "Less than 25%"
+          ],
+          "statistics": {
+            "@id": "a84e59db-de24-4e07-87d1-9723201dd03b",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5], \"label\": [\"Less than 25%\", \"Between 25% and 50%\", \"Between 51% and 75%\", \"Between 76% and 99%\", \"I have already completed my degree\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "a7ccba0d-a954-477d-a3b3-5849455e0df7",
+      "name": "platform__topic",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "23d823c5-327e-4a60-a0c3-0c5a844b7735",
+          "name": "hidden",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "2b18d6f6-5191-4874-897d-92ac0b2533dc"
+            },
+            "extract": {
+              "column": "hidden"
+            }
+          },
+          "sample": [
+            "0"
+          ],
+          "statistics": {
+            "@id": "bf65c93e-c49a-4751-a04d-1c0093064bac",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "540acacc-6d03-4d0b-a750-6b841ee1aeac",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "2b18d6f6-5191-4874-897d-92ac0b2533dc"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "25",
+            "4",
+            "14"
+          ],
+          "statistics": {
+            "@id": "d4a1a123-9041-4bbb-9b24-9691d1a18240",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "4472e823-0768-44b5-bb5b-691fb1bc6d06",
+          "name": "name",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "2b18d6f6-5191-4874-897d-92ac0b2533dc"
+            },
+            "extract": {
+              "column": "name"
+            }
+          },
+          "sample": [
+            "Discrete Mathematics",
+            "Optimization",
+            "Differentiation"
+          ],
+          "statistics": {
+            "@id": "fd8c28a4-071e-4069-8713-248654c4a609",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [3, 4, 5, 7, 10, 12, 14, 15, 16, 17, 18, 22, 25, 26, 28], \"name\": [\"Real Functions of a Single Variable\", \"Differentiation\", \"Integration\", \"Fundamental Mathematics\", \"Complex Numbers\", \"Optimization\", \"Statistics\", \"Real Functions of Several Variables\", \"Differential Equations\", \"Probability \", \"Linear Algebra\", \"Graph Theory\", \"Analytic Geometry\", \"Numerical Methods\", \"Discrete Mathematics\"], \"hidden\": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "1c719e17-3eed-4dec-83a4-c04522ce27f9",
+      "name": "material_top_sub",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "fd1eb823-7a06-4c9f-810b-b839e819865c",
+          "name": "platformtopicid",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "39b3b3d4-5391-4afa-9335-cf43e2cb47fe"
+            },
+            "extract": {
+              "column": "platformtopicid"
+            }
+          },
+          "sample": [
+            "25",
+            "4",
+            "14"
+          ],
+          "statistics": {
+            "@id": "35a1b683-65df-4868-82e7-da58b4565516",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "23d8a87a-6046-4c91-8b10-ad59cd208c92",
+          "name": "platformsubtopicid",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "39b3b3d4-5391-4afa-9335-cf43e2cb47fe"
+            },
+            "extract": {
+              "column": "platformsubtopicid"
+            }
+          },
+          "sample": [
+            "42",
+            "4",
+            "41"
+          ],
+          "statistics": {
+            "@id": "77d90a62-2ee3-4671-b79f-1b3b105e8e26",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "fc5380dc-cc10-4907-be2a-4aad83137558",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "39b3b3d4-5391-4afa-9335-cf43e2cb47fe"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1014",
+            "530",
+            "928"
+          ],
+          "statistics": {
+            "@id": "1e1ec5c0-e9f7-4223-9d0d-18787b15bff7",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "1f62d6f9-9657-42e3-a75f-6e21fcd308a9",
+          "name": "platformmaterialid",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "39b3b3d4-5391-4afa-9335-cf43e2cb47fe"
+            },
+            "extract": {
+              "column": "platformmaterialid"
+            }
+          },
+          "sample": [
+            "742",
+            "912",
+            "55"
+          ],
+          "statistics": {
+            "@id": "9a1da519-8390-4c49-b752-3c0c67411259",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [79, 80, 81, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 100, 101, 103, 104, 105, 106, 107, 108, 109, 110, 111], \"platformmaterialid\": [20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 38, 39, 40, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 54], \"platformtopicid\": [5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 18, 18, 18, 18, 18, 18, 7, 7, 7, 7, 7, 7, 7, 7, 18, 18, 18, 18, 18, 18], \"platformsubtopicid\": [6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9, 9, 9, 9, 9, 2, 2, 2, 2, 2, 2, 2, 2, 9, 9, 9, 9, 7, 7]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "3a91c0c8-0462-408d-90fd-af629a02290b",
+      "name": "material_type",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "a53456fe-9d82-4e6f-9d89-81ce5f60baf5",
+          "name": "description",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "856805da-c1ae-470e-8003-a57b038e209f"
+            },
+            "extract": {
+              "column": "description"
+            }
+          },
+          "sample": [
+            "Teaching Material",
+            "Video Review",
+            "Video Lesson"
+          ],
+          "statistics": {
+            "@id": "7fbd1e1b-9d3d-42c8-8038-d045583401cb",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "2bbe0794-ef2e-4ad0-bedc-006678133406",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "856805da-c1ae-470e-8003-a57b038e209f"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1",
+            "2",
+            "3"
+          ],
+          "statistics": {
+            "@id": "aa14bfe3-07a2-499c-a5bc-639f7a3ecc90",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3], \"description\": [\"Video Lesson\", \"Video Review\", \"Teaching Material\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "0006a7bb-6035-41a5-9977-04404f3c85ba",
+      "name": "user_gender",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "201e1ce6-bdd0-4761-86e9-e548fc4abc1d",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "d04e89f1-d40f-40c6-8ee3-01e643033ff0"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1",
+            "3",
+            "4"
+          ],
+          "statistics": {
+            "@id": "02ab35ca-4789-4b06-93ea-70dfef3eabaf",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfdafa8b-f455-4ec2-825f-1495613fa9bd",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "d04e89f1-d40f-40c6-8ee3-01e643033ff0"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Decline to Answer",
+            "Male",
+            "Non-binary"
+          ],
+          "statistics": {
+            "@id": "fe940d62-7be0-49b1-a0f6-4cc305c15cf9",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4], \"label\": [\"Female\", \"Male\", \"Non-binary\", \"Decline to Answer\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "57861d52-7452-49f4-8239-3e22f2fcf20a",
+      "name": "platform__subtopic",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "522ff17a-2848-4a09-b6f1-de12a4ba4872",
+          "name": "name",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "b9ca5e5c-a893-4680-b5a3-e839c4d087f2"
+            },
+            "extract": {
+              "column": "name"
+            }
+          },
+          "sample": [
+            "Domain, Image and Graphics",
+            "Matrices and Determinants",
+            "Definite Integrals"
+          ],
+          "statistics": {
+            "@id": "f4852d8c-4361-4a29-9520-8b7ed0e07306",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "399af86e-ad6d-41d2-b559-c9ff4ab05163",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "b9ca5e5c-a893-4680-b5a3-e839c4d087f2"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "42",
+            "4",
+            "41"
+          ],
+          "statistics": {
+            "@id": "35e405db-7a9f-4648-bc3e-18eea5a39cdc",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "65fee643-5581-4dcb-ba9b-a3c27f15c049",
+          "name": "hidden",
+          "description": "",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "b9ca5e5c-a893-4680-b5a3-e839c4d087f2"
+            },
+            "extract": {
+              "column": "hidden"
+            }
+          },
+          "sample": [
+            "0"
+          ],
+          "statistics": {
+            "@id": "4e1b3d8b-f0ac-4575-a3e1-475413acf123",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "ac7903f7-ace7-4b4f-8b9a-b7adc445b0ed",
+          "name": "id_top",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "b9ca5e5c-a893-4680-b5a3-e839c4d087f2"
+            },
+            "extract": {
+              "column": "id_top"
+            }
+          },
+          "sample": [
+            "4",
+            "3",
+            "28"
+          ],
+          "statistics": {
+            "@id": "ad0c223c-788e-46f3-9799-c1fbeae693b5",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 37, 39, 41, 42, 44, 45, 46, 47, 53], \"id_top\": [7, 7, 4, 4, 5, 5, 18, 18, 18, 18, 18, 12, 12, 3, 3, 15, 4, 5, 5, 28, 28, 5], \"name\": [\"Elementary Geometry\", \"Algebraic expressions, Equations, and Inequalities\", \"Derivatives\", \"Partial Differentiation\", \"Integration Techniques\", \"Double Integration\", \"Matrices and Determinants\", \"Eigenvalues and Eigenvectors\", \"Linear Systems\", \"Vector Spaces\", \"Linear Transformations\", \"Linear Optimization\", \"Nonlinear Optimization\", \"Limits and Continuity\", \"Domain, Image and Graphics\", \"Limits, Continuity, Domain and Image\", \"Implicit Differentiation and Chain Rule\", \"Definite Integrals\", \"Triple Integration\", \"Set Theory\", \"Recursivity\", \"Surface Integrals\"], \"hidden\": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "3a3e3a6b-2c60-4eeb-81da-9e691a64d921",
+      "name": "teacher_position",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "7197d20f-1209-4ff3-bf96-6dabafdb080a",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "24780209-28ba-4cf8-85b1-6c0153ce11ac"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Lecturer",
+            "Researcher"
+          ],
+          "statistics": {
+            "@id": "a7e5fd45-f58c-485e-b42d-a7c55619f26a",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "e4176f65-6fc5-4d3f-9e0a-c066e6da750b",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "24780209-28ba-4cf8-85b1-6c0153ce11ac"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1",
+            "2"
+          ],
+          "statistics": {
+            "@id": "95b980f2-1454-45ce-973c-9e5eafa2f964",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2], \"label\": [\"Lecturer\", \"Researcher\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "fff279d3-8f59-4fbc-acff-9d91032d531b",
+      "name": "studentwork_preference",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "f0535eeb-cef7-4c07-870c-e6c47159888e",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "65c2f73b-6118-443b-9ef3-73ee895317fa"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Individual",
+            "Teamwork"
+          ],
+          "statistics": {
+            "@id": "7718e480-454b-4762-a496-10a59365be87",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "a25c5fce-6379-41d1-93b5-2970b3ef961c",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "65c2f73b-6118-443b-9ef3-73ee895317fa"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1",
+            "2"
+          ],
+          "statistics": {
+            "@id": "1a3df27f-be79-4cba-b17e-35002bd7fd54",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2], \"label\": [\"Individual\", \"Teamwork\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "80247044-790b-4186-9de0-e22af83155b6",
+      "name": "teacher_experience",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "137626b6-d5a9-42e6-b99c-06e8e1cf33e6",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "6a859279-955a-44f2-b9ef-95bb766c730b"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "1",
+            "3",
+            "5"
+          ],
+          "statistics": {
+            "@id": "b3186d5b-9ee0-4559-ba21-68cc22b7d686",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "fd93c20f-c8b7-4fae-98ba-24af044bd557",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "6a859279-955a-44f2-b9ef-95bb766c730b"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Between 21 and 30 years",
+            "Less than 5 years",
+            "Between 5 and 10 years"
+          ],
+          "statistics": {
+            "@id": "f8a0e9e2-a997-48da-90cc-db86aa67e918",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5], \"label\": [\"Less than 5 years\", \"Between 5 and 10 years\", \"Between 11 and 20 years\", \"Between 21 and 30 years\", \"More than 30 years\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "f2d1ce21-813f-44b9-a616-fe661a4031b8",
+      "name": "platform__course",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "fd605cfa-f78f-407a-b093-73a7017ddca4",
+          "name": "id",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a0234c12-d0de-4d20-98f3-bda8d917415f"
+            },
+            "extract": {
+              "column": "id"
+            }
+          },
+          "sample": [
+            "8",
+            "7",
+            "1"
+          ],
+          "statistics": {
+            "@id": "dd2f22cb-c55b-4d52-ba57-7322bac64f48",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "772cd6fe-9768-40e8-8b1e-2eaf40c4d43c",
+          "name": "label",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "a0234c12-d0de-4d20-98f3-bda8d917415f"
+            },
+            "extract": {
+              "column": "label"
+            }
+          },
+          "sample": [
+            "Exact Sciences",
+            "Agricultural Sciences",
+            "Human Sciences"
+          ],
+          "statistics": {
+            "@id": "6b52d611-a677-4ea7-b221-aab1a3de2720",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"id\": [1, 2, 3, 4, 5, 6, 7, 8], \"label\": [\"Engineering\", \"Exact Sciences\", \"Biological Sciences\", \"Health Sciences\", \"Human Sciences\", \"Agricultural Sciences\", \"Applied Social Sciences\", \"Linguistics and Arts\"]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "50b122fe-8e14-4c3a-b2f3-bbb09f4252d6",
+      "name": "platform_keyword_snaquestion",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "f8db0fa3-f4eb-4426-8c4a-50aac595dd9a",
+          "name": "platformsnaquestionid",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "adeb12a1-3626-44a2-9e8e-9a9dd7d1d8a2"
+            },
+            "extract": {
+              "column": "platformsnaquestionid"
+            }
+          },
+          "sample": [
+            "938",
+            "184",
+            "1489"
+          ],
+          "statistics": {
+            "@id": "2f876f93-f667-4758-b0ae-b05861e032f9",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "a29f9560-7ba8-4802-846c-37ac518004bb",
+          "name": "platformkeywordid",
+          "description": "",
+          "dataType": null,
+          "source": {
+            "fileObject": {
+              "@id": "adeb12a1-3626-44a2-9e8e-9a9dd7d1d8a2"
+            },
+            "extract": {
+              "column": "platformkeywordid"
+            }
+          },
+          "sample": [
+            "51",
+            "70",
+            "22"
+          ],
+          "statistics": {
+            "@id": "0c5b2817-75e0-42f5-9cbd-c87f635bfc46",
+            "@type": "dg:ColumnStatistics",
+            "rowCount": null,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": null,
+            "missingPercentage": null,
+            "histogram": null,
+            "uniqueCount": null
+          }
+        }
+      ],
+      "examples": "{\"platformkeywordid\": [1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4], \"platformsnaquestionid\": [690, 691, 662, 787, 788, 789, 796, 800, 1874, 1883, 1885, 2052, 102, 113, 611, 665, 1517, 1518, 1519, 1520, 1521, 1532, 1565, 1575, 1658, 612, 613, 1517, 1518, 1519]}"
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "1f468252-ea26-478b-bb88-36ff36136747",
+      "name": "tests/assets/dummy_data/data/txt_files/text1",
+      "source": {
         "@type": "cr:FileObject",
-        "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883",
-        "name": "mathe_assessment_dataset.csv",
-        "description": "",
-        "contentSize": "1057461 B",
-        "contentUrl": "s3://datagems/dataset_id/mathe_assessment_dataset.csv",
-        "encodingFormat": "text/csv",
-        "sha256": "1cadacd304e2a9367a4f8effdfa0a7d70bee723d6f4b08b70c58d75e9aae6440"
-        }
-    ],
-    "recordSet": [
-        {
-        "@type": "cr:RecordSet",
-        "@id": "fc9de940-ab78-4c3e-a087-cb2b194bf2af",
-        "name": "mathe_assessment_dataset",
-        "description": "",
-        "field": [
-            {
-            "@type": "cr:Field",
-            "@id": "e71b6165-22b9-4982-bde0-4cf2387d9a4b",
-            "name": "Student ID",
-            "description": "",
-            "dataType": "sc:Integer",
-            "source": {
-                "fileObject": {
-                "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883"
-                },
-                "extract": {
-                "column": "Student ID"
-                }
-            },
-            "sample": [
-                1179,
-                955,
-                1026
-            ]
-            },
-            {
-            "@type": "cr:Field",
-            "@id": "1eb027c3-594f-4d89-befe-07e3aa143253",
-            "name": "Student Country",
-            "description": "",
-            "dataType": "sc:Text",
-            "source": {
-                "fileObject": {
-                "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883"
-                },
-                "extract": {
-                "column": "Student Country"
-                }
-            },
-            "sample": [
-                "Lithuania",
-                "Italy",
-                "Italy"
-            ]
-            },
-            {
-            "@type": "cr:Field",
-            "@id": "e9f584a7-36db-416a-8bed-0476348f944c",
-            "name": "Question ID",
-            "description": "",
-            "dataType": "sc:Integer",
-            "source": {
-                "fileObject": {
-                "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883"
-                },
-                "extract": {
-                "column": "Question ID"
-                }
-            },
-            "sample": [
-                429,
-                788,
-                431
-            ]
-            },
-            {
-            "@type": "cr:Field",
-            "@id": "6368937e-5651-48aa-909d-ad9b281b45d7",
-            "name": "Type of Answer",
-            "description": "",
-            "dataType": "sc:Integer",
-            "source": {
-                "fileObject": {
-                "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883"
-                },
-                "extract": {
-                "column": "Type of Answer"
-                }
-            },
-            "sample": [
-                0,
-                1,
-                0
-            ]
-            },
-            {
-            "@type": "cr:Field",
-            "@id": "7b80103b-1534-4b52-8703-2525ff14833f",
-            "name": "Question Level",
-            "description": "",
-            "dataType": "sc:Text",
-            "source": {
-                "fileObject": {
-                "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883"
-                },
-                "extract": {
-                "column": "Question Level"
-                }
-            },
-            "sample": [
-                "Basic",
-                "Advanced",
-                "Basic"
-            ]
-            },
-            {
-            "@type": "cr:Field",
-            "@id": "479ff0d5-8052-4fe4-a889-88284bb3878a",
-            "name": "Topic",
-            "description": "",
-            "dataType": "sc:Text",
-            "source": {
-                "fileObject": {
-                "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883"
-                },
-                "extract": {
-                "column": "Topic"
-                }
-            },
-            "sample": [
-                "Integration",
-                "Statistics",
-                "Linear Algebra"
-            ]
-            },
-            {
-            "@type": "cr:Field",
-            "@id": "b3fa9433-a5cd-4023-86e7-fadebd9f74c0",
-            "name": "Subtopic",
-            "description": "",
-            "dataType": "sc:Text",
-            "source": {
-                "fileObject": {
-                "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883"
-                },
-                "extract": {
-                "column": "Subtopic"
-                }
-            },
-            "sample": [
-                "Nonlinear Optimization",
-                "Statistics",
-                "Linear Systems"
-            ]
-            },
-            {
-            "@type": "cr:Field",
-            "@id": "ca2c3445-b9c0-4d44-a2d0-afa6dc05e079",
-            "name": "Keywords",
-            "description": "",
-            "dataType": "sc:Text",
-            "source": {
-                "fileObject": {
-                "@id": "765bc5d1-661b-462e-82b2-3f2fc76d9883"
-                },
-                "extract": {
-                "column": "Keywords"
-                }
-            },
-            "sample": [
-                "Injective linear application,Invertible linear operator,Isomorphism",
-                "Separable variables equation",
-                "Subspace,Span,Linear combination"
-            ]
-            }
-        ]
-        }
-    ]
-    }
-    ```
-
-## Example 2: Multiple CSV Files
-
-Dataset Page: TODO WHEN AVAILABLE
-
-??? note "Show profile"
-
-    ```json
+        "@id": "8f57e2d2-df94-45d5-a7e5-6168bf15ae72"
+      },
+      "summary": "",
+      "keywords": [],
+      "language": "en",
+      "numLines": 54,
+      "numWords": 1480,
+      "numCharacters": 8727,
+      "avgSentenceLength": 20.555555555555557,
+      "numParagraphs": 22,
+      "fleschKincaidGrade": 14.400180180180183
+    },
     {
-        "@context": {
-            "@language": "en",
-            "@vocab": "https://schema.org/",
-            "cr": "http://mlcommons.org/croissant/",
-            "rai": "http://mlcommons.org/croissant/RAI/",
-            "dg": "http://datagems.eu/TBD",
-            "data": {
-                "@id": "cr:data",
-                "@type": "@json"
-            },
-            "dataType": {
-                "@id": "cr:dataType",
-                "@type": "@vocab"
-            },
-            "examples": {
-                "@id": "cr:examples",
-                "@type": "@json"
-            },
-            "conformsTo": "dct:conformsTo",
-            "citeAs": "cr:citeAs",
-            "column": "cr:column",
-            "extract": "cr:extract",
-            "field": "cr:field",
-            "fileProperty": "cr:fileProperty",
-            "fileObject": "cr:fileObject",
-            "fileSet": "cr:fileSet",
-            "format": "cr:format",
-            "includes": "cr:includes",
-            "isLiveDataset": "cr:isLiveDataset",
-            "jsonPath": "cr:jsonPath",
-            "key": "cr:key",
-            "md5": "cr:md5",
-            "parentField": "cr:parentField",
-            "path": "cr:path",
-            "recordSet": "cr:recordSet",
-            "references": "cr:references",
-            "regex": "cr:regex",
-            "repeated": "cr:repeated",
-            "replace": "cr:replace",
-            "sc": "https://schema.org/",
-            "separator": "cr:separator",
-            "source": "cr:source",
-            "subField": "cr:subField",
-            "transform": "cr:transform",
-            "access": "dg:access",
-            "uploadedBy": "dg:uploadedBy",
-            "wd": "https://www.wikidata.org/wiki/"
-        },
-        "@type": "sc:Dataset",
-        "@id": "729f8932-8300-4ac5-a71e-b41904ca7433",
-        "name": "Meteorological data time series (Daily - UTC)",
-        "description": "The dataset includes daily meteorological parameters for the period 2010-2023 from 54 meteorological stations. You can see visualizations of the data from these stations on the page https://www.meteo.gr/climate/ The parameters are temperature (\u00b0C), relative humidity (%), pressure (hPa), rainfall (mm), wind speed (km/h), dominant wind direction, and wind gust (km/h). The measurements come from the network of automatic meteorological stations of the National Observatory of Athens/meteo.gr. Information about the stations and any malfunctions are provided at http://meteosearch.meteo.gr/ on the respective station's page. Reference to the network is made through the scientific publication https://rmets.onlinelibrary.wiley.com/doi/full/10.1002/gdj3.44",
-        "conformsTo": "",
-        "citeAs": "",
-        "license": "CC-BY-SA 4.0",
-        "url": "https://data.climpact.gr/dataset/497dc26d-45e0-4ad5-b8f3-5f8890f65129",
-        "doi": "",
-        "version": "",
-        "headline": "Daily meteorological parameters for the period 2010-2023 from 54 meteorological stations in Greece.",
-        "keywords": [
-            "weather",
-            "greece",
-            "weather prediction"
-        ],
-        "fieldOfScience": [
-            "EARTH AND RELATED ENVIRONMENTAL SCIENCES"
-        ],
-        "inLanguage": [
-            "el"
-        ],
-        "country": "GR",
-        "datePublished": "24-05-2025",
-        "access": "PUBLIC",
-        "uploadedBy": "ADMIN",
-        "distribution": [
-            {
-                "@type": "cr:FileObject",
-                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7",
-                "name": "cities.csv",
-                "description": "",
-                "contentSize": "22582102 B",
-                "contentUrl": "s3://datagems/dataset_id/cities.csv",
-                "encodingFormat": "text/csv",
-                "sha256": "59ed113686e1f21a1a87e75e0909af71a71ef05472b334fa7beccc2100ec5245"
-            },
-            {
-                "@type": "cr:FileObject",
-                "@id": "eace3f55-5742-4e3e-85c9-2ea47ae1547d",
-                "name": "stations_list.csv",
-                "description": "",
-                "contentSize": "1917 B",
-                "contentUrl": "s3://datagems/dataset_id/stations_list.csv",
-                "encodingFormat": "text/csv",
-                "sha256": "04fd252b6e957e88175f4ab4a4c7799e81e1508f22628c44fa13c8034eae508e"
-            }
-        ],
-        "recordSet": [
-            {
-                "@type": "cr:RecordSet",
-                "@id": "9aabef19-b704-4e57-812a-97cd12ccf792",
-                "name": "cities",
-                "description": "",
-                "field": [
-                    {
-                        "@type": "cr:Field",
-                        "@id": "25fec8bd-b5c8-4ecb-801b-355ce419cf8f",
-                        "name": "Date",
-                        "description": "",
-                        "dataType": "sc:Date",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "Date"
-                            }
-                        },
-                        "sample": [
-                            "2013-05-26",
-                            "2021-04-14",
-                            "2021-09-19"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "e6336fa3-f4b3-4495-b84b-1ea4d45bc5ec",
-                        "name": "T_mean",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "T_mean"
-                            }
-                        },
-                        "sample": [
-                            "17.9",
-                            "13.5",
-                            "20.0"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "8dcb82d8-2212-4958-ab9c-620b4840fd0c",
-                        "name": "T_max",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "T_max"
-                            }
-                        },
-                        "sample": [
-                            "30.7",
-                            "22.0",
-                            "17.2"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "33433ee4-7a97-40d2-bd34-afc633f315aa",
-                        "name": "T_min",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "T_min"
-                            }
-                        },
-                        "sample": [
-                            "12.8",
-                            "25.7",
-                            "7.5"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "72b11e3f-fa48-4fc0-b232-f37cdcea745c",
-                        "name": "RH_mean",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "RH_mean"
-                            }
-                        },
-                        "sample": [
-                            "65.1",
-                            "64.8",
-                            "84.2"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "c94f212d-9a06-41bd-834f-e30388dd4b3c",
-                        "name": "RH_max",
-                        "description": "",
-                        "dataType": "sc:Integer",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "RH_max"
-                            }
-                        },
-                        "sample": [
-                            "76",
-                            "97",
-                            "83"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "830176c9-42d1-497f-afcc-0e7dcf609415",
-                        "name": "RH_min",
-                        "description": "",
-                        "dataType": "sc:Integer",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "RH_min"
-                            }
-                        },
-                        "sample": [
-                            "49",
-                            "71",
-                            "26"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "45570e8e-a714-4e51-b323-2ac0277557a7",
-                        "name": "Prs_mean",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "Prs_mean"
-                            }
-                        },
-                        "sample": [
-                            "1008.5",
-                            "1033.2",
-                            "1022.7"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "5a2859bf-1664-4f7e-abcc-b6949f72aa3b",
-                        "name": "Prs_max",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "Prs_max"
-                            }
-                        },
-                        "sample": [
-                            "1010.2",
-                            "1017.7",
-                            "1017.2"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "cd3ad217-8199-411e-b011-e4d447aaad5b",
-                        "name": "Prs_min",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "Prs_min"
-                            }
-                        },
-                        "sample": [
-                            "---",
-                            "1013.8",
-                            "1003.9"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "7cbd3887-b9fe-4312-a7a6-23df5bde6ba7",
-                        "name": "Ac_R",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "Ac_R"
-                            }
-                        },
-                        "sample": [
-                            "0.0",
-                            "0.0",
-                            "0.0"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "2ca2f524-27ef-4aeb-a15a-ace7e9325f92",
-                        "name": "WS_mean",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "WS_mean"
-                            }
-                        },
-                        "sample": [
-                            "3.8",
-                            "3.7",
-                            "4.2"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "40077a17-d92f-4338-a01b-4a1e01f5e787",
-                        "name": "DWD",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "DWD"
-                            }
-                        },
-                        "sample": [
-                            "SSE",
-                            "NW",
-                            "ENE"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "7df62090-6456-4a7c-b612-8f304ba8a104",
-                        "name": "WG",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "WG"
-                            }
-                        },
-                        "sample": [
-                            "14.5",
-                            "20.9",
-                            "35.4"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "63a3e364-03f5-43c5-b305-67a6e83f7622",
-                        "name": "city",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "19532c0b-6218-4f86-93e9-69b5812ce7f7"
-                            },
-                            "extract": {
-                                "column": "city"
-                            }
-                        },
-                        "sample": [
-                            "ithaki",
-                            "veroia",
-                            "argos"
-                        ]
-                    }
-                ]
-            },
-            {
-                "@type": "cr:RecordSet",
-                "@id": "98ae4cae-0503-4159-961d-3b6c079da352",
-                "name": "stations_list",
-                "description": "",
-                "field": [
-                    {
-                        "@type": "cr:Field",
-                        "@id": "2cb871be-d08e-496c-8762-6cf9356e97e6",
-                        "name": "stations",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "eace3f55-5742-4e3e-85c9-2ea47ae1547d"
-                            },
-                            "extract": {
-                                "column": "stations"
-                            }
-                        },
-                        "sample": [
-                            "tripoli",
-                            "samothraki",
-                            "samos"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "c2176701-e679-473a-a533-af99e40389a3",
-                        "name": "latitude",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "eace3f55-5742-4e3e-85c9-2ea47ae1547d"
-                            },
-                            "extract": {
-                                "column": "latitude"
-                            }
-                        },
-                        "sample": [
-                            39.627532,
-                            40.794947,
-                            37.795072
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "ceb9d821-d850-4daa-90db-241358cc3b10",
-                        "name": "longitude",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "eace3f55-5742-4e3e-85c9-2ea47ae1547d"
-                            },
-                            "extract": {
-                                "column": "longitude"
-                            }
-                        },
-                        "sample": [
-                            28.086268,
-                            25.106667,
-                            21.445693
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "d9513bee-ebe7-4cd5-8447-8b38bef1efd9",
-                        "name": "altitude",
-                        "description": "",
-                        "dataType": "sc:Float",
-                        "source": {
-                            "fileObject": {
-                                "@id": "eace3f55-5742-4e3e-85c9-2ea47ae1547d"
-                            },
-                            "extract": {
-                                "column": "altitude"
-                            }
-                        },
-                        "sample": [
-                            650.0,
-                            60.0,
-                            120.0
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-
-    ```
-## Example 3: Multiple File Types
-
-Dataset Page: TODO WHEN AVAILABLE
-
-??? note "Show profile"
-
-    ```json
+      "@type": "cr:RecordSet",
+      "@id": "6aa36677-a7e9-44ee-b296-e2ef236aea24",
+      "name": "tests/assets/dummy_data/data/txt_files/text2",
+      "source": {
+        "@type": "cr:FileObject",
+        "@id": "99244a37-6240-4d7b-92e5-a00ec590d5f6"
+      },
+      "summary": "",
+      "keywords": [],
+      "language": "en",
+      "numLines": 54,
+      "numWords": 1480,
+      "numCharacters": 8727,
+      "avgSentenceLength": 20.555555555555557,
+      "numParagraphs": 22,
+      "fleschKincaidGrade": 14.400180180180183
+    },
     {
-        "@context": {
-            "@language": "en",
-            "@vocab": "https://schema.org/",
-            "cr": "http://mlcommons.org/croissant/",
-            "rai": "http://mlcommons.org/croissant/RAI/",
-            "dg": "http://datagems.eu/TBD",
-            "data": {
-                "@id": "cr:data",
-                "@type": "@json"
-            },
-            "dataType": {
-                "@id": "cr:dataType",
-                "@type": "@vocab"
-            },
-            "examples": {
-                "@id": "cr:examples",
-                "@type": "@json"
-            },
-            "conformsTo": "dct:conformsTo",
-            "citeAs": "cr:citeAs",
-            "column": "cr:column",
-            "extract": "cr:extract",
-            "field": "cr:field",
-            "fileProperty": "cr:fileProperty",
-            "fileObject": "cr:fileObject",
-            "fileSet": "cr:fileSet",
-            "format": "cr:format",
-            "includes": "cr:includes",
-            "isLiveDataset": "cr:isLiveDataset",
-            "jsonPath": "cr:jsonPath",
-            "key": "cr:key",
-            "md5": "cr:md5",
-            "parentField": "cr:parentField",
-            "path": "cr:path",
-            "recordSet": "cr:recordSet",
-            "references": "cr:references",
-            "regex": "cr:regex",
-            "repeated": "cr:repeated",
-            "replace": "cr:replace",
-            "sc": "https://schema.org/",
-            "separator": "cr:separator",
-            "source": "cr:source",
-            "subField": "cr:subField",
-            "transform": "cr:transform",
-            "access": "dg:access",
-            "uploadedBy": "dg:uploadedBy",
-            "wd": "https://www.wikidata.org/wiki/"
-        },
-        "@type": "sc:Dataset",
-        "@id": "a36dde9d-7f95-40ff-8a9b-f687d0a72318",
-        "name": "Integration Techniques Questions MathE Database",
-        "description": "MathE is a mathematical platform developed under the MathE project (mathe.ipb.pt) for higher education. The dataset associated with the Integration topic and the Integration techniques subtopic has 61 questions, the correct answer and two incorrect answers with common errors made by students, keywords associated and material association. The database is organised as follows: Question ID, topic name; subtopic name; question; Correct answer, Incorrect answer 1, incorrect answer 2, keywords, Videos, Material.",
-        "conformsTo": "",
-        "citeAs": "",
-        "license": "CC0 1.0",
-        "url": "https://doi.org/10.34620/dadosipb/3TUVJX",
-        "doi": "",
-        "version": "",
-        "headline": "Integration Techniques Questions MathE Database.",
-        "keywords": [
-            "math",
-            "student",
-            "higher education"
-        ],
-        "fieldOfScience": [
-            "MATHEMATICS"
-        ],
-        "inLanguage": [
-            "en"
-        ],
-        "country": "PT",
-        "datePublished": "24-05-2025",
-        "access": "PUBLIC",
-        "uploadedBy": "ADMIN",
-        "distribution": [
-            {
-                "@type": "cr:FileSet",
-                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363",
-                "name": "PDF",
-                "description": "",
-                "contentSize": "1414800 B",
-                "contentUrl": "s3://datagems/dataset_id/",
-                "encodingFormat": "application/pdf",
-                "includes": "PDF/*"
-            },
-            {
-                "@type": "cr:FileSet",
-                "@id": "ca2073a1-cef2-4cb6-ab8e-7327042a080c",
-                "name": "txt",
-                "description": "",
-                "contentSize": "2354 B",
-                "contentUrl": "s3://datagems/dataset_id/",
-                "encodingFormat": "text/plain",
-                "includes": "txt/*"
-            },
-            {
-                "@type": "cr:FileObject",
-                "@id": "83c1e803-ebf6-481a-bb92-4bcea5bfcd3f",
-                "name": "Keywords.csv",
-                "description": "",
-                "contentSize": "243 B",
-                "contentUrl": "s3://datagems/dataset_id/Keywords.csv",
-                "encodingFormat": "text/csv",
-                "sha256": "0cd9cf630e410b6740ee9234a30472270b33c7e3a23b7c164dd40fc19b1fa659"
-            },
-            {
-                "@type": "cr:FileObject",
-                "@id": "b45656dd-9319-4bd6-913a-521208074bf9",
-                "name": "IntegrationTechniques.csv",
-                "description": "",
-                "contentSize": "26051 B",
-                "contentUrl": "s3://datagems/dataset_id/IntegrationTechniques.csv",
-                "encodingFormat": "text/csv",
-                "sha256": "eea1e6da7f7ab9169b5afdf5e360403aba6f987dd13eefc735edfc315d59df59"
-            },
-            {
-                "@type": "cr:FileObject",
-                "@id": "20d9223f-89f2-46a9-98f5-82abedb8aff4",
-                "name": "Videos.csv",
-                "description": "",
-                "contentSize": "262 B",
-                "contentUrl": "s3://datagems/dataset_id/Videos.csv",
-                "encodingFormat": "text/csv",
-                "sha256": "2b638eeacbef36ef3908a61d86e9d075dd2ee56d20b9ff64db385cca254810e0"
-            }
-        ],
-        "recordSet": [
-            {
-                "@type": "cr:RecordSet",
-                "@id": "2b91519b-8a07-4831-9193-c15d5a69a0df",
-                "name": "Keywords",
-                "description": "",
-                "field": [
-                    {
-                        "@type": "cr:Field",
-                        "@id": "18a4701e-14cd-47d3-bfe4-61a441bbf0de",
-                        "name": "ID",
-                        "description": "",
-                        "dataType": "sc:Integer",
-                        "source": {
-                            "fileObject": {
-                                "@id": "83c1e803-ebf6-481a-bb92-4bcea5bfcd3f"
-                            },
-                            "extract": {
-                                "column": "ID"
-                            }
-                        },
-                        "sample": [
-                            438,
-                            102,
-                            106
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "37fd0ca7-a42e-4542-9c2e-1d46db6b8463",
-                        "name": "name",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "83c1e803-ebf6-481a-bb92-4bcea5bfcd3f"
-                            },
-                            "extract": {
-                                "column": "name"
-                            }
-                        },
-                        "sample": [
-                            "Integration by parts",
-                            "Substitution",
-                            "Rational functions"
-                        ]
-                    }
-                ]
-            },
-            {
-                "@type": "cr:RecordSet",
-                "@id": "fabea8a0-ee52-4a93-b960-4b037cedada1",
-                "name": "IntegrationTechniques",
-                "description": "",
-                "field": [
-                    {
-                        "@type": "cr:Field",
-                        "@id": "151c6a71-eba3-49c5-a7cf-ab97d9b5dfd1",
-                        "name": "id",
-                        "description": "",
-                        "dataType": "sc:Integer",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "id"
-                            }
-                        },
-                        "sample": [
-                            1822,
-                            1828,
-                            1967
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "d3f9d776-cdd2-4ee5-91e9-c95f9f646d17",
-                        "name": "topic",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "topic"
-                            }
-                        },
-                        "sample": [
-                            "integration",
-                            "integration",
-                            "integration"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "0408236e-06e5-4dcd-9a50-22fea784eeec",
-                        "name": "subtopic",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "subtopic"
-                            }
-                        },
-                        "sample": [
-                            "integration techniques",
-                            "integration techniques",
-                            "integration techniques"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "3e250f6b-4132-49d8-8b79-96d2e1f1e794",
-                        "name": "question",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "question"
-                            }
-                        },
-                        "sample": [
-                            "Find $\\displaystyle\\int\\sin\\left(2x\\right)\\operatorname{e}^{\\sin^2\\left(x\\right)}\\, dx$",
-                            "Find $\\displaystyle\\int \\frac{\\sqrt{x^2-9}}{x^3}\\: dx$",
-                            "Find $\\displaystyle \\int 2x+2x^2-\\dfrac{1}{x}\\, dx$"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "f4192fbe-31dd-487d-b5cf-9a2e6ffdb3ac",
-                        "name": "correct",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "correct"
-                            }
-                        },
-                        "sample": [
-                            "$\\displaystyle \\dfrac{1}{2}\\ln\\left|\\ln \\left(x^2\\right)\\right|+c$",
-                            "$\\displaystyle\\dfrac{x^4}{4}+\\dfrac{\\operatorname{e}^{3x}} {3} + c$\n",
-                            "$\\displaystyle \\dfrac{x^3}{3}-x+\\ln \\left|x\\right|+c$"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "1fceabf9-5663-46f6-bb69-3e6d6fa8e0c0",
-                        "name": "incorrect1",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "incorrect1"
-                            }
-                        },
-                        "sample": [
-                            "$\\displaystyle -\\ln \\left|x+1\\right|+\\ln \\left|x-1\\right|-\\left(\\ln \\left|x^2-1\\right|-\\ln \\left(x\\right)\\right)+c$\n",
-                            "$\\displaystyle 2\\ln \\left|x^2+1\\right|+\\arctan \\left(x\\right)+C$",
-                            "$\\displaystyle\\frac{1}{2}\\sqrt{x^2+2x}-\\ln\\left|{x+1+\\sqrt{x^2+2x-1}}\\right|+c $"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "3473df3f-ebc8-4d8e-ad8e-b3f1ba3ad6df",
-                        "name": "incorrect2",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "incorrect2"
-                            }
-                        },
-                        "sample": [
-                            "$\\displaystyle \\dfrac{1}{2}\\left(x-\\sin(x)\\cos(x)\\right)+c$\n",
-                            "$\\displaystyle \\tan\\left(\\frac{x}{2}\\right)+\\cos \\left(x\\right)+C$",
-                            "$\\displaystyle \\frac{x^2}{2}+5\\ln|x|-x^2e^x+2xe^x-2e^x+C$"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "84463c80-f891-457d-b7b2-87b4d60edd42",
-                        "name": "incorrect3",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "incorrect3"
-                            }
-                        },
-                        "sample": [
-                            "$\\displaystyle\\dfrac{\\sec^5\\left(x\\right)}{5}-\\dfrac{\\sec ^3\\left(x\\right)}{3}+c$",
-                            "$\\displaystyle \\dfrac{1}{4}\\arctan(\\operatorname{e}^{4x})+c$",
-                            "$\\displaystyle 2\\ln \\left|x^2+1\\right|+\\frac{1}{2}\\arctan \\left(x\\right)+C$"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "37d04014-ef75-4499-a99c-e7536ac83967",
-                        "name": "keywords",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "keywords"
-                            }
-                        },
-                        "sample": [
-                            "101,103,107",
-                            "103,107",
-                            "102,105"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "580fa1b2-c88a-4a40-8052-278a138a1aef",
-                        "name": "video_material",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "video_material"
-                            }
-                        },
-                        "sample": [
-                            "539,540,541,542,630",
-                            "539,540,541,542,630,753",
-                            "539,541,542,545,620,621,630"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "1164b3a6-4d36-4aa1-aea8-0bf1348c58bd",
-                        "name": "pdf_material",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "b45656dd-9319-4bd6-913a-521208074bf9"
-                            },
-                            "extract": {
-                                "column": "pdf_material"
-                            }
-                        },
-                        "sample": [
-                            "130,131,135,137",
-                            "129,131,137",
-                            "130,131,135,137"
-                        ]
-                    }
-                ]
-            },
-            {
-                "@type": "cr:RecordSet",
-                "@id": "690fcc22-65b2-43c2-b5cc-1ae7a7c87500",
-                "name": "Videos",
-                "description": "",
-                "field": [
-                    {
-                        "@type": "cr:Field",
-                        "@id": "1864c0a7-0996-4384-bb38-62d6e7546ce0",
-                        "name": "id",
-                        "description": "",
-                        "dataType": "sc:Integer",
-                        "source": {
-                            "fileObject": {
-                                "@id": "20d9223f-89f2-46a9-98f5-82abedb8aff4"
-                            },
-                            "extract": {
-                                "column": "id"
-                            }
-                        },
-                        "sample": [
-                            485,
-                            540,
-                            620
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "fc97432e-2558-469b-9892-a0e7ee7e91f2",
-                        "name": "link",
-                        "description": "",
-                        "dataType": "sc:Text",
-                        "source": {
-                            "fileObject": {
-                                "@id": "20d9223f-89f2-46a9-98f5-82abedb8aff4"
-                            },
-                            "extract": {
-                                "column": "link"
-                            }
-                        },
-                        "sample": [
-                            "TyPRUjJ-Png",
-                            "gyfDSkGrYuo",
-                            "RjvYKVmV2EQ"
-                        ]
-                    },
-                    {
-                        "@type": "cr:Field",
-                        "@id": "74bd6479-c36f-4e4e-92ca-a4ec7f29d9dc",
-                        "name": "keywords",
-                        "description": "",
-                        "dataType": "sc:Integer",
-                        "source": {
-                            "fileObject": {
-                                "@id": "20d9223f-89f2-46a9-98f5-82abedb8aff4"
-                            },
-                            "extract": {
-                                "column": "keywords"
-                            }
-                        },
-                        "sample": [
-                            "103, 107",
-                            "106",
-                            "103, 107"
-                        ]
-                    }
-                ]
-            },
-            {
-                "@type": "cr:RecordSet",
-                "@id": "e81fa048-a43f-4368-b060-7630152759d5",
-                "name": "PDF",
-                "description": "",
-                "field": [
-                    {
-                        "@type": "dg:Document",
-                        "@id": "df00478c-999e-4c15-936d-e132facd4ca8",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/135.pdf",
-                        "name": "135",
-                        "file_size_bytes": 167002,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "4d4230e0-bb4d-4691-b785-4de76384a894",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/137.pdf",
-                        "name": "137",
-                        "file_size_bytes": 177015,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "2c6c4e62-3f07-4d8c-968d-705bfbcbcad6",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/132.pdf",
-                        "name": "132",
-                        "file_size_bytes": 64697,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "30a8669b-1e4c-4333-bea5-a3f866840b5b",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/134.pdf",
-                        "name": "134",
-                        "file_size_bytes": 38248,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "bfc1a4a6-10d3-4561-89cb-972b80e84c36",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/138.pdf",
-                        "name": "138",
-                        "file_size_bytes": 243991,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "a34c1eb2-1bf1-48f6-9a19-15751c30199f",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/133.pdf",
-                        "name": "133",
-                        "file_size_bytes": 70364,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "5777d24c-ef5d-4343-821c-a837ef92a30c",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/130.pdf",
-                        "name": "130",
-                        "file_size_bytes": 67346,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "781c7f10-b01a-47e3-92c6-4ceec74ef9b4",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/131.pdf",
-                        "name": "131",
-                        "file_size_bytes": 404904,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "1d02ed2c-14f8-4fe9-abb1-ea92b1aa5028",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/129.pdf",
-                        "name": "129",
-                        "file_size_bytes": 86189,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "7e9f886f-d71d-4d96-b374-422e51560dcf",
-                        "contentUrl": "s3://datagems/dataset_id/PDF/136.pdf",
-                        "name": "136",
-                        "file_size_bytes": 95044,
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "summary": "This is an example summary",
-                        "source": {
-                            "fileSet": {
-                                "@id": "b5d865d1-8c7b-4e6d-a545-b17c5e881363"
-                            }
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "cr:RecordSet",
-                "@id": "55c0df7f-1c47-4437-b350-0963c5694e6b",
-                "name": "txt",
-                "description": "",
-                "field": [
-                    {
-                        "@type": "dg:Document",
-                        "@id": "ae78dc0a-66d1-4abf-9750-b5d00bf3119b",
-                        "name": "MANIFEST",
-                        "contentUrl": "s3://datagems/dataset_id/txt/MANIFEST.TXT",
-                        "file_size_bytes": 602,
-                        "summary": "This is an example summary",
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "source": {
-                            "fileSet": {
-                                "@id": "ca2073a1-cef2-4cb6-ab8e-7327042a080c"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "dg:Document",
-                        "@id": "6b388d71-e73f-4cd5-ae3a-3dbd86d3c45d",
-                        "name": "readme",
-                        "contentUrl": "s3://datagems/dataset_id/txt/readme.txt",
-                        "file_size_bytes": 1752,
-                        "summary": "This is an example summary",
-                        "keywords": [
-                            "Keyword 1",
-                            "Keyword 2"
-                        ],
-                        "source": {
-                            "fileSet": {
-                                "@id": "ca2073a1-cef2-4cb6-ab8e-7327042a080c"
-                            }
-                        }
-                    }
-                ]
-            }
-        ]
+      "@type": "cr:RecordSet",
+      "@id": "a4bc44ec-44c0-4ec9-85b2-7d70612df476",
+      "name": "960.pdf",
+      "source": {
+        "@type": "cr:FileObject",
+        "@id": "1059ce33-1f88-4c8f-8601-0d8c10a13863"
+      },
+      "subject": "",
+      "author": "",
+      "title": "",
+      "producer": "pdfTeX-1.40.26",
+      "creator": "LaTeX with hyperref",
+      "creationDate": "D:20241114105411Z",
+      "modificationDate": "D:20241114105411Z",
+      "pagesCount": 3,
+      "keywords": [],
+      "summary": "",
+      "field": []
     }
-
-    ```
+  ]
+}
+```

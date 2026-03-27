@@ -69,6 +69,10 @@ class DatasetProfile:
         self.databases_objects = [
             {
                 "database_name": connector["database_name"],
+                "protocol": connector["protocol"],
+                "engine": connector["engine"],
+                "host": connector["host"],
+                "port": connector["port"],
                 "file_object_id": str(uuid.uuid4()),
             }
             for connector in self.data_connectors
@@ -132,6 +136,10 @@ class DatasetProfile:
             get_distribution_of_database_connection(
                 connection_id=db_connector["file_object_id"],
                 database_name=db_connector["database_name"],
+                protocol=db_connector["protocol"],
+                engine=db_connector["engine"],
+                host=db_connector["host"],
+                port=db_connector["port"],
             )
             for db_connector in self.databases_objects
         ]

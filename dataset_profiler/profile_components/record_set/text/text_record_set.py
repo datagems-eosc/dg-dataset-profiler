@@ -1,4 +1,5 @@
 import uuid
+from pathlib import Path
 from typing import Union, Dict, List
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
@@ -133,7 +134,6 @@ class TextRecordSet(RecordSet):
             "avgSentenceLength": self.avg_sentence_length,
             "numParagraphs": self.num_paragraphs,
             "fleschKincaidGrade": self.flesch_kincaid_grade,  # readability score
-            "field": [chunk.to_dict() for chunk in self.fields],
         }
 
     def to_dict_cdd(self):
@@ -141,7 +141,7 @@ class TextRecordSet(RecordSet):
             "file_object_id": self.file_object_id,
             "original_format": "text",
             "source_file": self.file_object,
-            "name": self.name,
+            "name": Path(self.name).name,
             "description": self.summary,
             "keywords": self.keywords,
             "chunked_content": [

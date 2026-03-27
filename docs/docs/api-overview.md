@@ -199,13 +199,16 @@ Data connectors specify how to access the raw data for profiling. The following 
     },
     {
       "type": "DatabaseConnection",
-      "database_name": "ds_era5_land"
+      "protocol": "postgresql",
+      "engine": "PostgreSQL",
+      "database_name": "ds_era5_land",
+      "host": "172.16.59.6",
+      "port": 5432
     }
 ]
 ```
 
 * The `dataset_id` field should be the unique identifier of the dataset in the storage system.
-* The `database_name` field should be the name of the database to connect to. We do not need any other info to connect to the database since the service has pre-configured access.
 
 ## Profile Types
 
@@ -213,7 +216,7 @@ The service generates three types of profiles:
 
 1. **Light Profile**: Basic metadata about the dataset and its distributions (files)
 2. **Heavy Profile**: Detailed information about the dataset structure, including record sets and field information
-3. **CDD Profile**: Profile used by the Cross-Dataset Discovery service
+3. **CDD Profile**: Profile used by the Cross-Dataset Discovery service. We provide the S3 path to the JSON file containing the CDD profile.
 
 !!! warning "CDD Profile"
 
