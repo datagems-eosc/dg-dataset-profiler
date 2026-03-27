@@ -32,33 +32,78 @@ class CSVRecordSet(RecordSet):
         self.fields = self.extract_fields()
         self.examples = self.extract_examples()
 
-    def extract_fields(self):
-        file_path = os.path.join(self.distribution_path, self.file_object)
-        if os.path.exists(file_path):
-            logger.info("Extracting fields from CSV file", file=file_path)
-            try:
-                csv_object = pd.read_csv(file_path, encoding="ISO-8859-1")
-
-                fields = []
-                for column in csv_object.columns:
-                    fields.append(
-                        TableColumnField(
-                            csv_object[column], column, self.name, self.file_object_id
-                        )
-                    )
-                return fields
-            except Exception as e:
-                logger.error(f"Error reading CSV file: {str(e)}", file=file_path)
-                raise
-        else:
-            logger.error("CSV file not found for field extraction", file=file_path)
+    def _read_csv_with_delimiter_detection(self, file_path):
+        """Common method to read CSV files with delimiter detection and flexible parsing."""
+        if not os.path.exists(file_path):
+            logger.error("CSV file not found", file=file_path)
             raise FileNotFoundError(f"CSV file not found: {file_path}")
 
+        logger.info("Reading CSV file with delimiter detection", file=file_path)
+
+        # Try to detect the delimiter using the csv module
+        try:
+            with open(file_path, 'r', encoding="ISO-8859-1") as csvfile:
+                sample = csvfile.read(1024)
+                try:
+                    dialect = csv.Sniffer().sniff(sample)
+                    delimiter = dialect.delimiter
+                    logger.info(f"Detected delimiter: '{delimiter}'", file=file_path)
+                except:
+                    # If sniffer fails, try common delimiters
+                    delimiter = ','
+                    logger.info(f"Using default delimiter: '{delimiter}'", file=file_path)
+
+            # Use the detected delimiter with flexible parsing
+            csv_object = pd.read_csv(
+                file_path,
+                encoding="ISO-8859-1",
+                sep=delimiter,
+                on_bad_lines='skip'  # For pandas >= 1.3.0
+                # error_bad_lines=False  # For older pandas versions
+            )
+
+            return csv_object
+
+        except Exception as e:
+            logger.error(f"Error reading CSV file: {str(e)}", file=file_path)
+            # Try with Python engine as a fallback
+            try:
+                logger.info("Trying with Python engine as fallback", file=file_path)
+                csv_object = pd.read_csv(
+                    file_path,
+                    encoding="ISO-8859-1",
+                    engine='python'
+                )
+                return csv_object
+            except Exception as e2:
+                logger.error(f"Fallback also failed: {str(e2)}", file=file_path)
+                raise e
+
+    def extract_fields(self):
+        file_path = os.path.join(self.distribution_path, self.file_object)
+        logger.info("Extracting fields from CSV file", file=file_path)
+
+        csv_object = self._read_csv_with_delimiter_detection(file_path)
+
+        fields = []
+        for column in csv_object.columns:
+            fields.append(
+                TableColumnField(
+                    csv_object[column], column, self.name, self.file_object_id
+                )
+            )
+        return fields
 
     def extract_examples(self):
         file_path = os.path.join(self.distribution_path, self.file_object)
-        csv_object = pd.read_csv(file_path, encoding="ISO-8859-1")
-        return csv_object.head(30).replace({np.nan: None}).to_dict(orient="list")
+        logger.info("Extracting examples from CSV file", file=file_path)
+
+        csv_object = self._read_csv_with_delimiter_detection(file_path)
+        # Convert NaN values to None in the examples dictionary
+        examples_dict = csv_object.head(30).to_dict(orient="list")
+        for key in examples_dict:
+            examples_dict[key] = [None if pd.isna(x) else x for x in examples_dict[key]]
+        return examples_dict
 
 
     def to_dict(self):
@@ -76,7 +121,7 @@ class CSVRecordSet(RecordSet):
         return {
             "file_object_id": self.file_object_id,
             "original_format": "csv",
-            "source_file": self.distribution_path + self.file_object,
+            "source_file": os.path.join(self.distribution_path, self.file_object),
             "name": Path(self.name).name,
             "description": "",
             "keywords": [],
@@ -97,9 +142,13 @@ class TableColumnField(ColumnField):
             "extract": {"column": column_name},
         }
         if len(column) > 10:
-            self.sample = column.sample(10).replace({np.nan: None}).tolist()
+            # Fix the replace method to handle NaN values properly
+            sample_data = column.sample(10)
+            # Convert NaN values to None in Python
+            self.sample = [None if pd.isna(x) else x for x in sample_data.tolist()]
         else:
-            self.sample = column.replace({np.nan: None}).tolist()
+            # Convert NaN values to None in Python
+            self.sample = [None if pd.isna(x) else x for x in column.tolist()]
         self.statistics: ColumnStatistics = calculate_column_statistics(column)
 
     def to_dict(self):
@@ -128,14 +177,14 @@ def get_record_sets_from_excel(
     distribution_path: str, file_object: str, file_object_id: str
 ) -> list[CSVRecordSet]:
     with tempfile.TemporaryDirectory() as temp_dir:
-        xls = pd.ExcelFile(distribution_path + file_object)
+        xls = pd.ExcelFile(os.path.join(distribution_path, file_object))
         record_sets = []
         for sheet_name in xls.sheet_names:
             df = pd.read_excel(xls, sheet_name=sheet_name)
-            df.to_csv(temp_dir + "/" + f"{sheet_name}.csv", index=False, sep=",")
+            df.to_csv(os.path.join(temp_dir, f"{sheet_name}.csv"), index=False, sep=",")
             try:
                 record_set = CSVRecordSet(
-                    distribution_path=temp_dir + "/",
+                    distribution_path=temp_dir,
                     file_object=f"{sheet_name}.csv",
                     file_object_id=file_object_id,
                 )
@@ -147,7 +196,8 @@ def get_record_sets_from_excel(
                 continue
             record_sets.append(record_set)
 
-    for record_set in record_sets:
+    # Store the current sheet name for each record set
+    for i, (record_set, sheet_name) in enumerate(zip(record_sets, xls.sheet_names)):
         record_set.inject_distribution = {
             "@type": "cr:FileObject",
             "@id": str(uuid.uuid4()),
