@@ -25,6 +25,7 @@ class DBRecordSet(RecordSet):
         file_object: str,
         file_object_id: str,
         db_name: str,
+        engine: str,
         db_specific_schema: str,
         distributions: list
     ):
@@ -34,6 +35,7 @@ class DBRecordSet(RecordSet):
         self.file_object_id = file_object_id
         self.db_name = db_name
         self.db_specific_schema = db_specific_schema
+        self.engine = engine
         # # self.type = "dg:RelationalDatabase"
         # self.name = self.file_object.split(".")[-2]
         # self.description = ""
@@ -41,7 +43,7 @@ class DBRecordSet(RecordSet):
         self.tables = self.extract_fields(distributions)
 
     def extract_fields(self, distributions: list):
-        db = DatagemsPostgres(self.db_name, self.db_specific_schema)
+        db = DatagemsPostgres(self.db_name, self.db_specific_schema, self.engine)
         db_schema = obtain_schema_from_db(db, sample_size=10)
 
         tables = []

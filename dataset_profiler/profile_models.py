@@ -148,6 +148,7 @@ class DatasetProfile:
             database_table_distributions += get_distributions_of_tables_in_db(
                 database_name=db_distribution.name,
                 database_distribution_id=db_distribution.id,
+                engine=db_distribution.engine
             )
         database_connector_distributions += database_table_distributions
 

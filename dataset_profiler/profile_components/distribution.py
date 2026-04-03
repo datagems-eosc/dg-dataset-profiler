@@ -108,6 +108,7 @@ class DistributionDatabaseConnection:
         self.type = "dg:DatabaseConnection"
         self.id = connection_id
         self.name = database_name
+        self.engine = engine
         self.description = description
         self.content_url = f"{protocol}://{host}:{port}/{database_name}"
         self.encoding_format = "text/sql"
@@ -138,9 +139,9 @@ def get_distribution_of_database_connection(
 
 
 def get_distributions_of_tables_in_db(
-    database_name: str, database_distribution_id: str
+    database_name: str, database_distribution_id: str, engine: str
 ) -> list[DistributionFileObject]:
-    db = DatagemsPostgres(database=database_name, schema="public")
+    db = DatagemsPostgres(database=database_name, schema="public", engine=engine)
     tables = db.get_tables_and_columns()
 
     added_distributions = []

@@ -1,5 +1,5 @@
 import uuid
-from typing import List, Optional
+from typing import List, Optional, Literal
 
 from pydantic import BaseModel
 
@@ -42,7 +42,7 @@ class DatabaseConnection(BaseModel):
     """
     type: str
     protocol: str
-    engine: str
+    engine: Literal["PostgreSQL", "TimescaleDB"]
     host: str
     port: int
     database_name: str

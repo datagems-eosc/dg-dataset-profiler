@@ -81,6 +81,7 @@ def extract_record_sets_of_database_connections(databases: list[dict], distribut
             file_object=database["file_object_id"],
             file_object_id=database["file_object_id"],
             db_name=database["database_name"],
+            engine=database["engine"],
             db_specific_schema="public",
             distributions=distributions
         )

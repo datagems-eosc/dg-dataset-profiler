@@ -12,17 +12,26 @@ load_dotenv()
 
 
 class DatagemsPostgres:
-    def __init__(self, database: str, schema: str):
+    def __init__(self, database: str, schema: str, engine: str):
         """
         Initialize the datagems database connector.
         """
         self.specific_schema = schema
 
-        self.connection_uri = (
-            f"postgresql+psycopg2://{os.getenv('DATAGEMS_POSTGRES_USERNAME')}:"
-            f"{os.getenv('DATAGEMS_POSTGRES_PASSWORD')}@{os.getenv('DATAGEMS_POSTGRES_HOST')}:"
-            f"{os.getenv('DATAGEMS_POSTGRES_PORT')}/{database}"
-        )
+        if engine == "PostgreSQL":
+            self.connection_uri = (
+                f"postgresql+psycopg2://{os.getenv('DATAGEMS_POSTGRES_USERNAME')}:"
+                f"{os.getenv('DATAGEMS_POSTGRES_PASSWORD')}@{os.getenv('DATAGEMS_POSTGRES_HOST')}:"
+                f"{os.getenv('DATAGEMS_POSTGRES_PORT')}/{database}"
+            )
+        elif engine == "TimescaleDB":
+            self.connection_uri = (
+                f"postgresql+psycopg2://{os.getenv('DATAGEMS_TIMESCALE_DB_USERNAME')}:"
+                f"{os.getenv('DATAGEMS_TIMESCALE_DB_PASSWORD')}@{os.getenv('DATAGEMS_TIMESCALE_DB_HOST')}:"
+                f"{os.getenv('DATAGEMS_TIMESCALE_DB_PORT')}/{database}"
+            )
+        else:
+            raise ValueError(f"Unsupported engine: {engine}")
 
         conn_args = {
             "options": f" -c search_path={self.specific_schema}"
