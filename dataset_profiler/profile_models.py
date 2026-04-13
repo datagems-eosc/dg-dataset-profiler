@@ -41,6 +41,11 @@ from dataset_profiler.profile_components.record_set.record_set_extractor import 
 from dataset_profiler.profile_components.record_set.text.text_record_set import TextRecordSet
 from dataset_profiler.utilities import get_file_objects
 from dataset_profiler.configs.config_logging import logger
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATASET_ROOT_PATH = os.environ.get("DATA_ROOT_PATH", "")
 
 
 class DatasetProfile:
@@ -60,7 +65,7 @@ class DatasetProfile:
                 )
                 continue
             if connector["type"] == "RawDataPath":
-                self.distribution_path = connector["dataset_id"]
+                self.distribution_path = DATASET_ROOT_PATH + connector["dataset_id"]
 
         if self.distribution_path is not None:
             self.file_objects, self.file_sets = get_file_objects(self.distribution_path)

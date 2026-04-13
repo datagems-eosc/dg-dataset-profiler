@@ -88,7 +88,7 @@ def get_distribution_of_file_object(
         file_object_id=file_object_id,
         name=file_object.split("/")[-1],
         content_size=f"{Path(file_object).stat().st_size} B",
-        content_url=f"{DATASET_ROOT_PATH}{file_object}",
+        content_url=file_object,
         encoding_format=encoding_format,
         sha256_check=sha,
     )

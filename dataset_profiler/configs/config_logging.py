@@ -67,16 +67,32 @@ def setup_logging(json_logs: bool = False, log_level: str = "INFO"):
         ],
     )
 
+    root_logger = logging.getLogger()
+    root_logger.setLevel(log_level.upper())
+    # --- HANDLER 1: For the Ray Dashboard (Intercepted by Ray) ---
+    ray_handler = logging.StreamHandler(sys.stdout)
+    ray_handler.setFormatter(formatter)
+    root_logger.addHandler(ray_handler)
+
+    # --- HANDLER 2: For Kubernetes `kubectl logs` (Bypasses Ray) ---
     try:
         container_stdout = open("/proc/1/fd/1", "w")
-        handler = logging.StreamHandler(container_stdout)
+        k8s_handler = logging.StreamHandler(container_stdout)
+        k8s_handler.setFormatter(formatter)
+        root_logger.addHandler(k8s_handler)
     except (PermissionError, FileNotFoundError):
-        handler = logging.StreamHandler(sys.stdout)
+        # If we aren't in a container or lack permissions, we safely ignore this.
+        # We already have the ray_handler attached, so logs won't be lost.
+        pass
 
-    handler.setFormatter(formatter)
-    root_logger = logging.getLogger()
-    root_logger.addHandler(handler)
-    root_logger.setLevel(log_level.upper())
+    # --- HANDLER 3: Your existing file handler ---
+    if LOG_SETTINGS["FILE_LOG_PATH"] is not None:
+        log_dir = LOG_SETTINGS["FILE_LOG_PATH"].split("/")[:-1]
+        if len(log_dir) > 0:
+            os.makedirs("/".join(log_dir), exist_ok=True)
+        file_handler = logging.FileHandler(LOG_SETTINGS["FILE_LOG_PATH"], mode="a")
+        file_handler.setFormatter(formatter)
+        root_logger.addHandler(file_handler)
 
     if LOG_SETTINGS["FILE_LOG_PATH"] is not None:
         log_dir = LOG_SETTINGS["FILE_LOG_PATH"].split("/")[:-1]
