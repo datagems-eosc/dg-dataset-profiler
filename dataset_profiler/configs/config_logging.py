@@ -1,4 +1,6 @@
 import logging
+import sys
+
 import structlog
 import os
 
@@ -65,7 +67,12 @@ def setup_logging(json_logs: bool = False, log_level: str = "INFO"):
         ],
     )
 
-    handler = logging.StreamHandler()
+    try:
+        container_stdout = open("/proc/1/fd/1", "w")
+        handler = logging.StreamHandler(container_stdout)
+    except (PermissionError, FileNotFoundError):
+        handler = logging.StreamHandler(sys.stdout)
+
     handler.setFormatter(formatter)
     root_logger = logging.getLogger()
     root_logger.addHandler(handler)

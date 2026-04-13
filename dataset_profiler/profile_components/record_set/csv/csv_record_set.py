@@ -75,6 +75,8 @@ class CSVRecordSet(RecordSet):
                     engine='python'
                 )
                 return csv_object
+            except pd.errors.EmptyDataError:
+                logger.warning(f"Empty CSV given. Skipping...", file=file_path)
             except Exception as e2:
                 logger.error(f"Fallback also failed: {str(e2)}", file=file_path)
                 raise e
@@ -181,6 +183,11 @@ def get_record_sets_from_excel(
         record_sets = []
         for sheet_name in xls.sheet_names:
             df = pd.read_excel(xls, sheet_name=sheet_name)
+            if df.empty:
+                logger.warning(
+                    f"Found empty sheet {sheet_name} in {file_object}. Skipping this sheet."
+                )
+                continue
             df.to_csv(os.path.join(temp_dir, f"{sheet_name}.csv"), index=False, sep=",")
             try:
                 record_set = CSVRecordSet(
@@ -190,7 +197,7 @@ def get_record_sets_from_excel(
                 )
             except (pd.errors.ParserError, csv.Error) as e:
                 # print the stack trace for debugging purposes
-                print(
+                logger.warning(
                     f"Failed to process sheet {sheet_name} in {file_object} with error {e}. Skipping this sheet."
                 )
                 continue

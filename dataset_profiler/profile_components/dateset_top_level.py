@@ -1,7 +1,9 @@
 import os
 
 from typing import Optional
+from dotenv import load_dotenv
 
+load_dotenv()
 
 DATASET_ROOT_PATH = os.environ.get("DATA_ROOT_PATH", "")
 

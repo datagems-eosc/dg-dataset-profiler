@@ -14,7 +14,7 @@ from dataset_profiler.configs.config_logging import logger
 def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoint) -> dict:
     for connector in specification.data_connectors:
         if connector.type == 'RawDataPath':
-            connector.dataset_id = os.getenv('DATA_ROOT_PATH', '') + connector.dataset_id + '/'
+            connector.dataset_id = os.getenv('MOUNT_POINT', '') + connector.dataset_id + '/'
 
     return {
         "id": str(specification.id),
