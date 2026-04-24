@@ -152,6 +152,7 @@ def get_distributions_of_tables_in_db(
                 name=table,
                 contained_in=database_distribution_id,
                 encoding_format="text/sql",
+                content_url=f"{database_name}.public.{table}",
             )
         )
 

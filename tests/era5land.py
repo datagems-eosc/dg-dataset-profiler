@@ -9,9 +9,11 @@ def profiler_era5land():
 
     profile = DatasetProfile(spec)
     print(profile.to_json_str())
+    light_profile = profile.to_dict_light()
+    heavy_profile = profile.to_dict()
 
     with open("generated_profiles/meteo_era5land.json", "w") as f:
-        json.dump(profile.to_dict(), f)
+        json.dump(heavy_profile, f)
     assert isinstance(profile, DatasetProfile)
 
 

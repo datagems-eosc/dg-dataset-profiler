@@ -67,7 +67,7 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
         cdd_profile_path = os.getenv('CDD_PROFILE_PATH', '') + job_id + ".json"
 
         with open(cdd_profile_path, "w") as f:
-            json.dump(heavy_profile, f)
+            json.dump(cdd_profile, f)
 
         store_job_response(job_id, ProfilesResponse(
             moma_profile_light=light_profile,
