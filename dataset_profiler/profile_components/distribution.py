@@ -32,6 +32,7 @@ class DistributionFileObject:
         self.encoding_format = encoding_format
         self.sha256_check = sha256_check
         self.contained_in = contained_in
+        self.is_minimal = False
 
     def to_dict(self):
         ret_dict = {
@@ -251,7 +252,14 @@ def get_file_objects_of_file_set(contained_in_id: str, file_set_path: str) -> li
                 file_object=str(file_path),
                 file_object_id=str(uuid.uuid4()),
             )
-            if file_object:
-                file_object.contained_in = contained_in_id
-                file_objects.append(file_object)
+            if file_object is None:
+                file_object = DistributionFileObject(
+                    file_object_id=str(uuid.uuid4()),
+                    name=file_path.name,
+                    content_size=f"{file_path.stat().st_size} B",
+                    content_url=str(file_path),
+                )
+                file_object.is_minimal = True
+            file_object.contained_in = contained_in_id
+            file_objects.append(file_object)
     return file_objects

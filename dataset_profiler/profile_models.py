@@ -2,6 +2,7 @@ import json
 import os
 import uuid
 from collections import defaultdict
+from pathlib import Path
 from typing import List
 
 from dataset_profiler.dataset_specification import (
@@ -214,11 +215,14 @@ class DatasetProfile:
     def to_dict_light(self):
         if self.distributions is None:
             self.distributions = self.extract_distributions()
+        # To include minimal distributions (placeholders for unsupported file types
+        # inside file sets), drop the `getattr(...) is False` filter below.
         return {
             "@context": {**CONTEXT_TEMPLATE, **REFERENCES_TEMPLATE},
             **self.dataset_top_level.to_dict(),
             "distribution": [
                 distribution.to_dict() for distribution in self.distributions
+                if getattr(distribution, "is_minimal", False) is False
             ],
         }
 
@@ -235,11 +239,14 @@ class DatasetProfile:
                 record_set_list.extend(record_set.to_dict())
             else:
                 record_set_list.append(record_set.to_dict())
+        # To include minimal distributions (placeholders for unsupported file types
+        # inside file sets), drop the `getattr(...) is False` filter below.
         profile_dict = {
             "@context": {**CONTEXT_TEMPLATE, **REFERENCES_TEMPLATE},
             **self.dataset_top_level.to_dict(),
             "distribution": [
                 distribution.to_dict() for distribution in self.distributions
+                if getattr(distribution, "is_minimal", False) is False
             ],
             "recordSet": record_set_list,
         }
@@ -266,9 +273,11 @@ class DatasetProfile:
         distributions_and_record_sets = match_distributions_with_record_sets(self.distributions, self.record_sets)
 
         files = []
+        matched_distribution_ids = set()
         for matched_dist_and_record_set in distributions_and_record_sets:
             dist = matched_dist_and_record_set["distribution"]
             record_sets = matched_dist_and_record_set["record_sets"]
+            matched_distribution_ids.add(dist.id)
 
             if dist.encoding_format in ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                        "application/vnd.ms-excel"]:
@@ -294,6 +303,16 @@ class DatasetProfile:
                                  file_object_id=dist.id, num_record_sets=len(record_sets))
                 files.append(record_sets[0].to_dict_cdd())
 
+        for dist in self.distributions:
+            if isinstance(dist, DistributionFileObject) and dist.id not in matched_distribution_ids:
+                files.append({
+                    "file_object_id": dist.id,
+                    "original_format": Path(dist.content_url).suffix.lstrip(".").lower(),
+                    "source_file": dist.content_url,
+                    "name": dist.name,
+                    "description": dist.description,
+                    "keywords": [],
+                })
 
         return {
             **self.dataset_top_level.to_dict_cdd(),
