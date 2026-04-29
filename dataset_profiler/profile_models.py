@@ -5,6 +5,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import List
 
+from dataset_profiler.dataset_restructurer import restructure_dataset
 from dataset_profiler.dataset_specification import (
     DatasetSpecification,
 )
@@ -50,7 +51,7 @@ DATASET_ROOT_PATH = os.environ.get("DATA_ROOT_PATH", "")
 
 
 class DatasetProfile:
-    def __init__(self, dataset_specification: dict):
+    def __init__(self, dataset_specification: dict, restructure: bool = False):
         self.dataset_specification = DatasetSpecification(dataset_specification)
         self.data_connectors = self.dataset_specification.data_connectors
         self.record_sets_per_file_object = {}
@@ -69,6 +70,8 @@ class DatasetProfile:
                 self.distribution_path = DATASET_ROOT_PATH + connector["dataset_id"]
 
         if self.distribution_path is not None:
+            if restructure:
+                restructure_dataset(self.distribution_path)
             self.file_objects, self.file_sets = get_file_objects(self.distribution_path)
         else:
             self.file_objects, self.file_sets = [], []
