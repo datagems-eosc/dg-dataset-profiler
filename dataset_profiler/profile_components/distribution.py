@@ -168,13 +168,14 @@ class DistributionFileSet:
         content_size: str = "",
         encoding_format: str = "",
         includes: str = "",
+        content_url: str = "",
     ):
         self.type = "cr:FileSet"
         self.id = file_set_id
         self.name = name
         self.description = description
         self.content_size = content_size
-        self.content_url = DATASET_ROOT_PATH + includes
+        self.content_url = content_url
         self.encoding_format = encoding_format
         self.includes = includes + "/*"
 
@@ -238,6 +239,7 @@ def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet |
         content_size=f"{sum(file_sizes)} B",
         encoding_format=encoding_format or "",
         includes=f"{file_set.split('/')[-1]}",
+        content_url=file_set
     )
 
 
