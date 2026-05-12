@@ -9,7 +9,24 @@ from dataset_profiler.profile_components.record_set.db.database_connector import
 )
 
 DATASET_ROOT_PATH = os.environ.get("DATA_ROOT_PATH", "")
-
+SUPPORTED_EXTENSION_MAP = {
+    ".csv": "text/csv",
+    ".sql": "text/sql",
+    ".db": "text/sql",
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".xls": "application/vnd.ms-excel",
+    ".pdf": "application/pdf",
+    ".txt": "text/plain",
+    ".html": "text/html",
+    ".htm": "text/html",
+    ".xml": "application/xml",
+    ".json": "application/json",
+    ".jsonl": "application/jsonl",
+    ".md": "text/markdown",
+    ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ".ipynb": "application/x-ipynb+json",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+}
 
 class DistributionFileObject:
     def __init__(
@@ -61,29 +78,12 @@ def get_distribution_of_file_object(
 
     sha = sha256(file_object.encode("utf-8")).hexdigest()
 
-    # Map file extensions to MIME types
-    extension_map = {
-        ".csv": "text/csv",
-        ".sql": "text/sql",
-        ".db": "text/sql",
-        ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        ".xls": "application/vnd.ms-excel",
-        ".pdf": "application/pdf",
-        ".txt": "text/plain",
-        ".html": "text/html",
-        ".htm": "text/html",
-        ".xml": "application/xml",
-        ".json": "application/json",
-        ".jsonl": "application/jsonl",
-        ".md": "text/markdown",
-    }
-
     # If extension is not supported, skip this file
-    if file_extension not in extension_map:
+    if file_extension not in SUPPORTED_EXTENSION_MAP:
         logging.warning(f"Skipping unsupported file type: {Path(file_object).name}")
         return None
 
-    encoding_format = extension_map[file_extension]
+    encoding_format = SUPPORTED_EXTENSION_MAP[file_extension]
 
     return DistributionFileObject(
         file_object_id=file_object_id,
@@ -198,28 +198,15 @@ def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet |
     Returns None if no supported files are found in the directory.
     """
     # Find first supported file in directory
-    supported_extensions = {
-        ".png": "image/png",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".pdf": "application/pdf",
-        ".txt": "text/plain",
-        ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-        ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ".ipynb": "application/x-ipynb+json",
-        ".html": "text/html",
-        ".xml": "application/xml",
-    }
-
     sample_file_of_dir = None
     encoding_format: str | None = None
 
     for file_path in Path(file_set).glob("*"):
         if file_path.is_file():
             suffix = file_path.suffix.lower()
-            if suffix in supported_extensions:
+            if suffix in SUPPORTED_EXTENSION_MAP:
                 sample_file_of_dir = file_path
-                encoding_format = supported_extensions[suffix]
+                encoding_format = SUPPORTED_EXTENSION_MAP[suffix]
                 break
 
     # If no supported files found in directory, skip this file set
