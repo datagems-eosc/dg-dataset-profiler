@@ -306,8 +306,14 @@ class DatasetProfile:
                                  file_object_id=dist.id, num_record_sets=len(record_sets))
                 files.append(record_sets[0].to_dict_cdd())
 
+        db_connection_ids = {
+            dist.id for dist in self.distributions
+            if isinstance(dist, DistributionDatabaseConnection)
+        }
         for dist in self.distributions:
             if isinstance(dist, DistributionFileObject) and dist.id not in matched_distribution_ids:
+                if dist.contained_in in db_connection_ids:
+                    continue
                 files.append({
                     "file_object_id": dist.id,
                     "original_format": Path(dist.content_url).suffix.lstrip(".").lower(),
