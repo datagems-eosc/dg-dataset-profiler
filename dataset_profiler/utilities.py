@@ -35,7 +35,7 @@ def find_column_type_in_csv(column):
     # For each row update the appearances dictionary if value is accepted by the regex
     for index in picked_indices:
         for type, regex in type_regexes.items():
-            value = column.loc[index]
+            value = column.iloc[index]
             if regex.match(str(value)) is not None:
                 type_appearances[type] += 1
                 continue
