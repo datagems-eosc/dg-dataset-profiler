@@ -87,6 +87,7 @@ class ProfilesResponse(BaseModel):
 
 JOB_STATUS_GROUP = "job_status"
 JOB_RESPONSE_GROUP = "job_response"
+CDD_PROFILE_PATH_GROUP = "cdd_profile_path"
 
 
 def get_redis_client():
@@ -123,6 +124,19 @@ def get_job_response(job_id: str) -> ProfilesResponse | None:
         return None
     response_model = ProfilesResponse.model_validate(json.loads(response_value))
     return response_model
+
+
+def store_cdd_profile_path(dataset_id: str, cdd_profile_path: str):
+    client = get_redis_client()
+    client.hset(CDD_PROFILE_PATH_GROUP, dataset_id, cdd_profile_path)
+
+
+def get_cdd_profile_path(dataset_id: str) -> str | None:
+    client = get_redis_client()
+    path_value = client.hget(CDD_PROFILE_PATH_GROUP, dataset_id)
+    if path_value is None:
+        return None
+    return path_value.decode("utf-8")
 
 
 def redis_health_check() -> dict:

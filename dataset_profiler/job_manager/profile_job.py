@@ -6,7 +6,7 @@ import ray
 
 from dataset_profiler.schemas.specification import ProfileSpecificationEndpoint
 from dataset_profiler.job_manager.job_storing import store_job_status, JobStatus, store_job_response, \
-    ProfilesResponse
+    ProfilesResponse, store_cdd_profile_path
 from dataset_profiler.profile_models import DatasetProfile
 from dataset_profiler.configs.config_logging import logger
 
@@ -68,6 +68,8 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
 
         with open(cdd_profile_path, "w") as f:
             json.dump(cdd_profile, f)
+
+        store_cdd_profile_path(specification["id"], cdd_profile_path)
 
         store_job_response(job_id, ProfilesResponse(
             moma_profile_light=light_profile,

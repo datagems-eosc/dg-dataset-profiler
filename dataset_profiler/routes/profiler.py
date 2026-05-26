@@ -231,6 +231,43 @@ async def get_profile(
     return response
 
 
+class CddProfilePathResponse(BaseModel):
+    """
+    Response model for the CDD profile path lookup by dataset ID.
+
+    ## Attributes
+    * **cdd_profile_path** (Optional[str]): The path to the CDD profile JSON file, or None if not ready yet
+    """
+    cdd_profile_path: Optional[str]
+
+
+@router.get("/cdd_profile_path/{dataset_id}")
+async def get_cdd_profile_path_by_dataset_id(
+    dataset_id: str,
+    token: Optional[Dict[str, Any]] = Depends(validate_token)
+) -> CddProfilePathResponse:
+    """
+    Retrieve the CDD profile path for a dataset by its dataset ID.
+
+    The CDD profile file is written once the heavy profile completes. This endpoint allows
+    consumers that only know the dataset ID (not the profiling job ID) to retrieve the path.
+
+    ## Parameters
+    * **dataset_id** (str): The dataset identifier used when the profiling job was submitted
+
+    ## Returns
+    * **CddProfilePathResponse**: Contains the CDD profile path, or None if the profile is not ready yet
+    """
+    logger.info(f"Received CDD profile path request", dataset_id=dataset_id)
+    cdd_profile_path = job_storing.get_cdd_profile_path(dataset_id)
+    if cdd_profile_path is None:
+        logger.info(f"CDD profile path not ready yet", dataset_id=dataset_id)
+        return CddProfilePathResponse(cdd_profile_path=None)
+
+    logger.info(f"Found CDD profile path", dataset_id=dataset_id, cdd_profile_path=cdd_profile_path)
+    return CddProfilePathResponse(cdd_profile_path=cdd_profile_path)
+
+
 class CleanUpRequest(BaseModel):
     """
     Request model for cleaning up resources associated with a profiling job.
