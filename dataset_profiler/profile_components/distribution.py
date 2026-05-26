@@ -26,6 +26,9 @@ SUPPORTED_EXTENSION_MAP = {
     ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     ".ipynb": "application/x-ipynb+json",
     ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
 }
 
 class DistributionFileObject:
