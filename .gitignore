@@ -149,3 +149,5 @@ cython_debug/
 
 # ignore act secrets
 .act-secrets
+
+uv.lock

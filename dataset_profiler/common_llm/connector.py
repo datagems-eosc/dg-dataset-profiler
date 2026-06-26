@@ -598,7 +598,7 @@ class CommonLLMConnector:
             "Content-Type": "application/json",
         }
 
-        temperature = kwargs.get("temperature", 0.7)
+        temperature = kwargs.get("temperature", 0)
         max_tokens = kwargs.get("max_tokens")
         top_p = kwargs.get("top_p")
 
