@@ -37,7 +37,12 @@ curl -X POST "https://{host}/profiler/trigger_profile" \
     "profile_specification": {
       "id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01",
       "name": "Example Dataset",
-      "dataset_file_path": "/path/to/dataset/",
+      "data_connectors": [
+        {
+          "type": "RawDataPath",
+          "dataset_id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01"
+        }
+      ],
       ...
     },
     "only_light_profile": false

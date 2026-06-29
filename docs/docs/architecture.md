@@ -20,7 +20,10 @@ Concerning profiling specifically the following endpoints are used:
 - `/profiler/runner_status/{profile_job_id}`: Check the status of the Ray task
 - `/profiler/job_status/{profile_job_id}`: Check the status of the profiling job
 - `/profiler/profile/{profile_job_id}`: Retrieve the generated profile
+- `/profiler/cdd_profile_path/{dataset_id}`: Retrieve the CDD profile path by dataset ID
 - `/profiler/clean_up`: Clean up resources for a completed job
+
+Health and readiness are exposed separately under the `/monitoring` prefix (`/monitoring/ready`, `/monitoring/health-check`) plus the root liveness endpoint `/`.
 
 ### Job Manager
 

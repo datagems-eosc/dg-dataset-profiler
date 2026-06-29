@@ -9,9 +9,17 @@ The Dataset Profiler API uses standard HTTP status codes to indicate the success
 | Status Code | Description |
 |-------------|-------------|
 | 200 | OK - The request was successful |
-| 400 | Bad Request - The request was invalid or cannot be served |
+| 401 | Unauthorized - Authentication is enabled and the JWT token is missing or invalid |
+| 403 | Forbidden - The JWT token is valid but the `client_id` claim is not `airflow` |
 | 404 | Not Found - The requested resource does not exist |
+| 422 | Unprocessable Entity - The request body failed validation (e.g. missing or malformed fields) |
 | 500 | Internal Server Error - An error occurred on the server |
+| 503 | Service Unavailable - The Ray cluster is currently unavailable; retry shortly |
+
+!!! note "Validation errors"
+
+    Request body validation is handled by FastAPI/Pydantic and returns a `422`
+    response with a detailed list of the offending fields, rather than a `400`.
 
 ## Job Status Codes
 
@@ -39,15 +47,21 @@ The following status codes are returned by the `/profiler/runner_status/{profile
 
 ## Common Error Messages
 
-### 400 Bad Request
+### 422 Unprocessable Entity
 
 ```json
 {
-  "detail": "Invalid profile specification format"
+  "detail": [
+    {
+      "loc": ["body", "profile_specification", "name"],
+      "msg": "Field required",
+      "type": "missing"
+    }
+  ]
 }
 ```
 
-This error occurs when the profile specification in the request body is not properly formatted or is missing required fields.
+This error occurs when the profile specification in the request body is not properly formatted or is missing required fields. FastAPI/Pydantic returns a `422` with a list pinpointing each invalid field.
 
 ### 404 Not Found
 
@@ -69,6 +83,16 @@ This error occurs when trying to retrieve a profile that doesn't exist or isn't 
 
 This error indicates a server-side issue that prevented the profiling job from completing successfully.
 
+### 503 Service Unavailable
+
+```json
+{
+  "detail": "Ray cluster is currently unavailable. Please retry shortly."
+}
+```
+
+This error is returned by `POST /profiler/trigger_profile` and `GET /profiler/runner_status/{profile_job_id}` when the Ray cluster cannot be reached. The API stays up and reconnects to Ray automatically, so retrying the request shortly typically succeeds.
+
 ## Troubleshooting
 
 
@@ -82,11 +106,11 @@ If you receive a "No profile found" error when trying to retrieve a profile:
 
 ### Invalid Profile Specification
 
-If you receive an "Invalid profile specification format" error:
+If you receive a `422` validation error:
 
 1. Ensure all required fields are present in the profile specification
 2. Check that field values are of the correct type
-3. Verify that the dataset_file_path points to a valid location
+3. Verify that each entry in `data_connectors` is valid (e.g. a `RawDataPath` connector points to a valid `dataset_id`)
 
 ## Logging
 

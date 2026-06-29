@@ -10,9 +10,9 @@ The dataset profiling as described in [Architecture](architecture.md) consists o
 * The FastAPI-based API service that handles client requests and job management
 * The Ray-based worker service that performs the actual dataset profiling tasks
 
-Both services are packaged as separate Docker images, built from the provided `Dockerfile.api` and `Dockerfile.worker` files respectively.
+Both services are packaged as separate Docker images, built from the provided `Dockerfile.api` and `Dockerfile.ray` files respectively. The images are published to the GitHub Container Registry as `ghcr.io/datagems-eosc/dg-dataset-profiler-api` and `ghcr.io/datagems-eosc/dg-dataset-profiler-ray`.
 
-Build and deployment of these images is handled through the DataGEMS CI/CD pipelines using the `.github/workflows/docker-publish.yml` GitHub Actions workflow. Deployment is triggered on new releases.
+Build and deployment of these images is handled through the DataGEMS CI/CD pipelines using the `.github/workflows/docker-publish.yml` GitHub Actions workflow. The workflow is triggered when a `v*` tag is pushed (i.e. on new releases).
 
 ## Configuration
 

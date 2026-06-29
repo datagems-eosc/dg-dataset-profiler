@@ -9,7 +9,7 @@ The Dataset Profiler service uses YAML configuration files located in the `datas
 - `config_dev.yml`: Development environment configuration
 - `config_prod.yml`: Production environment configuration
 
-The appropriate configuration file is loaded based on the `ENVIRONMENT` environment variable, which can be set to `dev` or `prod`.
+The configuration file is selected via the `--config_file` command-line argument. When it is not provided, the service falls back to `config_prod.yml`. The production Docker image (`Dockerfile.api`) launches uvicorn pointing at `config_prod.yml`, while for local development you pass `--config_file dataset_profiler/configs/config_dev.yml`.
 
 ## Configuration Structure
 
@@ -69,18 +69,31 @@ logging:
 
 Environment variables can be used to override configuration values. The following environment variables are supported based on the `.env.example` file:
 
-| Variable | Description | Default |
+| Variable | Description | Default (in code) |
 |----------|-------------|---------|
-| DATAGEMS_POSTGRES_HOST | PostgreSQL database host | host_name |
-| DATAGEMS_POSTGRES_PORT | PostgreSQL database port | 5555 |
-| DATAGEMS_POSTGRES_USERNAME | PostgreSQL database username | username |
-| DATAGEMS_POSTGRES_PASSWORD | PostgreSQL database password | password |
-| RAW_DATA_ROOT_PATH | Root path for raw data storage (mount to s3) | '' |
-| RAY_ADDRESS | Address of the Ray head node | ray://localhost:10001 |
-| REDIS_HOST | Redis host | localhost |
+| DATAGEMS_POSTGRES_HOST | PostgreSQL database host | (unset) |
+| DATAGEMS_POSTGRES_PORT | PostgreSQL database port | (unset) |
+| DATAGEMS_POSTGRES_USERNAME | PostgreSQL database username | (unset) |
+| DATAGEMS_POSTGRES_PASSWORD | PostgreSQL database password | (unset) |
+| DATAGEMS_TIMESCALE_DB_HOST | TimescaleDB database host | (unset) |
+| DATAGEMS_TIMESCALE_DB_PORT | TimescaleDB database port | (unset) |
+| DATAGEMS_TIMESCALE_DB_USERNAME | TimescaleDB database username | (unset) |
+| DATAGEMS_TIMESCALE_DB_PASSWORD | TimescaleDB database password | (unset) |
+| DATA_ROOT_PATH | Root path prepended to distribution file paths (mount to S3) | '' |
+| MOUNT_POINT | Prefix prepended to `RawDataPath` connector dataset IDs when resolving raw data on the Ray worker | '' |
+| CDD_PROFILE_PATH | Directory where generated CDD profile JSON files are written | '' |
+| RAY_ADDRESS | Address of the Ray head node | ray://ray-head:10001 |
+| REDIS_HOST | Redis host | redis |
 | REDIS_PORT | Redis port | 6379 |
 | REDIS_DB | Redis database number | 0 |
+| BASE_URL | Root path prefix the API is served under (FastAPI `root_path`) | '' |
 | ENABLE_AUTH | Enable API authentication | false |
+
+!!! note
+
+    The defaults above are the fallbacks hard-coded in the application. The
+    `.env.example` file ships example values that may differ (e.g. it uses
+    `localhost`-based hosts suitable for running the dependencies locally).
 
 ## Authentication
 

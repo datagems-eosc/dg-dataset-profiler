@@ -41,7 +41,7 @@ Submits a new dataset profiling job.
       "id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01",
       "cite_as": "",
       "country": "PT",
-      "date_published": "24-05-2025",
+      "date_published": "2025-04-23",
       "description": "This dataset was extracted from the MathE platform, an online educational platform developed to support mathematics teaching and learning in higher education. It contains 546 student responses to questions on several mathematical topics. Each record corresponds to an individual answer and includes the following features: Student ID, Student Country, Question ID, Type of Answer (correct or incorrect), Question Level (basic or advanced based on the assessment of the contributing professor), Math Topic (broader mathematical area of the question), Math Subtopic, and Question Keywords. The data spans from February 2019 to December 2023.",
       "fields_of_science": [
         "MATHEMATICS"
@@ -133,9 +133,34 @@ Retrieves the generated profile for a completed job.
 {
   "moma_profile_light": { ... },
   "moma_profile_heavy": { ... },
-  "cdd_profile": { ... }
+  "cdd_profile": { "path": "/path/to/<dataset_id>.json" }
 }
 ```
+
+The `cdd_profile` object contains the path to the generated CDD profile JSON file.
+It is only populated once the heavy profile completes (it remains an empty object
+`{}` for a light-only profile or while the heavy profile is still running).
+
+### Retrieve CDD Profile Path by Dataset ID
+
+```
+GET /profiler/cdd_profile_path/{dataset_id}
+```
+
+Retrieves the path to the CDD profile JSON file for a dataset by its **dataset ID**
+(rather than the profiling job ID). This is useful for consumers, such as the
+Cross-Dataset Discovery service, that only know the dataset ID. The CDD profile
+file is written once the heavy profile completes.
+
+#### Response
+
+```json
+{
+  "cdd_profile_path": "/path/to/<dataset_id>.json"
+}
+```
+
+If the profile is not ready yet, `cdd_profile_path` is `null`.
 
 ### Clean Up Job Resources
 
@@ -161,6 +186,22 @@ Cleans up resources associated with a completed job.
 }
 ```
 
+!!! note
+
+    This endpoint is currently a placeholder; the cleanup functionality is not yet
+    implemented and the call always returns `SUCCESS`.
+
+## Monitoring Endpoints
+
+In addition to the profiling endpoints, the service exposes health endpoints under
+the `/monitoring` prefix. See [Maintenance](maintenance.md) for details.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /` | Pure HTTP liveness endpoint that does not depend on Ray or Redis |
+| `GET /monitoring/ready` | Lightweight readiness probe (no dependency checks) |
+| `GET /monitoring/health-check` | Diagnostic report of Redis and Ray dependency health (always HTTP 200) |
+
 ## Profile Specification
 
 The profile specification object contains metadata about the dataset to be profiled:
@@ -173,6 +214,7 @@ The profile specification object contains metadata about the dataset to be profi
 | cite_as | string | Citation information                                                |
 | license | string | License information                                                 |
 | published_url | string | URL where the dataset is published                                  |
+| doi | string | Digital Object Identifier for the dataset (optional)                |
 | headline | string | Short headline describing the dataset                               |
 | keywords | array | List of keywords                                                    |
 | fields_of_science | array | List of scientific fields                                           |
@@ -216,11 +258,12 @@ The service generates three types of profiles:
 
 1. **Light Profile**: Basic metadata about the dataset and its distributions (files)
 2. **Heavy Profile**: Detailed information about the dataset structure, including record sets and field information
-3. **CDD Profile**: Profile used by the Cross-Dataset Discovery service. We provide the S3 path to the JSON file containing the CDD profile.
+3. **CDD Profile**: Profile used by the Cross-Dataset Discovery service. The heavy profiling step writes the CDD profile to a JSON file and the `cdd_profile` field of the profile response contains the path to that file (`{"path": "..."}`). The path can also be looked up by dataset ID via `GET /profiler/cdd_profile_path/{dataset_id}`.
 
-!!! warning "CDD Profile"
+!!! note "CDD Profile availability"
 
-    The CDD profile field is currently empty and will be implemented in future releases.
+    The CDD profile is only produced as part of the heavy profile. For a light-only
+    profile (`only_light_profile: true`) the `cdd_profile` field stays an empty object.
 
 ## Typical API Usage Flow
 
