@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 import pandas as pd
 
 from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
@@ -30,17 +32,24 @@ def calculate_column_statistics(column: pd.Series) -> ColumnStatistics:
                     "count": int(val),
                 } for bin_range, val in zip(bins, list(histogram))
             ]
+            min_value = float(column.min())
+            max_value = float(column.max())
             stats = ColumnStatistics(
                 row_count=int(column.count()),
                 mean=float(column.mean()),
                 median=float(column.median()),
                 standard_deviation=float(column.std()),
-                min_value=float(column.min()),
-                max_value=float(column.max()),
+                min_value=min_value,
+                max_value=max_value,
                 missing_count=int(column.isna().sum()),
                 missing_percentage=float(column.isna().sum() / len(column) * 100),
                 histogram=histogram_dict,
                 unique_count=int(column.nunique()),
+                variance=float(column.var()),
+                range_value=max_value - min_value,
+                percentile05=float(column.quantile(0.05)),
+                percentile95=float(column.quantile(0.95)),
+                generated_at=datetime.now(timezone.utc).isoformat(),
             )
         else:
             stats = ColumnStatistics(

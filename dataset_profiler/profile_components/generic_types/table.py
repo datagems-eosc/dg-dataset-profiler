@@ -15,6 +15,11 @@ class ColumnStatistics:
             missing_percentage: float | None = None,
             histogram: list[dict] | None = None,
             unique_count: int | None = None,
+            variance: float | None = None,
+            range_value: float | None = None,
+            percentile05: float | None = None,
+            percentile95: float | None = None,
+            generated_at: str | None = None,
     ):
         self.row_count = row_count
         self.mean = mean
@@ -26,6 +31,11 @@ class ColumnStatistics:
         self.missing_percentage = missing_percentage
         self.histogram = json.dumps(histogram) if histogram is not None else None
         self.unique_count = unique_count
+        self.variance = variance
+        self.range_value = range_value
+        self.percentile05 = percentile05
+        self.percentile95 = percentile95
+        self.generated_at = generated_at
 
     def to_dict(self) -> dict:
         return {
@@ -41,6 +51,11 @@ class ColumnStatistics:
             "missingPercentage": self.missing_percentage,
             "histogram": self.histogram,
             "uniqueCount": self.unique_count,
+            "variance": self.variance,
+            "range": self.range_value,
+            "percentile05": self.percentile05,
+            "percentile95": self.percentile95,
+            "generatedAt": self.generated_at,
         }
 
     def to_dict_cdd(self):
@@ -55,4 +70,9 @@ class ColumnStatistics:
             "missingPercentage": self.missing_percentage,
             "histogram": self.histogram,
             "uniqueCount": self.unique_count,
+            "variance": self.variance,
+            "range": self.range_value,
+            "percentile05": self.percentile05,
+            "percentile95": self.percentile95,
+            "generatedAt": self.generated_at,
         }

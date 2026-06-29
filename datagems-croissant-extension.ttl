@@ -1,0 +1,377 @@
+@prefix dg:   <http://datagems.eu/TBD/> .
+@prefix cr:   <http://mlcommons.org/croissant/> .
+@prefix rai:  <http://mlcommons.org/croissant/RAI/> .
+@prefix sc:   <https://schema.org/> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  DataGEMS Croissant Extension Vocabulary
+#
+#  Layering:  dg:  ──extends──▶  cr: (MLCommons Croissant)
+#                                 cr: ──extends──▶ sc:Dataset (schema.org)
+#
+#  This vocabulary formalizes the terms emitted by the DataGEMS
+#  dataset-profiler. The dataset-level, field-statistics and
+#  database-distribution terms carried in the JSON-LD @context are
+#  declared here, together with the document (text/PDF) profiling
+#  terms that currently appear in profiler output without an
+#  explicit @context mapping.
+#
+#  NOTE: the namespace http://datagems.eu/TBD/ is provisional
+#  ("TBD") and should be replaced by the final DataGEMS IRI before
+#  publication. Update the @prefix and the owl:Ontology IRI together.
+#################################################################
+
+#################################################################
+#  Ontology
+#################################################################
+
+<http://datagems.eu/TBD/>
+    a owl:Ontology ;
+    dct:title          "DataGEMS Croissant Extension Vocabulary"@en ;
+    rdfs:label         "DataGEMS Croissant Extension"@en ;
+    owl:versionInfo    "0.1.0" ;
+    rdfs:comment       """A lightweight RDFS/OWL vocabulary that extends the MLCommons Croissant
+specification (which itself extends schema.org Dataset) with the metadata produced by the
+DataGEMS dataset profiler: dataset-level provenance and governance, per-column descriptive
+statistics, relational-database distributions, and document-level (text/PDF) profiles."""@en ;
+    dct:conformsTo     <http://mlcommons.org/croissant/1.0> ;
+    rdfs:seeAlso       <http://mlcommons.org/croissant/> ,
+                       <https://schema.org/Dataset> ,
+                       <http://mlcommons.org/croissant/RAI/> .
+
+#################################################################
+#  Classes
+#################################################################
+
+dg:ColumnStatistics
+    a rdfs:Class, owl:Class ;
+    rdfs:label   "Column Statistics"@en ;
+    rdfs:comment "Descriptive statistics computed for a single tabular field. An instance is linked from a cr:Field via dg:statistics."@en .
+
+dg:DatabaseConnection
+    a rdfs:Class, owl:Class ;
+    rdfs:subClassOf cr:FileObject ;
+    rdfs:label   "Database Connection"@en ;
+    rdfs:comment "A live relational-database distribution of a dataset. Its contentUrl carries a connection string (e.g. postgresql://host:port/database). Individual tables are represented as cr:FileObject resources that are cr:containedIn the connection and profiled as cr:RecordSet."@en .
+
+dg:TextFileRecordSet
+    a rdfs:Class, owl:Class ;
+    rdfs:subClassOf cr:RecordSet ;
+    rdfs:label   "Text File Record Set"@en ;
+    rdfs:comment "A cr:RecordSet describing a plain-text file (or file set) profiled at document level rather than as columns. Carries size and readability statistics such as dg:numWords and dg:fleschKincaidGrade."@en .
+
+dg:PdfRecordSet
+    a rdfs:Class, owl:Class ;
+    rdfs:subClassOf cr:RecordSet ;
+    rdfs:label   "PDF Record Set"@en ;
+    rdfs:comment "A cr:RecordSet describing a PDF document, carrying extracted document metadata such as dg:author, dg:producer and dg:pagesCount."@en .
+
+#################################################################
+#  Dataset-level properties   (domain: sc:Dataset)
+#################################################################
+
+dg:access
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  sc:Dataset ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "access"@en ;
+    rdfs:comment "Access conditions or access level under which the dataset is made available."@en .
+
+dg:uploadedBy
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  sc:Dataset ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "uploaded by"@en ;
+    rdfs:comment "Identifier of the agent that registered the dataset (e.g. a username or role such as 'ADMIN')."@en ;
+    rdfs:seeAlso sc:creator .
+
+dg:doi
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  sc:Dataset ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "DOI"@en ;
+    rdfs:comment "Digital Object Identifier of the dataset."@en ;
+    rdfs:seeAlso sc:identifier .
+
+dg:fieldOfScience
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  sc:Dataset ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "field of science"@en ;
+    rdfs:comment "Scientific domain(s) of the dataset, e.g. an OECD Fields of Science label such as 'EARTH AND RELATED ENVIRONMENTAL SCIENCES'. May be repeated."@en .
+
+dg:status
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  sc:Dataset ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "status"@en ;
+    rdfs:comment "Lifecycle/processing status of the dataset within the platform, e.g. 'loaded'."@en .
+
+#################################################################
+#  Field statistics link   (domain: cr:Field)
+#################################################################
+
+dg:statistics
+    a rdf:Property, owl:ObjectProperty ;
+    rdfs:domain  cr:Field ;
+    rdfs:range   dg:ColumnStatistics ;
+    rdfs:label   "statistics"@en ;
+    rdfs:comment "Links a Croissant field to the descriptive statistics computed for it."@en .
+
+#################################################################
+#  Column statistics properties   (domain: dg:ColumnStatistics)
+#################################################################
+
+dg:rowCount
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "row count"@en ;
+    rdfs:comment "Number of observed (non-null) rows considered for the column."@en .
+
+dg:mean
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "mean"@en ;
+    rdfs:comment "Arithmetic mean of the column values (numeric columns only)."@en .
+
+dg:median
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "median"@en ;
+    rdfs:comment "Median of the column values (numeric columns only)."@en .
+
+dg:standardDeviation
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "standard deviation"@en ;
+    rdfs:comment "Standard deviation of the column values (numeric columns only)."@en .
+
+dg:min
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "minimum"@en ;
+    rdfs:comment "Minimum value observed in the column (numeric columns only)."@en .
+
+dg:max
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "maximum"@en ;
+    rdfs:comment "Maximum value observed in the column (numeric columns only)."@en .
+
+dg:missingCount
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "missing count"@en ;
+    rdfs:comment "Number of missing/null values in the column."@en .
+
+dg:missingPercentage
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "missing percentage"@en ;
+    rdfs:comment "Percentage (0–100) of missing/null values in the column."@en .
+
+dg:histogram
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "histogram"@en ;
+    rdfs:comment "JSON-encoded histogram: a serialized array of objects of the form {\"binRange\": [low, high], \"count\": n}. Stored as a string literal."@en .
+
+dg:uniqueCount
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "unique count"@en ;
+    rdfs:comment "Number of distinct values in the column."@en .
+
+dg:variance
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "variance"@en ;
+    rdfs:comment "Sample variance of the column values (numeric columns only)."@en .
+
+dg:range
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "range"@en ;
+    rdfs:comment "Difference between the maximum and minimum values of the column (numeric columns only)."@en .
+
+dg:percentile05
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "5th percentile"@en ;
+    rdfs:comment "5th percentile of the column values (numeric columns only)."@en .
+
+dg:percentile95
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "95th percentile"@en ;
+    rdfs:comment "95th percentile of the column values (numeric columns only)."@en .
+
+dg:generatedAt
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:dateTime ;
+    rdfs:label   "generated at"@en ;
+    rdfs:comment "ISO-8601 (UTC) timestamp recording when these column statistics were computed."@en .
+
+#################################################################
+#  Document profiling — shared   (domain: cr:RecordSet)
+#
+#  These terms appear directly on document RecordSets in profiler
+#  output. They are not yet carried in the JSON-LD @context; this
+#  vocabulary maps them. Where a schema.org equivalent exists it is
+#  given via rdfs:seeAlso rather than owl:equivalentProperty, since
+#  the profiler emits string literals (not typed objects).
+#################################################################
+
+dg:summary
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  cr:RecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "summary"@en ;
+    rdfs:comment "Free-text summary of the document's content."@en ;
+    rdfs:seeAlso sc:abstract .
+
+dg:keywords
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  cr:RecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "keywords"@en ;
+    rdfs:comment "Keyword(s) extracted from the document. May be repeated."@en ;
+    rdfs:seeAlso sc:keywords .
+
+dg:language
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  cr:RecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "language"@en ;
+    rdfs:comment "Detected language of the document as a BCP-47 / ISO 639 code, e.g. 'en'."@en ;
+    rdfs:seeAlso sc:inLanguage .
+
+#################################################################
+#  Document profiling — text files   (domain: dg:TextFileRecordSet)
+#################################################################
+
+dg:numLines
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:TextFileRecordSet ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "number of lines"@en ;
+    rdfs:comment "Total number of lines in the text document."@en .
+
+dg:numWords
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:TextFileRecordSet ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "number of words"@en ;
+    rdfs:comment "Total number of words in the text document."@en .
+
+dg:numCharacters
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:TextFileRecordSet ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "number of characters"@en ;
+    rdfs:comment "Total number of characters in the text document."@en .
+
+dg:numParagraphs
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:TextFileRecordSet ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "number of paragraphs"@en ;
+    rdfs:comment "Total number of paragraphs in the text document."@en .
+
+dg:avgSentenceLength
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:TextFileRecordSet ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "average sentence length"@en ;
+    rdfs:comment "Average sentence length, in words, of the text document."@en .
+
+dg:fleschKincaidGrade
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:TextFileRecordSet ;
+    rdfs:range   xsd:double ;
+    rdfs:label   "Flesch–Kincaid grade"@en ;
+    rdfs:comment "Flesch–Kincaid grade-level readability score of the text document."@en .
+
+#################################################################
+#  Document profiling — PDF   (domain: dg:PdfRecordSet)
+#################################################################
+
+dg:title
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:PdfRecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "title"@en ;
+    rdfs:comment "Title of the document as recorded in the PDF metadata."@en ;
+    rdfs:seeAlso sc:name .
+
+dg:author
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:PdfRecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "author"@en ;
+    rdfs:comment "Author of the document as recorded in the PDF metadata."@en ;
+    rdfs:seeAlso sc:author .
+
+dg:subject
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:PdfRecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "subject"@en ;
+    rdfs:comment "Subject of the document as recorded in the PDF metadata."@en ;
+    rdfs:seeAlso sc:about .
+
+dg:creator
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:PdfRecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "creator"@en ;
+    rdfs:comment "Application that authored the original document, from the PDF metadata (e.g. 'LaTeX with hyperref')."@en .
+
+dg:producer
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:PdfRecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "producer"@en ;
+    rdfs:comment "Application that produced the PDF, from the PDF metadata (e.g. 'pdfTeX-1.40.26')."@en .
+
+dg:creationDate
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:PdfRecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "creation date"@en ;
+    rdfs:comment "Creation date from the PDF metadata, in PDF date format (e.g. 'D:20241114105411Z'). Kept as a string because it is not ISO-8601."@en .
+
+dg:modificationDate
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:PdfRecordSet ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "modification date"@en ;
+    rdfs:comment "Modification date from the PDF metadata, in PDF date format (e.g. 'D:20241114105411Z')."@en .
+
+dg:pagesCount
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:PdfRecordSet ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "pages count"@en ;
+    rdfs:comment "Number of pages in the PDF document."@en ;
+    rdfs:seeAlso sc:numberOfPages .
