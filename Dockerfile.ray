@@ -21,4 +21,8 @@ RUN rm -f .env
 ENV PYTHONPATH="/usr/local/lib/python3.11/site-packages:${PYTHONPATH}"
 
 EXPOSE 6379 8265 10001
-CMD ["bash", "-c", "ray start --head --port=6379 --dashboard-host=0.0.0.0 --dashboard-port=8265 && tail -f /dev/null"]
+# The Ray head is memory capped (e.g. 4Gi) and can get OOMKilled. By default Ray
+# sizes the object store at ~30% of node memory, which is a large slice of that
+# budget. Set RAY_OBJECT_STORE_MEMORY (bytes) to cap it and leave more headroom
+# for the head's own processes. When unset, Ray's default sizing is used.
+CMD ["bash", "-c", "ray start --head --port=6379 --dashboard-host=0.0.0.0 --dashboard-port=8265 ${RAY_OBJECT_STORE_MEMORY:+--object-store-memory=$RAY_OBJECT_STORE_MEMORY} && tail -f /dev/null"]

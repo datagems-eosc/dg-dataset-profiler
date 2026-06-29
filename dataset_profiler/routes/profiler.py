@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from typing import Optional, Dict, Any
 
 from dataset_profiler.job_manager import job_storing
+from dataset_profiler.job_manager import ray_client
 from dataset_profiler.job_manager.profile_job import profile_job, endpoint_specification_to_dataset
 from dataset_profiler.schemas.specification import ProfilingRequest
 from dataset_profiler.configs.config_logging import logger
@@ -72,6 +73,15 @@ async def trigger_dataset_profiling(
     ingestion_job_id = str(uuid.uuid4())  # Not to be confused with the dataset id
     logger.info(f"Received Profiling Request", request=profile_req, ingestion_job_id=ingestion_job_id)
 
+    # Reconnect to Ray on demand if the connection dropped (e.g. the Ray head was
+    # restarted). This lets jobs succeed again automatically without an API restart.
+    if not ray_client.ensure_connection():
+        logger.error("Ray cluster unavailable, cannot submit profiling job", ingestion_job_id=ingestion_job_id)
+        raise HTTPException(
+            status_code=503,
+            detail="Ray cluster is currently unavailable. Please retry shortly.",
+        )
+
     job_storing.store_job_status(ingestion_job_id, job_storing.JobStatus.SUBMITTING)
     obj_ref = profile_job.remote(ingestion_job_id,
                                  endpoint_specification_to_dataset(profile_req.profile_specification),
@@ -134,13 +144,31 @@ async def get_runner_status(
     if not obj_ref:
         return RunnerStatus.UNKNOWN
 
-    ready, _ = ray.wait([obj_ref], timeout=0)
-    logger.info(f"Runner status", profile_job_id=profile_job_id, ready=ready)
-    if ready:
-        _ = ray.get(obj_ref)
-        return RunnerStatus.COMPLETED
-    else:
-        return RunnerStatus.IN_PROGRESS
+    if not ray_client.ensure_connection():
+        logger.warning("Ray cluster unavailable while checking runner status", profile_job_id=profile_job_id)
+        raise HTTPException(
+            status_code=503,
+            detail="Ray cluster is currently unavailable. Please retry shortly.",
+        )
+
+    try:
+        ready, _ = ray.wait([obj_ref], timeout=0)
+        logger.info(f"Runner status", profile_job_id=profile_job_id, ready=ready)
+        if ready:
+            _ = ray.get(obj_ref)
+            # Release the object ref promptly so the Ray object store can reclaim
+            # the memory (the Ray head is memory capped).
+            TASKS.pop(profile_job_id, None)
+            del obj_ref
+            return RunnerStatus.COMPLETED
+        else:
+            return RunnerStatus.IN_PROGRESS
+    except Exception as ex:
+        # The object ref belongs to a previous Ray session (the head was
+        # restarted), so its result is no longer retrievable. Persisted status
+        # in Redis (job_status) remains the source of truth for clients.
+        logger.warning("Could not read runner status from Ray", profile_job_id=profile_job_id, error=str(ex))
+        return RunnerStatus.UNKNOWN
 
 
 @router.get("/job_status/{profile_job_id}")

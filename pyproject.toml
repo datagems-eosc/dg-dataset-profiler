@@ -47,6 +47,7 @@ dependencies = [
     "langchain-community>=0.3.31",
     "langchain-text-splitters>=0.3.11",
     "pymupdf>=1.26.5",
+    "requests>=2.32.0",
 ]
 
 [dependency-groups]
@@ -73,3 +74,16 @@ packages = ["dataset_profiler"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+# Install the CPU-only torch build. The default PyPI wheels bundle the full
+# CUDA/nvidia stack (~2GB), which is unused on these CPU containers and caused
+# slow/timed-out downloads (e.g. nvidia-nccl-cu13).
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+torchaudio = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
