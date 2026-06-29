@@ -2,3 +2,20 @@ tests/
 .venv/
 generated_profiles/
 .git/
+
+# Never bake local env / secret files into the image. The runtime gets its
+# configuration via compose env_file / Kubernetes env, not from files in the image.
+.env
+.env.*
+.env_*
+
+# Local-only noise that should not enter the build context
+.idea/
+.vscode/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+logs/
+*.log
