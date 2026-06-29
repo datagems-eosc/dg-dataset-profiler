@@ -40,7 +40,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": "[{\"binRange\": [0.997, 1.3], \"count\": 193}, {\"binRange\": [1.3, 1.6], \"count\": 0}, {\"binRange\": [1.6, 1.9], \"count\": 0}, {\"binRange\": [1.9, 2.2], \"count\": 16601}, {\"binRange\": [2.2, 2.5], \"count\": 0}, {\"binRange\": [2.5, 2.8], \"count\": 0}, {\"binRange\": [2.8, 3.1], \"count\": 3422}, {\"binRange\": [3.1, 3.4], \"count\": 0}, {\"binRange\": [3.4, 3.7], \"count\": 0}, {\"binRange\": [3.7, 4.0], \"count\": 141}]",
-            "uniqueCount": 4
+            "uniqueCount": 4,
+            "variance": 0.1755478956859014,
+            "range": 3.0,
+            "percentile05": 1.9149060297572436,
+            "percentile95": 3.0231282875511396,
+            "generatedAt": "2026-06-12T00:00:00+00:00"
           }
         },
         {
@@ -58,7 +63,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": null,
-            "uniqueCount": 83
+            "uniqueCount": 83,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         },
         {
@@ -76,7 +86,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": "[{\"binRange\": [-16.605, 1761.5], \"count\": 19931}, {\"binRange\": [1761.5, 3522.0], \"count\": 336}, {\"binRange\": [3522.0, 5282.5], \"count\": 39}, {\"binRange\": [5282.5, 7043.0], \"count\": 7}, {\"binRange\": [7043.0, 8803.5], \"count\": 10}, {\"binRange\": [8803.5, 10564.0], \"count\": 10}, {\"binRange\": [10564.0, 12324.5], \"count\": 13}, {\"binRange\": [12324.5, 14085.0], \"count\": 4}, {\"binRange\": [14085.0, 15845.5], \"count\": 1}, {\"binRange\": [15845.5, 17606.0], \"count\": 6}]",
-            "uniqueCount": 1673
+            "uniqueCount": 1673,
+            "variance": 490537.5483205206,
+            "range": 17605.0,
+            "percentile05": 74.20048764487481,
+            "percentile95": 1708.6992652526214,
+            "generatedAt": "2026-06-12T00:00:00+00:00"
           }
         },
         {
@@ -94,7 +109,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 20357,
             "missingPercentage": 100.0,
             "histogram": "[]",
-            "uniqueCount": 0
+            "uniqueCount": 0,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         },
         {
@@ -112,7 +132,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 20357,
             "missingPercentage": 100.0,
             "histogram": "[]",
-            "uniqueCount": 0
+            "uniqueCount": 0,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         },
         {
@@ -130,7 +155,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": null,
-            "uniqueCount": 20
+            "uniqueCount": 20,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         },
         {
@@ -148,7 +178,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": null,
-            "uniqueCount": 96
+            "uniqueCount": 96,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         },
         {
@@ -166,7 +201,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": null,
-            "uniqueCount": 5
+            "uniqueCount": 5,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         },
         {
@@ -184,7 +224,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": null,
-            "uniqueCount": 5
+            "uniqueCount": 5,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         },
         {
@@ -202,7 +247,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": null,
-            "uniqueCount": 6
+            "uniqueCount": 6,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         },
         {
@@ -220,7 +270,12 @@ Below you can find a CDD profile example covering different file types:
             "missingCount": 0,
             "missingPercentage": 0.0,
             "histogram": null,
-            "uniqueCount": 2
+            "uniqueCount": 2,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null
           }
         }
       ]
@@ -252,7 +307,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": "[{\"binRange\": [0.997, 1.3], \"count\": 1}, {\"binRange\": [1.3, 1.6], \"count\": 0}, {\"binRange\": [1.6, 1.9], \"count\": 0}, {\"binRange\": [1.9, 2.2], \"count\": 1}, {\"binRange\": [2.2, 2.5], \"count\": 0}, {\"binRange\": [2.5, 2.8], \"count\": 0}, {\"binRange\": [2.8, 3.1], \"count\": 2}, {\"binRange\": [3.1, 3.4], \"count\": 0}, {\"binRange\": [3.4, 3.7], \"count\": 0}, {\"binRange\": [3.7, 4.0], \"count\": 5}]",
-                "uniqueCount": 4
+                "uniqueCount": 4,
+                "variance": 1.1944444444444444,
+                "range": 3.0,
+                "percentile05": 1.13335,
+                "percentile95": 3.973,
+                "generatedAt": "2026-06-12T00:00:00+00:00"
               }
             },
             {
@@ -270,7 +330,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": "[{\"binRange\": [-0.119, 112.9], \"count\": 4}, {\"binRange\": [112.9, 224.8], \"count\": 0}, {\"binRange\": [224.8, 336.7], \"count\": 0}, {\"binRange\": [336.7, 448.6], \"count\": 0}, {\"binRange\": [448.6, 560.5], \"count\": 0}, {\"binRange\": [560.5, 672.4], \"count\": 0}, {\"binRange\": [672.4, 784.3], \"count\": 0}, {\"binRange\": [784.3, 896.2], \"count\": 0}, {\"binRange\": [896.2, 1008.1], \"count\": 0}, {\"binRange\": [1008.1, 1120.0], \"count\": 5}]",
-                "uniqueCount": 9
+                "uniqueCount": 9,
+                "variance": 310724.00000000006,
+                "range": 1119.0,
+                "percentile05": 12.5956375,
+                "percentile95": 1109.929,
+                "generatedAt": "2026-06-12T00:00:00+00:00"
               }
             },
             {
@@ -288,7 +353,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": null,
-                "uniqueCount": 8
+                "uniqueCount": 8,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -306,7 +376,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": null,
-                "uniqueCount": 8
+                "uniqueCount": 8,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -324,7 +399,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": null,
-                "uniqueCount": 9
+                "uniqueCount": 9,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -342,7 +422,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": null,
-                "uniqueCount": 9
+                "uniqueCount": 9,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -366,7 +451,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": "[{\"binRange\": [0.997, 1.3], \"count\": 10}, {\"binRange\": [1.3, 1.6], \"count\": 0}, {\"binRange\": [1.6, 1.9], \"count\": 0}, {\"binRange\": [1.9, 2.2], \"count\": 43}, {\"binRange\": [2.2, 2.5], \"count\": 0}, {\"binRange\": [2.5, 2.8], \"count\": 0}, {\"binRange\": [2.8, 3.1], \"count\": 130}, {\"binRange\": [3.1, 3.4], \"count\": 0}, {\"binRange\": [3.4, 3.7], \"count\": 0}, {\"binRange\": [3.7, 4.0], \"count\": 436}]",
-                "uniqueCount": 4
+                "uniqueCount": 4,
+                "variance": 0.47610981277872744,
+                "range": 3.0,
+                "percentile05": 2.0461627906976743,
+                "percentile95": 3.978704128440367,
+                "generatedAt": "2026-06-12T00:00:00+00:00"
               }
             },
             {
@@ -384,7 +474,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": "[{\"binRange\": [-9.629, 962.9], \"count\": 186}, {\"binRange\": [962.9, 1925.8], \"count\": 31}, {\"binRange\": [1925.8, 2888.7], \"count\": 92}, {\"binRange\": [2888.7, 3851.6], \"count\": 84}, {\"binRange\": [3851.6, 4814.5], \"count\": 29}, {\"binRange\": [4814.5, 5777.4], \"count\": 40}, {\"binRange\": [5777.4, 6740.3], \"count\": 18}, {\"binRange\": [6740.3, 7703.2], \"count\": 66}, {\"binRange\": [7703.2, 8666.1], \"count\": 40}, {\"binRange\": [8666.1, 9629.0], \"count\": 33}]",
-                "uniqueCount": 613
+                "uniqueCount": 613,
+                "variance": 8726912.655133292,
+                "range": 9629.0,
+                "percentile05": 152.19773413978496,
+                "percentile95": 8725.916515151514,
+                "generatedAt": "2026-06-12T00:00:00+00:00"
               }
             },
             {
@@ -402,7 +497,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": null,
-                "uniqueCount": 585
+                "uniqueCount": 585,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -420,7 +520,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": null,
-                "uniqueCount": 602
+                "uniqueCount": 602,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -438,7 +543,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 16,
                 "missingPercentage": 2.5848142164781907,
                 "histogram": null,
-                "uniqueCount": 603
+                "uniqueCount": 603,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -456,7 +566,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 0,
                 "missingPercentage": 0.0,
                 "histogram": null,
-                "uniqueCount": 619
+                "uniqueCount": 619,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -474,7 +589,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 308,
                 "missingPercentage": 49.75767366720517,
                 "histogram": null,
-                "uniqueCount": 302
+                "uniqueCount": 302,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -492,7 +612,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": 527,
                 "missingPercentage": 85.1373182552504,
                 "histogram": null,
-                "uniqueCount": 87
+                "uniqueCount": 87,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -526,7 +651,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -544,7 +674,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -562,7 +697,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -580,7 +720,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -598,7 +743,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -616,7 +766,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -634,7 +789,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -652,7 +812,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -670,7 +835,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -688,7 +858,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -706,7 +881,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -724,7 +904,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -742,7 +927,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -760,7 +950,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -778,7 +973,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -796,7 +996,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -814,7 +1019,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -832,7 +1042,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -850,7 +1065,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -874,7 +1094,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -892,7 +1117,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -916,7 +1146,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -934,7 +1169,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -952,7 +1192,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -970,7 +1215,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -988,7 +1238,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1006,7 +1261,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1024,7 +1284,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1042,7 +1307,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1060,7 +1330,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1078,7 +1353,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1096,7 +1376,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1120,7 +1405,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1138,7 +1428,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1162,7 +1457,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1180,7 +1480,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1204,7 +1509,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1222,7 +1532,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1240,7 +1555,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1258,7 +1578,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1276,7 +1601,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1294,7 +1624,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1312,7 +1647,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1330,7 +1670,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1354,7 +1699,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1372,7 +1722,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1390,7 +1745,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1408,7 +1768,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1426,7 +1791,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1444,7 +1814,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1462,7 +1837,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1480,7 +1860,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1498,7 +1883,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1522,7 +1912,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1540,7 +1935,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1564,7 +1964,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1582,7 +1987,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1606,7 +2016,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1624,7 +2039,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1642,7 +2062,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1660,7 +2085,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1678,7 +2108,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1696,7 +2131,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1714,7 +2154,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1732,7 +2177,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1750,7 +2200,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1768,7 +2223,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1792,7 +2252,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1810,7 +2275,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1828,7 +2298,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1846,7 +2321,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1870,7 +2350,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1888,7 +2373,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1912,7 +2402,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1930,7 +2425,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -1954,7 +2454,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1972,7 +2477,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -1990,7 +2500,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2008,7 +2523,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2026,7 +2546,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2050,7 +2575,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2068,7 +2598,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2092,7 +2627,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2110,7 +2650,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2128,7 +2673,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2152,7 +2702,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2170,7 +2725,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2188,7 +2748,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2206,7 +2771,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2230,7 +2800,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2248,7 +2823,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2272,7 +2852,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2290,7 +2875,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2314,7 +2904,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2332,7 +2927,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2350,7 +2950,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2368,7 +2973,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2392,7 +3002,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2410,7 +3025,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2434,7 +3054,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2452,7 +3077,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2476,7 +3106,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2494,7 +3129,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2518,7 +3158,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2536,7 +3181,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2560,7 +3210,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             },
             {
@@ -2578,7 +3233,12 @@ Below you can find a CDD profile example covering different file types:
                 "missingCount": null,
                 "missingPercentage": null,
                 "histogram": null,
-                "uniqueCount": null
+                "uniqueCount": null,
+                "variance": null,
+                "range": null,
+                "percentile05": null,
+                "percentile95": null,
+                "generatedAt": null
               }
             }
           ]
@@ -2739,5 +3399,4 @@ Below you can find a CDD profile example covering different file types:
     }
   ]
 }
-
 ```

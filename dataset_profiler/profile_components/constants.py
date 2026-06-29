@@ -54,6 +54,11 @@ REFERENCES_TEMPLATE = {
     "missingPercentage": "dg:missingPercentage",
     "histogram": "dg:histogram",
     "uniqueCount": "dg:uniqueCount",
+    "variance": "dg:variance",
+    "range": "dg:range",
+    "percentile05": "dg:percentile05",
+    "percentile95": "dg:percentile95",
+    "generatedAt": "dg:generatedAt",
     "wd": "https://www.wikidata.org/wiki/",
     "containedIn": "cr:containedIn"
 }
