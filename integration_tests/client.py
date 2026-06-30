@@ -36,7 +36,7 @@ class ProfilerClient:
     def job_status(self, job_id: str) -> str:
         resp = self.session.get(self._url(f"/profiler/job_status/{job_id}"), timeout=30)
         resp.raise_for_status()
-        return resp.json()
+        return resp.json()["status"]
 
     def get_profile(self, job_id: str) -> dict:
         resp = self.session.get(self._url(f"/profiler/profile/{job_id}"), timeout=30)

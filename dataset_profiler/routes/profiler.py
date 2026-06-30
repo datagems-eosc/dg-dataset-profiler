@@ -83,6 +83,7 @@ async def trigger_dataset_profiling(
         )
 
     job_storing.store_job_status(ingestion_job_id, job_storing.JobStatus.SUBMITTING)
+    job_storing.store_job_dataset_id(ingestion_job_id, str(profile_req.profile_specification.id))
     obj_ref = profile_job.remote(ingestion_job_id,
                                  endpoint_specification_to_dataset(profile_req.profile_specification),
                                  only_light_profile=profile_req.only_light_profile)
@@ -175,7 +176,7 @@ async def get_runner_status(
 async def get_job_status(
     profile_job_id: str,
     token: Optional[Dict[str, Any]] = Depends(validate_token)
-) -> job_storing.JobStatus:
+) -> job_storing.JobStatusResponse:
     """
     Check the detailed status of a profiling job.
 
@@ -186,22 +187,28 @@ async def get_job_status(
     * **profile_job_id** (str): The unique identifier of the profiling job
 
     ## Returns
-    * **JobStatus**: The current status of the profiling job, one of:
-      * SUBMITTING: The job is being submitted to the processing queue
-      * STARTING: The job has been accepted and is starting
-      * LIGHT_PROFILE_READY: The light profile (basic metadata) is ready
-      * HEAVY_PROFILES_READY: The heavy profile (including record sets) is ready
-      * FAILED: The job has failed
+    * **JobStatusResponse**: The current status report, containing:
+      * status: The current status of the profiling job, one of:
+        * SUBMITTING: The job is being submitted to the processing queue
+        * STARTING: The job has been accepted and is starting
+        * LIGHT_PROFILE_READY: The light profile (basic metadata) is ready
+        * HEAVY_PROFILES_READY: The heavy profile (including record sets) is ready
+        * FAILED: The job has failed
+      * dataset_id: The identifier of the dataset being profiled (or None if unknown)
 
     ## Example
-    ```
-    "LIGHT_PROFILE_READY"
+    ```json
+    {
+      "status": "light_profile_ready",
+      "dataset_id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01"
+    }
     ```
     """
     logger.info(f"Received job status request", profile_job_id=profile_job_id)
     status = job_storing.get_job_status(profile_job_id)
-    logger.info(f"Job status", profile_job_id=profile_job_id, status=status)
-    return status
+    dataset_id = job_storing.get_job_dataset_id(profile_job_id)
+    logger.info(f"Job status", profile_job_id=profile_job_id, status=status, dataset_id=dataset_id)
+    return job_storing.JobStatusResponse(status=status, dataset_id=dataset_id)
 
 
 @router.get("/profile/{profile_job_id}")

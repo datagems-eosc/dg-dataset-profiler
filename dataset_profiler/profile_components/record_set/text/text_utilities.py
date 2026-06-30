@@ -17,7 +17,6 @@ from langchain_core.prompts import ChatPromptTemplate
 from langsmith import traceable
 from dotenv import load_dotenv, find_dotenv
 
-nltk.download("stopwords")
 load_dotenv(find_dotenv())
 
 

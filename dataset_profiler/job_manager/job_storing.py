@@ -1,6 +1,7 @@
 import json
 import os
 from enum import Enum
+from typing import Optional
 
 import redis
 from pydantic import BaseModel
@@ -85,8 +86,30 @@ class ProfilesResponse(BaseModel):
     cdd_profile: dict
 
 
+class JobStatusResponse(BaseModel):
+    """
+    Status report for a profiling job.
+
+    ## Attributes
+    * **status** (JobStatus): The current status of the profiling job
+    * **dataset_id** (Optional[str]): The identifier of the dataset being profiled,
+      or None if it was not recorded for the job
+
+    ## Example
+    ```json
+    {
+      "status": "light_profile_ready",
+      "dataset_id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01"
+    }
+    ```
+    """
+    status: JobStatus
+    dataset_id: Optional[str] = None
+
+
 JOB_STATUS_GROUP = "job_status"
 JOB_RESPONSE_GROUP = "job_response"
+JOB_DATASET_ID_GROUP = "job_dataset_id"
 CDD_PROFILE_PATH_GROUP = "cdd_profile_path"
 
 
@@ -110,6 +133,19 @@ def get_job_status(job_id: str) -> JobStatus | None:
     if status_value is None:
         return None
     return JobStatus(status_value)
+
+
+def store_job_dataset_id(job_id: str, dataset_id: str):
+    client = get_redis_client()
+    client.hset(JOB_DATASET_ID_GROUP, job_id, dataset_id)
+
+
+def get_job_dataset_id(job_id: str) -> str | None:
+    client = get_redis_client()
+    dataset_id_value = client.hget(JOB_DATASET_ID_GROUP, job_id)
+    if dataset_id_value is None:
+        return None
+    return dataset_id_value.decode("utf-8")
 
 
 def store_job_response(job_id: str, response: ProfilesResponse):

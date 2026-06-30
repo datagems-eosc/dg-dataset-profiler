@@ -6,18 +6,20 @@ from pathlib import Path
 
 import pandas as pd
 import uuid
-import numpy as np
 
 from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
 from dataset_profiler.profile_components.record_set.csv.calculate_statistics import (
-    calculate_column_statistics,
+    _ColumnAccumulator,
 )
 from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
     ColumnField,
 )
-from dataset_profiler.utilities import find_column_type_in_csv
 from dataset_profiler.configs.config_logging import logger
+
+# Rows read per chunk while streaming a CSV. Bounds peak memory regardless of
+# how large the file is.
+CHUNK_SIZE = 500_000
 
 
 class CSVRecordSet(RecordSet):
@@ -32,77 +34,111 @@ class CSVRecordSet(RecordSet):
         self.fields = self.extract_fields()
         self.examples = self.extract_examples()
 
-    def _read_csv_with_delimiter_detection(self, file_path):
-        """Common method to read CSV files with delimiter detection and flexible parsing."""
+    def _detect_delimiter(self, file_path):
+        """Detect the CSV delimiter by sniffing the first 1KB of the file."""
         if not os.path.exists(file_path):
             logger.error("CSV file not found", file=file_path)
             raise FileNotFoundError(f"CSV file not found: {file_path}")
 
-        logger.info("Reading CSV file with delimiter detection", file=file_path)
+        with open(file_path, 'r', encoding="ISO-8859-1") as csvfile:
+            sample = csvfile.read(1024)
+            try:
+                delimiter = csv.Sniffer().sniff(sample).delimiter
+                logger.info(f"Detected delimiter: '{delimiter}'", file=file_path)
+            except csv.Error:
+                # If sniffer fails, fall back to a comma
+                delimiter = ','
+                logger.info(f"Using default delimiter: '{delimiter}'", file=file_path)
+        return delimiter
 
-        # Try to detect the delimiter using the csv module
+    def _read_column_names(self, file_path, delimiter):
+        """Read only the header row to get the column names (no data loaded)."""
         try:
-            with open(file_path, 'r', encoding="ISO-8859-1") as csvfile:
-                sample = csvfile.read(1024)
-                try:
-                    dialect = csv.Sniffer().sniff(sample)
-                    delimiter = dialect.delimiter
-                    logger.info(f"Detected delimiter: '{delimiter}'", file=file_path)
-                except:
-                    # If sniffer fails, try common delimiters
-                    delimiter = ','
-                    logger.info(f"Using default delimiter: '{delimiter}'", file=file_path)
-
-            # Use the detected delimiter with flexible parsing
-            csv_object = pd.read_csv(
-                file_path,
-                encoding="ISO-8859-1",
-                sep=delimiter,
-                on_bad_lines='skip'  # For pandas >= 1.3.0
-                # error_bad_lines=False  # For older pandas versions
+            header = pd.read_csv(
+                file_path, encoding="ISO-8859-1", sep=delimiter, nrows=0
             )
+        except pd.errors.EmptyDataError:
+            logger.warning("Empty CSV given. Skipping...", file=file_path)
+            return []
+        return list(header.columns)
 
-            return csv_object
+    def _iter_chunks(self, file_path, delimiter, usecols=None):
+        """Yield the CSV in row chunks, falling back to the Python engine.
 
+        Streaming in chunks keeps peak memory bounded to ``CHUNK_SIZE`` rows
+        instead of the whole file, while still reading every row exactly once
+        per pass.
+        """
+        read_kwargs = dict(
+            encoding="ISO-8859-1",
+            sep=delimiter,
+            chunksize=CHUNK_SIZE,
+            usecols=usecols,
+        )
+        try:
+            yield from pd.read_csv(file_path, on_bad_lines="skip", **read_kwargs)
         except Exception as e:
             logger.error(f"Error reading CSV file: {str(e)}", file=file_path)
-            # Try with Python engine as a fallback
-            try:
-                logger.info("Trying with Python engine as fallback", file=file_path)
-                csv_object = pd.read_csv(
-                    file_path,
-                    encoding="ISO-8859-1",
-                    engine='python'
-                )
-                return csv_object
-            except pd.errors.EmptyDataError:
-                logger.warning(f"Empty CSV given. Skipping...", file=file_path)
-            except Exception as e2:
-                logger.error(f"Fallback also failed: {str(e2)}", file=file_path)
-                raise e
+            logger.info("Trying with Python engine as fallback", file=file_path)
+            yield from pd.read_csv(file_path, engine="python", **read_kwargs)
 
     def extract_fields(self):
         file_path = os.path.join(self.distribution_path, self.file_object)
         logger.info("Extracting fields from CSV file", file=file_path)
 
-        csv_object = self._read_csv_with_delimiter_detection(file_path)
+        delimiter = self._detect_delimiter(file_path)
+        column_names = self._read_column_names(file_path, delimiter)
+        if not column_names:
+            return []
 
-        fields = []
-        for column in csv_object.columns:
-            fields.append(
-                TableColumnField(
-                    csv_object[column], column, self.name, self.file_object_id
-                )
+        accumulators = {col: _ColumnAccumulator() for col in column_names}
+
+        # Pass 1: stream the whole file once, updating every column's
+        # accumulator with each chunk.
+        for chunk in self._iter_chunks(file_path, delimiter):
+            for column in column_names:
+                if column in chunk.columns:
+                    accumulators[column].update(chunk[column])
+
+        # Pass 2: the histogram bins need the global min/max gathered above, so
+        # numeric columns get a second streamed pass to count per-bin frequencies.
+        numeric_columns = [
+            col for col, acc in accumulators.items() if acc.needs_histogram()
+        ]
+        if numeric_columns:
+            for chunk in self._iter_chunks(file_path, delimiter, usecols=numeric_columns):
+                for column in numeric_columns:
+                    if column in chunk.columns:
+                        accumulators[column].update_histogram(chunk[column])
+
+        return [
+            TableColumnField.from_accumulator(
+                column, accumulators[column], self.name, self.file_object_id
             )
-        return fields
+            for column in column_names
+        ]
 
     def extract_examples(self):
         file_path = os.path.join(self.distribution_path, self.file_object)
         logger.info("Extracting examples from CSV file", file=file_path)
 
-        csv_object = self._read_csv_with_delimiter_detection(file_path)
+        delimiter = self._detect_delimiter(file_path)
+        # Only the first 30 rows are needed for examples, so read just those
+        # instead of materializing the whole file.
+        try:
+            csv_object = pd.read_csv(
+                file_path,
+                encoding="ISO-8859-1",
+                sep=delimiter,
+                nrows=30,
+                on_bad_lines='skip',
+            )
+        except pd.errors.EmptyDataError:
+            logger.warning("Empty CSV given. Skipping...", file=file_path)
+            return {}
+
         # Convert NaN values to None in the examples dictionary
-        examples_dict = csv_object.head(30).to_dict(orient="list")
+        examples_dict = csv_object.to_dict(orient="list")
         for key in examples_dict:
             examples_dict[key] = [None if pd.isna(x) else x for x in examples_dict[key]]
         return examples_dict
@@ -132,26 +168,42 @@ class CSVRecordSet(RecordSet):
 
 class TableColumnField(ColumnField):
     def __init__(
-        self, column: pd.Series, column_name: str, csv_name: str, file_object_id: str
+        self,
+        column_name: str,
+        data_type: str,
+        sample: list,
+        statistics: ColumnStatistics,
+        csv_name: str,
+        file_object_id: str,
     ):
         self.type = "cr:Field"
         self.id = str(uuid.uuid4())
         self.name = column_name
         self.description = ""
-        self.dataType = find_column_type_in_csv(column)
+        self.dataType = data_type
         self.source = {
             "fileObject": {"@id": file_object_id},
             "extract": {"column": column_name},
         }
-        if len(column) > 10:
-            # Fix the replace method to handle NaN values properly
-            sample_data = column.sample(10)
-            # Convert NaN values to None in Python
-            self.sample = [None if pd.isna(x) else x for x in sample_data.tolist()]
-        else:
-            # Convert NaN values to None in Python
-            self.sample = [None if pd.isna(x) else x for x in column.tolist()]
-        self.statistics: ColumnStatistics = calculate_column_statistics(column)
+        self.sample = sample
+        self.statistics: ColumnStatistics = statistics
+
+    @classmethod
+    def from_accumulator(
+        cls,
+        column_name: str,
+        accumulator: _ColumnAccumulator,
+        csv_name: str,
+        file_object_id: str,
+    ) -> "TableColumnField":
+        return cls(
+            column_name,
+            accumulator.data_type(),
+            accumulator.sample(),
+            accumulator.build_statistics(),
+            csv_name,
+            file_object_id,
+        )
 
     def to_dict(self):
         return {

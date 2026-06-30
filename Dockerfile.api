@@ -18,6 +18,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --locked --no-dev
 
+# Bake the NLTK stopwords corpus into the image so it is available offline at
+# runtime (the container has no network access to download it on import).
+ENV NLTK_DATA=/usr/local/share/nltk_data
+RUN uv run --no-sync python -m nltk.downloader -d "$NLTK_DATA" stopwords
+
 COPY . /app
 
 RUN rm -rf /app/.env

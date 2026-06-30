@@ -99,6 +99,57 @@ DATASETS = [
         "expected_record_set": "csv_1",
         "expected_fields_contain": ["dv_agency", "dv_validations", "dv_route"],
     },
+    {
+        "id": "last_mile",
+        "dataset_id": "44444444-4444-4444-4444-444444444444",
+        "name": "Last mile delivery customers and payloads",
+        "description": (
+            "Geolocated last-mile delivery customers and their associated payloads."
+        ),
+        "headline": "Last mile delivery customers and payloads.",
+        "fields_of_science": ["TRANSPORT PLANNING"],
+        "languages": ["en"],
+        "keywords": ["last mile", "logistics", "delivery"],
+        "country": "PT",
+        "data_path": "last_mile/data",
+        # Expectations
+        "expected_files": [
+            "Random_customers.csv",
+            "Clustered_customers.csv",
+            "Payloads.csv",
+        ],
+        "expected_record_set": "Random_customers",
+        "expected_fields_contain": ["clients", "latitude", "longitude"],
+    },
+    {
+        "id": "biotime",
+        "dataset_id": "55555555-5555-5555-5555-555555555555",
+        "name": "BioTIME biodiversity time series",
+        "description": (
+            "Species abundance and biomass time series records with study "
+            "metadata and citations from the BioTIME database."
+        ),
+        "headline": "BioTIME biodiversity time series.",
+        "fields_of_science": ["BIOLOGICAL SCIENCES"],
+        "languages": ["en"],
+        "keywords": ["biodiversity", "species", "time series"],
+        "country": "",
+        "data_path": "biotime/data",
+        # Expectations
+        "expected_files": [
+            "BioTIMEQuery_24_06_2021.csv",
+            "BioTIMEMetadata_24_06_2021.csv",
+            "BioTIMECitations_24_06_2021.csv",
+        ],
+        "expected_record_set": "BioTIMEQuery_24_06_2021",
+        "expected_fields_contain": [
+            "STUDY_ID",
+            "YEAR",
+            "LATITUDE",
+            "LONGITUDE",
+            "GENUS_SPECIES",
+        ],
+    },
 ]
 
 

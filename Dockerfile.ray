@@ -14,6 +14,11 @@ WORKDIR /home/ray/app
 COPY pyproject.toml uv.lock README.md ./
 RUN uv pip install --system .
 
+# Bake the NLTK stopwords corpus into the image so it is available offline at
+# runtime (the container has no network access to download it on import).
+ENV NLTK_DATA=/usr/local/share/nltk_data
+RUN python -m nltk.downloader -d "$NLTK_DATA" stopwords
+
 COPY . .
 
 # .env file is passed via compose
