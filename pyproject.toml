@@ -43,6 +43,7 @@ dependencies = [
     "psycopg2-binary>=2.9.11",
     "structlog>=25.4.0",
     "litellm>=1.78.6",
+    "boto3>=1.34.0",
     "pyyaml>=6.0.2",
     "pyjwt>=2.10.1",
     "langchain-community>=0.3.31",

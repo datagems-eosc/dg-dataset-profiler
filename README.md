@@ -29,3 +29,16 @@ make install
 ```
 
 This will also generate your `uv.lock` file
+
+## Data Quality Detection (opt-in)
+
+The profiler can detect data quality errors in tabular record sets (CSVs, Excel sheets) using an LLM: format inconsistencies (mixed date formats), value errors (negative ages), and consistency errors (`US` vs `USA` vs `United States`). Detection only — the data is never modified.
+
+Enable it and pick a provider via environment variables (see `.env.example`):
+
+```bash
+ENABLE_DATA_QUALITY=true
+DATA_QUALITY_LLM_PROVIDER=scayle   # or bedrock
+```
+
+Detected errors are embedded per record set in the generated profiles under `dataQuality` (Croissant) / `data_quality` (CDD). See the [Data Quality docs](https://datagems-eosc.github.io/dataset-profiler/data-quality/) for details.

@@ -7,6 +7,11 @@ from pathlib import Path
 import pandas as pd
 import uuid
 
+from dataset_profiler.data_quality import (
+    detect_data_quality_errors,
+    is_data_quality_enabled,
+)
+from dataset_profiler.data_quality.models import DataQualityResult
 from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
 from dataset_profiler.profile_components.record_set.csv.calculate_statistics import (
     _ColumnAccumulator,
@@ -33,6 +38,7 @@ class CSVRecordSet(RecordSet):
         self.description = ""
         self.fields = self.extract_fields()
         self.examples = self.extract_examples()
+        self.data_quality = self.extract_data_quality()
 
     def _detect_delimiter(self, file_path):
         """Detect the CSV delimiter by sniffing the first 1KB of the file."""
@@ -144,8 +150,31 @@ class CSVRecordSet(RecordSet):
         return examples_dict
 
 
+    def extract_data_quality(self) -> DataQualityResult | None:
+        """Run LLM-based error detection on the table (detection only).
+
+        Opt-in via the ENABLE_DATA_QUALITY env var. Any failure is logged and
+        swallowed so data quality issues can never break profile generation.
+        """
+        if not is_data_quality_enabled() or not self.fields:
+            return None
+
+        file_path = os.path.join(self.distribution_path, self.file_object)
+        try:
+            delimiter = self._detect_delimiter(file_path)
+            return detect_data_quality_errors(
+                file_path,
+                table_name=Path(self.name).name,
+                delimiter=delimiter,
+            )
+        except Exception as e:
+            logger.error(
+                f"Data quality detection failed: {str(e)}", file=file_path
+            )
+            return None
+
     def to_dict(self):
-        return {
+        record_set_dict = {
             "@type": self.type,
             "@id": str(uuid.uuid4()),
             "name": Path(self.name).name,
@@ -154,9 +183,12 @@ class CSVRecordSet(RecordSet):
             "field": [field.to_dict() for field in self.fields],
             "examples": json.dumps(self.examples, default=str),
         }
+        if self.data_quality is not None:
+            record_set_dict["dataQuality"] = self.data_quality.to_dict()
+        return record_set_dict
 
     def to_dict_cdd(self):
-        return {
+        record_set_dict = {
             "file_object_id": self.file_object_id,
             "original_format": "csv",
             "source_file": os.path.join(self.distribution_path, self.file_object),
@@ -165,6 +197,9 @@ class CSVRecordSet(RecordSet):
             "keywords": [],
             "columns": [field.to_dict_cdd() for field in self.fields],
         }
+        if self.data_quality is not None:
+            record_set_dict["data_quality"] = self.data_quality.to_dict_cdd()
+        return record_set_dict
 
 class TableColumnField(ColumnField):
     def __init__(

@@ -13,6 +13,7 @@ The Dataset Profiler service is designed to automatically analyze and extract me
 - **Distributed Processing**: Uses Ray for distributed computing to handle large datasets efficiently
 - **API-driven**: RESTful API for easy integration with other services
 - **Metadata Extraction**: Automatically extracts metadata such as column types, data distributions, and sample values
+- **Data Quality Detection** (opt-in): LLM-assisted detection of errors in tabular data — format inconsistencies, impossible values, and inconsistent representations (detection only, no correction)
 - **Standardized Output**: Produces standardized JSON-LD profiles that follow the [Croissant Metadata Schema](https://mlcommons.org/working-groups/data/croissant/)
 
 

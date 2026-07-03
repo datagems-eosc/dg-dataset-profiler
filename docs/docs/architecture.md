@@ -41,6 +41,7 @@ The Profiling Engine performs the actual dataset analysis and consists of:
 - **Dataset Specification Parser**: Parses and validates input specifications
 - **Distribution Extractor**: Identifies and extracts metadata about dataset files
 - **Record Set Extractor**: Analyzes the structure and content of datasets
+- **Data Quality Detector** (opt-in): LLM-assisted error detection for tabular record sets — see [Data Quality](data-quality.md)
 - **Profile Generator**: Assembles the extracted information into standardized profiles
 
 ### Supported Data Types
