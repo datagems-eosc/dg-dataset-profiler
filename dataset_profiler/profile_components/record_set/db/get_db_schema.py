@@ -7,6 +7,7 @@ import pandas as pd
 from dataset_profiler.profile_components.record_set.db.database_connector import (
     DatagemsPostgres,
 )
+from dataset_profiler.configs.config_logging import logger
 
 
 def filter_out_system_tables(schema: dict) -> dict:
@@ -259,7 +260,7 @@ def obtain_schema_from_db(
             "columns": [],
         }
         for column in tables_with_cols[table]:
-            print(table, column)
+            logger.debug("Sampling column values", table=table, column=column)
             example_values = get_sample_values_of_column(db, table, column, sample_size)
             table_dict["columns"].append(
                 {

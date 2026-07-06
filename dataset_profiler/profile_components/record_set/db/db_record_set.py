@@ -94,7 +94,7 @@ class DBRecordSet(RecordSet):
 
 class DBTableField:
     def __init__(self, table: Dict, table_distribution_id: str, file_object: str, file_object_id: str, db_connection: DatagemsPostgres):
-        logger.info(f"Initializing DB table", table=table)
+        logger.info("Initializing DB table", table=table)
         self.table_distribution_id = table_distribution_id
         self.table = table
         self.file_object = file_object
@@ -148,7 +148,7 @@ class DBTableField:
 
 class DBColumnField(ColumnField):
     def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str):
-        logger.info(f"Initializing DB column", column=column["column"])
+        logger.info("Initializing DB column", column=column["column"])
         self.type = "cr:Field"
         self.id = self.id = str(uuid.uuid4())
         self.name = column["column"]

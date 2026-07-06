@@ -36,7 +36,7 @@ os.environ.setdefault("RAY_CLIENT_RECONNECT_GRACE_PERIOD", "5")
 
 import ray
 
-from dataset_profiler.configs.config_logging import logger
+from dataset_profiler.configs.config_logging import logger, setup_worker_logging
 
 
 RAY_ADDRESS = os.getenv("RAY_ADDRESS", "ray://ray-head:10001")
@@ -57,8 +57,13 @@ def _ray_init() -> None:
     ray.init(
         address=RAY_ADDRESS,
         ignore_reinit_error=True,
-        log_to_driver=False,
-        logging_level="error",
+        # Forward worker task logs (e.g. from profile_job) to the driver so they
+        # surface in the API pod's stdout / Lens Logs tab, not just the Ray
+        # session log files. The worker_process_setup_hook below keeps them
+        # structured and also writes them to the ray-head pod's stdout.
+        log_to_driver=True,
+        logging_level="warning",
+        runtime_env={"worker_process_setup_hook": setup_worker_logging},
     )
 
 

@@ -3,6 +3,7 @@ import os
 import uuid
 
 import ray
+from structlog.contextvars import bind_contextvars, clear_contextvars
 
 from dataset_profiler.schemas.specification import ProfileSpecificationEndpoint
 from dataset_profiler.job_manager.job_storing import store_job_status, JobStatus, store_job_response, \
@@ -37,17 +38,22 @@ def endpoint_specification_to_dataset(specification: ProfileSpecificationEndpoin
 
 @ray.remote
 def profile_job(job_id: str, specification: dict, only_light_profile: bool = False) -> None:
+    # Tag every log line emitted anywhere in this task (including deep in the
+    # profiling core) with the job/dataset id so a single job is filterable in
+    # Lens. Ray reuses worker processes, so we must clear the context afterwards.
+    clear_contextvars()
+    bind_contextvars(job_id=job_id, dataset_id=specification.get("id"))
     try:
-        logger.info(f"Initiating profiling", job_id=job_id, only_light_profile=only_light_profile,
+        logger.info("Initiating profiling", only_light_profile=only_light_profile,
                     specification=specification)
         store_job_status(job_id, status=JobStatus.STARTING)
         profile = DatasetProfile(specification)
-        logger.info("Parsed dataset specification", job_id=job_id)
+        logger.info("Parsed dataset specification")
 
         # Calculate the light profile (dataset head, dataset distributions)
         profile.extract_distributions()
         light_profile = profile.to_dict_light()
-        logger.info("Generated light dataset profile", job_id=job_id)
+        logger.info("Generated light dataset profile")
 
         store_job_response(job_id, ProfilesResponse(
             moma_profile_light=light_profile,
@@ -58,7 +64,7 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
 
         # Calculate the heavy profiles (record sets, cdd profile)
         if only_light_profile:
-            logger.info("Only light profiler was requested", job_id=job_id)
+            logger.info("Only light profiler was requested")
             return None
 
         profile.extract_record_sets()
@@ -66,6 +72,7 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
         cdd_profile = profile.to_dict_cdd()
         cdd_profile_path = os.getenv('CDD_PROFILE_PATH', '') + specification["id"] + ".json"
 
+        logger.info("Writing CDD profile to disk", cdd_profile_path=cdd_profile_path)
         with open(cdd_profile_path, "w") as f:
             json.dump(cdd_profile, f)
 
@@ -79,11 +86,13 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
             },
         ))
         store_job_status(job_id, status=JobStatus.HEAVY_PROFILES_READY)
-        logger.info("Generated heavy dataset profile", job_id=job_id)
+        logger.info("Generated heavy dataset profile")
     except Exception as ex:
-        logger.error("Profiling job failed on ray runner", job_id=job_id, error=str(ex))
+        logger.exception("Profiling job failed on ray runner", error=str(ex))
         store_job_status(job_id, status=JobStatus.FAILED)
         raise ex
+    finally:
+        clear_contextvars()
     return None
 
 

@@ -188,6 +188,14 @@ class DatasetProfile:
         self.file_object_distributions = file_object_distributions
         self.file_object_of_set_distributions = file_object_of_set_distributions
 
+        logger.info(
+            "Extracted distributions",
+            num_file_object_distributions=len(file_object_distributions),
+            num_database_connector_distributions=len(database_connector_distributions),
+            num_file_set_distributions=len(file_sets_distributions),
+            num_file_object_of_set_distributions=len(file_object_of_set_distributions),
+        )
+
         return (
             file_sets_distributions
             + database_connector_distributions
@@ -196,6 +204,7 @@ class DatasetProfile:
         )
 
     def extract_record_sets(self) -> List[RecordSet]:
+        logger.info("Extracting record sets", distribution_path=self.distribution_path)
         record_sets = []
 
         if self.distribution_path is not None:
@@ -213,6 +222,7 @@ class DatasetProfile:
                 self.file_object_of_set_distributions, self.distribution_path
             )
 
+        logger.info("Extracted record sets", num_record_sets=len(record_sets))
         return record_sets
 
     def to_dict_light(self):
@@ -354,6 +364,9 @@ def match_distributions_with_record_sets(distributions, record_sets) -> list[dic
                 "record_sets": [record_set],
             }
         else:
-            print("Not covered yet")
+            logger.warning(
+                "Record set type not covered when matching distributions",
+                record_set_type=type(record_set).__name__,
+            )
 
     return list(matched_distributions.values())

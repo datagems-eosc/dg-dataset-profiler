@@ -61,13 +61,13 @@ class DatagemsPostgres:
             conn.close()
             self.engine.dispose()
         except SQLAlchemyError as e:
-            logger.error(f"sqlalchemy error {str(e.__dict__['orig'])}")
+            logger.error("SQLAlchemy error while executing query", error=str(e.__dict__["orig"]))
             return {"error": str(e.__dict__["orig"])}
         except RuntimeError as e:
-            logger.error(f"runtime error {str(e)}")
+            logger.error("Runtime error while executing query", error=str(e))
             return {"error": str(e)}
         except Exception as e:
-            logger.error(f"other exception: {e} {sql}")
+            logger.error("Unexpected error while executing query", error=str(e), sql=sql)
             return {"error": f"Something went wrong with your query. Error: {e}"}
         return df
 

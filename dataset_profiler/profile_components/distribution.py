@@ -1,12 +1,12 @@
 import os
 import uuid
-import logging
 from hashlib import sha256
 from pathlib import Path
 
 from dataset_profiler.profile_components.record_set.db.database_connector import (
     DatagemsPostgres,
 )
+from dataset_profiler.configs.config_logging import logger
 
 DATASET_ROOT_PATH = os.environ.get("DATA_ROOT_PATH", "")
 SUPPORTED_EXTENSION_MAP = {
@@ -83,7 +83,8 @@ def get_distribution_of_file_object(
 
     # If extension is not supported, skip this file
     if file_extension not in SUPPORTED_EXTENSION_MAP:
-        logging.warning(f"Skipping unsupported file type: {Path(file_object).name}")
+        logger.warning("Skipping unsupported file type", file=Path(file_object).name,
+                       file_extension=file_extension)
         return None
 
     encoding_format = SUPPORTED_EXTENSION_MAP[file_extension]
@@ -214,9 +215,7 @@ def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet |
 
     # If no supported files found in directory, skip this file set
     if sample_file_of_dir is None:
-        logging.warning(
-            f"Skipping file set '{file_set}' - contains no supported file types"
-        )
+        logger.warning("Skipping file set - contains no supported file types", file_set=file_set)
         return None
 
     file_sizes = [

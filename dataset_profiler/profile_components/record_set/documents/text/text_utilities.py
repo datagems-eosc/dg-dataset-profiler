@@ -13,11 +13,12 @@ from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from langsmith import traceable
 from dotenv import load_dotenv, find_dotenv
+from dataset_profiler.configs.config_logging import logger
 
 try:
     nltk.download("stopwords")
 except Exception as e:
-    print(f"Error downloading NLTK stopwords: {e}")
+    logger.warning("Error downloading NLTK stopwords", error=str(e))
 
 load_dotenv(find_dotenv())
 
@@ -385,7 +386,7 @@ def get_keywords_ollama(
         else:
             raise TypeError("Unexpected result type from chain.invoke")
     except Exception as e:
-        print(f"Error in get_keywords_ollama: {e}")
+        logger.error("Error in get_keywords_ollama", error=str(e))
         return KeyWords(keywords=[])
 
 
@@ -436,5 +437,5 @@ def get_summary_ollama(text: str, model, base_url, max_words: int = 600) -> str:
                 f"Unexpected result type from chain.invoke, {type(result)} | {result}"
             )
     except Exception as e:  # with errors output empty string
-        print(f"Error in get_summary_ollama: {e}")
+        logger.error("Error in get_summary_ollama", error=str(e))
         return ""

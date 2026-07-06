@@ -30,7 +30,7 @@ def parse_and_chunk_pdf(pdf_path, chunk_size=1000, chunk_overlap=200):
         documents = loader.load()
 
         # 2. CHUNK: Initialize the text splitter
-        print("Chunking documents...")
+        logger.debug("Chunking PDF documents", pdf_path=pdf_path)
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,       # Measured in characters, not words
             chunk_overlap=chunk_overlap,
@@ -45,7 +45,7 @@ def parse_and_chunk_pdf(pdf_path, chunk_size=1000, chunk_overlap=200):
         return string_chunks
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        logger.error("Failed to parse and chunk PDF", pdf_path=pdf_path, error=str(e))
         return []
 
 

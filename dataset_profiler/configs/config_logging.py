@@ -69,6 +69,10 @@ def setup_logging(json_logs: bool = False, log_level: str = "INFO"):
 
     root_logger = logging.getLogger()
     root_logger.setLevel(log_level.upper())
+    # Clear any handlers from a previous call so re-running setup (e.g. the Ray
+    # worker_process_setup_hook firing after the import-time call) does not stack
+    # duplicate handlers and emit every line multiple times.
+    root_logger.handlers.clear()
     # --- HANDLER 1: For the Ray Dashboard (Intercepted by Ray) ---
     ray_handler = logging.StreamHandler(sys.stdout)
     ray_handler.setFormatter(formatter)
@@ -94,21 +98,28 @@ def setup_logging(json_logs: bool = False, log_level: str = "INFO"):
         file_handler.setFormatter(formatter)
         root_logger.addHandler(file_handler)
 
-    if LOG_SETTINGS["FILE_LOG_PATH"] is not None:
-        log_dir = LOG_SETTINGS["FILE_LOG_PATH"].split("/")[:-1]
-        if len(log_dir) > 0:
-            os.makedirs("/".join(log_dir), exist_ok=True)
-        file_handler = logging.FileHandler(LOG_SETTINGS["FILE_LOG_PATH"], mode="a")
-        file_handler.setFormatter(formatter)
-        root_logger.addHandler(file_handler)
-
-
     for _log in ["uvicorn", "uvicorn.error"]:
         logging.getLogger(_log).handlers.clear()
         logging.getLogger(_log).propagate = True
 
     logging.getLogger("uvicorn.access").handlers.clear()
     logging.getLogger("uvicorn.access").propagate = False
+
+
+def setup_worker_logging() -> None:
+    """Configure structured logging inside a Ray worker process.
+
+    Passed to Ray as ``runtime_env["worker_process_setup_hook"]`` so every worker
+    that runs a profiling task attaches the same handlers as the driver. This
+    makes profiling-job logs structured and lands them on both the ray-head pod
+    (via the container-stdout handler) and, together with ``log_to_driver=True``,
+    the API pod. ``setup_logging`` clears existing handlers first, so calling this
+    after the import-time setup below is idempotent.
+    """
+    setup_logging(
+        json_logs=LOG_SETTINGS["LOG_JSON_FORMAT"],
+        log_level=LOG_SETTINGS["LOG_LEVEL"],
+    )
 
 
 setup_logging(json_logs=LOG_SETTINGS["LOG_JSON_FORMAT"], log_level=LOG_SETTINGS["LOG_LEVEL"])

@@ -16,6 +16,7 @@ from dataset_profiler.profile_components.record_set.text.text_utilities import (
     get_summary,
 )
 from tqdm import tqdm
+from dataset_profiler.configs.config_logging import logger
 
 # Default model for text processing using Scayle-LLM
 SCAYLE_MODEL = "llama-3.3"
@@ -65,7 +66,7 @@ class TextRecordSet(RecordSet):
         self.avg_sentence_length = profile["avg_sentence_length"]
         self.num_paragraphs = profile["num_paragraphs"]
         self.flesch_kincaid_grade = profile["flesch_kincaid_grade"]
-        print("\nGenerating summary...")
+        logger.debug("Generating summary for text record set")
 
         # self.summary = get_summary(
         #     self.body,
@@ -90,7 +91,7 @@ class TextRecordSet(RecordSet):
         chunks = chunk_text_by_paragraph(self.body, chunk_size=300, chunk_overlap=20)
         model = SCAYLE_MODEL
         fields = []
-        print("\nExtracting fields...")
+        logger.debug("Extracting fields from text record set")
 
         for chunk in tqdm(chunks):
             sos, pos = find_substring_positions(self.text, chunk)

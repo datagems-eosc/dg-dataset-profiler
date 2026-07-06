@@ -16,6 +16,7 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     ColumnField,
 )
 from dataset_profiler.utilities import find_column_type_in_csv
+from dataset_profiler.configs.config_logging import logger
 
 
 class FileType(Enum):
@@ -53,7 +54,7 @@ class DocumentRecordSet(RecordSet):
                             self.distribution_path, doc_path, self.file_set_id # type: ignore
                         )
                     except UnicodeDecodeError:
-                        print(f"Failed to decode {doc_path}. Skipping this file.")
+                        logger.warning("Failed to decode text file, skipping", doc_path=doc_path)
                         continue
                 case FileType.PDF:
                     try:
@@ -61,7 +62,7 @@ class DocumentRecordSet(RecordSet):
                             self.distribution_path, doc_path, self.file_set_id # type: ignore
                         )
                     except Exception as e:
-                        print(f"Failed to process {doc_path} as PDF. Error: {e}. Skipping this file.")
+                        logger.warning("Failed to process PDF file, skipping", doc_path=doc_path, error=str(e))
                         continue
                 case _:
                     continue

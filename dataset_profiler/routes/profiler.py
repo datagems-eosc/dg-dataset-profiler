@@ -71,7 +71,7 @@ async def trigger_dataset_profiling(
     ```
     """
     ingestion_job_id = str(uuid.uuid4())  # Not to be confused with the dataset id
-    logger.info(f"Received Profiling Request", request=profile_req, ingestion_job_id=ingestion_job_id)
+    logger.info("Received Profiling Request", request=profile_req, ingestion_job_id=ingestion_job_id)
 
     # Reconnect to Ray on demand if the connection dropped (e.g. the Ray head was
     # restarted). This lets jobs succeed again automatically without an API restart.
@@ -140,7 +140,7 @@ async def get_runner_status(
     "in_progress"
     ```
     """
-    logger.info(f"Received runner status request", profile_job_id=profile_job_id)
+    logger.info("Received runner status request", profile_job_id=profile_job_id)
     obj_ref = TASKS.get(profile_job_id)
     if not obj_ref:
         return RunnerStatus.UNKNOWN
@@ -154,7 +154,7 @@ async def get_runner_status(
 
     try:
         ready, _ = ray.wait([obj_ref], timeout=0)
-        logger.info(f"Runner status", profile_job_id=profile_job_id, ready=ready)
+        logger.info("Runner status", profile_job_id=profile_job_id, ready=ready)
         if ready:
             _ = ray.get(obj_ref)
             # Release the object ref promptly so the Ray object store can reclaim
@@ -204,10 +204,10 @@ async def get_job_status(
     }
     ```
     """
-    logger.info(f"Received job status request", profile_job_id=profile_job_id)
+    logger.info("Received job status request", profile_job_id=profile_job_id)
     status = job_storing.get_job_status(profile_job_id)
     dataset_id = job_storing.get_job_dataset_id(profile_job_id)
-    logger.info(f"Job status", profile_job_id=profile_job_id, status=status, dataset_id=dataset_id)
+    logger.info("Job status", profile_job_id=profile_job_id, status=status, dataset_id=dataset_id)
     return job_storing.JobStatusResponse(status=status, dataset_id=dataset_id)
 
 
@@ -253,16 +253,16 @@ async def get_profile(
     }
     ```
     """
-    logger.info(f"Received profile get request", profile_job_id=profile_job_id)
+    logger.info("Received profile get request", profile_job_id=profile_job_id)
     response = job_storing.get_job_response(profile_job_id)
 
     if response is None:
-        logger.warning(f"No profile found for the given job ID. Profiling might still be running.",
+        logger.warning("No profile found for the given job ID. Profiling might still be running.",
                        profile_job_id=profile_job_id)
         raise HTTPException(status_code=404, detail="No profile found for the given job ID. "
                                                     "Profiling might still be in progress.")
 
-    logger.info(f"Found profile entry", profile_job_id=profile_job_id)
+    logger.info("Found profile entry", profile_job_id=profile_job_id)
     return response
 
 
@@ -293,13 +293,13 @@ async def get_cdd_profile_path_by_dataset_id(
     ## Returns
     * **CddProfilePathResponse**: Contains the CDD profile path, or None if the profile is not ready yet
     """
-    logger.info(f"Received CDD profile path request", dataset_id=dataset_id)
+    logger.info("Received CDD profile path request", dataset_id=dataset_id)
     cdd_profile_path = job_storing.get_cdd_profile_path(dataset_id)
     if cdd_profile_path is None:
-        logger.info(f"CDD profile path not ready yet", dataset_id=dataset_id)
+        logger.info("CDD profile path not ready yet", dataset_id=dataset_id)
         return CddProfilePathResponse(cdd_profile_path=None)
 
-    logger.info(f"Found CDD profile path", dataset_id=dataset_id, cdd_profile_path=cdd_profile_path)
+    logger.info("Found CDD profile path", dataset_id=dataset_id, cdd_profile_path=cdd_profile_path)
     return CddProfilePathResponse(cdd_profile_path=cdd_profile_path)
 
 
@@ -348,5 +348,5 @@ async def clean_up_job(
     ## Note
     This endpoint is currently a placeholder and cleanup functionality is not yet implemented.
     """
-    logger.warning(f"Received clean up request. Clean up is not implmeneted yet.", profile_job_id=clean_up_req.profile_job_id)
+    logger.warning("Received clean up request. Clean up is not implemented yet.", profile_job_id=clean_up_req.profile_job_id)
     return {"detail": "SUCCESS"}

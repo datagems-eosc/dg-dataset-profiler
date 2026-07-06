@@ -44,11 +44,11 @@ class CSVRecordSet(RecordSet):
             sample = csvfile.read(1024)
             try:
                 delimiter = csv.Sniffer().sniff(sample).delimiter
-                logger.info(f"Detected delimiter: '{delimiter}'", file=file_path)
+                logger.info("Detected CSV delimiter", delimiter=delimiter, file=file_path)
             except csv.Error:
                 # If sniffer fails, fall back to a comma
                 delimiter = ','
-                logger.info(f"Using default delimiter: '{delimiter}'", file=file_path)
+                logger.info("Using default CSV delimiter", delimiter=delimiter, file=file_path)
         return delimiter
 
     def _read_column_names(self, file_path, delimiter):
@@ -78,7 +78,7 @@ class CSVRecordSet(RecordSet):
         try:
             yield from pd.read_csv(file_path, on_bad_lines="skip", **read_kwargs)
         except Exception as e:
-            logger.error(f"Error reading CSV file: {str(e)}", file=file_path)
+            logger.error("Error reading CSV file", error=str(e), file=file_path)
             logger.info("Trying with Python engine as fallback", file=file_path)
             yield from pd.read_csv(file_path, engine="python", **read_kwargs)
 
