@@ -36,7 +36,7 @@ os.environ.setdefault("RAY_CLIENT_RECONNECT_GRACE_PERIOD", "5")
 
 import ray
 
-from dataset_profiler.configs.config_logging import logger, setup_worker_logging
+from dataset_profiler.configs.config_logging import logger
 
 
 RAY_ADDRESS = os.getenv("RAY_ADDRESS", "ray://ray-head:10001")
@@ -61,9 +61,20 @@ def _ray_init() -> None:
         # surface in the API pod's stdout / Lens Logs tab, not just the Ray
         # session log files. The worker_process_setup_hook below keeps them
         # structured and also writes them to the ray-head pod's stdout.
+        #
+        # NOTE: the hook MUST be passed as an importable module-path string, not
+        # the callable itself. Over the Ray Client (ray://) the runtime_env is
+        # JSON-serialized before it reaches the head, and a raw function is not
+        # JSON-serializable (``TypeError: Object of type function is not JSON
+        # serializable`` -> the client never connects). Ray imports and calls the
+        # string form inside each worker.
         log_to_driver=True,
         logging_level="warning",
-        runtime_env={"worker_process_setup_hook": setup_worker_logging},
+        runtime_env={
+            "worker_process_setup_hook": (
+                "dataset_profiler.configs.config_logging.setup_worker_logging"
+            )
+        },
     )
 
 

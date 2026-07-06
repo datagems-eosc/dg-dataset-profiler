@@ -18,6 +18,21 @@ LOG_SETTINGS = {
 }
 
 
+def _same_stream(a, b) -> bool:
+    """Return True if two open file objects point to the same underlying file.
+
+    Used to detect when ``/proc/1/fd/1`` is the very same stream as ``sys.stdout``
+    (i.e. this process is PID 1, as in the API container) so we don't attach a
+    duplicate handler and log every line twice.
+    """
+    try:
+        sa = os.fstat(a.fileno())
+        sb = os.fstat(b.fileno())
+    except (OSError, ValueError, AttributeError):
+        return False
+    return (sa.st_dev, sa.st_ino) == (sb.st_dev, sb.st_ino)
+
+
 def drop_color_message_key(_, __, event_dict: EventDict) -> EventDict:
     """
     Uvicorn logs the message a second time in the extra `color_message`, but we don't
@@ -79,12 +94,21 @@ def setup_logging(json_logs: bool = False, log_level: str = "INFO"):
     root_logger.addHandler(ray_handler)
 
     # --- HANDLER 2: For Kubernetes `kubectl logs` (Bypasses Ray) ---
+    # Ray redirects a worker process's own stdout into its session log files, so
+    # a worker needs this extra handler writing straight to the container's PID 1
+    # stdout to surface in the ray-head pod's logs. In the API/driver container,
+    # however, the Python process *is* PID 1, so /proc/1/fd/1 and sys.stdout are
+    # the same stream -- adding both handlers there prints every line twice. Only
+    # attach this handler when it resolves to a *different* file than stdout.
     try:
         container_stdout = open("/proc/1/fd/1", "w")
-        k8s_handler = logging.StreamHandler(container_stdout)
-        k8s_handler.setFormatter(formatter)
-        root_logger.addHandler(k8s_handler)
-    except (PermissionError, FileNotFoundError):
+        if not _same_stream(container_stdout, sys.stdout):
+            k8s_handler = logging.StreamHandler(container_stdout)
+            k8s_handler.setFormatter(formatter)
+            root_logger.addHandler(k8s_handler)
+        else:
+            container_stdout.close()
+    except (PermissionError, FileNotFoundError, OSError):
         # If we aren't in a container or lack permissions, we safely ignore this.
         # We already have the ray_handler attached, so logs won't be lost.
         pass
