@@ -201,7 +201,7 @@ def save_results(data: List[Dict], prefix: str, model_name: str) -> Path:
 def annotate_database(args, profiler: ColumnTypeAnnotator):
     logger.info("Database mode selected.")
 
-    db = DatagemsPostgres(database=args.file)
+    db = DatagemsPostgres(database=args.file, schema="public", engine="PostgreSQL")
     tables_columns = db.get_tables_and_columns()
 
     for table_name in tables_columns["tables"]:
@@ -253,6 +253,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--file", help="Path to CSV file")
     parser.add_argument(
+        "-db",
         "--database",
         action="store_true",
         help="Whether to run in database mode",
@@ -279,7 +280,7 @@ if __name__ == "__main__":
         sample_size=10,
     )
 
-    if args.file:
+    if args.file and not args.database:
         annotate_csv(args, annotator)
     elif args.database:
         annotate_database(args, annotator)
