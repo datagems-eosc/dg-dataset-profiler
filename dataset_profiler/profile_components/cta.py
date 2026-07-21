@@ -174,81 +174,10 @@ class ColumnTypeAnnotator:
 
             try:
                 raw_response = self.llm.chat(messages, stream=False)
-                print("RAW_RESPONSE:", raw_response)
+                # print("RAW_RESPONSE:", raw_response)
                 semantic_types[col] = self._parse_response(raw_response)
             except Exception as e:
                 logger.error(f"Error for column '{col}': {e}")
                 semantic_types[col] = "error"
 
         return semantic_types
-
-
-def save_results(data: List[Dict], prefix: str, model_name: str) -> Path:
-    """Helper to save results to a CSV file in a 'results' directory."""
-    output_dir = Path("cta_results")
-    output_dir.mkdir(exist_ok=True, parents=True)
-
-    clean_model = model_name.replace(":", "-").replace("/", "-")
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = output_dir / f"{prefix}_{clean_model}_{timestamp}.csv"
-
-    df = pd.DataFrame(data)
-    df.to_csv(filename, index=False)
-    logger.info(f"Results saved to {filename}")
-
-    return filename
-
-def annotate_database(args, profiler: ColumnTypeAnnotator):
-    logger.info("Database mode selected.")
-
-    db = DatagemsPostgres(database=args.file, schema="public", engine="PostgreSQL")
-    tables_columns = db.get_tables_and_columns()
-
-    for table_name in tables_columns["tables"]:
-        logger.info(f"Annotating table: {table_name}")
-        results = profiler.annotate_columns(
-            db=db, table_name=table_name, show_progress=True
-        )
-        save_results(
-            [{"column": k, "predicted_type": v} for k, v in results.items()],
-            f"db_{table_name}",
-            profiler.model_name,
-        )
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--file", help="Path to CSV file")
-    parser.add_argument(
-        "-db",
-        "--database",
-        action="store_true",
-        help="Whether to run in database mode",
-    )
-    parser.add_argument("-sp", "--sep", default=",", help="CSV separator")
-    parser.add_argument(
-        "-e",
-        "--encoding",
-        default="utf-8",
-        help="CSV encoding (default is 'utf-8'). Choose between [utf-8, cp1252]",
-    )
-    parser.add_argument(
-        "--extra_info", action="store_true", help="Path to extra info CSV (optional)"
-    )
-    parser.add_argument(
-        "--output_filename",
-        default="file",
-        help="Prefix for output filename (default: 'file')",
-    )
-
-    args = parser.parse_args()
-
-    annotator = ColumnTypeAnnotator(
-        sample_size=10,
-    )
-
-    # if args.file and not args.database:
-    #     print(annotator(df=annotator, args))
-    # elif args.database:
-    #     annotate_database(args, annotator)
-    # else:
-    #     logger.error("Please provide -f (file) or -b (benchmark).")

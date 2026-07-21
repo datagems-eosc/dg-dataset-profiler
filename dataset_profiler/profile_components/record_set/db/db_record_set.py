@@ -14,6 +14,10 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     ColumnField,
     RecordSet,
 )
+from dataset_profiler.profile_components.cta import (
+    ColumnTypeAnnotator
+)
+
 from dataset_profiler.utilities import find_column_type_in_db
 from dataset_profiler.configs.config_logging import logger
 
@@ -115,10 +119,13 @@ class DBTableField:
 
 
     def extract_fields(self):
+        cta_annotator = ColumnTypeAnnotator()
+        stype_annotations = cta_annotator.annotate_columns(db=self.connection, table_name=self.name)
+
         fields = []
         for column in self.table["columns"]:
             fields.append(
-                DBColumnField(column, self.table["table_name"], self.connection, self.table_distribution_id)
+                DBColumnField(column, self.table["table_name"], self.connection, self.table_distribution_id, stype_annotations)
             )
 
         return fields
@@ -147,13 +154,14 @@ class DBTableField:
 
 
 class DBColumnField(ColumnField):
-    def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str):
+    def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str, stype_annotations: list[str]):
         logger.info(f"Initializing DB column", column=column["column"])
         self.type = "cr:Field"
         self.id = self.id = str(uuid.uuid4())
         self.name = column["column"]
         self.description = ""
         self.dataType = find_column_type_in_db(column["data_type"])
+        self.semanticType = stype_annotations.get(self.name, "")
         self.statistics = ColumnStatistics()  # calculate_statistics_of_db(self.name, table_name, connection, self.dataType)
         # The distribution part for the table is not created yet in order for it to have an id
         self.source = {
@@ -169,6 +177,7 @@ class DBColumnField(ColumnField):
             "name": self.name,
             "description": self.description,
             "dataType": self.dataType,
+            "semantic_type": self.semanticType,
             "source": self.source,
             "sample": self.sample,
             "statistics": self.statistics.to_dict()
@@ -178,7 +187,7 @@ class DBColumnField(ColumnField):
         return {
             "name": self.name,
             "primitive_type": self.dataType,
-            "semantic_type": [],
+            "semantic_type": self.semanticType,
             "description": self.description,
             "statistics": self.statistics.to_dict_cdd()
         }

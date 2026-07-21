@@ -93,8 +93,8 @@ class CSVRecordSet(RecordSet):
 
         csv_object = self._read_csv_with_delimiter_detection(file_path)
 
-        annotator = ColumnTypeAnnotator(sample_size=10)
-        stype_annotations = annotator.annotate_columns(df=csv_object)
+        cta_annotator = ColumnTypeAnnotator()
+        stype_annotations = cta_annotator.annotate_columns(df=csv_object)
 
         fields = []
         for column in csv_object.columns:
