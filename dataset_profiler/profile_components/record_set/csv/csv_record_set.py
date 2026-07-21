@@ -18,7 +18,6 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
 )
 
 from dataset_profiler.profile_components.cta import (
-    annotate_csv,
     annotate_database,
     ColumnTypeAnnotator
 )
@@ -173,7 +172,8 @@ class TableColumnField(ColumnField):
             "@id": self.id,
             "name": self.name,
             "description": self.description,
-            "dataType": self.dataType,
+            "dataType": self.dataType,      # dataType for core profile and primitive_type for CDD?
+            "semantic_type": self.semanticType,
             "source": self.source,
             "sample": self.sample,
             "statistics": self.statistics.to_dict(),
