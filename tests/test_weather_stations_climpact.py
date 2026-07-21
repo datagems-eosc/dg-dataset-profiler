@@ -10,5 +10,8 @@ def test_profiler_weather_stations():
     print(profile.to_json_str())
 
     with open("generated_profiles/weather_stations_climpact.json", "w") as f:
-        json.dump(profile.to_dict(), f)
+        json.dump(profile.to_dict_cdd(), f)
     assert isinstance(profile, DatasetProfile)
+
+if __name__ == "__main__":
+    test_profiler_weather_stations()

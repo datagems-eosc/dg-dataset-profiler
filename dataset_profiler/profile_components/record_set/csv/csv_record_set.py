@@ -16,6 +16,13 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
     ColumnField,
 )
+
+from dataset_profiler.profile_components.cta import (
+    annotate_csv,
+    annotate_database,
+    ColumnTypeAnnotator
+)
+
 from dataset_profiler.utilities import find_column_type_in_csv
 from dataset_profiler.configs.config_logging import logger
 
@@ -87,11 +94,17 @@ class CSVRecordSet(RecordSet):
 
         csv_object = self._read_csv_with_delimiter_detection(file_path)
 
+        annotator = ColumnTypeAnnotator(sample_size=10)
+        stype_annotations = annotator.annotate_columns(df=csv_object)
+
         fields = []
         for column in csv_object.columns:
             fields.append(
                 TableColumnField(
-                    csv_object[column], column, self.name, self.file_object_id
+                    column=csv_object[column],
+                    column_name=column,
+                    file_object_id=self.file_object_id,
+                    stype_annotations=stype_annotations,
                 )
             )
         return fields
@@ -132,13 +145,14 @@ class CSVRecordSet(RecordSet):
 
 class TableColumnField(ColumnField):
     def __init__(
-        self, column: pd.Series, column_name: str, csv_name: str, file_object_id: str
+        self, column: pd.Series, column_name: str, file_object_id: str, stype_annotations: list[str],
     ):
         self.type = "cr:Field"
         self.id = str(uuid.uuid4())
         self.name = column_name
         self.description = ""
         self.dataType = find_column_type_in_csv(column)
+        self.semanticType = stype_annotations[self.name]
         self.source = {
             "fileObject": {"@id": file_object_id},
             "extract": {"column": column_name},
@@ -169,7 +183,7 @@ class TableColumnField(ColumnField):
         return {
             "name": self.name,
             "primitive_type": self.dataType,
-            "semantic_types": [],
+            "semantic_type": self.semanticType,
             "description": self.description,
             "statistics": self.statistics.to_dict_cdd(),
         }

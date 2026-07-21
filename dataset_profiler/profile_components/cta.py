@@ -110,7 +110,7 @@ class ColumnTypeAnnotator:
         table_name: Optional[str] = None,
         columns_to_annotate: Optional[List[str]] = None,
         extra_info_df: Optional[pd.DataFrame] = None,
-        show_progress: bool = True,
+        show_progress: bool = False,
         labels: Optional[List[str]] = None,
     ) -> Dict[str, str]:
         """Annotates all columns either of a DataFrame or of a specific table of a Database"""
@@ -215,40 +215,6 @@ def annotate_database(args, profiler: ColumnTypeAnnotator):
             profiler.model_name,
         )
 
-
-def annotate_csv(args, profiler: ColumnTypeAnnotator):
-    file_path = Path("tests/assets/") / args.file
-    try:
-        df = pd.read_csv(file_path, sep=args.sep, encoding=args.encoding, index_col=0)
-        extra_info_df = None
-        if args.extra_info:
-            extra_info_path = file_path.parent / "info.csv"
-            if extra_info_path.exists():
-                extra_info_df = pd.read_csv(
-                    extra_info_path, sep=args.sep, encoding=args.encoding
-                )
-                logger.info(f"Loaded extra info from {extra_info_path}")
-            else:
-                logger.warning(f"Extra info file not found: {extra_info_path}")
-        results = profiler.annotate_columns(
-            df, extra_info_df=extra_info_df, show_progress=True
-        )
-
-        save_data = [{"column": k, "predicted_type": v} for k, v in results.items()]
-
-        if args.output_filename == "file":
-            args.output_filename += (
-                "_"
-                + args.file.split("/")[0].split("_")[0]
-                + "_"
-                + args.file.split("/")[-1].split(".")[0]
-            )
-
-        save_results(save_data, args.output_filename, profiler.model_name)
-
-    except Exception as e:
-        logger.error(f"File mode failed: {e}")
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--file", help="Path to CSV file")
@@ -280,9 +246,9 @@ if __name__ == "__main__":
         sample_size=10,
     )
 
-    if args.file and not args.database:
-        annotate_csv(args, annotator)
-    elif args.database:
-        annotate_database(args, annotator)
-    else:
-        logger.error("Please provide -f (file) or -b (benchmark).")
+    # if args.file and not args.database:
+    #     print(annotator(df=annotator, args))
+    # elif args.database:
+    #     annotate_database(args, annotator)
+    # else:
+    #     logger.error("Please provide -f (file) or -b (benchmark).")

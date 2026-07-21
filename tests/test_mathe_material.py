@@ -15,3 +15,6 @@ def test_profiler_mathe_material():
     with open("generated_profiles/mathe_material.json", "w") as f:
         json.dump(profile.to_dict(), f)
     assert isinstance(profile, DatasetProfile)
+
+if __name__ == "__main__":
+    test_profiler_mathe_material()
