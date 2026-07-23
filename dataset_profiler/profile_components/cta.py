@@ -14,15 +14,10 @@ load_dotenv()
 import pandas as pd
 from tqdm import tqdm
 
-# from components.darelabdb.nlp_llm.bedrock import BedrockLLM
 from dataset_profiler.common_llm import CommonLLMConnector
-# from components.darelabdb.nlp_llm.ollama import OllamaLLM
 from dataset_profiler.profile_components.record_set.db.database_connector import (
     DatagemsPostgres,
 )
-# from development.datagems_profiler.cta.benchmarks.benchmarks import T2Dv2Benchmark
-# from development.datagems_profiler.cta.cta_evaluation import evaluate_with_similarity
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -30,23 +25,18 @@ logger = logging.getLogger(__name__)
 class ColumnTypeAnnotator:
     def __init__(
         self,
-        model: str = "eu.anthropic.claude-sonnet-4-6", # Temporarily use only one model from Bedrock until SCALY LLMs are ready to use
+        model: str = "gemma4",
+        llm_provider: str = "scayle-llm",
         sample_size: int = 10,
-        llm_provider: str = "bedrock",
     ):
         self.sample_size = sample_size
         self.model_name = model
         self.llm_provider = llm_provider
 
-        if self.llm_provider == "bedrock":
-            self.llm = CommonLLMConnector(
-                provider="bedrock",
-                model="eu.anthropic.claude-sonnet-4-6",
-                config_file="dataset_profiler/common_llm/configs/llm_config.yaml")
-        else:
-            raise ValueError(
-                f"Unsupported llm_provider: {llm_provider}. Use 'bedrock' or '...'."
-            )
+        self.llm = CommonLLMConnector(
+            provider="scayle-llm",
+            model="gemma4",
+            config_file="dataset_profiler/common_llm/configs/llm_config.yaml")
 
         self.system_message = self._get_system_message()
 
