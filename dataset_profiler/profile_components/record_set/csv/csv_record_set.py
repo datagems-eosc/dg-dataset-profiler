@@ -18,7 +18,6 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
 )
 
 from dataset_profiler.profile_components.cta import (
-    annotate_database,
     ColumnTypeAnnotator
 )
 
