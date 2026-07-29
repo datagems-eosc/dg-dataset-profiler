@@ -33,7 +33,8 @@ def read_configs() -> Dict:
         try:
             conf = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
-            print(exc)
+            logger.exception("Failed to parse config file", config_file=config_file, error=str(exc))
+            raise
 
     return conf
 

@@ -16,6 +16,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langsmith import traceable
 from dotenv import load_dotenv, find_dotenv
+from dataset_profiler.configs.config_logging import logger
 
 load_dotenv(find_dotenv())
 
@@ -363,7 +364,7 @@ def get_keywords(
     # Initialize the CommonLLMConnector with Scayle-LLM
     llm = CommonLLMConnector(**llm_params)
     if llm is None:
-        print("LLM initialization failed.")
+        logger.error("LLM initialization failed")
         return KeyWords(keywords=[])
     try:
         # Define the prompt template
@@ -434,7 +435,7 @@ def get_summary(
 
     llm = CommonLLMConnector(**llm_params)
     if llm is None:
-        print("LLM initialization failed.")
+        logger.error("LLM initialization failed")
         return ""
     try:        # Define the prompt template
         prompt = ChatPromptTemplate.from_template(

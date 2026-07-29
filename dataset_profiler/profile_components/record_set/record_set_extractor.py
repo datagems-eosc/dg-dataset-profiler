@@ -15,6 +15,7 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
 from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
     PdfRecordSet,
 )
+from dataset_profiler.configs.config_logging import logger
 
 
 def get_file_type(file_set, distribution_path) -> FileType | None:
@@ -32,9 +33,11 @@ def get_file_type(file_set, distribution_path) -> FileType | None:
 
 
 def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List[RecordSet]:
+    logger.info("Extracting record sets from file objects", num_file_objects=len(file_objects))
     record_sets = []
     for file_object in file_objects:
         file_extension = Path(file_object["path"]).suffix
+        logger.debug("Processing file object", path=file_object["path"], file_extension=file_extension)
 
         if file_extension == ".csv":
             csv_record_set = CSVRecordSet(
@@ -70,10 +73,12 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
         elif file_extension == ".xlsx":
             record_sets += get_record_sets_from_excel(distribution_path, file_object["path"], file_object["id"])
 
+    logger.info("Extracted record sets from file objects", num_record_sets=len(record_sets))
     return record_sets
 
 
 def extract_record_sets_of_database_connections(databases: list[dict], distributions:list) -> List[RecordSet]:
+    logger.info("Extracting record sets from database connections", num_databases=len(databases))
     record_sets = []
     for database in databases:
         db_record_set = DBRecordSet(
@@ -87,9 +92,11 @@ def extract_record_sets_of_database_connections(databases: list[dict], distribut
         )
         record_sets.append(db_record_set)
 
+    logger.info("Extracted record sets from database connections", num_record_sets=len(record_sets))
     return record_sets
 
 def extract_record_sets_of_file_sets(file_sets: list, distribution_path: str) -> List[RecordSet]:
+    logger.info("Extracting record sets from file sets", num_file_sets=len(file_sets))
     record_sets = []
 
     for file_set in file_sets:
@@ -97,11 +104,16 @@ def extract_record_sets_of_file_sets(file_sets: list, distribution_path: str) ->
         if file_type is not None:
             doc_record_set = DocumentRecordSet(distribution_path, file_set["path"],  file_set["id"], file_type)
             record_sets.append(doc_record_set)
+        else:
+            logger.warning("Skipping file set with no supported file type", path=file_set["path"])
 
+    logger.info("Extracted record sets from file sets", num_record_sets=len(record_sets))
     return record_sets
 
 
 def extract_record_sets_of_file_objects_in_file_sets(file_object_of_set_distributions, distribution_path) -> List[RecordSet]:
+    logger.info("Extracting record sets from file objects in file sets",
+                num_distributions=len(file_object_of_set_distributions))
     record_sets = []
     for distribution in file_object_of_set_distributions:
         file_extension = Path(distribution.content_url).suffix
@@ -118,4 +130,5 @@ def extract_record_sets_of_file_objects_in_file_sets(file_object_of_set_distribu
             )
             record_sets.append(text_record_set)
 
+    logger.info("Extracted record sets from file objects in file sets", num_record_sets=len(record_sets))
     return record_sets

@@ -19,6 +19,7 @@ from dataset_profiler.profile_components.record_set.text.text_utilities import (
 from tqdm import tqdm
 import os
 from dotenv import load_dotenv, find_dotenv
+from dataset_profiler.configs.config_logging import logger
 
 load_dotenv(find_dotenv())
 
@@ -76,14 +77,14 @@ class TextRecordSet(RecordSet):
         self.num_paragraphs = profile["num_paragraphs"]
         self.flesch_kincaid_grade = profile["flesch_kincaid_grade"]
 
-        print("\nGenerating summary...")
+        logger.debug("Generating summary for document text record set")
         self.summary = get_summary(
             text_content,
             model=SCAYLE_MODEL,
             max_words=800,
         )
 
-        print("Generating keywords...")
+        logger.debug("Generating keywords for document text record set")
         self.keywords = get_keywords(
             text_content,
             model=SCAYLE_MODEL,
