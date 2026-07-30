@@ -90,7 +90,7 @@ Environment variables can be used to override configuration values. The followin
 | ENABLE_AUTH | Enable API authentication | false |
 | ENABLE_DATA_QUALITY | Enable LLM-based data quality error detection for tabular record sets (see [Data Quality](data-quality.md)) | false |
 | DATA_QUALITY_LLM_PROVIDER | LLM provider for data quality detection (`scayle` or `bedrock`) | scayle |
-| DATA_QUALITY_LLM_MODEL | Model override for data quality detection | qwen3 (scayle), us.anthropic.claude-sonnet-4-6 (bedrock) |
+| DATA_QUALITY_LLM_MODEL | Model override for data quality detection | qwen3.6 (scayle), us.anthropic.claude-sonnet-4-6 (bedrock) |
 | DATA_QUALITY_LLM_TIMEOUT | LLM request timeout in seconds for data quality detection | 300 |
 | SCAYLE_BASE_URL | SCAYLE LLM service base URL (ends in `/api`) | (unset) |
 | SCAYLE_USERNAME | SCAYLE LLM service username | (unset) |

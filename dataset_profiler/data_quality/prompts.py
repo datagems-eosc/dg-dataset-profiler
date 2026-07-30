@@ -29,12 +29,18 @@ Generate a Python script to detect data quality errors in a dataset.
    - **format_inconsistency**: mixed date formats, mixed phone formats, inconsistent patterns
    - **value_error**: impossible/out-of-range values (negative ages, humidity > 100%, year 9999, etc.)
    - **consistency_error**: same concept with multiple representations ("english"/"en"/"English")
-4. Print ONLY a valid JSON array to stdout (no other output whatsoever).
-5. Row numbers are 1-indexed (first data row after header = row 1).
-6. Include at most {max_examples} examples per error entry.
-7. Output an empty array `[]` if no errors are found.
-8. Only DETECT errors — do NOT attempt to correct or suggest fixes for any value.
-9. Use only: pandas, re, json, sys, collections, datetime — no third-party packages.
+4. Print ONLY a valid JSON array to stdout (no other output whatsoever), serialized
+   with `json.dumps(errors, default=str)`.
+5. Every value you put in the JSON MUST be a built-in Python type, never a numpy or
+   pandas scalar. Wrap every row number and count in `int(...)` and every erroneous
+   value in `str(...)`. Pandas expressions such as `.index`, `.sum()`, `.nunique()`
+   and `len(df[mask])` yield `numpy.int64`, which is NOT JSON serializable and will
+   crash the script.
+6. Row numbers are 1-indexed (first data row after header = row 1).
+7. Include at most {max_examples} examples per error entry.
+8. Output an empty array `[]` if no errors are found.
+9. Only DETECT errors — do NOT attempt to correct or suggest fixes for any value.
+10. Use only: pandas, re, json, sys, collections, datetime — no third-party packages.
 
 ## Required JSON output schema
 [
@@ -53,23 +59,35 @@ Output ONLY the Python script. No markdown fences, no explanation.\
 """
 
 SUMMARY_TEMPLATE = """\
-You are a data quality analyst. Write a 2-sentence summary of the following error report.
+Summarize the data quality issues detected in the table below.
 
 Table: {table_name}
 Total rows: {total_rows}
 Errors found:
 {errors_text}
 
-Sentence 1: Overall assessment of the dataset's data quality.
-Sentence 2: The most critical issue(s) found and their impact.
+Rules:
+- Write 1 to 3 sentences, beginning with "Detected".
+- Say what each issue actually IS, not merely that it exists. "Format
+  inconsistencies in the student id column" is useless. "Student id mixes bare
+  numbers with an 'ID'-prefixed form" is what is wanted.
+- Quote concrete example values taken from the report above, in parentheses,
+  to show the reader the actual problem.
+- Do NOT recite every affected column. When many columns share one pattern,
+  describe the pattern once and name two or three columns as examples.
+- Report only what was detected. No severity ratings ("significant", "major",
+  "mostly clean"), no impact or consequences ("compromising data integrity"),
+  no recommendations.
 
-Output exactly 2 sentences, nothing else.\
+Required style:
+Detected mixed identifier formats in student id and question id, where bare \
+numbers ("876") appear alongside prefixed values ("ID876"), and inconsistent \
+casing in student country ("portugal" vs "Portugal").
+
+Output only the summary, nothing else.\
 """
 
-NO_ERRORS_SUMMARY = (
-    "No data quality errors were detected in this dataset. "
-    "The data appears clean and consistent."
-)
+NO_ERRORS_SUMMARY = "No data quality errors were detected."
 
 
 def _format_column_details(columns_meta: dict) -> str:
@@ -81,6 +99,23 @@ def _format_column_details(columns_meta: dict) -> str:
             f"{meta['empty_count']} empty. Sample: [{sample_vals}]"
         )
     return "\n".join(lines)
+
+
+def _format_error_for_summary(error: ColumnError, max_examples: int = 3) -> str:
+    """Render one detected error for the summary prompt.
+
+    The example values are the only concrete material the model has to write a
+    specific summary with; without them it can do no better than restate the
+    error type and column name.
+    """
+    line = (
+        f"- Column '{error.column}' ({error.error_type}): {error.description} "
+        f"[{error.total_affected_rows} rows affected]"
+    )
+    if error.examples:
+        values = ", ".join(f'"{ex.value}"' for ex in error.examples[:max_examples])
+        line += f"\n  offending values: {values}"
+    return line
 
 
 def generate_detection_script(
@@ -116,11 +151,7 @@ def generate_summary(
     if not errors:
         return NO_ERRORS_SUMMARY
 
-    errors_text = "\n".join(
-        f"- Column '{e.column}' ({e.error_type}): {e.description} "
-        f"[{e.total_affected_rows} rows affected]"
-        for e in errors
-    )
+    errors_text = "\n".join(_format_error_for_summary(e) for e in errors)
     prompt = SUMMARY_TEMPLATE.format(
         table_name=table_name,
         total_rows=total_rows,

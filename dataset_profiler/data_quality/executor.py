@@ -9,6 +9,21 @@ from typing import List, Union
 # Hard limit on how long an LLM-generated detection script may run.
 SCRIPT_TIMEOUT_SECONDS = 120
 
+# Cap on how much of a failing script is echoed into the error message.
+MAX_SCRIPT_CHARS_IN_ERROR = 4000
+
+
+def _script_for_error(clean_code: str) -> str:
+    """Render the generated script for inclusion in a failure message.
+
+    The temp file is deleted before the error propagates, so the path in the
+    subprocess traceback is a dead end — without this the generated code that
+    failed is unrecoverable from the logs.
+    """
+    if len(clean_code) > MAX_SCRIPT_CHARS_IN_ERROR:
+        clean_code = clean_code[:MAX_SCRIPT_CHARS_IN_ERROR] + "\n... (truncated)"
+    return f"generated script:\n{clean_code}"
+
 
 def _extract_code(raw: str) -> str:
     """Strip markdown code fences if the LLM included them."""
@@ -40,7 +55,8 @@ def execute_detection_script(
         if result.returncode != 0:
             raise RuntimeError(
                 f"Detection script exited with code {result.returncode}.\n"
-                f"stderr:\n{result.stderr}"
+                f"stderr:\n{result.stderr}\n"
+                f"{_script_for_error(clean_code)}"
             )
 
         stdout = result.stdout.strip()
@@ -51,7 +67,8 @@ def execute_detection_script(
 
     except json.JSONDecodeError as e:
         raise RuntimeError(
-            f"Detection script produced invalid JSON.\nOutput:\n{result.stdout}\nError: {e}"
+            f"Detection script produced invalid JSON.\nOutput:\n{result.stdout}\n"
+            f"Error: {e}\n{_script_for_error(clean_code)}"
         )
     finally:
         script_path.unlink(missing_ok=True)

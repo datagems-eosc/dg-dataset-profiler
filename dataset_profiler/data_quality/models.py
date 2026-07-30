@@ -44,9 +44,3 @@ class DataQualityResult(BaseModel):
             "summary": self.summary,
             "errors": [error.to_dict() for error in self.errors],
         }
-
-    def to_dict_cdd(self) -> dict:
-        return {
-            "summary": self.summary,
-            "errors": [error.model_dump() for error in self.errors],
-        }

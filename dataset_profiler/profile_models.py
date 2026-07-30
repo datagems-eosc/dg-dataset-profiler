@@ -294,16 +294,13 @@ class DatasetProfile:
 
             if dist.encoding_format in ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                        "application/vnd.ms-excel"]:
-                tables = []
-                for record_set in record_sets:
-                    table = {
-                        "name": record_set.name,
-                        "description": record_set.description,
-                        "columns": [column.to_dict_cdd() for column in record_set.fields]
-                    }
-                    if getattr(record_set, "data_quality", None) is not None:
-                        table["data_quality"] = record_set.data_quality.to_dict_cdd()
-                    tables.append(table)
+                # Data quality is deliberately absent here: it is reported only
+                # in the heavy MoMa profile, not in the CDD profile.
+                tables = [{
+                    "name": record_set.name,
+                    "description": record_set.description,
+                    "columns": [column.to_dict_cdd() for column in record_set.fields]
+                } for record_set in record_sets]
                 files.append(
                     {
                         "file_object_id": dist.id,

@@ -188,7 +188,9 @@ class CSVRecordSet(RecordSet):
         return record_set_dict
 
     def to_dict_cdd(self):
-        record_set_dict = {
+        # Data quality is deliberately absent here: it is reported only in the
+        # heavy MoMa profile, not in the CDD profile.
+        return {
             "file_object_id": self.file_object_id,
             "original_format": "csv",
             "source_file": os.path.join(self.distribution_path, self.file_object),
@@ -197,9 +199,6 @@ class CSVRecordSet(RecordSet):
             "keywords": [],
             "columns": [field.to_dict_cdd() for field in self.fields],
         }
-        if self.data_quality is not None:
-            record_set_dict["data_quality"] = self.data_quality.to_dict_cdd()
-        return record_set_dict
 
 class TableColumnField(ColumnField):
     def __init__(
