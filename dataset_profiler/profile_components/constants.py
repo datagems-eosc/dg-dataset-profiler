@@ -8,6 +8,10 @@ CONTEXT_TEMPLATE = {
     "data": {"@id": "cr:data", "@type": "@json"},
     "dataType": {"@id": "cr:dataType", "@type": "@vocab"},
     "examples": {"@id": "cr:examples", "@type": "@json"},
+    # Carried as an opaque JSON literal: the block nests its own "summary",
+    # "column" and "examples" keys, which would otherwise collide with the
+    # record-set and Croissant terms of the same name defined below.
+    "dataQuality": {"@id": "dg:dataQuality", "@type": "@json"},
 }
 
 # References Standard
@@ -41,6 +45,7 @@ REFERENCES_TEMPLATE = {
     "access": "dg:access",
     "uploadedBy": "dg:uploadedBy",
     "statistics": "dg:statistics",
+    "semanticType": "dg:semanticType",
     "doi": "dg:doi",
     "fieldOfScience" : "dg:fieldOfScience",
     "status": "dg:status",

@@ -1,6 +1,11 @@
+import uuid
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+
+def _new_id() -> str:
+    return str(uuid.uuid4())
 
 
 class ErrorExample(BaseModel):
@@ -13,6 +18,10 @@ class ErrorExample(BaseModel):
 class ColumnError(BaseModel):
     """A detected error pattern in one column of a tabular record set."""
 
+    # Consumers of the profile (MoMa) turn each error into its own graph node
+    # and drop anything without an identifier, so one is minted here rather
+    # than in to_dict() to keep it stable across repeated serialization.
+    id: str = Field(default_factory=_new_id)
     column: str
     error_type: str  # format_inconsistency | value_error | consistency_error
     description: str
@@ -21,6 +30,8 @@ class ColumnError(BaseModel):
 
     def to_dict(self) -> dict:
         return {
+            "@type": "dg:DataQualityError",
+            "@id": self.id,
             "column": self.column,
             "errorType": self.error_type,
             "description": self.description,
@@ -32,6 +43,7 @@ class ColumnError(BaseModel):
 class DataQualityResult(BaseModel):
     """Data quality errors detected in a tabular record set (detection only)."""
 
+    id: str = Field(default_factory=_new_id)
     summary: str
     errors: List[ColumnError]
 
@@ -41,6 +53,8 @@ class DataQualityResult(BaseModel):
 
     def to_dict(self) -> dict:
         return {
+            "@type": "dg:DataQuality",
+            "@id": self.id,
             "summary": self.summary,
             "errors": [error.to_dict() for error in self.errors],
         }

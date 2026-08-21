@@ -30,6 +30,10 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
       "@id": "cr:examples",
       "@type": "@json"
     },
+    "dataQuality": {
+      "@id": "dg:dataQuality",
+      "@type": "@json"
+    },
     "conformsTo": "dct:conformsTo",
     "citeAs": "cr:citeAs",
     "column": "cr:column",
@@ -59,6 +63,7 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
     "access": "dg:access",
     "uploadedBy": "dg:uploadedBy",
     "statistics": "dg:statistics",
+    "semanticType": "dg:semanticType",
     "doi": "dg:doi",
     "fieldOfScience": "dg:fieldOfScience",
     "status": "dg:status",
@@ -6128,3 +6133,66 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
   ]
 }
 ```
+
+## Semantic types and data quality
+
+The example above predates two additions to the profile. Rather than repeat it in full, this
+section shows only the parts that changed.
+
+### Semantic types on fields
+
+Every tabular field now carries a `semanticType` alongside its structural `dataType` — see
+[Semantic Types](semantic-types.md):
+
+```json
+{
+  "@type": "cr:Field",
+  "@id": "a2c99e5f-d314-4b6e-a93a-aa91d2afd9b8",
+  "name": "dv_agency",
+  "description": "",
+  "dataType": "sc:Integer",
+  "semanticType": "transit agency identifier",
+  "source": {
+    "fileObject": { "@id": "7f5e489d-f2e4-475f-a942-71d6b0aed1ee" },
+    "extract": { "column": "dv_agency" }
+  },
+  "sample": [3, 2, 3],
+  "statistics": { "...": "..." }
+}
+```
+
+### Data quality on tabular record sets
+
+When detection is enabled, a tabular record set gains a `dataQuality` block — see
+[Data Quality](data-quality.md):
+
+```json
+{
+  "@type": "cr:RecordSet",
+  "@id": "20d566dd-1ff7-4496-94bd-8e12673206f6",
+  "name": "patients",
+  "field": ["..."],
+  "examples": "{...}",
+  "dataQuality": {
+    "@type": "dg:DataQuality",
+    "@id": "3f2a1c88-1111-4aaa-9999-0123456789ab",
+    "summary": "Detected out-of-range ages in the age column, where negative values (\"-5\", \"-2\") appear alongside valid ones.",
+    "errors": [
+      {
+        "@type": "dg:DataQualityError",
+        "@id": "7c4b2d99-2222-4bbb-8888-0123456789cd",
+        "column": "age",
+        "errorType": "value_error",
+        "description": "Negative or invalid age values detected in age column.",
+        "examples": [
+          { "value": "-5", "row": 4 },
+          { "value": "-2", "row": 9 }
+        ],
+        "totalAffectedRows": 3
+      }
+    ]
+  }
+}
+```
+
+The block is absent unless detection ran; that is not a statement about the data being clean.

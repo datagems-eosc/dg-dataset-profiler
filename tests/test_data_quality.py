@@ -465,7 +465,11 @@ def test_scayle_auth_connect_timeout_never_exceeds_read_timeout():
 
 
 def test_data_quality_disabled_by_default(monkeypatch):
-    monkeypatch.delenv("ENABLE_DATA_QUALITY", raising=False)
+    # setenv, not delenv: cta.py calls load_dotenv() at import time, which
+    # reinstates ENABLE_DATA_QUALITY from the developer's .env if the variable
+    # is absent. Setting it explicitly wins, because load_dotenv does not
+    # override variables that already exist.
+    monkeypatch.setenv("ENABLE_DATA_QUALITY", "false")
     assert is_data_quality_enabled() is False
 
 
@@ -534,7 +538,11 @@ def test_detector_pipeline_with_fake_llm(monkeypatch):
 
 
 def test_csv_record_set_includes_data_quality(monkeypatch):
-    monkeypatch.delenv("ENABLE_DATA_QUALITY", raising=False)
+    # setenv, not delenv: cta.py calls load_dotenv() at import time, which
+    # reinstates ENABLE_DATA_QUALITY from the developer's .env if the variable
+    # is absent. Setting it explicitly wins, because load_dotenv does not
+    # override variables that already exist.
+    monkeypatch.setenv("ENABLE_DATA_QUALITY", "false")
     from dataset_profiler.profile_components.record_set.csv.csv_record_set import (
         CSVRecordSet,
     )

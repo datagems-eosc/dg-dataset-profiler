@@ -30,12 +30,17 @@ Data quality is reported in the **heavy MoMa profile only**. Each tabular `recor
 ```json
 {
   "@type": "cr:RecordSet",
+  "@id": "20d566dd-1ff7-4496-94bd-8e12673206f6",
   "name": "patients",
   "field": ["..."],
   "dataQuality": {
+    "@type": "dg:DataQuality",
+    "@id": "3f2a1c88-1111-4aaa-9999-0123456789ab",
     "summary": "Detected out-of-range ages in the age column, where negative values (\"-5\", \"-2\") appear alongside valid ones, and mixed date formats in admission date (\"1990-05-12\" vs \"15/03/1985\").",
     "errors": [
       {
+        "@type": "dg:DataQualityError",
+        "@id": "7c4b2d99-2222-4bbb-8888-0123456789cd",
         "column": "age",
         "errorType": "value_error",
         "description": "Negative or invalid age values detected in age column.",
@@ -50,7 +55,41 @@ Data quality is reported in the **heavy MoMa profile only**. Each tabular `recor
 }
 ```
 
+Each error entry describes an error **pattern**, not a single bad cell: `totalAffectedRows`
+counts every row exhibiting the pattern across the table, while `examples` carries at most five
+illustrative occurrences.
+
+The `@id`/`@type` pair on the block and on each error exists so that downstream consumers can
+address them as first-class entities — the MoMa knowledge graph turns each into its own node and
+discards anything without an identifier.
+
 The **CDD profile does not carry data quality information** — it is intentionally omitted there. The light MoMa profile contains no record sets at all, so it is unaffected as well.
+
+### In the MoMa knowledge graph
+
+The block is materialised as nodes rather than stored as a blob, so individual errors are
+queryable:
+
+```
+(cr:RecordSet)-[:dataQuality]->(DataQuality)-[:error]->(DataQualityError)
+```
+
+`DataQuality` carries the `summary`; each `DataQualityError` carries `column`, `errorType`,
+`description`, `totalAffectedRows` and `errorExamples`.
+
+!!! warning "Absence is not a clean bill of health"
+    A record set with no `dataQuality` block was **not analysed** — detection is opt-in, tabular-only,
+    skips files over 100 MB, and swallows every failure by design. It does not mean the table is clean.
+    Anything rendering this to users should distinguish "no errors detected" (a `dataQuality` block whose
+    `errors` array is empty) from "not analysed" (no block at all).
+
+### Vocabulary
+
+The terms are defined in `datagems-croissant-extension.ttl`: the classes `dg:DataQuality` and
+`dg:DataQualityError`, and the properties `dg:dataQuality`, `dg:error`, `dg:errorType`,
+`dg:totalAffectedRows` and `dg:errorExamples`. In the JSON-LD `@context`, `dataQuality` is declared
+as an `@json` literal, because the block nests its own `summary`, `column` and `examples` keys which
+would otherwise collide with the identically named record-set and Croissant terms.
 
 ## Configuration
 
@@ -104,4 +143,5 @@ AWS_REGION=us-east-1
 - **Detection only** — the profiler never modifies or suggests corrections for the data.
 - Files larger than **100 MB** are skipped to keep profiling memory bounded (detection loads the full table in memory, unlike the streamed column statistics).
 - Row numbers in examples are 1-indexed relative to the first data row and are produced by the generated script, so treat them as indicative.
+- Relational-database record sets are not yet analysed — detection currently covers CSV files and Excel sheets only.
 - The LLM-generated detection script runs in a subprocess on the profiling worker with a hard timeout. The LLM providers used are trusted internal/enterprise services; still, only enable the feature in environments where executing generated analysis code is acceptable.

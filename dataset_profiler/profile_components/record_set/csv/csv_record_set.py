@@ -20,11 +20,17 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
     ColumnField,
 )
+from dataset_profiler.profile_components.cta import ColumnTypeAnnotator
 from dataset_profiler.configs.config_logging import logger
 
 # Rows read per chunk while streaming a CSV. Bounds peak memory regardless of
 # how large the file is.
 CHUNK_SIZE = 500_000
+# Rows sampled for semantic type annotation. The annotator only looks at a
+# handful of values per column, and its database path samples with LIMIT 100,
+# so reading a bounded sample keeps CSV annotation consistent with that and
+# avoids materializing the whole file.
+CTA_SAMPLE_ROWS = 100
 
 
 class CSVRecordSet(RecordSet):
@@ -117,12 +123,52 @@ class CSVRecordSet(RecordSet):
                     if column in chunk.columns:
                         accumulators[column].update_histogram(chunk[column])
 
+        stype_annotations = self._annotate_semantic_types(file_path, delimiter)
+
         return [
             TableColumnField.from_accumulator(
-                column, accumulators[column], self.name, self.file_object_id
+                column,
+                accumulators[column],
+                self.name,
+                self.file_object_id,
+                stype_annotations.get(column, ""),
             )
             for column in column_names
         ]
+
+    def _annotate_semantic_types(self, file_path, delimiter) -> dict:
+        """Annotate column semantic types with the LLM-backed annotator.
+
+        The annotator needs only a sample of values per column, so a bounded
+        read is used rather than the whole file. A failure here (unreachable
+        LLM, auth error) is logged and swallowed: semantic types are an
+        enrichment, and losing them must not fail the whole profile.
+        """
+        try:
+            sample = pd.read_csv(
+                file_path,
+                encoding="ISO-8859-1",
+                sep=delimiter,
+                nrows=CTA_SAMPLE_ROWS,
+                on_bad_lines="skip",
+            )
+        except pd.errors.EmptyDataError:
+            return {}
+        except Exception as e:
+            logger.error(
+                "Failed to read sample for semantic type annotation",
+                error=str(e),
+                file=file_path,
+            )
+            return {}
+
+        try:
+            return ColumnTypeAnnotator().annotate_columns(df=sample)
+        except Exception as e:
+            logger.error(
+                "Semantic type annotation failed", error=str(e), file=file_path
+            )
+            return {}
 
     def extract_examples(self):
         file_path = os.path.join(self.distribution_path, self.file_object)
@@ -209,12 +255,14 @@ class TableColumnField(ColumnField):
         statistics: ColumnStatistics,
         csv_name: str,
         file_object_id: str,
+        semantic_type: str = "",
     ):
         self.type = "cr:Field"
         self.id = str(uuid.uuid4())
         self.name = column_name
         self.description = ""
         self.dataType = data_type
+        self.semanticType = semantic_type
         self.source = {
             "fileObject": {"@id": file_object_id},
             "extract": {"column": column_name},
@@ -229,6 +277,7 @@ class TableColumnField(ColumnField):
         accumulator: _ColumnAccumulator,
         csv_name: str,
         file_object_id: str,
+        semantic_type: str = "",
     ) -> "TableColumnField":
         return cls(
             column_name,
@@ -237,6 +286,7 @@ class TableColumnField(ColumnField):
             accumulator.build_statistics(),
             csv_name,
             file_object_id,
+            semantic_type,
         )
 
     def to_dict(self):
@@ -245,7 +295,8 @@ class TableColumnField(ColumnField):
             "@id": self.id,
             "name": self.name,
             "description": self.description,
-            "dataType": self.dataType,
+            "dataType": self.dataType,      # dataType for core profile and primitive_type for CDD?
+            "semanticType": self.semanticType,
             "source": self.source,
             "sample": self.sample,
             "statistics": self.statistics.to_dict(),
@@ -255,7 +306,7 @@ class TableColumnField(ColumnField):
         return {
             "name": self.name,
             "primitive_type": self.dataType,
-            "semantic_types": [],
+            "semantic_type": self.semanticType,
             "description": self.description,
             "statistics": self.statistics.to_dict_cdd(),
         }

@@ -34,11 +34,12 @@
     a owl:Ontology ;
     dct:title          "DataGEMS Croissant Extension Vocabulary"@en ;
     rdfs:label         "DataGEMS Croissant Extension"@en ;
-    owl:versionInfo    "0.1.0" ;
+    owl:versionInfo    "0.2.0" ;
     rdfs:comment       """A lightweight RDFS/OWL vocabulary that extends the MLCommons Croissant
 specification (which itself extends schema.org Dataset) with the metadata produced by the
 DataGEMS dataset profiler: dataset-level provenance and governance, per-column descriptive
-statistics, relational-database distributions, and document-level (text/PDF) profiles."""@en ;
+statistics and semantic type annotations, relational-database distributions, document-level
+(text/PDF) profiles, and detected data quality errors."""@en ;
     dct:conformsTo     <http://mlcommons.org/croissant/1.0> ;
     rdfs:seeAlso       <http://mlcommons.org/croissant/> ,
                        <https://schema.org/Dataset> ,
@@ -58,6 +59,22 @@ dg:DatabaseConnection
     rdfs:subClassOf cr:FileObject ;
     rdfs:label   "Database Connection"@en ;
     rdfs:comment "A live relational-database distribution of a dataset. Its contentUrl carries a connection string (e.g. postgresql://host:port/database). Individual tables are represented as cr:FileObject resources that are cr:containedIn the connection and profiled as cr:RecordSet."@en .
+
+dg:DataQuality
+    a rdfs:Class, owl:Class ;
+    rdfs:label   "Data Quality"@en ;
+    rdfs:comment """The outcome of data quality error detection over a single tabular record set.
+Carries a human-readable dg:summary and links to one dg:DataQualityError per detected error
+pattern. Detection only: the profiler reports errors, it never corrects the data. An instance is
+linked from a cr:RecordSet via dg:dataQuality."""@en .
+
+dg:DataQualityError
+    a rdfs:Class, owl:Class ;
+    rdfs:label   "Data Quality Error"@en ;
+    rdfs:comment """One detected error pattern affecting one column of a tabular record set — not one
+erroneous cell. It names the affected column (cr:column), describes the pattern (sc:description),
+classifies it (dg:errorType), counts the affected rows (dg:totalAffectedRows) and carries up to
+five illustrative offending values (dg:errorExamples)."""@en .
 
 dg:TextFileRecordSet
     a rdfs:Class, owl:Class ;
@@ -122,6 +139,19 @@ dg:statistics
     rdfs:range   dg:ColumnStatistics ;
     rdfs:label   "statistics"@en ;
     rdfs:comment "Links a Croissant field to the descriptive statistics computed for it."@en .
+
+dg:semanticType
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  cr:Field ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "semantic type"@en ;
+    rdfs:comment """Short free-text semantic type of a tabular field, inferred from the column header
+and a sample of its values by the profiler's LLM-backed Column Type Annotator — for example
+"country name", "email address" or "identifier". Unlike cr:dataType, which gives the structural
+type (sc:Text, sc:Integer), this describes what the values mean. Two reserved values carry
+meaning: "unknown" when no type could be inferred, and "error" when annotation failed. An empty
+string means annotation did not run."""@en ;
+    rdfs:seeAlso cr:dataType .
 
 #################################################################
 #  Column statistics properties   (domain: dg:ColumnStatistics)
@@ -233,6 +263,66 @@ dg:generatedAt
     rdfs:comment "ISO-8601 (UTC) timestamp recording when these column statistics were computed."@en .
 
 #################################################################
+#  Data quality   (domains: cr:RecordSet, dg:DataQuality,
+#                           dg:DataQualityError)
+#
+#  In profiler output the whole dg:dataQuality block is carried as a
+#  single JSON literal (the @context declares it "@type": "@json"),
+#  because it nests its own "summary", "column" and "examples" keys
+#  which would otherwise collide with the identically named record-set
+#  and Croissant terms. The terms below name the structure inside that
+#  literal, so that consumers materializing it as graph nodes — such as
+#  the MoMa knowledge graph — have IRIs to map onto.
+#################################################################
+
+dg:dataQuality
+    a rdf:Property, owl:ObjectProperty ;
+    rdfs:domain  cr:RecordSet ;
+    rdfs:range   dg:DataQuality ;
+    rdfs:label   "data quality"@en ;
+    rdfs:comment """Links a tabular record set to the data quality errors detected in it. Present only
+on tabular record sets, only in the heavy MoMa profile, and only when detection is enabled and
+succeeded; its absence means detection did not run, never that the data is clean."""@en .
+
+dg:error
+    a rdf:Property, owl:ObjectProperty ;
+    rdfs:domain  dg:DataQuality ;
+    rdfs:range   dg:DataQualityError ;
+    rdfs:label   "error"@en ;
+    rdfs:comment "Links a data quality result to one detected error pattern. May be repeated; an empty set means no errors were detected."@en .
+
+dg:errorType
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:DataQualityError ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "error type"@en ;
+    rdfs:comment """Classification of the detected error pattern. One of: "format_inconsistency" (one
+format written several ways, e.g. mixed date formats), "value_error" (impossible or out-of-range
+values, e.g. a negative age), or "consistency_error" (one concept written several ways, e.g. "US"
+alongside "United States")."""@en .
+
+dg:totalAffectedRows
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:DataQualityError ;
+    rdfs:range   xsd:integer ;
+    rdfs:label   "total affected rows"@en ;
+    rdfs:comment "Number of rows exhibiting this error pattern across the whole table — not the number of examples reported."@en .
+
+dg:errorExamples
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:DataQualityError ;
+    rdfs:label   "error examples"@en ;
+    rdfs:comment """Illustrative occurrences of the error: an array of objects of the form
+{"value": "<erroneous value>", "row": <1-indexed row number>}, capped at five entries. Unlike
+dg:histogram, the profiler emits these as real JSON objects rather than a pre-serialized string;
+a consumer storing them in a property graph is expected to encode them itself. Named distinctly
+from cr:examples, which carries a record set's sample rows and has different semantics."""@en .
+
+#  Within a dg:DataQualityError the affected column name reuses cr:column and the
+#  human-readable description of the pattern reuses sc:description; no dg: term is
+#  minted for either.
+
+#################################################################
 #  Document profiling — shared   (domain: cr:RecordSet)
 #
 #  These terms appear directly on document RecordSets in profiler
@@ -244,10 +334,13 @@ dg:generatedAt
 
 dg:summary
     a rdf:Property, owl:DatatypeProperty ;
-    rdfs:domain  cr:RecordSet ;
+    # A union, not two rdfs:domain statements: repeating rdfs:domain would entail
+    # that anything carrying a summary is BOTH a record set and a quality result.
+    rdfs:domain  [ a owl:Class ; owl:unionOf ( cr:RecordSet dg:DataQuality ) ] ;
     rdfs:range   xsd:string ;
     rdfs:label   "summary"@en ;
-    rdfs:comment "Free-text summary of the document's content."@en ;
+    rdfs:comment """Free-text summary. On a cr:RecordSet it summarizes the document's content; on a
+dg:DataQuality it states, in one to three sentences, what the detected errors actually are."""@en ;
     rdfs:seeAlso sc:abstract .
 
 dg:keywords

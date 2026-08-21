@@ -1,5 +1,5 @@
 /.idea
-
+/moma-management-main
 tests/assets/**
 generated_profiles/**/*.json
 .env_api
@@ -149,3 +149,5 @@ cython_debug/
 
 # ignore act secrets
 .act-secrets
+
+uv.lock

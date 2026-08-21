@@ -723,6 +723,7 @@ dependencies = [
     { name = "torchaudio", version = "2.11.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(python_full_version < '3.10' and platform_machine != 'arm64') or sys_platform != 'darwin'" },
     { name = "torchvision", version = "0.27.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(python_full_version >= '3.10' and sys_platform == 'darwin') or (platform_machine == 'arm64' and sys_platform == 'darwin')" },
     { name = "torchvision", version = "0.27.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(python_full_version < '3.10' and platform_machine != 'arm64') or sys_platform != 'darwin'" },
+    { name = "tqdm" },
 ]
 
 [package.dev-dependencies]
@@ -770,6 +771,7 @@ requires-dist = [
     { name = "torch", specifier = ">=2.7.0", index = "https://download.pytorch.org/whl/cpu" },
     { name = "torchaudio", specifier = ">=2.6.0", index = "https://download.pytorch.org/whl/cpu" },
     { name = "torchvision", specifier = ">=0.22.0", index = "https://download.pytorch.org/whl/cpu" },
+    { name = "tqdm", specifier = ">=4.66.0" },
 ]
 
 [package.metadata.requires-dev]
