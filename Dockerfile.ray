@@ -12,7 +12,26 @@ RUN uv --version
 WORKDIR /home/ray/app
 
 COPY pyproject.toml uv.lock README.md ./
-RUN uv pip install --system .
+# Install the exact versions from uv.lock instead of resolving afresh. A plain
+# `uv pip install --system .` keeps whatever already satisfies an unpinned
+# requirement in the rayproject base image (e.g. typing_extensions 4.12.2),
+# which then disagrees with the API image -- that one is built with
+# `uv sync --locked` (Dockerfile.api) and gets 4.13.1. The Ray head could no
+# longer unpickle the tasks the API submitted, and trigger_profile returned 500
+# with "Failed to deserialize ... _TypedDictMeta.__new__() got an unexpected
+# keyword argument 'extra_items'".
+#
+# The exported file pins torch to the CPU build (see [tool.uv.sources] in
+# pyproject.toml) but drops the index it comes from, because that index is
+# declared `explicit`. It has to be passed back in here, together with
+# unsafe-best-match so uv looks beyond the first index that merely knows the
+# package name.
+RUN uv export --frozen --no-dev --no-emit-project --format requirements-txt > /tmp/requirements.txt \
+    && uv pip install --system \
+        --extra-index-url https://download.pytorch.org/whl/cpu \
+        --index-strategy unsafe-best-match \
+        -r /tmp/requirements.txt \
+    && rm /tmp/requirements.txt
 
 # Bake the NLTK stopwords corpus into the image so it is available offline at
 # runtime (the container has no network access to download it on import).
@@ -20,6 +39,10 @@ ENV NLTK_DATA=/usr/local/share/nltk_data
 RUN python -m nltk.downloader -d "$NLTK_DATA" stopwords
 
 COPY . .
+
+# The project itself, now that its sources are present. --no-deps so the locked
+# dependency set installed above stays exactly as the lock file describes it.
+RUN uv pip install --system --no-deps .
 
 # .env file is passed via compose
 RUN rm -f .env

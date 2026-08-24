@@ -114,7 +114,8 @@ All knobs are environment variables:
 | Variable | Default | Meaning |
 |---|---|---|
 | `PROFILER_API_URL` | `http://localhost:8000` | API base URL |
-| `PROFILER_API_TOKEN` | `test-token` | Bearer token. The endpoints require the header even when `ENABLE_AUTH=false`, in which case the value is not checked |
+| `PROFILER_API_TOKEN` | a JWT with `client_id: airflow` | Bearer token. The endpoints require the header even when `ENABLE_AUTH=false`. Under `ENABLE_AUTH=true` the API decodes the JWT **without verifying the signature** and only checks `client_id == "airflow"`, so the built-in default works in both modes |
+| `PROFILER_PATH_STRIP_PREFIX` | `tests/assets/` | Prefix stripped from the `RawDataPath` paths in the spec files. Set it empty (`PROFILER_PATH_STRIP_PREFIX=`) when the worker's `DATA_ROOT_PATH` is the repository root rather than `…/tests/assets/` |
 | `PROFILER_JOB_TIMEOUT` | `1200` | Seconds to wait for a job to reach a terminal state |
 | `PROFILER_POLL_INTERVAL` | `5` | Seconds between status polls |
 | `PROFILER_ASSETS_ROOT` | `<repo>/tests/assets` | Where the specification files live |
@@ -146,10 +147,16 @@ The bodies are generated from the datasets' own specification files
    `published_url`, `uploaded_by`). The jq program maps one onto the other.
 
 2. **`RawDataPath` paths.** The specs store `tests/assets/<name>/data/`, but the
-   Ray worker resolves a connector's `dataset_id` against `DATA_ROOT_PATH`
-   (`/home/ray/app/tests/assets/`, where `./tests` is bind-mounted). So the API
-   receives `<name>/data`. Each suite also asserts the corresponding host
-   directory exists and is non-empty, which catches config drift.
+   final path on the worker is `DATA_ROOT_PATH + MOUNT_POINT + dataset_id`, so
+   what the API should receive depends on how those are set:
+
+   | Worker config | Send | Setting |
+   |---|---|---|
+   | `DATA_ROOT_PATH=/home/ray/app/tests/assets/` (docker-compose-dev.yml) | `<name>/data` | default |
+   | `DATA_ROOT_PATH=<repo root>`, `MOUNT_POINT=` | `tests/assets/<name>/data` | `PROFILER_PATH_STRIP_PREFIX=` |
+
+   Each suite also asserts the corresponding host directory exists and is
+   non-empty, which catches config drift.
 
 ### Dataset ids
 
@@ -178,6 +185,44 @@ Two specifications cannot be used verbatim, and the suites override them:
   (`clean_up` is a placeholder server-side anyway), and the CDD profile JSON
   files written by the Ray worker stay in its working directory. Reruns reuse
   the same dataset ids and simply overwrite them.
+
+## Troubleshooting
+
+**`POST /profiler/trigger_profile` returns 500.** Never a dataset problem: the
+endpoint only validates the body, writes to Redis and hands the task to Ray.
+Check `docker compose -f docker-compose-dev.yml logs --tail 50 api`. The known
+cause is dependency skew between the two images:
+
+```
+Python patch version mismatch: cluster 3.11.11 / client 3.11.16
+Failed to deserialize ... TypeError: _TypedDictMeta.__new__() got an
+unexpected keyword argument 'extra_items'
+```
+
+`Dockerfile.api` installs with `uv sync --locked` and gets `typing_extensions`
+4.13.1 from `uv.lock`; `Dockerfile.ray` runs `uv pip install --system .` on top
+of `rayproject/ray`, whose baked-in 4.12.2 already satisfies the unpinned
+requirement and is left in place. The Ray head then cannot unpickle the task the
+API sends. Confirm with:
+
+```bash
+docker exec profiler-api /app/.venv/bin/python -c \
+  "from importlib.metadata import version; print(version('typing_extensions'))"
+docker exec ray-head python -c \
+  "from importlib.metadata import version; print(version('typing_extensions'))"
+```
+
+Stop-gap: `docker exec -u root ray-head pip install typing_extensions==4.13.1`
+then restart both containers. The real fix belongs in `Dockerfile.ray`, which
+should install the locked versions rather than resolving afresh.
+
+**Everything returns 401 with `{"detail": "Invalid authentication token"}`.**
+The API has `ENABLE_AUTH=true` and `PROFILER_API_TOKEN` is not a JWT. The
+default token works; a plain string does not.
+
+**Record sets have empty `semanticType`, or the job fails on a database
+dataset.** The SCAYLE VPN is down. Annotation degrades silently (reported as a
+warning); database profiling fails outright.
 
 ## Adding a dataset
 

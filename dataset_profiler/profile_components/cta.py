@@ -119,10 +119,6 @@ class ColumnTypeAnnotator:
                 df = (
                     result if isinstance(result, pd.DataFrame) else pd.DataFrame(result)
                 )
-                df.to_csv(
-                    f"debugging_era5land.csv",
-                    index=False,
-                )  # Save for debugging
             except Exception as e:
                 logger.error(f"Failed to annotate columns from database: {e}")
                 return {col: "error" for col in (columns_to_annotate or [])}

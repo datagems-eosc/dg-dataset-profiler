@@ -151,3 +151,9 @@ cython_debug/
 .act-secrets
 
 uv.lock
+
+# The curl API test helpers live in scripts/test_api/lib/, which the generic
+# `lib/` rule above (meant for setuptools build output) would otherwise exclude.
+# Every suite sources lib/common.sh, so it must be tracked.
+!scripts/test_api/lib/
+!scripts/test_api/lib/*

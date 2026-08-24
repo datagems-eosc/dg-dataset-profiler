@@ -31,8 +31,17 @@ assert_jq "$SPEC_FILE" \
 
 step "Profiling job (database, expect several minutes)"
 if ! run_profile_job "$SPEC_FILE" "$DATASET_ID" "$PROFILE_FILE"; then
-    warn "Job did not complete. With a database-only dataset this usually means"
-    warn "the DataGems Postgres host is unreachable - check the SCAYLE VPN."
+    # Only blame the database when the job actually ran and failed. A rejected
+    # submission is a server-side problem, already reported by the submit
+    # diagnostics in lib/common.sh.
+    if [[ "${JOB_FINAL_STATUS:-}" == "failed" || "${JOB_FINAL_STATUS:-}" == "timeout" ]]; then
+        warn "The job itself failed. For a database-only dataset this usually means the"
+        warn "DataGems Postgres host is unreachable - check the SCAYLE VPN - or that"
+        warn "DATAGEMS_POSTGRES_* in the Ray container's env file are wrong. Note that"
+        warn "the host/port in the specification are NOT used for the connection: they"
+        warn "only decorate the distribution's contentUrl."
+        warn "  docker compose -f ${COMPOSE_FILE} logs --tail 50 ray-head"
+    fi
     finish_suite
     exit $?
 fi

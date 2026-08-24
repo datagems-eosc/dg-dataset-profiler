@@ -118,9 +118,28 @@ class DBTableField:
         return table["table_name"]
 
 
+    def _annotate_semantic_types(self) -> Dict[str, str]:
+        """Annotate the table's column semantic types with the LLM-backed annotator.
+
+        A failure here (unreachable LLM, auth error, misconfigured
+        SCAYLE_BASE_URL) is logged and swallowed, exactly as in the CSV record
+        set: semantic types are an enrichment, and losing them must not fail the
+        whole profile. Without this the exception propagated all the way out of
+        the Ray task and marked the entire profiling job as failed, even though
+        every table had already been read from the database successfully.
+        """
+        try:
+            return ColumnTypeAnnotator().annotate_columns(
+                db=self.connection, table_name=self.name
+            )
+        except Exception as e:
+            logger.error(
+                "Semantic type annotation failed", error=str(e), table=self.name
+            )
+            return {}
+
     def extract_fields(self):
-        cta_annotator = ColumnTypeAnnotator()
-        stype_annotations = cta_annotator.annotate_columns(db=self.connection, table_name=self.name)
+        stype_annotations = self._annotate_semantic_types()
 
         fields = []
         for column in self.table["columns"]:
