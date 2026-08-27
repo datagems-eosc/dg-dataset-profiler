@@ -13,6 +13,7 @@ from dataset_profiler.data_quality.prompts import (
     generate_detection_script,
     generate_summary,
 )
+from dataset_profiler.utilities import resolve_encoding
 
 # Number of randomly sampled rows sent to the LLM as context.
 SAMPLE_SIZE = 100
@@ -37,7 +38,7 @@ def detect_data_quality_errors(
     file_path: Union[Path, str],
     table_name: str,
     delimiter: str = ",",
-    encoding: str = "ISO-8859-1",
+    encoding: Optional[str] = None,
 ) -> Optional[DataQualityResult]:
     """Detect data quality errors in a tabular file (detection only, no correction).
 
@@ -45,8 +46,15 @@ def detect_data_quality_errors(
     detection script. The script is executed against the full file and its
     findings are summarised in a second LLM call.
 
+    ``encoding`` defaults to whatever the file actually decodes as. It is
+    threaded into the generated script too, so the script reads the file the
+    same way this function does.
+
     Returns None when the file is empty or too large to analyze.
     """
+    if encoding is None:
+        encoding = resolve_encoding(file_path)
+
     file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
     if file_size_mb > MAX_FILE_SIZE_MB:
         logger.warning(

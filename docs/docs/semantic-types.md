@@ -56,9 +56,29 @@ Semantic types appear on every `cr:Field` of a tabular record set, in both the l
 
 In the JSON-LD `@context` the term resolves to `dg:semanticType`, defined in `datagems-croissant-extension.ttl` with domain `cr:Field`.
 
+### Relationship to `cr:dataType`
+
+`dg:semanticType` overlaps with a mechanism Croissant already has, and this is worth being explicit
+about. The Croissant specification allows a field to carry **several** `dataType` values, provided at
+least one is atomic — the rest supply semantic meaning. Its own example pairs a structural type with
+a Wikidata entity:
+
+```json
+"dataType": ["https://schema.org/URL", "https://www.wikidata.org/wiki/Q515"]
+```
+
+That is where a semantic type belongs. The profiler does not use it because `cr:dataType` is declared
+`"@type": "@vocab"` and therefore needs an IRI, while the annotator produces unconstrained English
+phrases — `geographic coordinate`, `alternative label` — which have no IRI to point at. (The `wd:`
+prefix already sitting unused in the profile `@context` suggests this was anticipated.)
+
+So `dg:semanticType` is a stopgap for free-text values, not a competing design. If annotation moves to
+a controlled vocabulary with IRIs, those values belong in `cr:dataType` and this property should be
+deprecated rather than kept alongside it.
+
 ## Configuration
 
-CTA uses the shared `CommonLLMConnector` against the SCAYLE LLM service, configured through `dataset_profiler/common_llm/configs/llm_config.yaml` and the usual SCAYLE environment variables:
+CTA uses the shared `CommonLLMConnector` against the SCAYLE LLM service, on the `Qwen3` model group, configured through `dataset_profiler/common_llm/configs/llm_config.yaml` and the usual SCAYLE environment variables:
 
 ```bash
 SCAYLE_BASE_URL=https://<scayle-host>/api

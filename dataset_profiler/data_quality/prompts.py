@@ -122,7 +122,7 @@ def generate_detection_script(
     connector: CommonLLMConnector,
     profile: dict,
     delimiter: str = ",",
-    encoding: str = "ISO-8859-1",
+    encoding: str = "utf-8-sig",
     max_examples: int = 5,
 ) -> str:
     prompt = SCRIPT_GENERATION_TEMPLATE.format(

@@ -71,7 +71,7 @@ The block is materialised as nodes rather than stored as a blob, so individual e
 queryable:
 
 ```
-(cr:RecordSet)-[:dataQuality]->(DataQuality)-[:error]->(DataQualityError)
+(cr:RecordSet)-[:HAS_DATA_QUALITY]->(DataQuality)-[:HAS_ERROR]->(DataQualityError)
 ```
 
 `DataQuality` carries the `summary`; each `DataQualityError` carries `column`, `errorType`,
@@ -86,10 +86,29 @@ queryable:
 ### Vocabulary
 
 The terms are defined in `datagems-croissant-extension.ttl`: the classes `dg:DataQuality` and
-`dg:DataQualityError`, and the properties `dg:dataQuality`, `dg:error`, `dg:errorType`,
+`dg:DataQualityError`, and the properties `dg:hasDataQuality`, `dg:hasError`, `dg:errorType`,
 `dg:totalAffectedRows` and `dg:errorExamples`. In the JSON-LD `@context`, `dataQuality` is declared
 as an `@json` literal, because the block nests its own `summary`, `column` and `examples` keys which
 would otherwise collide with the identically named record-set and Croissant terms.
+
+The two properties that link nodes are named as verb phrases (`hasDataQuality`, `hasError`) rather
+than as the nouns they point at; the attributes on those nodes stay nouns, which is the usual split.
+
+### Why not DQV or SHACL?
+
+The obvious existing vocabularies were considered and are recorded as `rdfs:seeAlso` rather than
+reused outright:
+
+- **[DQV](https://www.w3.org/TR/vocab-dqv/)** models quality as a `dqv:QualityMeasurement` — a
+  resource scored against a `dqv:Metric` within a `dqv:Dimension`. Detection produces no metric, no
+  dimension and no score, so instances would satisfy almost none of it.
+- **[SHACL](https://www.w3.org/TR/shacl/)** is the closest structural fit: `sh:ValidationReport`
+  holding `sh:ValidationResult`s mirrors this shape almost exactly. But `sh:focusNode` and
+  `sh:resultPath` address nodes in an RDF graph, whereas these findings address a column of a CSV.
+
+Declaring `rdfs:subClassOf` against either would entail properties these instances do not have, so
+the link is advisory. If detection later produces real metrics — a completeness score, an error rate
+per dimension — DQV becomes the right home and this should be revisited.
 
 ## Configuration
 
@@ -143,5 +162,6 @@ AWS_REGION=us-east-1
 - **Detection only** — the profiler never modifies or suggests corrections for the data.
 - Files larger than **100 MB** are skipped to keep profiling memory bounded (detection loads the full table in memory, unlike the streamed column statistics).
 - Row numbers in examples are 1-indexed relative to the first data row and are produced by the generated script, so treat them as indicative.
+- The generated script is told the same encoding the profiler resolved for the file (see [Architecture → Character Encoding](architecture.md#character-encoding)), so it reads the table exactly as the statistics pass did.
 - Relational-database record sets are not yet analysed — detection currently covers CSV files and Excel sheets only.
 - The LLM-generated detection script runs in a subprocess on the profiling worker with a hard timeout. The LLM providers used are trusted internal/enterprise services; still, only enable the feature in environments where executing generated analysis code is acceptable.

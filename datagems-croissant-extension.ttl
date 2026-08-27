@@ -1,7 +1,10 @@
-@prefix dg:   <http://datagems.eu/TBD/> .
+@prefix dg:   <https://datagems.eu/ns/> .
 @prefix cr:   <http://mlcommons.org/croissant/> .
 @prefix rai:  <http://mlcommons.org/croissant/RAI/> .
 @prefix sc:   <https://schema.org/> .
+@prefix dqv:  <http://www.w3.org/ns/dqv#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -21,20 +24,34 @@
 #  terms that currently appear in profiler output without an
 #  explicit @context mapping.
 #
-#  NOTE: the namespace http://datagems.eu/TBD/ is provisional
-#  ("TBD") and should be replaced by the final DataGEMS IRI before
-#  publication. Update the @prefix and the owl:Ontology IRI together.
+#  NAMESPACES (proposed -- pending someone configuring hosting):
+#
+#    vocabulary   https://datagems.eu/ns/   e.g. .../ns/semanticType
+#    instances    https://datagems.eu/id/   e.g. .../id/<uuid>
+#
+#  These replace the earlier https://datagems.eu/ns/ placeholder. Splitting
+#  vocabulary from instance identifiers is the usual arrangement and keeps
+#  term IRIs stable if instance identifiers ever move.
+#
+#  To make them dereference, serve under https://datagems.eu/ns/ :
+#    * this file as text/turtle
+#    * the JSON-LD context as https://datagems.eu/ns/context.jsonld
+#    * human-readable docs for text/html, via content negotiation
+#
+#  Publishing the context at a URL is worth doing on its own account: the
+#  profiler and dmm-api each maintain a hand-copied duplicate of it today,
+#  and they have already drifted apart once.
 #################################################################
 
 #################################################################
 #  Ontology
 #################################################################
 
-<http://datagems.eu/TBD/>
+<https://datagems.eu/ns/>
     a owl:Ontology ;
     dct:title          "DataGEMS Croissant Extension Vocabulary"@en ;
     rdfs:label         "DataGEMS Croissant Extension"@en ;
-    owl:versionInfo    "0.2.0" ;
+    owl:versionInfo    "0.4.0" ;
     rdfs:comment       """A lightweight RDFS/OWL vocabulary that extends the MLCommons Croissant
 specification (which itself extends schema.org Dataset) with the metadata produced by the
 DataGEMS dataset profiler: dataset-level provenance and governance, per-column descriptive
@@ -43,7 +60,10 @@ statistics and semantic type annotations, relational-database distributions, doc
     dct:conformsTo     <http://mlcommons.org/croissant/1.0> ;
     rdfs:seeAlso       <http://mlcommons.org/croissant/> ,
                        <https://schema.org/Dataset> ,
-                       <http://mlcommons.org/croissant/RAI/> .
+                       <http://mlcommons.org/croissant/RAI/> ,
+                       <http://www.w3.org/ns/dqv#> ,
+                       <http://www.w3.org/ns/shacl#> ,
+                       <http://www.w3.org/ns/csvw#> .
 
 #################################################################
 #  Classes
@@ -66,7 +86,14 @@ dg:DataQuality
     rdfs:comment """The outcome of data quality error detection over a single tabular record set.
 Carries a human-readable dg:summary and links to one dg:DataQualityError per detected error
 pattern. Detection only: the profiler reports errors, it never corrects the data. An instance is
-linked from a cr:RecordSet via dg:dataQuality."""@en .
+linked from a cr:RecordSet via dg:hasDataQuality.
+
+Related but deliberately not equated: dqv:QualityMeasurement scores a resource against a
+dqv:Metric in a dqv:Dimension, and this carries no metric, dimension or score; sh:ValidationReport
+is the closest structural analogue (a report holding individual results) but is defined over RDF
+graph validation. Both are given as rdfs:seeAlso rather than rdfs:subClassOf, since asserting
+either would entail properties this class does not have."""@en ;
+    rdfs:seeAlso dqv:QualityMeasurement , dqv:QualityAnnotation , sh:ValidationReport .
 
 dg:DataQualityError
     a rdfs:Class, owl:Class ;
@@ -74,7 +101,12 @@ dg:DataQualityError
     rdfs:comment """One detected error pattern affecting one column of a tabular record set — not one
 erroneous cell. It names the affected column (cr:column), describes the pattern (sc:description),
 classifies it (dg:errorType), counts the affected rows (dg:totalAffectedRows) and carries up to
-five illustrative offending values (dg:errorExamples)."""@en .
+five illustrative offending values (dg:errorExamples).
+
+Structurally this is the same idea as sh:ValidationResult — one finding, a message, a severity-like
+classification and a pointer to what it is about — but sh:focusNode and sh:resultPath address RDF
+nodes, while these findings address a column of a tabular file. Given as rdfs:seeAlso."""@en ;
+    rdfs:seeAlso sh:ValidationResult .
 
 dg:TextFileRecordSet
     a rdfs:Class, owl:Class ;
@@ -129,9 +161,29 @@ dg:status
     rdfs:label   "status"@en ;
     rdfs:comment "Lifecycle/processing status of the dataset within the platform, e.g. 'loaded'."@en .
 
+dg:country
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  sc:Dataset ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "country"@en ;
+    rdfs:comment """Country the dataset relates to, as an ISO 3166-1 code (e.g. "GR"). Minted here
+because schema.org has no bare "country" property -- only compounds such as sc:countryOfOrigin and
+sc:addressCountry, neither of which fits a dataset-level code."""@en ;
+    rdfs:seeAlso sc:countryOfOrigin .
+
 #################################################################
 #  Field statistics link   (domain: cr:Field)
 #################################################################
+
+dg:sample
+    a rdf:Property ;
+    rdfs:domain  cr:Field ;
+    rdfs:label   "sample"@en ;
+    rdfs:comment """A handful of values taken from the column, carried verbatim so their original type
+is preserved -- strings, numbers, booleans or nulls -- which is why no rdfs:range is asserted.
+Illustrative only: the values are not a statistically drawn sample and nothing should be computed
+from them. Distinct from cr:examples, which carries whole sample rows for a record set."""@en ;
+    rdfs:seeAlso cr:examples .
 
 dg:statistics
     a rdf:Property, owl:ObjectProperty ;
@@ -150,8 +202,17 @@ and a sample of its values by the profiler's LLM-backed Column Type Annotator �
 "country name", "email address" or "identifier". Unlike cr:dataType, which gives the structural
 type (sc:Text, sc:Integer), this describes what the values mean. Two reserved values carry
 meaning: "unknown" when no type could be inferred, and "error" when annotation failed. An empty
-string means annotation did not run."""@en ;
-    rdfs:seeAlso cr:dataType .
+string means annotation did not run.
+
+OVERLAP, KNOWN AND DELIBERATE: cr:dataType already carries semantic types. The Croissant
+specification allows a field to hold several dataType values provided at least one is atomic, the
+remainder supplying semantic meaning (its own example pairs sc:URL with a Wikidata entity). That is
+the correct home for this information. It is not used here because cr:dataType is declared
+"@type": "@vocab" and so needs an IRI, whereas these values are unconstrained English phrases
+produced by a language model ("geographic coordinate", "alternative label"). Once the values are
+drawn from a controlled vocabulary with IRIs they belong in cr:dataType, and this property should
+be deprecated rather than carried alongside it."""@en ;
+    rdfs:seeAlso cr:dataType , csvw:propertyUrl .
 
 #################################################################
 #  Column statistics properties   (domain: dg:ColumnStatistics)
@@ -266,7 +327,7 @@ dg:generatedAt
 #  Data quality   (domains: cr:RecordSet, dg:DataQuality,
 #                           dg:DataQualityError)
 #
-#  In profiler output the whole dg:dataQuality block is carried as a
+#  In profiler output the whole dg:hasDataQuality block is carried as a
 #  single JSON literal (the @context declares it "@type": "@json"),
 #  because it nests its own "summary", "column" and "examples" keys
 #  which would otherwise collide with the identically named record-set
@@ -275,21 +336,23 @@ dg:generatedAt
 #  the MoMa knowledge graph — have IRIs to map onto.
 #################################################################
 
-dg:dataQuality
+dg:hasDataQuality
     a rdf:Property, owl:ObjectProperty ;
     rdfs:domain  cr:RecordSet ;
     rdfs:range   dg:DataQuality ;
-    rdfs:label   "data quality"@en ;
+    rdfs:label   "has data quality"@en ;
     rdfs:comment """Links a tabular record set to the data quality errors detected in it. Present only
 on tabular record sets, only in the heavy MoMa profile, and only when detection is enabled and
-succeeded; its absence means detection did not run, never that the data is clean."""@en .
+succeeded; its absence means detection did not run, never that the data is clean."""@en ;
+    rdfs:seeAlso dqv:hasQualityMeasurement , dqv:hasQualityAnnotation .
 
-dg:error
+dg:hasError
     a rdf:Property, owl:ObjectProperty ;
     rdfs:domain  dg:DataQuality ;
     rdfs:range   dg:DataQualityError ;
-    rdfs:label   "error"@en ;
-    rdfs:comment "Links a data quality result to one detected error pattern. May be repeated; an empty set means no errors were detected."@en .
+    rdfs:label   "has error"@en ;
+    rdfs:comment "Links a data quality result to one detected error pattern. May be repeated; an empty set means no errors were detected."@en ;
+    rdfs:seeAlso sh:result .
 
 dg:errorType
     a rdf:Property, owl:DatatypeProperty ;
@@ -349,7 +412,11 @@ dg:keywords
     rdfs:range   xsd:string ;
     rdfs:label   "keywords"@en ;
     rdfs:comment "Keyword(s) extracted from the document. May be repeated."@en ;
-    rdfs:seeAlso sc:keywords .
+    rdfs:seeAlso sc:keywords ;
+    owl:deprecated true ;
+    rdfs:comment """DEPRECATED: use sc:keywords. Minted before it was confirmed that schema.org
+already defines this property. The profiler does not emit it -- the JSON-LD context leaves
+the key resolving to sc:keywords -- and it is kept only so existing references still resolve."""@en .
 
 dg:language
     a rdf:Property, owl:DatatypeProperty ;
@@ -357,7 +424,11 @@ dg:language
     rdfs:range   xsd:string ;
     rdfs:label   "language"@en ;
     rdfs:comment "Detected language of the document as a BCP-47 / ISO 639 code, e.g. 'en'."@en ;
-    rdfs:seeAlso sc:inLanguage .
+    rdfs:seeAlso sc:inLanguage ;
+    owl:deprecated true ;
+    rdfs:comment """DEPRECATED: use sc:language. Minted before it was confirmed that schema.org
+already defines this property. The profiler does not emit it -- the JSON-LD context leaves
+the key resolving to sc:language -- and it is kept only so existing references still resolve."""@en .
 
 #################################################################
 #  Document profiling — text files   (domain: dg:TextFileRecordSet)
@@ -415,7 +486,11 @@ dg:title
     rdfs:range   xsd:string ;
     rdfs:label   "title"@en ;
     rdfs:comment "Title of the document as recorded in the PDF metadata."@en ;
-    rdfs:seeAlso sc:name .
+    rdfs:seeAlso sc:name ;
+    owl:deprecated true ;
+    rdfs:comment """DEPRECATED: use sc:name. Minted before it was confirmed that schema.org
+already defines this property. The profiler does not emit it -- the JSON-LD context leaves
+the key resolving to sc:name -- and it is kept only so existing references still resolve."""@en .
 
 dg:author
     a rdf:Property, owl:DatatypeProperty ;
@@ -423,7 +498,11 @@ dg:author
     rdfs:range   xsd:string ;
     rdfs:label   "author"@en ;
     rdfs:comment "Author of the document as recorded in the PDF metadata."@en ;
-    rdfs:seeAlso sc:author .
+    rdfs:seeAlso sc:author ;
+    owl:deprecated true ;
+    rdfs:comment """DEPRECATED: use sc:author. Minted before it was confirmed that schema.org
+already defines this property. The profiler does not emit it -- the JSON-LD context leaves
+the key resolving to sc:author -- and it is kept only so existing references still resolve."""@en .
 
 dg:subject
     a rdf:Property, owl:DatatypeProperty ;
@@ -431,21 +510,33 @@ dg:subject
     rdfs:range   xsd:string ;
     rdfs:label   "subject"@en ;
     rdfs:comment "Subject of the document as recorded in the PDF metadata."@en ;
-    rdfs:seeAlso sc:about .
+    rdfs:seeAlso sc:about ;
+    owl:deprecated true ;
+    rdfs:comment """DEPRECATED: use sc:subject. Minted before it was confirmed that schema.org
+already defines this property. The profiler does not emit it -- the JSON-LD context leaves
+the key resolving to sc:subject -- and it is kept only so existing references still resolve."""@en .
 
 dg:creator
     a rdf:Property, owl:DatatypeProperty ;
     rdfs:domain  dg:PdfRecordSet ;
     rdfs:range   xsd:string ;
     rdfs:label   "creator"@en ;
-    rdfs:comment "Application that authored the original document, from the PDF metadata (e.g. 'LaTeX with hyperref')."@en .
+    rdfs:comment "Application that authored the original document, from the PDF metadata (e.g. 'LaTeX with hyperref')."@en ;
+    owl:deprecated true ;
+    rdfs:comment """DEPRECATED: use sc:creator. Minted before it was confirmed that schema.org
+already defines this property. The profiler does not emit it -- the JSON-LD context leaves
+the key resolving to sc:creator -- and it is kept only so existing references still resolve."""@en .
 
 dg:producer
     a rdf:Property, owl:DatatypeProperty ;
     rdfs:domain  dg:PdfRecordSet ;
     rdfs:range   xsd:string ;
     rdfs:label   "producer"@en ;
-    rdfs:comment "Application that produced the PDF, from the PDF metadata (e.g. 'pdfTeX-1.40.26')."@en .
+    rdfs:comment "Application that produced the PDF, from the PDF metadata (e.g. 'pdfTeX-1.40.26')."@en ;
+    owl:deprecated true ;
+    rdfs:comment """DEPRECATED: use sc:producer. Minted before it was confirmed that schema.org
+already defines this property. The profiler does not emit it -- the JSON-LD context leaves
+the key resolving to sc:producer -- and it is kept only so existing references still resolve."""@en .
 
 dg:creationDate
     a rdf:Property, owl:DatatypeProperty ;

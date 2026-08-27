@@ -25,10 +25,12 @@ logger = logging.getLogger(__name__)
 class ColumnTypeAnnotator:
     def __init__(
         self,
-        # SCAYLE model ids are case sensitive and drift over time. The original
-        # "gemma4" was retired (HTTP 400 Model not found) and its successor
-        # "Gemma4" currently has no reachable backend, so annotation runs on
-        # Qwen3, which answers in the short form this prompt expects.
+        # SCAYLE model ids are case sensitive and drift over time. Both "gemma4"
+        # and "Gemma4" fail with HTTP 400 (no such model group) — the endpoint
+        # serves no Gemma at all — and because annotation failures are swallowed,
+        # that silently wrote "error" into every column. Qwen3 is verified against
+        # the endpoint and answers in the short form this prompt expects; it is
+        # ~3x faster per column than qwen3.6, which matters at one call per column.
         model: str = "Qwen3",
         llm_provider: str = "scayle-llm",
         sample_size: int = 10,

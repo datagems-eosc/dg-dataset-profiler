@@ -53,6 +53,29 @@ The service can profile the following types of data:
 - **Documents**: Text files, PDF documents
 - **File Collections**: Sets of related files
 
+### Character Encoding
+
+Uploaded files carry no reliable encoding declaration, so the profiler resolves one per file before
+reading it. The candidates are tried in order and the first that decodes the file **in full** wins:
+
+| Order | Encoding | Why |
+|-------|----------|-----|
+| 1 | `utf-8-sig` | Plain UTF-8, but strips a leading byte-order mark that would otherwise appear as `ï»¿` welded onto the first column name |
+| 2 | `cp1252` | Most files that fail UTF-8 are Windows/Excel exports. Agrees with Latin-1 except across `0x80`–`0x9F`, where it yields the intended punctuation (en-dashes, curly quotes) instead of unusable control characters |
+| 3 | `ISO-8859-1` | Maps every byte `0x00`–`0xFF`, so it never raises. The last resort, and the reason profiling cannot fail on an undecodable file |
+
+The check decodes the whole file rather than sampling a prefix. A prefix is cheaper but can be
+wrong in the worst way: a file that is ASCII for its first few megabytes and Windows-encoded
+afterwards would be declared UTF-8, and the decode would then fail part-way through a profiling
+pass. Decoding is incremental, so memory stays flat regardless of file size, and the scan costs a
+fraction of the pandas passes that follow.
+
+The resolved encoding is reused by every reader for that file — delimiter sniffing, the header
+read, both streaming passes, the semantic-type sample, and the data quality detection script — so a
+file is never read two different ways.
+
+Text and PDF record sets detect their own encoding separately, via `chardet`.
+
 ### Distributed Computing Layer
 
 The service uses Ray for distributed computing, which enables:

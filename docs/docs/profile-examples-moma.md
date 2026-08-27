@@ -14,9 +14,10 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
   "@context": {
     "@language": "en",
     "@vocab": "https://schema.org/",
+    "@base": "https://datagems.eu/id/",
     "cr": "http://mlcommons.org/croissant/",
     "rai": "http://mlcommons.org/croissant/RAI/",
-    "dg": "http://datagems.eu/TBD/",
+    "dg": "https://datagems.eu/ns/",
     "dct": "http://purl.org/dc/terms/",
     "data": {
       "@id": "cr:data",
@@ -26,12 +27,9 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
       "@id": "cr:dataType",
       "@type": "@vocab"
     },
-    "examples": {
-      "@id": "cr:examples",
-      "@type": "@json"
-    },
+    "examples": "cr:examples",
     "dataQuality": {
-      "@id": "dg:dataQuality",
+      "@id": "dg:hasDataQuality",
       "@type": "@json"
     },
     "conformsTo": "dct:conformsTo",
@@ -77,6 +75,23 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
     "missingPercentage": "dg:missingPercentage",
     "histogram": "dg:histogram",
     "uniqueCount": "dg:uniqueCount",
+    "variance": "dg:variance",
+    "range": "dg:range",
+    "percentile05": "dg:percentile05",
+    "percentile95": "dg:percentile95",
+    "generatedAt": "dg:generatedAt",
+    "sample": "dg:sample",
+    "country": "dg:country",
+    "summary": "dg:summary",
+    "numLines": "dg:numLines",
+    "numWords": "dg:numWords",
+    "numCharacters": "dg:numCharacters",
+    "numParagraphs": "dg:numParagraphs",
+    "avgSentenceLength": "dg:avgSentenceLength",
+    "fleschKincaidGrade": "dg:fleschKincaidGrade",
+    "pagesCount": "dg:pagesCount",
+    "creationDate": "dg:creationDate",
+    "modificationDate": "dg:modificationDate",
     "wd": "https://www.wikidata.org/wiki/",
     "containedIn": "cr:containedIn"
   },
@@ -633,16 +648,16 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
             }
           },
           "sample": [
-            "\u00ce\u0091\u00ce\u00a1\u00ce\u0093\u00ce\u00a5\u00ce\u00a1\u00ce\u009f\u00ce\u00a5\u00ce\u00a0\u00ce\u009f\u00ce\u009b\u00ce\u0097",
-            "\u00ce\u0091\u00ce\u0093\u00ce\u0099\u00ce\u009f\u00ce\u00a3 \u00ce\u0091\u00ce\u009d\u00ce\u00a4\u00ce\u00a9\u00ce\u009d\u00ce\u0099\u00ce\u009f\u00ce\u00a3",
-            "\u00ce\u0091\u00ce\u0099\u00ce\u0093\u00ce\u0091\u00ce\u009b\u00ce\u0095\u00ce\u00a9",
-            "\u00ce\u00a4\u00ce\u0091\u00ce\u00a5\u00ce\u00a1\u00ce\u009f\u00ce\u00a3",
-            "\u00ce\u00a0\u00ce\u0095\u00ce\u00a4\u00ce\u00a1\u00ce\u0091\u00ce\u009b\u00ce\u00a9\u00ce\u009d\u00ce\u0091",
-            "\u00ce\u00a0\u00ce\u0095\u00ce\u009d\u00ce\u00a4\u00ce\u0095\u00ce\u009b\u00ce\u0097\u00ce\u00a3",
-            "\u00ce\u009c\u00ce\u009f\u00ce\u009d\u00ce\u0091\u00ce\u00a3\u00ce\u00a4\u00ce\u0097\u00ce\u00a1\u00ce\u0091\u00ce\u009a\u00ce\u0099",
-            "\u00ce\u0091\u00ce\u0098\u00ce\u0097\u00ce\u009d\u00ce\u0091",
-            "\u00ce\u00a6\u00ce\u0091\u00ce\u009b\u00ce\u0097\u00ce\u00a1\u00ce\u009f",
-            "\u00ce\u0091\u00ce\u009d\u00ce\u0098\u00ce\u009f\u00ce\u00a5\u00ce\u00a0\u00ce\u009f\u00ce\u009b\u00ce\u0097"
+            "ÎÎ¡ÎÎ¥Î¡ÎÎ¥Î ÎÎÎ",
+            "ÎÎÎÎÎ£ ÎÎÎ¤Î©ÎÎÎÎ£",
+            "ÎÎÎÎÎÎÎ©",
+            "Î¤ÎÎ¥Î¡ÎÎ£",
+            "Î ÎÎ¤Î¡ÎÎÎ©ÎÎ",
+            "Î ÎÎÎ¤ÎÎÎÎ£",
+            "ÎÎÎÎÎ£Î¤ÎÎ¡ÎÎÎ",
+            "ÎÎÎÎÎ",
+            "Î¦ÎÎÎÎ¡Î",
+            "ÎÎÎÎÎ¥Î ÎÎÎ"
           ],
           "statistics": {
             "@id": "4dd802d8-ca3e-492d-836c-85f532688adc",
@@ -1001,16 +1016,16 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
             }
           },
           "sample": [
-            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 1",
-            "\u00ce\u00a0\u00ce\u00a1\u00ce\u009f\u00ce\u0091\u00ce\u00a3\u00ce\u00a4\u00ce\u0099\u00ce\u0091\u00ce\u009a\u00ce\u009f\u00ce\u00a3",
-            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 2",
-            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 3",
-            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 2",
-            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 3",
-            "\u00ce\u00a0\u00ce\u00a1\u00ce\u009f\u00ce\u0091\u00ce\u00a3\u00ce\u00a4\u00ce\u0099\u00ce\u0091\u00ce\u009a\u00ce\u009f\u00ce\u00a3",
-            "\u00ce\u00a0\u00ce\u00a1\u00ce\u009f\u00ce\u0091\u00ce\u00a3\u00ce\u00a4\u00ce\u0099\u00ce\u0091\u00ce\u009a\u00ce\u009f\u00ce\u00a3",
-            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 2",
-            "\u00ce\u0093\u00ce\u00a1\u00ce\u0091\u00ce\u009c\u00ce\u009c\u00ce\u0089 3"
+            "ÎÎ¡ÎÎÎÎ 1",
+            "Î Î¡ÎÎÎ£Î¤ÎÎÎÎÎ£",
+            "ÎÎ¡ÎÎÎÎ 2",
+            "ÎÎ¡ÎÎÎÎ 3",
+            "ÎÎ¡ÎÎÎÎ 2",
+            "ÎÎ¡ÎÎÎÎ 3",
+            "Î Î¡ÎÎÎ£Î¤ÎÎÎÎÎ£",
+            "Î Î¡ÎÎÎ£Î¤ÎÎÎÎÎ£",
+            "ÎÎ¡ÎÎÎÎ 2",
+            "ÎÎ¡ÎÎÎÎ 3"
           ],
           "statistics": {
             "@id": "77c1dc28-2bb3-4ad8-a5c4-1c261880df33",
@@ -1287,7 +1302,7 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
             "Tasks include -\n(a)  presiding over or participating in the proceedings of legislative bodies and administrative councils of national, state, regional or local governments or legislative assemblies;\n(b)  determining, formulating and directing policies of national, state, regional or local governments;\n(c)  making, ratifying, amending or repealing laws, public rules and regulations within a statutory or constitutional framework;\n(d)  serving on government administrative boards or official committees;\n(e)  investigating matters of concern to the public and promoting the interests of the constituencies which they represent;\n(f)  attending community functions and meetings to provide service to the community, understand public opinion and provide information on government plans;\n(g)  negotiating with other legislators and representatives of interest groups in order to reconcile differing interests, and to create policies and agreements;\n(h)  as members of the government, directing senior administrators and officials of government departments and agencies in the interpretation and implementation of government policies.",
             "Tasks include -\n(a)  advising national, state, regional or local governments and legislators on policy matters;\n(b)  advising on the preparation of government budgets, laws and regulations, including amendments;\n(c)  establishing objectives for government departments or agencies in accordance with government legislation and policy;\n(d)  formulating or approving and evaluating programmes and procedures for the implementation of government policies in conjunction or consultation with government;\n(e)  recommending, reviewing, evaluating and approving documents, briefs and reports submitted by middle managers and senior staff members;\n(f)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\n(g)  coordinating activities with other senior government managers and officials;\n(h)  making presentations to legislative and other government committees regarding policies programmes or budgets;\n(i)  overseeing the interpretation and implementation of government policies and legislation by government departments and agencies.",
             "Tasks include -\n(a)  allocating the use of communal land and other resources among households in the community or village;\n(b)  collecting and distributing surplus production of the community or village;\n(c)  settling disputes between members of the community or village;\n(d)  disciplining members of the community or village for violation of rules and customs;\n(e)  performing ceremonial duties in connection with births, marriages, deaths, harvests and other important occasions;\n(f)  representing the community or village on local or regional councils;\n(g)  informing the community or village about government rules and regulations.",
-            "Tasks include -\n(a)  determining and formulating the policies, rules and regulations of the organization;\n(b)  planning, directing and coordinating the general functioning of the organization;\n(c)  reviewing the operations and results of the organization and reporting to boards of directors and governing bodies, the organization\u00e2\u0080\u0099s membership and funding agencies;\n(d)  negotiating on behalf of the organization, its members and relevant special-interest groups; \n(e)  promoting the interests of the organization, its members and relevant special-interest groups before the legislature, government or general public; \n(f)  planning, organizing and directing sections charged with implementing the organization's policies, programmes, rules and regulations;\n(g)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\n(h)   monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, public hearings and forums.",
+            "Tasks include -\n(a)  determining and formulating the policies, rules and regulations of the organization;\n(b)  planning, directing and coordinating the general functioning of the organization;\n(c)  reviewing the operations and results of the organization and reporting to boards of directors and governing bodies, the organizationâs membership and funding agencies;\n(d)  negotiating on behalf of the organization, its members and relevant special-interest groups; \n(e)  promoting the interests of the organization, its members and relevant special-interest groups before the legislature, government or general public; \n(f)  planning, organizing and directing sections charged with implementing the organization's policies, programmes, rules and regulations;\n(g)  ensuring appropriate systems and procedures are developed and implemented to provide budgetary control;\n(h)   monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, public hearings and forums.",
             "Tasks performed usually include: planning, directing and coordinating the general functioning of an enterprise or organization; reviewing the operations and results of the enterprise or organization, and reporting to boards of directors and governing bodies; determining objectives, strategies, policies and programmes for the enterprise or organization; providing overall direction and management to organizations; establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources; authorizing material, human and financial resources to implement organizational policies and programmes; monitoring and evaluating performance of the organization or enterprise against established objectives and policies; consulting with senior subordinate staff and reviewing recommendations and reports; representing the organization at official occasions, in negotiations, at conventions, seminars, public hearings and forums; selecting or approving the selection of senior staff; ensuring the organization complies with relevant legislation and regulations.",
             "Tasks include -\n(a)  planning, directing and coordinating the general functioning of an enterprise or organization;\n(b)  reviewing the operations and results of the enterprise, or organization and reporting to boards of directors and governing bodies;\n(c)  determining objectives, strategies, policies and programmes for the enterprise or organization;\n(d)  providing overall leadership and management to the enterprise or organization;\n(e)  establishing and managing budgets, controlling expenditure and ensuring the efficient use of resources;\n(f)  authorising material, human and financial resources to implement organizational policies and programmes;\n(g)  monitoring and evaluating performance of the organization or enterprise against established objectives and policies;\n(h)  consulting with senior subordinate staff and reviewing recommendations and reports;\n(i)  representing the organization at official occasions and board meetings, in negotiations, at conventions, seminars, public hearings and forums; \n(j)  selecting or approving the selection of senior staff;\n(k)  ensuring the organization complies with relevant legislation and regulations."
           ],
@@ -1564,11 +1579,11 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
           },
           "sample": [
             "Tasks include -\n(a)  weighing, wrapping, sealing and packing material and various products by hand;\n(b)  filling bottles, cans, boxes, bags and other containers with products by hand;\n(c)  labelling products, packages and various containers by hand.",
-            "Tasks include \u00e2\u0080\u0093 \n(a)  developing, implementing and monitoring strategic plans, programmes, policies, processes, systems and procedures to achieve goals, objectives and work standards; \n(b)  developing, directing, administering and participating in policy research and analysis;\n(c)  coordinating the implementation of policies and practices; \n(d)  establishing activity measures and measurements of accountability;\n(e)  planning and directing daily operations;\n(f)  leading and managing the activities of policy development and strategic planning staff;\n(g)  overseeing the selection, training and performance of staff; \n(h)  consulting with senior management and with managers of other departments;\n(i)  representing the enterprise or organization in negotiations, and at conventions, seminars, public hearings and forums.",
+            "Tasks include â \n(a)  developing, implementing and monitoring strategic plans, programmes, policies, processes, systems and procedures to achieve goals, objectives and work standards; \n(b)  developing, directing, administering and participating in policy research and analysis;\n(c)  coordinating the implementation of policies and practices; \n(d)  establishing activity measures and measurements of accountability;\n(e)  planning and directing daily operations;\n(f)  leading and managing the activities of policy development and strategic planning staff;\n(g)  overseeing the selection, training and performance of staff; \n(h)  consulting with senior management and with managers of other departments;\n(i)  representing the enterprise or organization in negotiations, and at conventions, seminars, public hearings and forums.",
             "Tasks include -\n(a)  digging holes for tree planting;\n(b)  stacking and loading logs and timber;\n(c)  clearing undergrowth in forest stands and thinning young plantations;\n(d)  maintaining look-out for fires in forests;\n(e)  removing major branches and tree tops, trimming branches and sawing trunks into logs;\n(f)  operating and maintaining manual and hand-held machine saws to fell trees and cut felled trees and branches into logs;\n(g)  collecting seeds, and planting seedlings;\n(h)  performing minor repairs and maintenance of forest roads, buildings, facilities, and equipment.",
             "Tasks include -\n(a)  preparing and revising working drawings from sketches and specifications prepared by engineers and designers for the manufacture, installation and erection of machinery and equipment or for the construction, modification, maintenance and repair of buildings, dams, bridges, roads and other architectural and civil engineering projects;\n(b)  operating computer-aided design and drafting equipment to create, modify and generate hard-copy and digital representations of working drawings;\n(c)  operating digitizing table or similar equipment to transfer hard-copy representation of working drawings, maps and other curves to digital form;\n(d)  preparing and revising illustrations for reference works, brochures and technical manuals dealing with the assembly, installation, operation, maintenance and repair of machinery and other equipment and goods;\n(e)  copying drawings and paintings onto stone or metal plates for printing;\n(f)  preparing wiring diagrams, circuit board assembly diagrams and layout drawings used for manufacture, installation and repair of electrical equipment in factories, power plants, and buildings;\n(g)  creating detailed working diagrams of machinery and mechanical devices, including dimensions, fastening methods and other engineering information;\n(h)  arranging for completed drawings to be reproduced for use as working drawings.",
             "Tasks include -\n(a)  evaluating and preserving records for administrative, historical, legal, evidential and other purposes;\n(b)  directing or carrying out the preparation of indexes, bibliographies, microfilm copies and other reference aids to the collected material and making them available to users;\n(c)  researching the origin, distribution and use of materials and objects of cultural and historical interest;\n(d)  organizing, developing and maintaining collections of artistic, cultural, scientific or historically significant items;\n(e)  directing or undertaking classification and cataloguing of museum and art gallery collections and organizing exhibitions;\n(f)  researching into, appraising, organizing and preserving historically significant and valuable documents such as government papers, private papers, photographs, maps, manuscripts and audiovisual materials;\n(g)  preparing scholarly papers and reports;\n(h)  planning and implementing the computerized management of archives and electronic records;\n(i)  organizing exhibitions at museums and art galleries, publicizing exhibits and arranging special displays for general, specialized or educational interest;\n(j)  appraising and acquiring archival materials to build and develop an archival collection for research purposes.",
-            "Tasks performed usually include: providing basic care services for the prevention and treatment of diseases and disorders of the teeth and mouth; advising communities and individuals on hygiene, diet and other preventive measures to reduce potential risks to health; compiling and maintaining patients\u00e2\u0080\u0099 medical records to document condition and treatment and to provide data for research, billing, cost control and care improvement; assisting families to develop the necessary skills and resources to improve their health status; providing advice and education on sanitation and hygiene to limit the spread of infectious diseases; fitting and dispensing optical lenses; investigate the implementation of rules and regulations relating to environmental and occupational factors that may potentially affect human health; massaging the soft tissues of the body; showing patients to examination rooms and preparing them for examination; attending and responding to accidents and emergencies and to requests for medical assistance.",
+            "Tasks performed usually include: providing basic care services for the prevention and treatment of diseases and disorders of the teeth and mouth; advising communities and individuals on hygiene, diet and other preventive measures to reduce potential risks to health; compiling and maintaining patientsâ medical records to document condition and treatment and to provide data for research, billing, cost control and care improvement; assisting families to develop the necessary skills and resources to improve their health status; providing advice and education on sanitation and hygiene to limit the spread of infectious diseases; fitting and dispensing optical lenses; investigate the implementation of rules and regulations relating to environmental and occupational factors that may potentially affect human health; massaging the soft tissues of the body; showing patients to examination rooms and preparing them for examination; attending and responding to accidents and emergencies and to requests for medical assistance.",
             "Tasks include -\n(a)  undertaking research in laboratories and in the field to increase scientific knowledge of living organisms; to discover new information; to test hypotheses; to solve problems in areas such as the environment, agriculture and health; and to develop new products, processes and techniques for pharmaceutical, agricultural and environmental use;\n(b)  designing and conducting experiments and tests;\n(c)  gathering human, animal, insect and plant specimens and data, and studying their origin, development, chemical and physical form, structure, composition, and life and reproductive processes;\n(d)  examining living organisms using a variety of specialised equipment, instruments, technologies and techniques such as electron microscopes, telemetry, global positioning systems, biotechnology, satellite imaging, genetic engineering, digital imaging analysis, polymerase chain reaction and computer modelling;\n(e)  identifying, classifying, recording and monitoring living organisms and maintaining databases;\n(f)  writing scientific papers and reports detailing research and any new findings which are then made available to the scientific community in scientific journals or at conferences for scrutiny and further debate;\n(g)  designing and carrying out environmental impact assessments to identify changes caused by natural or human factors;\n(h)  providing advice to governments, organizations and businesses in areas such as conservation, management of natural resources, the effects of climate change and pollution.",
             "Tasks include -\n(a)  operating and monitoring machines which mark patterns and cut shoe parts;\n(b)  operating and monitoring machines which sew shoe parts together, or edge, polish, or apply ornaments and perform finishing tasks;\n(c)  operating and monitoring machines which produce luggage, handbags, belts and other accessories, as well as other items such as saddles, collars or harnesses.",
             "Tasks include -\n(a)  preparing wood, straw, rattan, reeds, shells, or similar materials;\n(b)  carving floral and artistic designs on wooden surfaces for decorative purposes;\n(c)  painting freehand decorative designs on glass and pottery or porcelain ware;\n(d)  carving, assembling, weaving, painting and decorating various articles for personal or household use such as salad bowls, serving-spoons, cutting-boards, trays, vases, jugs, baskets, straw hats, straw mats and similar objects;\n(e)  carving, assembling, weaving and painting various decorative articles such as statues and other sculptures, chess pieces, jewellery and similar objects;\n(f)  making wicker furniture from peeled and softened rattan, reeds, rushes, willow branches and similar materials;\n(g)  making various kinds of baskets by interlacing osier, rattan, reeds, rushes or similar materials;\n(h)  forming bottom of basket by interlacing strips of rattan, wood veneer or other material with framework of rods of material such as willow;\n(i)  inserting rods around edge of bottom between woven sections of bottom and bending them upright to serve as framework for sides;\n(j)  selecting and preparing brush materials, such as bristles, nylon, fibres and wire, and setting them in brush base;\n(k)  selecting and preparing materials, such as broom corn, bass, whisker and fibre, and fastening them to broom handles.",
@@ -3510,7 +3525,7 @@ The profiles are in JSON-LD format and extend the [Croissant Metadata Schema](ht
           },
           "sample": [
             "University of Athens",
-            "Agrupamento de Escolas Abade de Ba\u251c\u00baal",
+            "Agrupamento de Escolas Abade de Ba├ºal",
             "University of Crete"
           ],
           "statistics": {

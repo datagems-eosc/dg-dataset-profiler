@@ -1,5 +1,8 @@
 /.idea
 /moma-management-main
+/data-model-management-main
+/dmm-issues
+/validation
 tests/assets/**
 generated_profiles/**/*.json
 .env_api

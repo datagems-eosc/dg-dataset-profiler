@@ -21,6 +21,7 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     ColumnField,
 )
 from dataset_profiler.profile_components.cta import ColumnTypeAnnotator
+from dataset_profiler.utilities import resolve_encoding
 from dataset_profiler.configs.config_logging import logger
 
 # Rows read per chunk while streaming a CSV. Bounds peak memory regardless of
@@ -40,11 +41,30 @@ class CSVRecordSet(RecordSet):
         self.file_object = file_object
         self.file_object_id = file_object_id
         self.type = "cr:RecordSet"
+        self._encoding = None
         self.name = file_object.split(".")[-2]
         self.description = ""
         self.fields = self.extract_fields()
         self.examples = self.extract_examples()
         self.data_quality = self.extract_data_quality()
+
+    @property
+    def encoding(self):
+        """The encoding for this record set's file, resolved once and cached.
+
+        Resolved lazily rather than in ``__init__`` so that a missing file still
+        raises from ``_detect_delimiter``, which reports it properly.
+        """
+        if self._encoding is None:
+            self._encoding = resolve_encoding(
+                os.path.join(self.distribution_path, self.file_object)
+            )
+            logger.info(
+                "Resolved CSV encoding",
+                encoding=self._encoding,
+                file=self.file_object,
+            )
+        return self._encoding
 
     def _detect_delimiter(self, file_path):
         """Detect the CSV delimiter by sniffing the first 1KB of the file."""
@@ -52,7 +72,7 @@ class CSVRecordSet(RecordSet):
             logger.error("CSV file not found", file=file_path)
             raise FileNotFoundError(f"CSV file not found: {file_path}")
 
-        with open(file_path, 'r', encoding="ISO-8859-1") as csvfile:
+        with open(file_path, 'r', encoding=self.encoding) as csvfile:
             sample = csvfile.read(1024)
             try:
                 delimiter = csv.Sniffer().sniff(sample).delimiter
@@ -67,7 +87,7 @@ class CSVRecordSet(RecordSet):
         """Read only the header row to get the column names (no data loaded)."""
         try:
             header = pd.read_csv(
-                file_path, encoding="ISO-8859-1", sep=delimiter, nrows=0
+                file_path, encoding=self.encoding, sep=delimiter, nrows=0
             )
         except pd.errors.EmptyDataError:
             logger.warning("Empty CSV given. Skipping...", file=file_path)
@@ -82,7 +102,7 @@ class CSVRecordSet(RecordSet):
         per pass.
         """
         read_kwargs = dict(
-            encoding="ISO-8859-1",
+            encoding=self.encoding,
             sep=delimiter,
             chunksize=CHUNK_SIZE,
             usecols=usecols,
@@ -147,7 +167,7 @@ class CSVRecordSet(RecordSet):
         try:
             sample = pd.read_csv(
                 file_path,
-                encoding="ISO-8859-1",
+                encoding=self.encoding,
                 sep=delimiter,
                 nrows=CTA_SAMPLE_ROWS,
                 on_bad_lines="skip",
@@ -180,7 +200,7 @@ class CSVRecordSet(RecordSet):
         try:
             csv_object = pd.read_csv(
                 file_path,
-                encoding="ISO-8859-1",
+                encoding=self.encoding,
                 sep=delimiter,
                 nrows=30,
                 on_bad_lines='skip',
@@ -212,6 +232,7 @@ class CSVRecordSet(RecordSet):
                 file_path,
                 table_name=Path(self.name).name,
                 delimiter=delimiter,
+                encoding=self.encoding,
             )
         except Exception as e:
             logger.error(
