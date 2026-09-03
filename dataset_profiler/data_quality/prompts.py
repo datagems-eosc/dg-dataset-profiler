@@ -29,18 +29,23 @@ Generate a Python script to detect data quality errors in a dataset.
    - **format_inconsistency**: mixed date formats, mixed phone formats, inconsistent patterns
    - **value_error**: impossible/out-of-range values (negative ages, humidity > 100%, year 9999, etc.)
    - **consistency_error**: same concept with multiple representations ("english"/"en"/"English")
-4. Print ONLY a valid JSON array to stdout (no other output whatsoever), serialized
-   with `json.dumps(errors, default=str)`.
-5. Every value you put in the JSON MUST be a built-in Python type, never a numpy or
+4. `error_type` MUST be exactly one of those three values. Do not invent other categories
+   — anything else is discarded. Conditional emptiness (a column empty only when another
+   column is filled) is a consistency_error.
+5. Do NOT report plainly missing or empty values as errors. Missing data is already counted
+   per column as missingCount and missingPercentage, so repeating it here adds nothing.
+6. Every value you put in the JSON MUST be a built-in Python type, never a numpy or
    pandas scalar. Wrap every row number and count in `int(...)` and every erroneous
    value in `str(...)`. Pandas expressions such as `.index`, `.sum()`, `.nunique()`
    and `len(df[mask])` yield `numpy.int64`, which is NOT JSON serializable and will
    crash the script.
-6. Row numbers are 1-indexed (first data row after header = row 1).
-7. Include at most {max_examples} examples per error entry.
-8. Output an empty array `[]` if no errors are found.
-9. Only DETECT errors — do NOT attempt to correct or suggest fixes for any value.
-10. Use only: pandas, re, json, sys, collections, datetime — no third-party packages.
+7. Print ONLY a valid JSON array to stdout (no other output whatsoever), serialized
+   with `json.dumps(errors, default=str)`.
+8. Row numbers are 1-indexed (first data row after header = row 1).
+9. Include at most {max_examples} examples per error entry.
+10. Output an empty array `[]` if no errors are found.
+11. Only DETECT errors — do NOT attempt to correct or suggest fixes for any value.
+12. Use only: pandas, re, json, sys, collections, datetime — no third-party packages.
 
 ## Required JSON output schema
 [

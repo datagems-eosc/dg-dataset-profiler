@@ -362,7 +362,12 @@ dg:errorType
     rdfs:comment """Classification of the detected error pattern. One of: "format_inconsistency" (one
 format written several ways, e.g. mixed date formats), "value_error" (impossible or out-of-range
 values, e.g. a negative age), or "consistency_error" (one concept written several ways, e.g. "US"
-alongside "United States")."""@en .
+alongside "United States").
+
+The set is closed and enforced at the source: the detection script is LLM-written and does
+occasionally invent a category, so entries carrying anything else are discarded rather than
+published. Plain missingness is deliberately excluded -- dg:missingCount and dg:missingPercentage
+already carry it -- while conditional emptiness is reported as a consistency_error."""@en .
 
 dg:totalAffectedRows
     a rdf:Property, owl:DatatypeProperty ;

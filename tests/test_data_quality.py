@@ -573,3 +573,36 @@ def test_csv_record_set_includes_data_quality(monkeypatch):
     assert record_set.to_dict()["dataQuality"]["errors"][0]["errorType"] == "value_error"
     # The CDD profile never carries data quality, even when a result exists.
     assert "data_quality" not in record_set.to_dict_cdd()
+
+
+# --- errorType is a closed set ---
+
+
+def test_error_type_rejects_values_outside_the_documented_three():
+    """The LLM invented "missing_value" in a real run; the schema publishes an
+    enum, so the value set has to actually be closed."""
+    from pydantic import ValidationError
+
+    for bad in ("missing_value", "range_error", ""):
+        with pytest.raises(ValidationError):
+            ColumnError(
+                column="c", error_type=bad, description="d",
+                examples=[], total_affected_rows=1,
+            )
+
+
+def test_one_malformed_error_does_not_discard_the_whole_batch():
+    """Detection failures are swallowed, so a batch-level raise would silently
+    lose every finding for the record set."""
+    from dataset_profiler.data_quality.detector import _validate_errors
+
+    raw = [
+        {"column": "a", "error_type": "value_error", "description": "d",
+         "examples": [], "total_affected_rows": 1},
+        {"column": "b", "error_type": "missing_value", "description": "d",
+         "examples": [], "total_affected_rows": 1},
+        {"column": "c", "error_type": "consistency_error", "description": "d",
+         "examples": [], "total_affected_rows": 2},
+    ]
+    kept = _validate_errors(raw, "x.csv")
+    assert [e.column for e in kept] == ["a", "c"]

@@ -132,14 +132,10 @@ class DatasetProfile:
         file_object_distributions = []
         if self.distribution_path is not None:
             file_object_distributions = [
-                dist
-                for dist in [
-                    get_distribution_of_file_object(
-                        self.distribution_path + file_object["path"], file_object["id"]
-                    )
-                    for file_object in self.file_objects
-                ]
-                if dist is not None  # Filter out unsupported file types
+                get_distribution_of_file_object(
+                    self.distribution_path + file_object["path"], file_object["id"]
+                )
+                for file_object in self.file_objects
             ]
         database_connector_distributions = [
             get_distribution_of_database_connection(
@@ -170,18 +166,17 @@ class DatasetProfile:
                     self.distribution_path + file_set["path"],
                     file_set["id"]
                 )
-                if dist is not None:
-                    file_sets_distributions.append(dist)
+                file_sets_distributions.append(dist)
 
-                    # Fetch objects for this specific distribution
-                    file_objects = get_file_objects_of_file_set(
-                        contained_in_id=dist.id,
-                        file_set_path=self.distribution_path + file_set["path"]
-                    )
+                # Fetch objects for this specific distribution
+                file_objects = get_file_objects_of_file_set(
+                    contained_in_id=dist.id,
+                    file_set_path=self.distribution_path + file_set["path"]
+                )
 
-                    # Flatten the list of file objects and add them to the main list of distributions
-                    for item in file_objects:
-                        file_object_of_set_distributions.append(item)
+                # Flatten the list of file objects and add them to the main list of distributions
+                for item in file_objects:
+                    file_object_of_set_distributions.append(item)
 
         self.file_sets_distributions = file_sets_distributions
         self.database_connector_distributions = database_connector_distributions
@@ -228,14 +223,13 @@ class DatasetProfile:
     def to_dict_light(self):
         if self.distributions is None:
             self.distributions = self.extract_distributions()
-        # To include minimal distributions (placeholders for unsupported file types
-        # inside file sets), drop the `getattr(...) is False` filter below.
+        # Unsupported file types are listed here too -- see
+        # `get_distribution_of_file_object` -- they just carry no record set.
         return {
             "@context": {**CONTEXT_TEMPLATE, **REFERENCES_TEMPLATE},
             **self.dataset_top_level.to_dict(),
             "distribution": [
                 distribution.to_dict() for distribution in self.distributions
-                if getattr(distribution, "is_minimal", False) is False
             ],
         }
 
@@ -252,14 +246,11 @@ class DatasetProfile:
                 record_set_list.extend(record_set.to_dict())
             else:
                 record_set_list.append(record_set.to_dict())
-        # To include minimal distributions (placeholders for unsupported file types
-        # inside file sets), drop the `getattr(...) is False` filter below.
         profile_dict = {
             "@context": {**CONTEXT_TEMPLATE, **REFERENCES_TEMPLATE},
             **self.dataset_top_level.to_dict(),
             "distribution": [
                 distribution.to_dict() for distribution in self.distributions
-                if getattr(distribution, "is_minimal", False) is False
             ],
             "recordSet": record_set_list,
         }

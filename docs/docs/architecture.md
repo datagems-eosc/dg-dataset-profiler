@@ -53,6 +53,12 @@ The service can profile the following types of data:
 - **Documents**: Text files, PDF documents
 - **File Collections**: Sets of related files
 
+Files of any other type — audio, video, archives — are **listed but not opened**. They appear in the
+profile's `distribution` with their path, size and a MIME type guessed from the extension, and a
+folder holding only such files is still listed as a `cr:FileSet`, so the profile stays a complete
+inventory of the dataset. What they never get is a `recordSet`: no content is read, and no
+statistics, semantic types or data quality are reported for them.
+
 ### Character Encoding
 
 Uploaded files carry no reliable encoding declaration, so the profiler resolves one per file before

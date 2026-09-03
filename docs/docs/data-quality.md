@@ -23,6 +23,15 @@ Any failure in this pipeline is logged and swallowed — data quality detection 
 | `value_error` | Impossible or out-of-range values | Negative ages, humidity > 100% |
 | `consistency_error` | Same concept written multiple ways | `US`, `USA`, `United States`, `united states` |
 
+The set is closed. The detection script is LLM-written and will occasionally invent a category — a
+real run produced `missing_value` — so any entry whose `error_type` is not one of the three is logged
+and discarded rather than published. Consumers can rely on the enum.
+
+Plainly missing values are deliberately **not** reported: `missingCount` and `missingPercentage` on
+the column statistics already carry that, and duplicating it adds nothing. Conditional emptiness — a
+column empty only when another is filled — is a real finding and is reported as a
+`consistency_error`.
+
 ## Profile Output
 
 Data quality is reported in the **heavy MoMa profile only**. Each tabular `recordSet` gains a `dataQuality` section:

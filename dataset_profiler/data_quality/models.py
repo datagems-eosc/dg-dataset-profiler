@@ -1,11 +1,19 @@
 import uuid
-from typing import List
+from typing import List, Literal
 
 from pydantic import BaseModel, Field
 
 
 def _new_id() -> str:
     return str(uuid.uuid4())
+
+
+# The detection script is written by an LLM, which is asked for these three
+# categories but is free to return anything. Declaring them as a Literal makes
+# pydantic reject the rest at construction, so the value set stays closed and a
+# drifting model surfaces as a logged, skipped error rather than a new category
+# leaking into the published schema.
+ErrorType = Literal["format_inconsistency", "value_error", "consistency_error"]
 
 
 class ErrorExample(BaseModel):
@@ -23,7 +31,7 @@ class ColumnError(BaseModel):
     # than in to_dict() to keep it stable across repeated serialization.
     id: str = Field(default_factory=_new_id)
     column: str
-    error_type: str  # format_inconsistency | value_error | consistency_error
+    error_type: ErrorType
     description: str
     examples: List[ErrorExample]
     total_affected_rows: int

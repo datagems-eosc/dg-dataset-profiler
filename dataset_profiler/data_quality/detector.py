@@ -1,8 +1,9 @@
 import os
 from pathlib import Path
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 import pandas as pd
+from pydantic import ValidationError
 
 from dataset_profiler.configs.config_logging import logger
 from dataset_profiler.data_quality.data_profile import build_profile
@@ -32,6 +33,30 @@ def is_data_quality_enabled() -> bool:
         "yes",
         "on",
     ]
+
+
+
+def _validate_errors(raw_errors: list, file_path: Union[Path, str]) -> List[ColumnError]:
+    """Turn the script's raw findings into ColumnErrors, dropping malformed ones.
+
+    Validated one at a time rather than in a comprehension: a single entry the
+    model got wrong -- most often an error_type outside the three it was asked
+    for -- would otherwise fail the whole batch, and since detection failures are
+    swallowed, that would silently discard every finding for the record set.
+    """
+    errors = []
+    for raw in raw_errors:
+        try:
+            errors.append(ColumnError(**raw))
+        except ValidationError as e:
+            logger.warning(
+                "Discarding malformed data quality error",
+                file=str(file_path),
+                column=raw.get("column"),
+                error_type=raw.get("error_type"),
+                reason=str(e).replace("\n", " ")[:200],
+            )
+    return errors
 
 
 def detect_data_quality_errors(
@@ -96,7 +121,7 @@ def detect_data_quality_errors(
 
     logger.info("Running data quality detection script", file=str(file_path))
     raw_errors = execute_detection_script(script_code, file_path)
-    errors = [ColumnError(**error) for error in raw_errors]
+    errors = _validate_errors(raw_errors, file_path)
 
     summary = generate_summary(connector, errors, table_name, total_rows=len(df))
 

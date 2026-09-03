@@ -19,6 +19,10 @@ The service can profile the following types of data:
 - Text documents
 - PDF documents
 
+Other file types (audio, video, archives, ...) are not profiled, but they are not dropped either:
+they are listed in the profile's `distribution` with their path and size, so nothing in the dataset
+goes missing from the profile.
+
 #### How long does profiling take?
 
 Profiling time depends on the size and complexity of the dataset. Small datasets (< 50MB) typically take a few seconds to a minute. Larger datasets can take several minutes or longer. The service provides status endpoints to check the progress of profiling jobs.
