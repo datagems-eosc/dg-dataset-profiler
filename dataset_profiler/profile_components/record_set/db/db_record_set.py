@@ -14,6 +14,10 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     ColumnField,
     RecordSet,
 )
+from dataset_profiler.profile_components.cta import (
+    ColumnTypeAnnotator
+)
+
 from dataset_profiler.utilities import find_column_type_in_db
 from dataset_profiler.configs.config_logging import logger
 
@@ -114,11 +118,33 @@ class DBTableField:
         return table["table_name"]
 
 
+    def _annotate_semantic_types(self) -> Dict[str, str]:
+        """Annotate the table's column semantic types with the LLM-backed annotator.
+
+        A failure here (unreachable LLM, auth error, misconfigured
+        SCAYLE_BASE_URL) is logged and swallowed, exactly as in the CSV record
+        set: semantic types are an enrichment, and losing them must not fail the
+        whole profile. Without this the exception propagated all the way out of
+        the Ray task and marked the entire profiling job as failed, even though
+        every table had already been read from the database successfully.
+        """
+        try:
+            return ColumnTypeAnnotator().annotate_columns(
+                db=self.connection, table_name=self.name
+            )
+        except Exception as e:
+            logger.error(
+                "Semantic type annotation failed", error=str(e), table=self.name
+            )
+            return {}
+
     def extract_fields(self):
+        stype_annotations = self._annotate_semantic_types()
+
         fields = []
         for column in self.table["columns"]:
             fields.append(
-                DBColumnField(column, self.table["table_name"], self.connection, self.table_distribution_id)
+                DBColumnField(column, self.table["table_name"], self.connection, self.table_distribution_id, stype_annotations)
             )
 
         return fields
@@ -147,13 +173,14 @@ class DBTableField:
 
 
 class DBColumnField(ColumnField):
-    def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str):
+    def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str, stype_annotations: dict[str, str]):
         logger.info("Initializing DB column", column=column["column"])
         self.type = "cr:Field"
         self.id = self.id = str(uuid.uuid4())
         self.name = column["column"]
         self.description = ""
         self.dataType = find_column_type_in_db(column["data_type"])
+        self.semanticType = stype_annotations.get(self.name, "")
         self.statistics = ColumnStatistics()  # calculate_statistics_of_db(self.name, table_name, connection, self.dataType)
         # The distribution part for the table is not created yet in order for it to have an id
         self.source = {
@@ -169,6 +196,7 @@ class DBColumnField(ColumnField):
             "name": self.name,
             "description": self.description,
             "dataType": self.dataType,
+            "semanticType": self.semanticType,
             "source": self.source,
             "sample": self.sample,
             "statistics": self.statistics.to_dict()
@@ -178,7 +206,7 @@ class DBColumnField(ColumnField):
         return {
             "name": self.name,
             "primitive_type": self.dataType,
-            "semantic_type": [],
+            "semantic_type": self.semanticType,
             "description": self.description,
             "statistics": self.statistics.to_dict_cdd()
         }

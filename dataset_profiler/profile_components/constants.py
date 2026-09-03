@@ -1,13 +1,24 @@
 CONTEXT_TEMPLATE = {
     "@language": "en",
     "@vocab": "https://schema.org/",
+    # Instance identifiers are bare UUIDs, i.e. relative IRIs. Without a base
+    # they resolve against the reading document's location.
+    "@base": "https://datagems.eu/id/",
     "cr": "http://mlcommons.org/croissant/",
     "rai": "http://mlcommons.org/croissant/RAI/",
-    "dg": "http://datagems.eu/TBD/",
+    "dg": "https://datagems.eu/ns/",
     "dct": "http://purl.org/dc/terms/",
     "data": {"@id": "cr:data", "@type": "@json"},
     "dataType": {"@id": "cr:dataType", "@type": "@vocab"},
-    "examples": {"@id": "cr:examples", "@type": "@json"},
+    # NOT declared "@type": "@json": the value is already a json.dumps'd string,
+    # and claiming JSON on top produced an rdf:JSON literal that parsed back to a
+    # string rather than an object. Kept as a plain string literal, which is what
+    # it actually is. "data" below is a real object, so it keeps @json.
+    "examples": "cr:examples",
+    # Carried as an opaque JSON literal: the block nests its own "summary",
+    # "column" and "examples" keys, which would otherwise collide with the
+    # record-set and Croissant terms of the same name defined below.
+    "dataQuality": {"@id": "dg:hasDataQuality", "@type": "@json"},
 }
 
 # References Standard
@@ -41,6 +52,7 @@ REFERENCES_TEMPLATE = {
     "access": "dg:access",
     "uploadedBy": "dg:uploadedBy",
     "statistics": "dg:statistics",
+    "semanticType": "dg:semanticType",
     "doi": "dg:doi",
     "fieldOfScience" : "dg:fieldOfScience",
     "status": "dg:status",
@@ -59,6 +71,23 @@ REFERENCES_TEMPLATE = {
     "percentile05": "dg:percentile05",
     "percentile95": "dg:percentile95",
     "generatedAt": "dg:generatedAt",
+    # Terms below were previously absent from the context. An unmapped key falls
+    # through to "@vocab": "https://schema.org/", so each was expanding to a
+    # schema.org IRI that does not exist (verified against the published
+    # vocabulary). They are all declared in datagems-croissant-extension.ttl.
+    # Only the IRI changes -- the JSON keys are untouched.
+    "sample": "dg:sample",
+    "country": "dg:country",
+    "summary": "dg:summary",
+    "numLines": "dg:numLines",
+    "numWords": "dg:numWords",
+    "numCharacters": "dg:numCharacters",
+    "numParagraphs": "dg:numParagraphs",
+    "avgSentenceLength": "dg:avgSentenceLength",
+    "fleschKincaidGrade": "dg:fleschKincaidGrade",
+    "pagesCount": "dg:pagesCount",
+    "creationDate": "dg:creationDate",
+    "modificationDate": "dg:modificationDate",
     "wd": "https://www.wikidata.org/wiki/",
     "containedIn": "cr:containedIn"
 }

@@ -5,6 +5,12 @@ from typing import Optional, List, Dict, Any
 class ScayleAuthClient:
     """Authenticate with Scayle and provide OpenAI-compatible API access details."""
 
+    #: Cap on how long establishing the TCP connection may take. ``requests``
+    #: applies a scalar timeout to the connect phase as well, so a long read
+    #: timeout would otherwise make an unreachable host (VPN down, wrong host)
+    #: hang for that full duration before failing.
+    DEFAULT_CONNECT_TIMEOUT = 10.0
+
     def __init__(
         self,
         username: str,
@@ -12,17 +18,26 @@ class ScayleAuthClient:
         base_url: str,
         verify_ssl: bool = True,
         timeout: float = 30.0,
+        connect_timeout: Optional[float] = None,
     ):
         self.username = username
         self.password = password
         self.base_url = base_url.rstrip("/")
         self.verify_ssl = verify_ssl
         self.timeout = timeout
+        self.connect_timeout = (
+            self.DEFAULT_CONNECT_TIMEOUT if connect_timeout is None else connect_timeout
+        )
         self._api_key: Optional[str] = None
 
     @property
     def api_key(self) -> Optional[str]:
         return self._api_key
+
+    @property
+    def _request_timeout(self) -> tuple:
+        """``(connect, read)`` timeout pair for outgoing requests."""
+        return (min(self.connect_timeout, self.timeout), self.timeout)
 
     def authenticate(self, force_refresh: bool = False) -> str:
         if self._api_key is not None and not force_refresh:
@@ -36,7 +51,7 @@ class ScayleAuthClient:
             },
             json={"user": self.username, "password": self.password},
             verify=self.verify_ssl,
-            timeout=self.timeout,
+            timeout=self._request_timeout,
         )
 
         if response.status_code != 200:
@@ -60,7 +75,7 @@ class ScayleAuthClient:
             f"{self.base_url}/models",
             headers={"Authorization": f"Bearer {token}"},
             verify=self.verify_ssl,
-            timeout=self.timeout,
+            timeout=self._request_timeout,
         )
 
         if response.status_code != 200:

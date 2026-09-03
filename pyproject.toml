@@ -43,11 +43,13 @@ dependencies = [
     "psycopg2-binary>=2.9.11",
     "structlog>=25.4.0",
     "litellm>=1.78.6",
+    "boto3>=1.34.0",
     "pyyaml>=6.0.2",
     "pyjwt>=2.10.1",
     "langchain-community>=0.3.31",
     "langchain-text-splitters>=0.3.11",
     "pymupdf>=1.26.5",
+    "tqdm>=4.66.0",
     "requests>=2.32.0",
 ]
 
@@ -75,6 +77,10 @@ packages = ["dataset_profiler"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "live_llm: exercises the real LLM-backed column type annotator (needs VPN)",
+    "live_data_quality: runs real LLM data quality detection (needs VPN)",
+]
 
 # Install the CPU-only torch build. The default PyPI wheels bundle the full
 # CUDA/nvidia stack (~2GB), which is unused on these CPU containers and caused

@@ -41,6 +41,7 @@ The Profiling Engine performs the actual dataset analysis and consists of:
 - **Dataset Specification Parser**: Parses and validates input specifications
 - **Distribution Extractor**: Identifies and extracts metadata about dataset files
 - **Record Set Extractor**: Analyzes the structure and content of datasets
+- **Data Quality Detector** (opt-in): LLM-assisted error detection for tabular record sets — see [Data Quality](data-quality.md)
 - **Profile Generator**: Assembles the extracted information into standardized profiles
 
 ### Supported Data Types
@@ -51,6 +52,35 @@ The service can profile the following types of data:
 - **Databases**: SQL databases with table structures
 - **Documents**: Text files, PDF documents
 - **File Collections**: Sets of related files
+
+Files of any other type — audio, video, archives — are **listed but not opened**. They appear in the
+profile's `distribution` with their path, size and a MIME type guessed from the extension, and a
+folder holding only such files is still listed as a `cr:FileSet`, so the profile stays a complete
+inventory of the dataset. What they never get is a `recordSet`: no content is read, and no
+statistics, semantic types or data quality are reported for them.
+
+### Character Encoding
+
+Uploaded files carry no reliable encoding declaration, so the profiler resolves one per file before
+reading it. The candidates are tried in order and the first that decodes the file **in full** wins:
+
+| Order | Encoding | Why |
+|-------|----------|-----|
+| 1 | `utf-8-sig` | Plain UTF-8, but strips a leading byte-order mark that would otherwise appear as `ï»¿` welded onto the first column name |
+| 2 | `cp1252` | Most files that fail UTF-8 are Windows/Excel exports. Agrees with Latin-1 except across `0x80`–`0x9F`, where it yields the intended punctuation (en-dashes, curly quotes) instead of unusable control characters |
+| 3 | `ISO-8859-1` | Maps every byte `0x00`–`0xFF`, so it never raises. The last resort, and the reason profiling cannot fail on an undecodable file |
+
+The check decodes the whole file rather than sampling a prefix. A prefix is cheaper but can be
+wrong in the worst way: a file that is ASCII for its first few megabytes and Windows-encoded
+afterwards would be declared UTF-8, and the decode would then fail part-way through a profiling
+pass. Decoding is incremental, so memory stays flat regardless of file size, and the scan costs a
+fraction of the pandas passes that follow.
+
+The resolved encoding is reused by every reader for that file — delimiter sniffing, the header
+read, both streaming passes, the semantic-type sample, and the data quality detection script — so a
+file is never read two different ways.
+
+Text and PDF record sets detect their own encoding separately, via `chardet`.
 
 ### Distributed Computing Layer
 

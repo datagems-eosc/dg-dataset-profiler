@@ -7,6 +7,11 @@ from pathlib import Path
 import pandas as pd
 import uuid
 
+from dataset_profiler.data_quality import (
+    detect_data_quality_errors,
+    is_data_quality_enabled,
+)
+from dataset_profiler.data_quality.models import DataQualityResult
 from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
 from dataset_profiler.profile_components.record_set.csv.calculate_statistics import (
     _ColumnAccumulator,
@@ -15,11 +20,18 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     RecordSet,
     ColumnField,
 )
+from dataset_profiler.profile_components.cta import ColumnTypeAnnotator
+from dataset_profiler.utilities import resolve_encoding
 from dataset_profiler.configs.config_logging import logger
 
 # Rows read per chunk while streaming a CSV. Bounds peak memory regardless of
 # how large the file is.
 CHUNK_SIZE = 500_000
+# Rows sampled for semantic type annotation. The annotator only looks at a
+# handful of values per column, and its database path samples with LIMIT 100,
+# so reading a bounded sample keeps CSV annotation consistent with that and
+# avoids materializing the whole file.
+CTA_SAMPLE_ROWS = 100
 
 
 class CSVRecordSet(RecordSet):
@@ -29,10 +41,30 @@ class CSVRecordSet(RecordSet):
         self.file_object = file_object
         self.file_object_id = file_object_id
         self.type = "cr:RecordSet"
+        self._encoding = None
         self.name = file_object.split(".")[-2]
         self.description = ""
         self.fields = self.extract_fields()
         self.examples = self.extract_examples()
+        self.data_quality = self.extract_data_quality()
+
+    @property
+    def encoding(self):
+        """The encoding for this record set's file, resolved once and cached.
+
+        Resolved lazily rather than in ``__init__`` so that a missing file still
+        raises from ``_detect_delimiter``, which reports it properly.
+        """
+        if self._encoding is None:
+            self._encoding = resolve_encoding(
+                os.path.join(self.distribution_path, self.file_object)
+            )
+            logger.info(
+                "Resolved CSV encoding",
+                encoding=self._encoding,
+                file=self.file_object,
+            )
+        return self._encoding
 
     def _detect_delimiter(self, file_path):
         """Detect the CSV delimiter by sniffing the first 1KB of the file."""
@@ -40,7 +72,7 @@ class CSVRecordSet(RecordSet):
             logger.error("CSV file not found", file=file_path)
             raise FileNotFoundError(f"CSV file not found: {file_path}")
 
-        with open(file_path, 'r', encoding="ISO-8859-1") as csvfile:
+        with open(file_path, 'r', encoding=self.encoding) as csvfile:
             sample = csvfile.read(1024)
             try:
                 delimiter = csv.Sniffer().sniff(sample).delimiter
@@ -55,7 +87,7 @@ class CSVRecordSet(RecordSet):
         """Read only the header row to get the column names (no data loaded)."""
         try:
             header = pd.read_csv(
-                file_path, encoding="ISO-8859-1", sep=delimiter, nrows=0
+                file_path, encoding=self.encoding, sep=delimiter, nrows=0
             )
         except pd.errors.EmptyDataError:
             logger.warning("Empty CSV given. Skipping...", file=file_path)
@@ -70,7 +102,7 @@ class CSVRecordSet(RecordSet):
         per pass.
         """
         read_kwargs = dict(
-            encoding="ISO-8859-1",
+            encoding=self.encoding,
             sep=delimiter,
             chunksize=CHUNK_SIZE,
             usecols=usecols,
@@ -111,12 +143,52 @@ class CSVRecordSet(RecordSet):
                     if column in chunk.columns:
                         accumulators[column].update_histogram(chunk[column])
 
+        stype_annotations = self._annotate_semantic_types(file_path, delimiter)
+
         return [
             TableColumnField.from_accumulator(
-                column, accumulators[column], self.name, self.file_object_id
+                column,
+                accumulators[column],
+                self.name,
+                self.file_object_id,
+                stype_annotations.get(column, ""),
             )
             for column in column_names
         ]
+
+    def _annotate_semantic_types(self, file_path, delimiter) -> dict:
+        """Annotate column semantic types with the LLM-backed annotator.
+
+        The annotator needs only a sample of values per column, so a bounded
+        read is used rather than the whole file. A failure here (unreachable
+        LLM, auth error) is logged and swallowed: semantic types are an
+        enrichment, and losing them must not fail the whole profile.
+        """
+        try:
+            sample = pd.read_csv(
+                file_path,
+                encoding=self.encoding,
+                sep=delimiter,
+                nrows=CTA_SAMPLE_ROWS,
+                on_bad_lines="skip",
+            )
+        except pd.errors.EmptyDataError:
+            return {}
+        except Exception as e:
+            logger.error(
+                "Failed to read sample for semantic type annotation",
+                error=str(e),
+                file=file_path,
+            )
+            return {}
+
+        try:
+            return ColumnTypeAnnotator().annotate_columns(df=sample)
+        except Exception as e:
+            logger.error(
+                "Semantic type annotation failed", error=str(e), file=file_path
+            )
+            return {}
 
     def extract_examples(self):
         file_path = os.path.join(self.distribution_path, self.file_object)
@@ -128,7 +200,7 @@ class CSVRecordSet(RecordSet):
         try:
             csv_object = pd.read_csv(
                 file_path,
-                encoding="ISO-8859-1",
+                encoding=self.encoding,
                 sep=delimiter,
                 nrows=30,
                 on_bad_lines='skip',
@@ -144,8 +216,32 @@ class CSVRecordSet(RecordSet):
         return examples_dict
 
 
+    def extract_data_quality(self) -> DataQualityResult | None:
+        """Run LLM-based error detection on the table (detection only).
+
+        Opt-in via the ENABLE_DATA_QUALITY env var. Any failure is logged and
+        swallowed so data quality issues can never break profile generation.
+        """
+        if not is_data_quality_enabled() or not self.fields:
+            return None
+
+        file_path = os.path.join(self.distribution_path, self.file_object)
+        try:
+            delimiter = self._detect_delimiter(file_path)
+            return detect_data_quality_errors(
+                file_path,
+                table_name=Path(self.name).name,
+                delimiter=delimiter,
+                encoding=self.encoding,
+            )
+        except Exception as e:
+            logger.error(
+                f"Data quality detection failed: {str(e)}", file=file_path
+            )
+            return None
+
     def to_dict(self):
-        return {
+        record_set_dict = {
             "@type": self.type,
             "@id": str(uuid.uuid4()),
             "name": Path(self.name).name,
@@ -154,8 +250,13 @@ class CSVRecordSet(RecordSet):
             "field": [field.to_dict() for field in self.fields],
             "examples": json.dumps(self.examples, default=str),
         }
+        if self.data_quality is not None:
+            record_set_dict["dataQuality"] = self.data_quality.to_dict()
+        return record_set_dict
 
     def to_dict_cdd(self):
+        # Data quality is deliberately absent here: it is reported only in the
+        # heavy MoMa profile, not in the CDD profile.
         return {
             "file_object_id": self.file_object_id,
             "original_format": "csv",
@@ -175,12 +276,14 @@ class TableColumnField(ColumnField):
         statistics: ColumnStatistics,
         csv_name: str,
         file_object_id: str,
+        semantic_type: str = "",
     ):
         self.type = "cr:Field"
         self.id = str(uuid.uuid4())
         self.name = column_name
         self.description = ""
         self.dataType = data_type
+        self.semanticType = semantic_type
         self.source = {
             "fileObject": {"@id": file_object_id},
             "extract": {"column": column_name},
@@ -195,6 +298,7 @@ class TableColumnField(ColumnField):
         accumulator: _ColumnAccumulator,
         csv_name: str,
         file_object_id: str,
+        semantic_type: str = "",
     ) -> "TableColumnField":
         return cls(
             column_name,
@@ -203,6 +307,7 @@ class TableColumnField(ColumnField):
             accumulator.build_statistics(),
             csv_name,
             file_object_id,
+            semantic_type,
         )
 
     def to_dict(self):
@@ -211,7 +316,8 @@ class TableColumnField(ColumnField):
             "@id": self.id,
             "name": self.name,
             "description": self.description,
-            "dataType": self.dataType,
+            "dataType": self.dataType,      # dataType for core profile and primitive_type for CDD?
+            "semanticType": self.semanticType,
             "source": self.source,
             "sample": self.sample,
             "statistics": self.statistics.to_dict(),
@@ -221,7 +327,7 @@ class TableColumnField(ColumnField):
         return {
             "name": self.name,
             "primitive_type": self.dataType,
-            "semantic_types": [],
+            "semantic_type": self.semanticType,
             "description": self.description,
             "statistics": self.statistics.to_dict_cdd(),
         }

@@ -1,9 +1,61 @@
+import codecs
 import re
 import uuid
 from pathlib import Path
 from random import sample
+from typing import Union
 
 import pandas.api.types as ptypes
+
+# Bytes read per iteration while sniffing a file's encoding.
+_ENCODING_PROBE_CHUNK = 1 << 20  # 1 MiB
+
+# Preferred encoding. "utf-8-sig" is plain UTF-8 except that it strips a
+# leading byte-order mark, which would otherwise be decoded as three junk
+# characters welded onto the first column name.
+PREFERRED_ENCODING = "utf-8-sig"
+
+# Tried in order for files that are not valid UTF-8. cp1252 comes first because
+# most such files are Windows/Excel exports: it agrees with Latin-1 everywhere
+# except 0x80-0x9F, where Latin-1 yields unusable C1 control characters and
+# cp1252 yields the punctuation actually meant (en-dashes, curly quotes). It can
+# still fail on five undefined bytes, so Latin-1 -- which maps every byte
+# 0x00-0xFF and therefore never raises -- remains the last resort.
+FALLBACK_ENCODINGS = ("cp1252", "ISO-8859-1")
+
+
+def resolve_encoding(file_path: Union[str, Path]) -> str:
+    """Return the encoding a text file should be read with.
+
+    Returns ``PREFERRED_ENCODING`` when the file decodes cleanly as UTF-8,
+    otherwise the first of ``FALLBACK_ENCODINGS`` that decodes it. The last
+    fallback never raises, so this always returns something.
+
+    The file is scanned in full rather than sampled. A prefix probe is cheaper
+    but can be wrong: a file that is ASCII for its first megabytes and Latin-1
+    thereafter would be reported as UTF-8, and the decode would then blow up
+    mid-stream, half-way through a profiling pass. Scanning the bytes is far
+    cheaper than the two pandas passes that follow, so correctness wins here.
+
+    Decoding is incremental, so peak memory stays at one chunk regardless of
+    file size.
+
+    An unreadable file reports the fallback rather than raising; callers open
+    the file immediately afterwards and surface a better error than this can.
+    """
+    for encoding in (PREFERRED_ENCODING, *FALLBACK_ENCODINGS):
+        decoder = codecs.getincrementaldecoder(encoding)()
+        try:
+            with open(file_path, "rb") as handle:
+                while chunk := handle.read(_ENCODING_PROBE_CHUNK):
+                    decoder.decode(chunk)
+                decoder.decode(b"", final=True)
+        except UnicodeDecodeError:
+            continue
+        except OSError:
+            break
+        return encoding
+    return FALLBACK_ENCODINGS[-1]
 
 
 def find_column_type_in_csv(column):

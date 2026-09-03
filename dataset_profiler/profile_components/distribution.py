@@ -1,3 +1,4 @@
+import mimetypes
 import os
 import uuid
 from hashlib import sha256
@@ -30,6 +31,32 @@ SUPPORTED_EXTENSION_MAP = {
     ".jpeg": "image/jpeg",
     ".png": "image/png",
 }
+
+# Files whose extension is absent from the map above are still listed in the
+# distribution -- consumers need to know they exist and where they live -- they
+# are just not opened for record set extraction, statistics or data quality.
+FALLBACK_ENCODING_FORMAT = "application/octet-stream"
+
+
+def is_supported(file_path: str | Path) -> bool:
+    """Whether the profiler knows how to look inside a file of this type."""
+    return Path(file_path).suffix.lower() in SUPPORTED_EXTENSION_MAP
+
+
+def get_encoding_format(file_path: str | Path) -> str:
+    """Best-effort MIME type for a file, from its extension alone.
+
+    Supported types keep the exact value the profiler has always emitted, so
+    downstream checks that compare against those strings are unaffected.
+    Everything else falls back to the standard library's guess (``audio/mp4``
+    for ``.m4a``, say) and finally to ``application/octet-stream``.
+    """
+    suffix = Path(file_path).suffix.lower()
+    if suffix in SUPPORTED_EXTENSION_MAP:
+        return SUPPORTED_EXTENSION_MAP[suffix]
+    guessed, _ = mimetypes.guess_type(Path(file_path).name)
+    return guessed or FALLBACK_ENCODING_FORMAT
+
 
 class DistributionFileObject:
     def __init__(
@@ -72,31 +99,34 @@ class DistributionFileObject:
 
 def get_distribution_of_file_object(
     file_object: str, file_object_id: str
-) -> DistributionFileObject | None:
+) -> DistributionFileObject:
     """
     Create a distribution object for a file.
-    Returns None for unsupported file types to allow graceful skipping.
+
+    Every file gets an entry, whatever its type: the distribution is the
+    dataset's inventory, so dropping a file here would hide it from consumers
+    entirely. Files the profiler cannot read (audio, video, archives, ...) are
+    flagged ``is_minimal`` so that record set extraction leaves them alone;
+    they still carry their path, size and MIME type.
     """
-    file_extension = Path(file_object).suffix.lower()
+    supported = is_supported(file_object)
+    if not supported:
+        logger.info(
+            "Listing file without profiling it - unsupported file type",
+            file=Path(file_object).name,
+            file_extension=Path(file_object).suffix.lower(),
+        )
 
-    sha = sha256(file_object.encode("utf-8")).hexdigest()
-
-    # If extension is not supported, skip this file
-    if file_extension not in SUPPORTED_EXTENSION_MAP:
-        logger.warning("Skipping unsupported file type", file=Path(file_object).name,
-                       file_extension=file_extension)
-        return None
-
-    encoding_format = SUPPORTED_EXTENSION_MAP[file_extension]
-
-    return DistributionFileObject(
+    distribution = DistributionFileObject(
         file_object_id=file_object_id,
         name=file_object.split("/")[-1],
         content_size=f"{Path(file_object).stat().st_size} B",
         content_url=file_object,
-        encoding_format=encoding_format,
-        sha256_check=sha,
+        encoding_format=get_encoding_format(file_object),
+        sha256_check=sha256(file_object.encode("utf-8")).hexdigest(),
     )
+    distribution.is_minimal = not supported
+    return distribution
 
 
 class DistributionDatabaseConnection:
@@ -196,38 +226,35 @@ class DistributionFileSet:
         }
 
 
-def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet | None:
+def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
     """
     Create a distribution object for a file set (directory).
-    Returns None if no supported files are found in the directory.
+
+    A directory holding only unsupported files is still listed, otherwise the
+    files inside it would disappear from the profile along with it. The set's
+    encoding format is taken from the first file the profiler can read, so that
+    mixed directories keep advertising their readable type; failing that, from
+    the first file of any type.
     """
-    # Find first supported file in directory
-    sample_file_of_dir = None
-    encoding_format: str | None = None
+    files_in_dir = sorted(path for path in Path(file_set).glob("*") if path.is_file())
+    sample_file_of_dir = next(
+        (path for path in files_in_dir if is_supported(path)),
+        next(iter(files_in_dir), None),
+    )
 
-    for file_path in Path(file_set).glob("*"):
-        if file_path.is_file():
-            suffix = file_path.suffix.lower()
-            if suffix in SUPPORTED_EXTENSION_MAP:
-                sample_file_of_dir = file_path
-                encoding_format = SUPPORTED_EXTENSION_MAP[suffix]
-                break
-
-    # If no supported files found in directory, skip this file set
     if sample_file_of_dir is None:
-        logger.warning("Skipping file set - contains no supported file types", file_set=file_set)
-        return None
+        logger.warning("Listing empty file set", file_set=file_set)
+    elif not is_supported(sample_file_of_dir):
+        logger.info(
+            "Listing file set without profiling it - contains no supported file types",
+            file_set=file_set,
+        )
 
-    file_sizes = [
-        os.path.getsize(file_set + "/" + f)
-        for f in os.listdir(file_set)
-        if os.path.isfile(file_set + "/" + f)
-    ]
     return DistributionFileSet(
         file_set_id=file_set_id,
         name=file_set.split("/")[-1],
-        content_size=f"{sum(file_sizes)} B",
-        encoding_format=encoding_format or "",
+        content_size=f"{sum(path.stat().st_size for path in files_in_dir)} B",
+        encoding_format=get_encoding_format(sample_file_of_dir) if sample_file_of_dir else "",
         includes=f"{file_set.split('/')[-1]}",
         content_url=file_set
     )
@@ -241,14 +268,6 @@ def get_file_objects_of_file_set(contained_in_id: str, file_set_path: str) -> li
                 file_object=str(file_path),
                 file_object_id=str(uuid.uuid4()),
             )
-            if file_object is None:
-                file_object = DistributionFileObject(
-                    file_object_id=str(uuid.uuid4()),
-                    name=file_path.name,
-                    content_size=f"{file_path.stat().st_size} B",
-                    content_url=str(file_path),
-                )
-                file_object.is_minimal = True
             file_object.contained_in = contained_in_id
             file_objects.append(file_object)
     return file_objects
