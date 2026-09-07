@@ -21,22 +21,27 @@ from dataset_profiler.profile_components.record_set.db.database_connector import
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
+# SCAYLE model ids are case sensitive and drift over time. "Qwen3" used to work
+# and now fails with HTTP 400 ("Model not found") — the endpoint serves the
+# lowercase "qwen3" instead — just as both "gemma4" and "Gemma4" did before it.
+# Because annotation failures are swallowed per column, a stale id silently
+# writes "error" into every column while the job still reports success, so the
+# id is overridable with CTA_LLM_MODEL: the next drift is a config change rather
+# than a rebuild. qwen3 answers in the short form this prompt expects and is
+# ~3x faster per column than qwen3.6, which matters at one call per column.
+DEFAULT_CTA_MODEL = "qwen3"
+
 
 class ColumnTypeAnnotator:
     def __init__(
         self,
-        # SCAYLE model ids are case sensitive and drift over time. Both "gemma4"
-        # and "Gemma4" fail with HTTP 400 (no such model group) — the endpoint
-        # serves no Gemma at all — and because annotation failures are swallowed,
-        # that silently wrote "error" into every column. Qwen3 is verified against
-        # the endpoint and answers in the short form this prompt expects; it is
-        # ~3x faster per column than qwen3.6, which matters at one call per column.
-        model: str = "Qwen3",
+        # None means: CTA_LLM_MODEL if set, else DEFAULT_CTA_MODEL.
+        model: Optional[str] = None,
         llm_provider: str = "scayle-llm",
         sample_size: int = 10,
     ):
         self.sample_size = sample_size
-        self.model_name = model
+        self.model_name = model or os.environ.get("CTA_LLM_MODEL") or DEFAULT_CTA_MODEL
         self.llm_provider = llm_provider
 
         self.llm = CommonLLMConnector(
@@ -171,5 +176,16 @@ class ColumnTypeAnnotator:
             except Exception as e:
                 logger.error(f"Error for column '{col}': {e}")
                 semantic_types[col] = "error"
+
+        # Per-column errors above are swallowed so profiling still completes; log
+        # one summary line so a dead or renamed model group is visible in the Ray
+        # logs without having to read the resulting profile column by column.
+        failed = [c for c, t in semantic_types.items() if t == "error"]
+        if failed:
+            logger.error(
+                f"Semantic type annotation failed for {len(failed)}/{len(target_cols)} "
+                f"columns with model '{self.model_name}' on provider "
+                f"'{self.llm_provider}'; they are annotated as 'error'"
+            )
 
         return semantic_types

@@ -78,7 +78,7 @@ deprecated rather than kept alongside it.
 
 ## Configuration
 
-CTA uses the shared `CommonLLMConnector` against the SCAYLE LLM service, on the `Qwen3` model group, configured through `dataset_profiler/common_llm/configs/llm_config.yaml` and the usual SCAYLE environment variables:
+CTA uses the shared `CommonLLMConnector` against the SCAYLE LLM service, on the `qwen3` model group, configured through `dataset_profiler/common_llm/configs/llm_config.yaml` and the usual SCAYLE environment variables:
 
 ```bash
 SCAYLE_BASE_URL=https://<scayle-host>/api
@@ -87,14 +87,24 @@ SCAYLE_PASSWORD=<password>
 SCAYLE_VERIFY_SSL=false   # self-signed certificate
 ```
 
+The model group is overridable without a rebuild:
+
+```bash
+CTA_LLM_MODEL=qwen3   # default; set to another id the endpoint serves
+```
+
 Unlike data quality detection, annotation is **not** behind a feature flag — it runs whenever a tabular record set is profiled.
 
 !!! warning "Model identifiers are case-sensitive and drift"
     SCAYLE model group names change over time and are matched exactly. A retired or misspelled name
-    fails with `HTTP 400 … No fallback model group found for original model_group=<name>`, and **every
-    column in the profile comes back as `error`** — profiling still succeeds, so the failure is easy to
-    miss. List the available model groups on the endpoint before deploying a model change, and check a
-    sample profile for a run of `"semanticType": "error"` afterwards.
+    fails with `HTTP 400 … Model not found` (or `No fallback model group found for original
+    model_group=<name>`), and **every column in the profile comes back as `error`** — profiling still
+    succeeds and the health check stays green, so the failure is easy to miss. `Qwen3` worked until the
+    endpoint renamed it to `qwen3`, and `gemma4`/`Gemma4` failed before that. List the available model
+    groups on the endpoint before deploying a model change, set `CTA_LLM_MODEL` to recover without a
+    rebuild, and check a sample profile for a run of `"semanticType": "error"` afterwards. A summary
+    line — `Semantic type annotation failed for N/M columns with model '<id>'` — is logged whenever any
+    column fails.
 
 ## Limitations & Notes
 
