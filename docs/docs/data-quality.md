@@ -84,7 +84,7 @@ queryable:
 ```
 
 `DataQuality` carries the `summary`; each `DataQualityError` carries `column`, `errorType`,
-`description`, `totalAffectedRows` and `errorExamples`.
+`description`, `totalAffectedRows` and `examples`.
 
 !!! warning "Absence is not a clean bill of health"
     A record set with no `dataQuality` block was **not analysed** — detection is opt-in, tabular-only,
@@ -96,7 +96,7 @@ queryable:
 
 The terms are defined in `datagems-croissant-extension.ttl`: the classes `dg:DataQuality` and
 `dg:DataQualityError`, and the properties `dg:hasDataQuality`, `dg:hasError`, `dg:errorType`,
-`dg:totalAffectedRows` and `dg:errorExamples`. In the JSON-LD `@context`, `dataQuality` is declared
+`dg:totalAffectedRows` and `dg:examples`. In the JSON-LD `@context`, `dataQuality` is declared
 as an `@json` literal, because the block nests its own `summary`, `column` and `examples` keys which
 would otherwise collide with the identically named record-set and Croissant terms.
 

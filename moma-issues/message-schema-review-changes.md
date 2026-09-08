@@ -29,7 +29,7 @@ The resulting shape:
 
 - Profile payload — **byte-identical**, no reprofiling needed
 - Node labels — **unchanged** (`DataQuality`, `DataQualityError`)
-- Property names — **unchanged** (`summary`, `column`, `errorType`, `description`, `totalAffectedRows`, `errorExamples`)
+- Property names — **unchanged** (`summary`, `column`, `errorType`, `description`, `totalAffectedRows`, `examples`)
 - JSON Schemas — **no edits**
 
 Two files, four lines.
@@ -61,7 +61,7 @@ DataQualityError:
     errorType: errorType
     description: description
     totalAffectedRows: totalAffectedRows
-    errorExamples: examples
+    examples: examples
   edges:
     - from: parent
       to: self
@@ -104,7 +104,7 @@ DataQuality        labels=['DataQuality', 'dg:DataQuality']
                    props=['summary', 'type']
 
 DataQualityError   labels=['DataQualityError', 'dg:DataQualityError']
-                   props=['column', 'description', 'errorExamples', 'errorType',
+                   props=['column', 'description', 'errorType', 'examples',
                           'totalAffectedRows', 'type']
 
 edges: ['HAS_DATA_QUALITY', 'HAS_ERROR']

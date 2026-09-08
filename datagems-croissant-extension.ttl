@@ -101,7 +101,7 @@ dg:DataQualityError
     rdfs:comment """One detected error pattern affecting one column of a tabular record set — not one
 erroneous cell. It names the affected column (cr:column), describes the pattern (sc:description),
 classifies it (dg:errorType), counts the affected rows (dg:totalAffectedRows) and carries up to
-five illustrative offending values (dg:errorExamples).
+five illustrative offending values (dg:examples).
 
 Structurally this is the same idea as sh:ValidationResult — one finding, a message, a severity-like
 classification and a pointer to what it is about — but sh:focusNode and sh:resultPath address RDF
@@ -376,15 +376,19 @@ dg:totalAffectedRows
     rdfs:label   "total affected rows"@en ;
     rdfs:comment "Number of rows exhibiting this error pattern across the whole table — not the number of examples reported."@en .
 
-dg:errorExamples
+dg:examples
     a rdf:Property, owl:DatatypeProperty ;
     rdfs:domain  dg:DataQualityError ;
     rdfs:label   "error examples"@en ;
     rdfs:comment """Illustrative occurrences of the error: an array of objects of the form
 {"value": "<erroneous value>", "row": <1-indexed row number>}, capped at five entries. Unlike
 dg:histogram, the profiler emits these as real JSON objects rather than a pre-serialized string;
-a consumer storing them in a property graph is expected to encode them itself. Named distinctly
-from cr:examples, which carries a record set's sample rows and has different semantics."""@en .
+a consumer storing them in a property graph is expected to encode them itself.
+
+Distinct from cr:examples despite the shared local name: that carries a record set's sample rows,
+as a JSON string, whereas this carries error occurrences as an array of objects. The domains keep
+them apart, but anything querying by property name across node types needs to know they differ in
+both meaning and type."""@en .
 
 #  Within a dg:DataQualityError the affected column name reuses cr:column and the
 #  human-readable description of the pattern reuses sc:description; no dg: term is
