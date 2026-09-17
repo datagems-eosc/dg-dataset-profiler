@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 import os
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
@@ -30,6 +31,27 @@ logger = logging.getLogger(__name__)
 # than a rebuild. qwen3 answers in the short form this prompt expects and is
 # ~3x faster per column than qwen3.6, which matters at one call per column.
 DEFAULT_CTA_MODEL = "qwen3"
+
+
+
+def normalize_semantic_type(raw: str) -> str:
+    """Put a model answer into one canonical form.
+
+    The same model returns the same type as "attendance_percentage",
+    "Attendance percentage." or '"attendance percentage"' from one run to the
+    next, which makes identical annotations look different to anything matching
+    on them. Only formatting is normalised; the wording itself is left alone.
+    """
+    lines = [line for line in raw.strip().splitlines() if line.strip()]
+    if not lines:
+        return "unknown"
+    text = lines[0]
+    # "column_name: type" -- the model occasionally echoes the header first.
+    if ":" in text:
+        text = text.rsplit(":", 1)[1]
+    text = text.replace("_", " ")
+    text = re.sub(r"\s+", " ", text).strip().strip("\"'`*.,;!?()[]{}").strip()
+    return text.lower() or "unknown"
 
 
 class ColumnTypeAnnotator:
@@ -98,8 +120,8 @@ class ColumnTypeAnnotator:
         try:
             content = response.choices[0].message.content
             if "ANSWER:" in content:
-                return content.split("ANSWER:", 1)[1].strip().lower()
-            return content.strip().lower()
+                content = content.split("ANSWER:", 1)[1]
+            return normalize_semantic_type(content)
         except Exception as e:
             logger.warning(f"Failed to parse response: {e}")
             return "unknown"

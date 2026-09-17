@@ -67,7 +67,11 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
             logger.info("Only light profiler was requested")
             return None
 
-        profile.extract_record_sets()
+        # Assigned, not just called: extract_record_sets() returns the list without
+        # storing it, and to_dict() only reuses self.record_sets. Discarding the
+        # result made every job extract twice -- doubling the LLM calls for
+        # semantic annotation and data quality detection.
+        profile.record_sets = profile.extract_record_sets()
         heavy_profile = profile.to_dict()
         cdd_profile = profile.to_dict_cdd()
         cdd_profile_path = os.getenv('CDD_PROFILE_PATH', '') + specification["id"] + ".json"

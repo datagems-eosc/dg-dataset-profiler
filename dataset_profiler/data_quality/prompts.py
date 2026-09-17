@@ -32,20 +32,34 @@ Generate a Python script to detect data quality errors in a dataset.
 4. `error_type` MUST be exactly one of those three values. Do not invent other categories
    — anything else is discarded. Conditional emptiness (a column empty only when another
    column is filled) is a consistency_error.
-5. Do NOT report plainly missing or empty values as errors. Missing data is already counted
+5. The column details above were computed over EVERY row, not the sample. Shapes, full value
+   counts, case variants and numeric ranges with exact counts are all there — write checks for
+   what they reveal rather than relying on the sample alone.
+6. For format_inconsistency and consistency_error, first find the dominant form: the most
+   frequent shape or spelling. Only rows that DEVIATE from it are affected. `total_affected_rows`
+   counts those rows alone, and every example must be a deviating value, never the dominant form.
+   Findings that count most of a column as inconsistent are rejected.
+7. Do not report a format_inconsistency for a column whose values all share a single shape.
+8. Do NOT report plainly missing or empty values as errors. Missing data is already counted
    per column as missingCount and missingPercentage, so repeating it here adds nothing.
-6. Every value you put in the JSON MUST be a built-in Python type, never a numpy or
+9. `column` must be exactly ONE existing column name. For a problem involving two columns (a value
+   that is impossible given another column), name the column holding the implausible value, take
+   the examples from that column, and mention the other column in the description.
+10. Values are strings and may be empty. Never call `float()` or `int()` on raw values: convert
+    with `pd.to_numeric(df[col], errors="coerce")`. Build every boolean mask from comparisons or
+    `.str` methods and finish it with `.fillna(False).astype(bool)` before indexing with it.
+11. Every value you put in the JSON MUST be a built-in Python type, never a numpy or
    pandas scalar. Wrap every row number and count in `int(...)` and every erroneous
    value in `str(...)`. Pandas expressions such as `.index`, `.sum()`, `.nunique()`
    and `len(df[mask])` yield `numpy.int64`, which is NOT JSON serializable and will
    crash the script.
-7. Print ONLY a valid JSON array to stdout (no other output whatsoever), serialized
-   with `json.dumps(errors, default=str)`.
-8. Row numbers are 1-indexed (first data row after header = row 1).
-9. Include at most {max_examples} examples per error entry.
-10. Output an empty array `[]` if no errors are found.
-11. Only DETECT errors — do NOT attempt to correct or suggest fixes for any value.
-12. Use only: pandas, re, json, sys, collections, datetime — no third-party packages.
+12. Print ONLY a valid JSON array to stdout (no other output whatsoever), serialized
+    with `json.dumps(errors, default=str)`.
+13. Row numbers are 1-indexed (first data row after header = row 1).
+14. Include at most {max_examples} examples per error entry.
+15. Output an empty array `[]` if no errors are found.
+16. Only DETECT errors — do NOT attempt to correct or suggest fixes for any value.
+17. Use only: pandas, re, json, sys, collections, datetime — no third-party packages.
 
 ## Required JSON output schema
 [
@@ -95,14 +109,38 @@ Output only the summary, nothing else.\
 NO_ERRORS_SUMMARY = "No data quality errors were detected."
 
 
+def _format_counts(counts: dict) -> str:
+    return ", ".join(f'"{k}"={v}' for k, v in counts.items())
+
+
 def _format_column_details(columns_meta: dict) -> str:
     lines = []
     for col, meta in columns_meta.items():
-        sample_vals = ", ".join(f'"{v}"' for v in meta["sample_distinct_values"][:10])
-        lines.append(
-            f"- {col}: {meta['unique_count']} unique values, "
-            f"{meta['empty_count']} empty. Sample: [{sample_vals}]"
-        )
+        signals = meta.get("signals") or {}
+        kind = signals.get("kind")
+        head = f"- {col}: {meta['unique_count']} unique values, {meta['empty_count']} empty."
+
+        if kind == "numeric":
+            head += (f" Numeric: min {signals['min']:g}, max {signals['max']:g}, "
+                     f"{signals['negative_count']} negative.")
+            if signals.get("non_numeric_values"):
+                head += f" Non-numeric entries: {_format_counts(signals['non_numeric_values'])}."
+            lines.append(head)
+            continue
+
+        if kind == "categorical":
+            lines.append(head)
+            lines.append(f"    all values: {_format_counts(signals['value_counts'])}")
+        else:
+            sample_vals = ", ".join(f'"{v}"' for v in meta["sample_distinct_values"][:10])
+            lines.append(f"{head} Sample: [{sample_vals}]")
+            if signals.get("shapes"):
+                more = signals["shape_count"] - len(signals["shapes"])
+                tail = f" (+{more} more shapes)" if more > 0 else ""
+                lines.append(f"    shapes (9=digit, A/a=letters): {_format_counts(signals['shapes'])}{tail}")
+
+        for group in signals.get("case_variant_groups", []):
+            lines.append(f"    same value, different case/accents: {_format_counts(group)}")
     return "\n".join(lines)
 
 
@@ -123,13 +161,28 @@ def _format_error_for_summary(error: ColumnError, max_examples: int = 3) -> str:
     return line
 
 
-def generate_detection_script(
-    connector: CommonLLMConnector,
+REPAIR_TEMPLATE = """\
+Your script did not produce usable results:
+
+{problems}
+
+Fix the root cause named in the last line of each error — do not rebuild the same construct
+that failed. Return the complete corrected script. Keep the checks that were working and still
+follow every original requirement. Output ONLY the Python script.\
+"""
+
+
+def build_detection_messages(
     profile: dict,
     delimiter: str = ",",
     encoding: str = "utf-8-sig",
     max_examples: int = 5,
-) -> str:
+) -> List[dict]:
+    """The conversation that asks for a detection script.
+
+    Kept separate from the call itself so a repair attempt can continue the
+    same conversation instead of starting over without context.
+    """
     prompt = SCRIPT_GENERATION_TEMPLATE.format(
         total_rows=profile["total_rows"],
         column_names=", ".join(profile["column_names"]),
@@ -140,11 +193,37 @@ def generate_detection_script(
         encoding=encoding,
         max_examples=max_examples,
     )
-    messages = [
+    return [
         {"role": "system", "content": SCRIPT_GENERATION_SYSTEM},
         {"role": "user", "content": prompt},
     ]
+
+
+def generate_detection_script(
+    connector: CommonLLMConnector,
+    profile: dict,
+    delimiter: str = ",",
+    encoding: str = "utf-8-sig",
+    max_examples: int = 5,
+) -> str:
+    messages = build_detection_messages(profile, delimiter, encoding, max_examples)
     return chat_completion(connector, messages)
+
+
+def repair_detection_script(
+    connector: CommonLLMConnector,
+    messages: List[dict],
+    previous_script: str,
+    problems: List[str],
+) -> str:
+    """Ask for a corrected script, showing the model its own script and what went wrong."""
+    conversation = messages + [
+        {"role": "assistant", "content": previous_script},
+        {"role": "user", "content": REPAIR_TEMPLATE.format(
+            problems="\n".join(f"- {p}" for p in problems)
+        )},
+    ]
+    return chat_completion(connector, conversation)
 
 
 def generate_summary(

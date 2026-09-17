@@ -32,6 +32,15 @@ CHUNK_SIZE = 500_000
 # so reading a bounded sample keeps CSV annotation consistent with that and
 # avoids materializing the whole file.
 CTA_SAMPLE_ROWS = 100
+# Characters read when sniffing a file's delimiter. 1KB proved too little: files
+# with long rows (URIs, non-Latin text) yield only a handful of lines, the last
+# one cut short, and a partial row breaks the Sniffer's consistency check.
+DELIMITER_SAMPLE_CHARS = 64 * 1024
+# The only characters accepted as column separators. Unrestricted, the Sniffer
+# takes any character with a steady count per row -- it picked the letter "n"
+# for an ESCO file of URIs, splitting "originalSkillUri" into "origi" and
+# "alSkillUri".
+CANDIDATE_DELIMITERS = ",;\t|"
 
 
 class CSVRecordSet(RecordSet):
@@ -67,20 +76,27 @@ class CSVRecordSet(RecordSet):
         return self._encoding
 
     def _detect_delimiter(self, file_path):
-        """Detect the CSV delimiter by sniffing the first 1KB of the file."""
+        """Detect the CSV delimiter by sniffing the start of the file."""
         if not os.path.exists(file_path):
             logger.error("CSV file not found", file=file_path)
             raise FileNotFoundError(f"CSV file not found: {file_path}")
 
-        with open(file_path, 'r', encoding=self.encoding) as csvfile:
-            sample = csvfile.read(1024)
-            try:
-                delimiter = csv.Sniffer().sniff(sample).delimiter
-                logger.info("Detected CSV delimiter", delimiter=delimiter, file=file_path)
-            except csv.Error:
-                # If sniffer fails, fall back to a comma
-                delimiter = ','
-                logger.info("Using default CSV delimiter", delimiter=delimiter, file=file_path)
+        with open(file_path, 'r', encoding=self.encoding, newline='') as csvfile:
+            sample = csvfile.read(DELIMITER_SAMPLE_CHARS)
+
+        # Only trim when the read stopped at the limit: then the last row is
+        # almost certainly cut short. A shorter file was read whole, and dropping
+        # its last line would throw away a complete row.
+        if len(sample) == DELIMITER_SAMPLE_CHARS and "\n" in sample:
+            sample = sample[: sample.rfind("\n") + 1]
+
+        try:
+            delimiter = csv.Sniffer().sniff(sample, delimiters=CANDIDATE_DELIMITERS).delimiter
+            logger.info("Detected CSV delimiter", delimiter=delimiter, file=file_path)
+        except csv.Error:
+            # If sniffer fails, fall back to a comma
+            delimiter = ','
+            logger.info("Using default CSV delimiter", delimiter=delimiter, file=file_path)
         return delimiter
 
     def _read_column_names(self, file_path, delimiter):

@@ -7,6 +7,7 @@
 tests/assets/**
 generated_profiles/**/*.json
 .env_api
+/validation-datasets
 
 docs/source
 generated_profiles/hardcoded_ui_profiles/*

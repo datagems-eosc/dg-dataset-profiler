@@ -606,3 +606,266 @@ def test_one_malformed_error_does_not_discard_the_whole_batch():
     ]
     kept = _validate_errors(raw, "x.csv")
     assert [e.column for e in kept] == ["a", "c"]
+
+
+# --- Column signals (computed over every row, not the sample) ---
+
+
+def test_value_shape_keeps_digit_counts_but_collapses_letters():
+    from dataset_profiler.data_quality.data_profile import value_shape
+
+    assert value_shape("2025-03-01") == "9999-99-99"
+    assert value_shape("01/03/2025") == "99/99/9999"
+    assert value_shape("S2024-00123") == "A9999-99999"
+    assert value_shape("Athens") == value_shape("Thessaloniki") == "Aa"
+    assert value_shape("ATHENS") == "A"
+
+
+def test_signals_expose_shape_split_with_exact_counts():
+    from dataset_profiler.data_quality.data_profile import _column_signals
+
+    col = pd.Series([f"2025-03-{d:02d}" for d in range(1, 31)] * 3 + ["01/03/2025"] * 7)
+    signals = _column_signals(col)
+    assert signals["kind"] == "text"
+    assert signals["shapes"] == {"9999-99-99": 90, "99/99/9999": 7}
+
+
+def test_signals_give_categorical_columns_full_counts_and_case_variants():
+    from dataset_profiler.data_quality.data_profile import _column_signals
+
+    col = pd.Series(["Athens"] * 20 + ["ATHENS"] * 3 + ["Athína"] * 2 + ["Patras"] * 10)
+    signals = _column_signals(col)
+    assert signals["kind"] == "categorical"
+    assert signals["value_counts"]["Athína"] == 2  # visible even though sampling might miss it
+    assert {"Athens": 20, "ATHENS": 3} in signals["case_variant_groups"]
+
+
+def test_signals_report_numeric_range_and_negatives():
+    from dataset_profiler.data_quality.data_profile import _column_signals
+
+    col = pd.Series(["12.4", "-1.8", "30", "-999", "", "8"])
+    signals = _column_signals(col)
+    assert signals["kind"] == "numeric"
+    assert signals["min"] == -999 and signals["negative_count"] == 2
+
+
+# --- Findings are checked against the data before they are published ---
+
+
+def _error(column, error_type, rows, examples=()):
+    return ColumnError(
+        column=column, error_type=error_type, description="d",
+        examples=[ErrorExample(value=v, row=r) for v, r in examples],
+        total_affected_rows=rows,
+    )
+
+
+@pytest.fixture
+def status_df():
+    # 90 rows in the dominant spelling, 10 deviating.
+    return pd.DataFrame({"status": ["active"] * 90 + ["Active"] * 6 + ["ACTIVE"] * 4})
+
+
+def test_inconsistency_counting_the_dominant_form_is_rejected(status_df):
+    """A real run reported 310 of 520 rows for enrolment_status; only 52 deviated."""
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    problem = _problem_with(_error("status", "consistency_error", 100, [("Active", 91)]), status_df)
+    assert problem and "at most 50" in problem
+
+
+def test_correctly_counted_inconsistency_passes(status_df):
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    assert _problem_with(_error("status", "consistency_error", 10, [("Active", 91)]), status_df) is None
+
+
+def test_bound_allows_a_genuine_split_with_no_majority_form():
+    """40/30/30 across three spellings: 60 deviating rows is correct, not a miscount."""
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    df = pd.DataFrame({"country": ["GR"] * 40 + ["Greece"] * 30 + ["greece"] * 30})
+    assert _problem_with(_error("country", "consistency_error", 60, [("greece", 71)]), df) is None
+
+
+def test_example_with_wrong_row_is_corrected_not_reported(status_df):
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    error = _error("status", "consistency_error", 10, [("ACTIVE", 3)])  # row 3 holds "active"
+    assert _problem_with(error, status_df) is None
+    assert error.examples[0].row == 97
+
+
+def test_examples_absent_from_the_column_are_reported(status_df):
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    problem = _problem_with(_error("status", "consistency_error", 10, [("Enabled", 1)]), status_df)
+    assert problem and "occur" in problem
+
+
+def test_unknown_column_is_reported(status_df):
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    assert "no such column" in _problem_with(_error("nope", "value_error", 1), status_df)
+
+
+# --- Repair loop ---
+
+
+CRASHING_SCRIPT = "import sys\nraise NameError(\"name 'eu_pattern' is not defined\")\n"
+
+MISCOUNTING_SCRIPT = """\
+import json, sys
+import pandas as pd
+df = pd.read_csv(sys.argv[1], dtype=str, keep_default_na=False)
+print(json.dumps([{"column": "age", "error_type": "format_inconsistency",
+    "description": "d", "examples": [{"value": df["age"][0], "row": 1}],
+    "total_affected_rows": len(df)}]))
+"""
+
+
+def _fake_llm(monkeypatch, scripts):
+    """Serve the given scripts to generation/repair calls, then a summary."""
+    from dataset_profiler.data_quality import detector, prompts
+
+    class FakeConnector:
+        provider = "scayle-llm"
+        model = "fake"
+
+    calls = []
+
+    def fake_chat_completion(connector, messages, **kwargs):
+        calls.append(messages)
+        is_script_request = messages[0]["role"] == "system"
+        if is_script_request:
+            return scripts[min(len([c for c in calls if c[0]["role"] == "system"]), len(scripts)) - 1]
+        return "Detected value errors in the age column."
+
+    monkeypatch.setattr(detector, "get_llm_connector", lambda: FakeConnector())
+    monkeypatch.setattr(prompts, "chat_completion", fake_chat_completion)
+    return calls
+
+
+def test_crashing_script_is_repaired(monkeypatch):
+    """A real run's script defined us_eu_pattern and then called eu_pattern."""
+    from dataset_profiler.data_quality import detector
+
+    calls = _fake_llm(monkeypatch, [CRASHING_SCRIPT, FAKE_DETECTION_SCRIPT])
+    result = detector.detect_data_quality_errors(SAMPLE_CSV, table_name="patients")
+
+    assert result is not None and [e.column for e in result.errors] == ["age"]
+    repair = calls[1]
+    assert repair[-2] == {"role": "assistant", "content": CRASHING_SCRIPT}
+    assert "eu_pattern" in repair[-1]["content"]
+
+
+def test_miscounted_findings_are_sent_back_for_repair(monkeypatch):
+    from dataset_profiler.data_quality import detector
+
+    calls = _fake_llm(monkeypatch, [MISCOUNTING_SCRIPT, FAKE_DETECTION_SCRIPT])
+    result = detector.detect_data_quality_errors(SAMPLE_CSV, table_name="patients")
+
+    assert "deviate from the column's dominant form" in calls[1][-1]["content"]
+    assert [e.error_type for e in result.errors] == ["value_error"]
+
+
+def test_persistently_failing_script_still_raises(monkeypatch):
+    from dataset_profiler.data_quality import detector
+
+    calls = _fake_llm(monkeypatch, [CRASHING_SCRIPT])
+    with pytest.raises(RuntimeError, match="still failing"):
+        detector.detect_data_quality_errors(SAMPLE_CSV, table_name="patients")
+    assert len(calls) == 1 + detector.MAX_REPAIR_ATTEMPTS
+
+
+def test_findings_contradicting_the_data_are_dropped_once_repairs_run_out(monkeypatch):
+    from dataset_profiler.data_quality import detector
+
+    _fake_llm(monkeypatch, [MISCOUNTING_SCRIPT])
+    result = detector.detect_data_quality_errors(SAMPLE_CSV, table_name="patients")
+    assert result.errors == []
+
+
+# --- Repair feedback is specific enough to act on ---
+
+
+def test_failure_excerpt_keeps_own_frames_and_whole_exception_but_drops_library_frames():
+    """A real traceback was mostly pandas internals; the model rebuilt the same broken mask."""
+    from dataset_profiler.data_quality.detector import _failure_excerpt
+
+    tb = (
+        "Detection script exited with code 1.\nstderr:\nTraceback (most recent call last):\n"
+        '  File "/tmp/t.py", line 31, in main\n'
+        "    affected = df[mask].index.tolist()\n"
+        "               ~~^^^^^^\n"
+        '  File "/usr/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6249, in _raise\n'
+        '    raise KeyError(f"None of [{key}]")\n'
+        'KeyError: "None of [Index([ None,  None, False,\n'
+        "      dtype='object', length=600)] are in the [columns]\"\n"
+        "\ngenerated script:\nimport pandas\n"
+    )
+    excerpt = _failure_excerpt(RuntimeError(tb))
+    assert "df[mask]" in excerpt
+    assert "length=600" in excerpt        # indented continuation of the exception survives
+    assert "site-packages" not in excerpt
+    assert "import pandas" not in excerpt  # the echoed script is not repeated
+
+
+def test_combined_column_name_gets_actionable_message():
+    """A real run named its finding 'systolic_bp,diastolic_bp' and was dropped for it."""
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    df = pd.DataFrame({"systolic_bp": ["0", "120"], "diastolic_bp": ["69", "80"]})
+    problem = _problem_with(_error("systolic_bp,diastolic_bp", "consistency_error", 1), df)
+    assert "exactly one column name" in problem and "diastolic_bp" in problem
+
+
+def test_examples_taken_from_another_column_are_named():
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    df = pd.DataFrame({"systolic_bp": ["0", "120", "0"], "diastolic_bp": ["69", "80", "89"]})
+    error = _error("systolic_bp", "value_error", 2, [("69", 1), ("89", 3)])
+    problem = _problem_with(error, df)
+    assert "come from column 'diastolic_bp'" in problem
+
+
+# --- Example values are matched loosely, and never cost a real finding ---
+
+
+def test_examples_match_despite_float_formatting_and_quotes():
+    """Run 3 dropped every clinic finding: example values arrived formatted
+    differently from the raw cells."""
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    df = pd.DataFrame({"age": ["36", "-12", "142", "40"]})
+    error = _error("age", "value_error", 2, [("-12.0", 2), ("'142'", 3)])
+    assert _problem_with(error, df) is None
+    assert [e.row for e in error.examples] == [2, 3]
+
+
+def test_unmatched_example_message_shows_what_the_row_holds():
+    from dataset_profiler.data_quality.detector import _problem_with
+
+    df = pd.DataFrame({"age": ["36", "-12", "142"]})
+    problem = _problem_with(_error("age", "value_error", 1, [("minus twelve", 2)]), df)
+    assert "'minus twelve'" in problem and "row 2 holds '-12'" in problem
+
+
+WRONG_EXAMPLES_SCRIPT = """\
+import json, sys
+import pandas as pd
+df = pd.read_csv(sys.argv[1], dtype=str, keep_default_na=False)
+bad = [v for v in df["age"] if v.lstrip("-").isdigit() and int(v) < 0]
+print(json.dumps([{"column": "age", "error_type": "value_error",
+    "description": "Negative ages", "examples": [{"value": "not-in-file", "row": 1}],
+    "total_affected_rows": len(bad)}]))
+"""
+
+
+def test_finding_wrong_only_in_its_examples_survives_without_them(monkeypatch):
+    from dataset_profiler.data_quality import detector
+
+    _fake_llm(monkeypatch, [WRONG_EXAMPLES_SCRIPT])
+    result = detector.detect_data_quality_errors(SAMPLE_CSV, table_name="patients")
+    assert [e.column for e in result.errors] == ["age"]
+    assert result.errors[0].examples == []
