@@ -3,6 +3,7 @@ import json
 import tempfile
 import os
 from pathlib import Path
+from typing import Optional
 
 import pandas as pd
 import uuid
@@ -292,7 +293,7 @@ class TableColumnField(ColumnField):
         statistics: ColumnStatistics,
         csv_name: str,
         file_object_id: str,
-        semantic_type: str = "",
+        semantic_type: Optional[str] = "",
     ):
         self.type = "cr:Field"
         self.id = str(uuid.uuid4())
@@ -314,7 +315,7 @@ class TableColumnField(ColumnField):
         accumulator: _ColumnAccumulator,
         csv_name: str,
         file_object_id: str,
-        semantic_type: str = "",
+        semantic_type: Optional[str] = "",
     ) -> "TableColumnField":
         return cls(
             column_name,

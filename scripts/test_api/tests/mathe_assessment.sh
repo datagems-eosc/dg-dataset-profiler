@@ -61,7 +61,7 @@ if heavy_checks_enabled; then
     # Column type annotation is an LLM call; it degrades to empty on failure rather
     # than breaking the profile, so a miss is reported as a warning, not a failure.
     step "Semantic annotation (LLM, requires VPN)"
-    semantic_count="$(jq '[.moma_profile_heavy.recordSet[] | select(.name == "mathe_assessment_dataset") | .field[] | select((.semanticType // "") != "")] | length' "$PROFILE_FILE" 2>/dev/null || echo 0)"
+    semantic_count="$(jq '[.moma_profile_heavy.recordSet[] | select(.name == "mathe_assessment_dataset") | .field[] | select(.semanticType != "")] | length' "$PROFILE_FILE" 2>/dev/null || echo 0)"
     if [[ "$semantic_count" -gt 0 ]]; then
         pass "Column type annotation produced ${semantic_count} semantic type(s)"
     else

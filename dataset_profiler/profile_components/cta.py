@@ -54,6 +54,55 @@ def normalize_semantic_type(raw: str) -> str:
     return text.lower() or "unknown"
 
 
+# Answers the model gives when a label would add nothing beyond the header.
+NO_LABEL_ANSWERS = {"none", "null"}
+
+# Words that add nothing when appended to a header: "phone number" for "phone",
+# "email address" for "instructor_email", "grade value" for "grade".
+FILLER_WORDS = {"number", "address", "name", "value"}
+
+
+def _header_tokens(text: str) -> List[str]:
+    """Lowercase words of a header or label: splits snake_case, camelCase, dashes and dots."""
+    text = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", text)
+    words = re.split(r"[^0-9a-zA-Z\u00C0-\uFFFF]+", text.lower())
+    # A trailing plural "s" is not a difference in meaning ("validations" / "validation").
+    return [w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w for w in words if w]
+
+
+def is_redundant_with_header(label: str, header: str) -> bool:
+    """Whether a label only repeats the column header.
+
+    "date" for "Date", "patient name" for "patient_name" and "boarding disembark"
+    for "boarding_disembark_desc" say nothing the header does not: every word of
+    the label is already in it. A label that expands or translates the header
+    ("systolic blood pressure" for "systolic_bp", "municipality" for "Kommune")
+    is kept.
+    """
+    label_words, header_words = _header_tokens(label), _header_tokens(header)
+    if not label_words or not header_words:
+        return False
+    if "".join(label_words) == "".join(header_words):   # "datehour" vs "date hour"
+        return True
+    content = set(label_words) - FILLER_WORDS
+    return bool(content) and content <= set(header_words)
+
+
+def finalize_semantic_type(raw: str, header: str) -> Optional[str]:
+    """Normalise a model answer, returning None when the label would add nothing.
+
+    None is a deliberate "no label": the header already says what the column
+    holds. It is kept apart from "unknown" (the model could not tell), "error"
+    (the call failed) and "" (annotation did not run).
+    """
+    label = normalize_semantic_type(raw)
+    if label in NO_LABEL_ANSWERS:
+        return None
+    if label not in ("unknown", "identifier") and is_redundant_with_header(label, header):
+        return None
+    return label
+
+
 class ColumnTypeAnnotator:
     def __init__(
         self,
@@ -135,8 +184,11 @@ class ColumnTypeAnnotator:
         extra_info_df: Optional[pd.DataFrame] = None,
         show_progress: bool = False,
         labels: Optional[List[str]] = None,
-    ) -> Dict[str, str]:
-        """Annotates all columns either of a DataFrame or of a specific table of a Database"""
+    ) -> Dict[str, Optional[str]]:
+        """Annotates all columns either of a DataFrame or of a specific table of a Database.
+
+        A column maps to None when its header is already self-explanatory.
+        """
 
         # In case of database columns annotation, fetch a subtable (100 first rows) of the target table
         if df is None:
@@ -158,6 +210,11 @@ class ColumnTypeAnnotator:
         ]
 
         semantic_types = {}
+        # The model's own answers, shown to it as <previous_annotations>. They
+        # are kept apart from the output because feeding back the None of
+        # dropped labels makes the model drift to vague labels ("monetary
+        # amount" instead of "medical fee") for the columns that follow.
+        answers = {}
         pbar = tqdm(
             target_cols,
             desc="Annotating columns",
@@ -186,7 +243,7 @@ class ColumnTypeAnnotator:
                 {
                     "role": "user",
                     "content": self._build_prompt(
-                        col, all_headers, samples, semantic_types, extra_info, labels
+                        col, all_headers, samples, answers, extra_info, labels
                     ),
                 },
             ]
@@ -194,10 +251,11 @@ class ColumnTypeAnnotator:
             try:
                 raw_response = self.llm.chat(messages, stream=False)
                 # print("RAW_RESPONSE:", raw_response)
-                semantic_types[col] = self._parse_response(raw_response)
+                answers[col] = self._parse_response(raw_response)
+                semantic_types[col] = finalize_semantic_type(answers[col], col)
             except Exception as e:
                 logger.error(f"Error for column '{col}': {e}")
-                semantic_types[col] = "error"
+                answers[col] = semantic_types[col] = "error"
 
         # Per-column errors above are swallowed so profiling still completes; log
         # one summary line so a dead or renamed model group is visible in the Ray

@@ -51,7 +51,8 @@ def audit(profile: dict) -> dict:
             with_dq += 1
         for f in rs.get("field", []):
             fields += 1
-            if f.get("semanticType"):
+            # null is a deliberate "no label" (the header says it all), not a failure.
+            if f.get("semanticType") or ("semanticType" in f and f["semanticType"] is None):
                 annotated += 1
             if "variance" in (f.get("statistics") or {}):
                 stats_ok += 1

@@ -1,6 +1,6 @@
 import json
 import uuid
-from typing import Dict
+from typing import Dict, Optional
 
 from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
 from dataset_profiler.profile_components.record_set.db.database_connector import (
@@ -118,7 +118,7 @@ class DBTableField:
         return table["table_name"]
 
 
-    def _annotate_semantic_types(self) -> Dict[str, str]:
+    def _annotate_semantic_types(self) -> Dict[str, Optional[str]]:
         """Annotate the table's column semantic types with the LLM-backed annotator.
 
         A failure here (unreachable LLM, auth error, misconfigured
@@ -173,7 +173,7 @@ class DBTableField:
 
 
 class DBColumnField(ColumnField):
-    def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str, stype_annotations: dict[str, str]):
+    def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str, stype_annotations: dict[str, Optional[str]]):
         logger.info("Initializing DB column", column=column["column"])
         self.type = "cr:Field"
         self.id = self.id = str(uuid.uuid4())

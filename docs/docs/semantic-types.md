@@ -15,6 +15,10 @@ For each column, the annotator sends the LLM:
 
 The model answers in one to three words. Structural types are explicitly ruled out by the prompt, so `string` or `float` is never a valid answer.
 
+A label that only repeats the header is worse than none: it looks like information but adds nothing. When the header already describes the column, the prompt lets the model return the header itself, and any answer whose words all appear in the header — `date` for `Date`, `patient name` for `patient_name`, `phone number` for `phone` (filler words such as *number*, *address*, *name* and *value* are ignored) — is replaced by `null`. An explicit `none` answer becomes `null` too. Labels that expand an abbreviation or translate the header (`systolic blood pressure` for `systolic_bp`, `municipality` for `Kommune`) are kept.
+
+The model still sees its own answers for earlier columns, not the `null`s they were turned into: fed a run of `null`s, it drifts to vague labels (`monetary amount` instead of `medical fee`) for the columns that follow.
+
 Values are sampled rather than read in full: CSV columns are annotated from the first 100 rows, and database tables from a `LIMIT 100` sample. Annotation therefore costs the same on a 10 MB table as on a 10 GB one.
 
 ### Reserved values
@@ -23,6 +27,7 @@ Values are sampled rather than read in full: CSV columns are annotated from the 
 |-------|---------|
 | `unknown` | The model could not infer a type from the header and sample |
 | `identifier` | The column holds mostly unique identifiers |
+| `null` | The header already says what the column holds, so a label would add nothing |
 | `error` | The LLM call or response parsing failed for this column |
 | `""` (empty) | Annotation did not run for this record set at all |
 
