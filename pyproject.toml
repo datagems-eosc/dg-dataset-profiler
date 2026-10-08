@@ -78,7 +78,7 @@ packages = ["dataset_profiler"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
-    "live_llm: exercises the real LLM-backed column type annotator (needs VPN)",
+    "live_llm: exercises the real SCAYLE calls: column type annotation and document keywords and summaries (needs VPN)",
     "live_data_quality: runs real LLM data quality detection (needs VPN)",
 ]
 

@@ -8,6 +8,8 @@ switched on by whatever happens to sit in the developer's ``.env``:
   78 CSVs totalling 1662 columns, which pushed a full run past 25 minutes.
 * data quality detection runs whenever ``ENABLE_DATA_QUALITY`` is truthy, which
   the local ``.env`` sets to ``1``.
+* keyword and summary extraction for PDF and text record sets runs unless
+  ``ENABLE_DOCUMENT_LLM`` is falsy, one request per document.
 
 Both are neutralised here by default, so the suite is fast, deterministic, and
 runnable with the VPN down. Tests that genuinely want the real service opt back
@@ -59,3 +61,16 @@ def disable_data_quality(request, monkeypatch):
         return
 
     monkeypatch.setenv("ENABLE_DATA_QUALITY", "false")
+
+
+@pytest.fixture(autouse=True)
+def disable_document_llm(request, monkeypatch):
+    """Pin document keywords and summaries off; they are on by default in production.
+
+    Opted back in by the same ``live_llm`` marker as semantic type annotation,
+    since both are plain SCAYLE calls.
+    """
+    if _live_run_requested() or "live_llm" in request.keywords:
+        return
+
+    monkeypatch.setenv("ENABLE_DOCUMENT_LLM", "false")

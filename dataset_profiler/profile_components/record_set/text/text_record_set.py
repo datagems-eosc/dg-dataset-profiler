@@ -12,14 +12,12 @@ from dataset_profiler.profile_components.record_set.text.text_utilities import (
     read_file_with_encoding,
     find_substring_positions,
     text_preprocess,
-    get_keywords,
-    get_summary,
+)
+from dataset_profiler.profile_components.record_set.document_description import (
+    describe_document,
 )
 from tqdm import tqdm
 from dataset_profiler.configs.config_logging import logger
-
-# Default model for text processing using Scayle-LLM
-SCAYLE_MODEL = "llama-3.3"
 
 
 class TextRecordSet(RecordSet):
@@ -66,21 +64,9 @@ class TextRecordSet(RecordSet):
         self.avg_sentence_length = profile["avg_sentence_length"]
         self.num_paragraphs = profile["num_paragraphs"]
         self.flesch_kincaid_grade = profile["flesch_kincaid_grade"]
-        logger.debug("Generating summary for text record set")
-
-        # self.summary = get_summary(
-        #     self.body,
-        #     model=SCAYLE_MODEL,
-        # )
-        #
-        # print("Generating keywords...")
-        # self.keywords = get_keywords(
-        #     self.body,
-        #     model=SCAYLE_MODEL,
-        #     max_keywords_num=5,
-        # ).keywords
-        self.summary = ""
-        self.keywords = []
+        description = describe_document(self.body, name=self.name)
+        self.summary = description.summary
+        self.keywords = description.keywords
 
         self.fields = self.extract_fields()
 
@@ -89,7 +75,6 @@ class TextRecordSet(RecordSet):
         # text_content = text_object.read()
         # text_object.close()
         chunks = chunk_text_by_paragraph(self.body, chunk_size=300, chunk_overlap=20)
-        model = SCAYLE_MODEL
         fields = []
         logger.debug("Extracting fields from text record set")
 

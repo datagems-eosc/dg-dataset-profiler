@@ -8,20 +8,15 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from dataset_profiler.profile_components.record_set.pdf.pdf_utilities import (
     get_pdf_profile,
-    get_pdf_document,
 )
-from dataset_profiler.profile_components.record_set.text.text_utilities import (
-    get_keywords,
-    get_summary,
+from dataset_profiler.profile_components.record_set.document_description import (
+    describe_document,
 )
 from dataset_profiler.configs.config_logging import logger
 
 
-# Default model for text processing using Scayle-LLM
-SCAYLE_MODEL = "llama-3.3"
-
-
-def parse_and_chunk_pdf(pdf_path, chunk_size=1000, chunk_overlap=200):
+def parse_and_chunk_pdf(pdf_path, chunk_size=1000, chunk_overlap=200) -> tuple[str, list[str]]:
+    """Return the PDF's full text and its overlapping chunks, or ("", []) on failure."""
     if not os.path.exists(pdf_path):
         raise FileNotFoundError(f"The file at {pdf_path} was not found.")
 
@@ -41,12 +36,13 @@ def parse_and_chunk_pdf(pdf_path, chunk_size=1000, chunk_overlap=200):
         # Split the parsed documents into smaller chunks
         chunks = text_splitter.split_documents(documents)
         string_chunks = [chunk.page_content for chunk in chunks]
+        text = "\n\n".join(page.page_content for page in documents)
 
-        return string_chunks
+        return text, string_chunks
 
     except Exception as e:
         logger.error("Failed to parse and chunk PDF", pdf_path=pdf_path, error=str(e))
-        return []
+        return "", []
 
 
 class PdfRecordSet(RecordSet):
@@ -74,20 +70,10 @@ class PdfRecordSet(RecordSet):
         self.creation_date = profile["creation_date"]
         self.modification_date = profile["modification_date"]
         self.pages_count = profile["pages_count"]
-        self.chunks = parse_and_chunk_pdf(file_object)
-        # extract document of pdf
-        # document = get_pdf_document(file_object)
-        # logger.info("Document extracted successfully.", file_object=file_object)
-        # self.keywords = get_keywords(
-        #     document,
-        #     model=SCAYLE_MODEL,
-        #     max_keywords_num=5,
-        # ).keywords
-        # self.summary = get_summary(document, model=SCAYLE_MODEL, max_words=800)
-        # logger.info("***KEY WORDS***", keywords=self.keywords)
-        # logger.info("***SUMMARY***", summary=self.summary)
-        self.keywords = []
-        self.summary = ""
+        text, self.chunks = parse_and_chunk_pdf(file_object)
+        description = describe_document(text, name=self.name)
+        self.keywords = description.keywords
+        self.summary = description.summary
 
     def extract_fields(self) -> List:
         return []  # PDF records do not have fields like text records

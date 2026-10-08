@@ -93,6 +93,9 @@ Environment variables can be used to override configuration values. The followin
 | DATA_QUALITY_LLM_MODEL | Model override for data quality detection | qwen3.6 (scayle), us.anthropic.claude-sonnet-4-6 (bedrock) |
 | DATA_QUALITY_LLM_TIMEOUT | LLM request timeout in seconds for data quality detection | 300 |
 | CTA_LLM_MODEL | Model override for semantic type annotation (see [Semantic Types](semantic-types.md)) | qwen3 |
+| ENABLE_DOCUMENT_LLM | Extract keywords and a summary for each PDF and text document (one SCAYLE call per document) | true |
+| DOCUMENT_LLM_MODEL | Model override for document keywords and summaries | qwen3.8-flash-next |
+| DOCUMENT_LLM_TIMEOUT | LLM request timeout in seconds for document keywords and summaries | 120 |
 | SCAYLE_BASE_URL | SCAYLE LLM service base URL (ends in `/api`) | (unset) |
 | SCAYLE_USERNAME | SCAYLE LLM service username | (unset) |
 | SCAYLE_PASSWORD | SCAYLE LLM service password | (unset) |
