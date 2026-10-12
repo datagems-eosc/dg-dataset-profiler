@@ -41,6 +41,7 @@ The Profiling Engine performs the actual dataset analysis and consists of:
 - **Dataset Specification Parser**: Parses and validates input specifications
 - **Distribution Extractor**: Identifies and extracts metadata about dataset files
 - **Record Set Extractor**: Analyzes the structure and content of datasets
+- **Document Describer**: LLM-extracted keywords and summary for PDF and text documents — see [Document Keywords & Summaries](document-descriptions.md)
 - **Data Quality Detector** (opt-in): LLM-assisted error detection for tabular record sets — see [Data Quality](data-quality.md)
 - **Profile Generator**: Assembles the extracted information into standardized profiles
 
@@ -50,7 +51,7 @@ The service can profile the following types of data:
 
 - **Tabular Data**: CSV files, Excel spreadsheets
 - **Databases**: SQL databases with table structures
-- **Documents**: Text files, PDF documents
+- **Documents**: Text files, PDF documents — profiled when they sit inside a folder of the dataset (a `cr:FileSet`); see [Document Keywords & Summaries](document-descriptions.md#which-documents-are-described)
 - **File Collections**: Sets of related files
 
 Files of any other type — audio, video, archives — are **listed but not opened**. They appear in the

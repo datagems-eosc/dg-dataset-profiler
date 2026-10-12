@@ -30,6 +30,17 @@ make install
 
 This will also generate your `uv.lock` file
 
+## Document Keywords & Summaries
+
+Every PDF and text document inside a folder of the dataset gets LLM-extracted keywords and a short summary, one SCAYLE call per document. It is on by default:
+
+```bash
+ENABLE_DOCUMENT_LLM=true                 # false to skip
+DOCUMENT_LLM_MODEL=qwen3.8-flash-next    # default
+```
+
+They appear on the document's record set as `keywords` / `summary` (MoMa) and on its `files` entry as `keywords` / `description` (CDD). See the [Document Keywords & Summaries docs](https://datagems-eosc.github.io/dataset-profiler/document-descriptions/) for details.
+
 ## Data Quality Detection (opt-in)
 
 The profiler can detect data quality errors in tabular record sets (CSVs, Excel sheets) using an LLM: format inconsistencies (mixed date formats), value errors (negative ages), and consistency errors (`US` vs `USA` vs `United States`). Detection only — the data is never modified.

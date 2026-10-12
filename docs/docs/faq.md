@@ -19,6 +19,9 @@ The service can profile the following types of data:
 - Text documents
 - PDF documents
 
+PDF and text documents are profiled when they sit inside a folder of the dataset; each gets
+LLM-extracted keywords and a summary (see [Document Keywords & Summaries](document-descriptions.md)).
+
 Other file types (audio, video, archives, ...) are not profiled, but they are not dropped either:
 they are listed in the profile's `distribution` with their path and size, so nothing in the dataset
 goes missing from the profile.

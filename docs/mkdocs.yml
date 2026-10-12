@@ -12,6 +12,7 @@ nav:
   - System:
     - Architecture: architecture.md
     - Semantic Types: semantic-types.md
+    - Document Keywords & Summaries: document-descriptions.md
     - Data Quality: data-quality.md
     - Security: security.md
   - API:

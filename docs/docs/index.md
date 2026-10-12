@@ -14,6 +14,7 @@ The Dataset Profiler service is designed to automatically analyze and extract me
 - **API-driven**: RESTful API for easy integration with other services
 - **Metadata Extraction**: Automatically extracts metadata such as column types, data distributions, and sample values
 - **Semantic Type Annotation**: LLM-assisted inference of what each column *means* (`country name`, `email address`) beyond its structural type
+- **Document Keywords & Summaries**: LLM-extracted keywords and a short summary for every PDF and text document
 - **Data Quality Detection** (opt-in): LLM-assisted detection of errors in tabular data — format inconsistencies, impossible values, and inconsistent representations (detection only, no correction)
 - **Standardized Output**: Produces standardized JSON-LD profiles that follow the [Croissant Metadata Schema](https://mlcommons.org/working-groups/data/croissant/)
 
