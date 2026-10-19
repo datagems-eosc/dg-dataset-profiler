@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JSON Profiling Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: technical proposal. Sticky contents rail on wide screens, single reading column
+   (~70ch) with wider breakout panels for the JSON → profile comparison and the code samples. */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --sunken: #eaeef4;
+  --ink: #141b26;
+  --muted: #5a6577;
+  --line: #d9dfe8;
+  --accent: #3346a8;
+  --accent-soft: #e4e8fb;
+  --brace: #a85a0c;
+  --ok: #2b7a4b;
+  --ok-soft: #e2f2e8;
+  --warn: #9a5b00;
+  --warn-soft: #fbefd9;
+  --gap: #b0383a;
+  --gap-soft: #f8e3e3;
+  /* team hues */
+  --t-prof: #3346a8;
+  --t-moma: #7a3fa0;
+  --t-dmm: #0f7a72;
+  --t-cdd: #a85a0c;
+  /* syntax */
+  --s-key: #3346a8;
+  --s-str: #2b7a4b;
+  --s-num: #a85a0c;
+  --s-lit: #7a3fa0;
+  --s-com: #7d8797;
+
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: 1.5rem;
+  --step-3: 2.125rem;
+  --step-4: clamp(2.25rem, 1.6rem + 2.6vw, 3.25rem);
+  --radius: 10px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e131a; --surface: #151c26; --sunken: #1b2330; --ink: #e5e9f0; --muted: #9aa5b6; --line: #2a3443;
+    --accent: #93a4ff; --accent-soft: #232c4d; --brace: #f0a55a;
+    --ok: #6fcf97; --ok-soft: #173325; --warn: #f2b85c; --warn-soft: #3a2c12; --gap: #f08a8c; --gap-soft: #3b1d1f;
+    --t-prof: #93a4ff; --t-moma: #c79bea; --t-dmm: #5fd0c4; --t-cdd: #f0a55a;
+    --s-key: #93a4ff; --s-str: #6fcf97; --s-num: #f0a55a; --s-lit: #c79bea; --s-com: #7f8a9c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e131a; --surface: #151c26; --sunken: #1b2330; --ink: #e5e9f0; --muted: #9aa5b6; --line: #2a3443;
+  --accent: #93a4ff; --accent-soft: #232c4d; --brace: #f0a55a;
+  --ok: #6fcf97; --ok-soft: #173325; --warn: #f2b85c; --warn-soft: #3a2c12; --gap: #f08a8c; --gap-soft: #3b1d1f;
+  --t-prof: #93a4ff; --t-moma: #c79bea; --t-dmm: #5fd0c4; --t-cdd: #f0a55a;
+  --s-key: #93a4ff; --s-str: #6fcf97; --s-num: #f0a55a; --s-lit: #c79bea; --s-com: #7f8a9c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+}
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+code, pre, .mono { font-family: var(--f-mono); font-size: 0.86em; }
+:not(pre) > code {
+  background: var(--sunken);
+  padding: 0.08em 0.36em;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h2 { font-size: var(--step-3); font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: var(--step-1); font-weight: 700; }
+p { margin: 0; }
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- page frame ---------- */
+.frame {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-inline: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+}
+@media (min-width: 1040px) {
+  .frame { grid-template-columns: 200px minmax(0, 1fr); padding-inline: 32px; gap: 56px; }
+}
+.toc { display: none; }
+@media (min-width: 1040px) {
+  .toc {
+    display: block;
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 32px);
+    align-self: start;
+    padding-block: 40px;
+  }
+  .toc ol { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 2px; }
+  .toc a {
+    display: block;
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+  }
+  .toc a:hover { background: var(--sunken); color: var(--ink); }
+}
+main { min-width: 0; padding-block: 40px 96px; display: grid; gap: 72px; }
+section { display: grid; gap: 20px; min-width: 0; scroll-margin-top: 24px; }
+.prose { max-width: 70ch; display: grid; gap: 14px; }
+.lede { font-size: var(--step-1); color: var(--muted); max-width: 62ch; }
+
+/* ---------- header ---------- */
+header.hero { display: grid; gap: 18px; padding-top: 8px; }
+header.hero h1 {
+  font-size: var(--step-4);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+header.hero h1 .br { color: var(--brace); font-family: var(--f-mono); font-weight: 500; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--muted); font-size: 0.9rem; }
+.meta-row span strong { color: var(--ink); font-weight: 600; }
+
+.verdict {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.verdict > div { background: var(--surface); padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.verdict .k { font-family: var(--f-mono); font-size: var(--step--1); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.verdict p { font-size: 0.95rem; }
+
+/* ---------- chips ---------- */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--f-mono); font-size: 0.75rem; font-weight: 500;
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+  border: 1px solid currentColor;
+}
+.chip.ok { color: var(--ok); background: var(--ok-soft); border-color: transparent; }
+.chip.warn { color: var(--warn); background: var(--warn-soft); border-color: transparent; }
+.chip.gap { color: var(--gap); background: var(--gap-soft); border-color: transparent; }
+.chip.prof { color: var(--t-prof); }
+.chip.moma { color: var(--t-moma); }
+.chip.dmm { color: var(--t-dmm); }
+.chip.cdd { color: var(--t-cdd); }
+.chip.type { color: var(--muted); border-color: var(--line); background: var(--surface); }
+
+/* ---------- tables ---------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; vertical-align: top; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th {
+  font-family: var(--f-mono); font-weight: 500; font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--muted); background: var(--sunken); white-space: nowrap;
+}
+td.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+td .sub { display: block; color: var(--muted); font-size: 0.82rem; margin-top: 2px; }
+.gap-table td:first-child { white-space: nowrap; font-weight: 600; }
+
+/* ---------- shapes ---------- */
+.shapes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.shape {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0;
+}
+.shape pre {
+  margin: 0; background: var(--sunken); border-radius: 6px; padding: 10px 12px;
+  font-size: 0.76rem; line-height: 1.5; overflow-x: auto;
+}
+.shape .how { font-size: 0.86rem; color: var(--muted); }
+.shape .how code { color: var(--ink); }
+
+/* ---------- JSON → profile comparison ---------- */
+.compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@media (min-width: 1100px) { .compare { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); } }
+.panel {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  min-width: 0; display: grid; grid-template-rows: auto 1fr;
+}
+.panel-head {
+  display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; justify-content: space-between;
+  padding: 12px 16px; border-bottom: 1px solid var(--line);
+}
+.panel-head .file { font-family: var(--f-mono); font-size: 0.85rem; font-weight: 500; }
+.panel-head .eyebrow { font-size: 0.7rem; }
+.panel pre.code { margin: 0; padding: 14px 16px; overflow-x: auto; font-size: 0.78rem; line-height: 1.55; }
+.panel pre .hl { background: var(--accent-soft); display: inline-block; width: 100%; }
+
+.fields { font-size: 0.84rem; }
+.fields td { padding: 9px 12px; }
+.fields .path { font-family: var(--f-mono); font-size: 0.78rem; white-space: nowrap; }
+.fields .path .root { color: var(--muted); }
+.bar { display: flex; align-items: center; gap: 8px; min-width: 120px; }
+.bar .track { flex: 1; height: 6px; background: var(--sunken); border-radius: 3px; overflow: hidden; display: flex; }
+.bar .fill { height: 100%; background: var(--accent); }
+.bar .fill.null { background: var(--warn); }
+.bar .v { font-variant-numeric: tabular-nums; font-family: var(--f-mono); font-size: 0.75rem; width: 3.6em; text-align: right; }
+.types { display: flex; flex-wrap: wrap; gap: 4px; }
+.flag { font-size: 0.78rem; color: var(--muted); }
+.flag b { color: var(--ink); font-weight: 600; }
+.flag.alert b { color: var(--warn); }
+
+.callouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.callout { border-left: 3px solid var(--brace); padding: 4px 0 4px 14px; display: grid; gap: 4px; }
+.callout h3 { font-size: 1rem; }
+.callout p { font-size: 0.9rem; color: var(--muted); }
+
+/* ---------- catalogue ---------- */
+.cat-group { display: grid; gap: 10px; }
+.cat-group h3 { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.cat-group h3 .eyebrow { font-weight: 400; }
+.cost { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+.new { color: var(--brace); font-family: var(--f-mono); font-size: 0.7rem; margin-left: 4px; }
+
+/* ---------- tabs / code samples ---------- */
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button {
+  font: inherit; font-size: 0.85rem; font-weight: 500;
+  padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--muted); cursor: pointer;
+}
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.sample {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; min-width: 0;
+}
+.sample .cap { padding: 10px 16px; border-bottom: 1px solid var(--line); font-size: 0.85rem; color: var(--muted); }
+.sample pre { margin: 0; padding: 16px; overflow-x: auto; font-size: 0.78rem; line-height: 1.55; max-height: 560px; }
+
+.j-key { color: var(--s-key); }
+.j-str { color: var(--s-str); }
+.j-num { color: var(--s-num); }
+.j-lit { color: var(--s-lit); }
+.j-com { color: var(--s-com); font-style: italic; }
+
+/* ---------- flow ---------- */
+.flow { display: grid; gap: 12px; }
+.lane {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; align-items: stretch;
+}
+@media (min-width: 760px) { .lane { grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; } }
+.node {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 10px 12px; display: grid; gap: 2px; min-width: 0;
+}
+.node .who { font-family: var(--f-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.node .what { font-size: 0.86rem; }
+.node.prof .who { color: var(--t-prof); }
+.node.moma .who { color: var(--t-moma); }
+.node.dmm .who { color: var(--t-dmm); }
+.node.cdd .who { color: var(--t-cdd); }
+.node.todo { border-style: dashed; }
+.arrow { align-self: center; justify-self: center; color: var(--muted); font-family: var(--f-mono); }
+@media (max-width: 759px) { .arrow { transform: rotate(90deg); } }
+.lane-label { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ---------- team next steps ---------- */
+.team { display: grid; gap: 14px; }
+.team-head { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: baseline; }
+.team-head h3 { font-size: var(--step-2); }
+.team-head .repo { font-family: var(--f-mono); font-size: 0.8rem; color: var(--muted); }
+.team.moma .team-head h3 { color: var(--t-moma); }
+.team.dmm .team-head h3 { color: var(--t-dmm); }
+.team.prof .team-head h3 { color: var(--t-prof); }
+.team.cdd .team-head h3 { color: var(--t-cdd); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.step {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 16px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px;
+}
+.step .id { font-family: var(--f-mono); font-weight: 500; font-size: 0.85rem; color: var(--muted); padding-top: 2px; }
+.step .body { display: grid; gap: 6px; min-width: 0; }
+.step .title-row { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.step h4 { margin: 0; font-size: 1rem; font-weight: 600; }
+.step p { font-size: 0.92rem; color: var(--muted); }
+.step p code { color: var(--ink); }
+.step pre {
+  margin: 4px 0 0; background: var(--sunken); border-radius: 6px; padding: 10px 12px;
+  overflow-x: auto; font-size: 0.76rem; line-height: 1.5;
+}
+.where { font-family: var(--f-mono); font-size: 0.76rem; color: var(--muted); overflow-wrap: anywhere; }
+.prio { font-family: var(--f-mono); font-size: 0.7rem; padding: 1px 7px; border-radius: 4px; }
+.prio.must { background: var(--gap-soft); color: var(--gap); }
+.prio.should { background: var(--warn-soft); color: var(--warn); }
+.prio.later { background: var(--sunken); color: var(--muted); }
+
+/* ---------- phases ---------- */
+.phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.phase {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px; display: grid; gap: 8px; align-content: start;
+}
+.phase .n { font-family: var(--f-display); font-size: var(--step-2); font-weight: 700; color: var(--brace); line-height: 1; }
+.phase ul { margin: 0; padding-left: 18px; font-size: 0.9rem; color: var(--muted); display: grid; gap: 4px; }
+.phase .deps { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.questions { margin: 0; padding-left: 20px; display: grid; gap: 10px; max-width: 75ch; }
+.questions li::marker { color: var(--brace); font-weight: 600; }
+.questions .rec { color: var(--muted); font-size: 0.92rem; }
+
+footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 18px; max-width: 75ch; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tabs button { transition: background-color 120ms ease, color 120ms ease; }
+}
+</style>
+</head>
+<body>
+<div class="frame">
+
+<nav class="toc" aria-label="Contents">
+  <div class="eyebrow">Contents</div>
+  <ol>
+    <li><a href="#today">Where we are</a></li>
+    <li><a href="#shapes">JSON in the wild</a></li>
+    <li><a href="#profile">The proposed profile</a></li>
+    <li><a href="#catalogue">Characteristics</a></li>
+    <li><a href="#output">Output formats</a></li>
+    <li><a href="#guardrails">Guardrails</a></li>
+    <li><a href="#flow">End-to-end flow</a></li>
+    <li><a href="#profiler">Profiler work</a></li>
+    <li><a href="#moma">MoMa next steps</a></li>
+    <li><a href="#dmm">DMM next steps</a></li>
+    <li><a href="#cdd">CDD search notes</a></li>
+    <li><a href="#rollout">Rollout</a></li>
+    <li><a href="#questions">Open questions</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<header class="hero">
+  <div class="eyebrow">DataGEMS · Dataset Profiler · Proposal</div>
+  <h1>Profiling <span class="br">{</span>JSON<span class="br">}</span> files as searchable record sets</h1>
+  <p class="lede">Today the profiler lists JSON files in a dataset but never opens them. This proposal defines what a JSON profile should contain so a Kaggle-style catalogue can search inside JSON data, and lists what the Profiler, MoMa and DMM teams each need to do to carry it end to end.</p>
+  <div class="meta-row">
+    <span><strong>Status</strong> Draft for discussion</span>
+    <span><strong>Date</strong> 13 Oct 2026</span>
+    <span><strong>Owner</strong> Dataset Profiler</span>
+    <span><strong>Needs input from</strong> MoMa, DMM, CDD</span>
+  </div>
+  <div class="verdict">
+    <div>
+      <span class="k">Core idea</span>
+      <p>A JSON file becomes a record set. Its fields are <b>JSONPaths</b> instead of column names, so it is profiled like a table.</p>
+    </div>
+    <div>
+      <span class="k">Plus text</span>
+      <p>Long string values (descriptions, notes, abstracts) are chunked like <code>.txt</code> files, so semantic search reaches inside them.</p>
+    </div>
+    <div>
+      <span class="k">Reuse</span>
+      <p>The CDD shape mirrors CSV <code>columns</code> and document <code>chunked_content</code>. Existing indexers keep working and the JSON-only keys are additions.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<section id="today">
+  <div class="eyebrow">01 · Gap analysis</div>
+  <h2>Where we are today</h2>
+  <p class="prose">A <code>.json</code> file already appears in the dataset inventory with the right MIME type, and MoMa even has <code>JSON</code> / <code>JSONSet</code> labels for it. Nothing reads the content, so a JSON-only dataset reaches search as a list of file names.</p>
+  <div class="table-wrap">
+    <table class="gap-table">
+      <thead><tr><th>Component</th><th>Behaviour for a JSON file today</th><th>State</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Profiler · distribution</td>
+          <td>Listed as <code>cr:FileObject</code> with <code>encodingFormat: application/json</code> (<code>.jsonl</code> → <code>application/jsonl</code>).
+            <span class="sub">dataset_profiler/profile_components/distribution.py, SUPPORTED_EXTENSION_MAP</span></td>
+          <td><span class="chip ok">works</span></td>
+        </tr>
+        <tr>
+          <td>Profiler · record sets</td>
+          <td>No record set. <code>extract_record_sets_of_file_objects</code> handles only <code>.csv</code> and <code>.xlsx</code>; <code>get_file_type</code> for folders handles only <code>.txt</code> and <code>.pdf</code>.
+            <span class="sub">record_set/record_set_extractor.py</span></td>
+          <td><span class="chip gap">missing</span></td>
+        </tr>
+        <tr>
+          <td>Profiler · CDD profile</td>
+          <td>Stub entry only: <code>{file_object_id, original_format: "json", source_file, name, description: "", keywords: []}</code>. No fields, no content.
+            <span class="sub">profile_models.py, to_dict_cdd() unmatched-distribution branch</span></td>
+          <td><span class="chip gap">stub</span></td>
+        </tr>
+        <tr>
+          <td>MoMa · mapping</td>
+          <td>Labels <code>JSON</code> / <code>JSONSet</code> for <code>application/json</code>. <code>application/jsonl</code> is a TODO. The <code>Field</code> spec has variants only for CSV, SQL and XLSX sources, so a field sourced from a JSON file would be stored with no labels and no properties.
+            <span class="sub">moma_management/domain/mapping.yml</span></td>
+          <td><span class="chip warn">partial</span></td>
+        </tr>
+        <tr>
+          <td>DMM · search &amp; query</td>
+          <td><code>DatasetType</code> has no <code>JSON</code> / <code>JSONSet</code>, so <code>/dataset/search?types=</code> cannot filter on them. The polyglot query builds views only for <code>text/sql</code> and <code>text/csv</code>; any other MIME type is logged as unsupported.
+            <span class="sub">dmm_api/resources/dataset.py, DatasetType, execute_query_mixed()</span></td>
+          <td><span class="chip warn">partial</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="shapes">
+  <div class="eyebrow">02 · Input</div>
+  <h2>What JSON looks like in real datasets</h2>
+  <p class="prose">Unlike CSV, JSON has no single record layout. The first job of the profiler is to work out <em>where the records are</em>. That location becomes the <code>record_path</code>, and every field path is written relative to it. Four shapes cover nearly every open-data JSON file we have seen.</p>
+  <div class="shapes">
+    <div class="shape">
+      <span class="chip type">array_of_records</span>
+      <pre>[
+  {"id": 1, "city": "Athens"},
+  {"id": 2, "city": "Patras"}
+]</pre>
+      <p class="how">Root is an array of objects. <code>record_path = $[*]</code>. Closest to a CSV.</p>
+    </div>
+    <div class="shape">
+      <span class="chip type">json_lines</span>
+      <pre>{"id": 1, "city": "Athens"}
+{"id": 2, "city": "Patras"}</pre>
+      <p class="how"><code>.jsonl</code> / <code>.ndjson</code>, one object per line. Streams trivially. Lines that fail to parse are counted, not fatal.</p>
+    </div>
+    <div class="shape">
+      <span class="chip type">wrapped_records</span>
+      <pre>{"meta": {"source": "NOA"},
+ "data": {"items": [
+   {"id": 1}, {"id": 2}
+ ]}}</pre>
+      <p class="how">API dumps. The largest array of objects wins: <code>record_path = $.data.items[*]</code>. Scalars outside it go to <code>document_metadata</code>.</p>
+    </div>
+    <div class="shape">
+      <span class="chip type">file_per_record</span>
+      <pre>articles/
+  a-0001.json
+  a-0002.json
+  …</pre>
+      <p class="how">A folder (MoMa <code>JSONSet</code>) where each file is one record. Profiled as one record set over all files.</p>
+    </div>
+  </div>
+  <p class="prose" style="color: var(--muted); font-size: 0.92rem;">A file with no array of objects at all (a config, a single report) is a <code>single_document</code>. It is profiled as one record: structure, metadata and summary, without distribution statistics. Known dialects (GeoJSON, JSON-LD, JSON Schema, OpenAPI) are detected and recorded in <code>dialect</code>. Jupyter notebooks stay listed but unprofiled.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="profile">
+  <div class="eyebrow">03 · Proposal</div>
+  <h2>The profile, on a real-shaped example</h2>
+  <p class="prose">A weather-station export of the kind the meteo partners publish. On the left is the file. On the right is the field list the profiler would produce, one row per leaf JSONPath under <code>$.stations[*]</code>, with how often the key is present and which JSON types were seen.</p>
+
+  <div class="compare">
+    <div class="panel">
+      <div class="panel-head">
+        <span class="file">stations.json</span>
+        <span class="eyebrow">4.8 MB · wrapped_records</span>
+      </div>
+<pre class="code" data-json>{
+  "meta": {
+    "source": "National Observatory of Athens",
+    "generated": "2026-09-30T00:00:00Z",
+    "license": "CC BY 4.0"
+  },
+  "stations": [
+    {
+      "id": "NOA-0142",
+      "name": "Athens - Thiseio",
+      "operator": "NOA",
+      "location": { "lat": 37.9715, "lon": 23.7181 },
+      "elevation_m": 107,
+      "sensors": ["temperature", "humidity", "wind"],
+      "notes": "Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter.",
+      "readings": [
+        { "ts": "2026-09-29T12:00:00Z", "temp_c": 27.4, "rh": 41 },
+        { "ts": "2026-09-29T13:00:00Z", "temp_c": 28.1, "rh": 38 }
+      ]
+    },
+    { "id": "NOA-0207", "name": "Ioannina - Airport", "operator": null, … }
+    // … 412 stations in total
+  ]
+}</pre>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="file">record_path&nbsp;&nbsp;$.stations[*]</span>
+        <span class="eyebrow">412 records · depth 4 · 11 paths · consistency 0.93</span>
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="fields">
+          <thead><tr><th>Field (relative path)</th><th>Types seen</th><th>Present</th><th>What the profile says</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="path">id</td>
+              <td><div class="types"><span class="chip type">string</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag"><b>412 unique</b> · semantic: identifier</td>
+            </tr>
+            <tr>
+              <td class="path">name</td>
+              <td><div class="types"><span class="chip type">string</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag">semantic: <b>place name</b></td>
+            </tr>
+            <tr>
+              <td class="path">operator</td>
+              <td><div class="types"><span class="chip type">string</span><span class="chip type">null</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:58%"></div><div class="fill null" style="width:4%"></div></div><span class="v">62%</span></div></td>
+              <td class="flag">top values: <b>NOA</b> 182 · <b>HNMS</b> 54 · <b>Meteo.gr</b> 3</td>
+            </tr>
+            <tr>
+              <td class="path">location.lat</td>
+              <td><div class="types"><span class="chip type">number</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag">34.93 – 41.71 · semantic: <b>latitude</b></td>
+            </tr>
+            <tr>
+              <td class="path">location.lon</td>
+              <td><div class="types"><span class="chip type">number</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag">19.92 – 28.24 · semantic: <b>longitude</b></td>
+            </tr>
+            <tr>
+              <td class="path">elevation_m</td>
+              <td><div class="types"><span class="chip type">integer</span><span class="chip warn">string 3%</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag alert"><b>mixed types</b> · 0 – 1 960, median 112</td>
+            </tr>
+            <tr>
+              <td class="path">sensors[*]</td>
+              <td><div class="types"><span class="chip type">string</span><span class="chip type">repeated</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag">array length 1 – 6, avg 2.8 · top: <b>temperature</b>, <b>humidity</b></td>
+            </tr>
+            <tr>
+              <td class="path">notes</td>
+              <td><div class="types"><span class="chip type">string</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:37%"></div></div><span class="v">37%</span></div></td>
+              <td class="flag"><b>long text</b> (avg 214 chars) → chunked for semantic search</td>
+            </tr>
+            <tr>
+              <td class="path">readings[*].ts</td>
+              <td><div class="types"><span class="chip type">string</span><span class="chip type">repeated</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag">98 880 values · <b>2026-08-30 → 2026-09-29</b></td>
+            </tr>
+            <tr>
+              <td class="path">readings[*].temp_c</td>
+              <td><div class="types"><span class="chip type">number</span><span class="chip type">repeated</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag">6.1 – 41.3 °C, mean 23.4 · histogram</td>
+            </tr>
+            <tr>
+              <td class="path">readings[*].rh</td>
+              <td><div class="types"><span class="chip type">integer</span><span class="chip type">repeated</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td class="flag">4 – 100, mean 58 · histogram</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="callouts">
+    <div class="callout">
+      <h3>Present is not the same as null</h3>
+      <p>In JSON a key can be absent or explicitly <code>null</code>. <code>operator</code> is present in 62% of stations and null in 4% of them. CSV has no equivalent, so <code>presence_percentage</code> is a new statistic.</p>
+    </div>
+    <div class="callout">
+      <h3>Arrays become repeated fields</h3>
+      <p>Paths under <code>[*]</code> are marked <code>repeated</code> and get array-length statistics. Their value statistics are computed over all elements: 98 880 readings, not 412 stations.</p>
+    </div>
+    <div class="callout">
+      <h3>Mixed types are flagged</h3>
+      <p><code>elevation_m</code> is an integer in 400 stations and a string such as <code>"n/a"</code> in 12. CSV would silently read the whole column as text. JSON keeps the types, so the profile can report the conflict.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="catalogue">
+  <div class="eyebrow">04 · Characteristics</div>
+  <h2>What each profile carries, and why search needs it</h2>
+  <p class="prose">Items marked <span class="new">new</span> do not exist for CSV today. Everything else reuses the CSV code path (<code>_ColumnAccumulator</code>, <code>ColumnStatistics</code>, the semantic-type annotator, the text chunker). Cost: <span class="cost">cheap</span> = first records only, <span class="cost">stream</span> = one pass over the file, <span class="cost">LLM</span> = one model call per file.</p>
+
+  <div class="cat-group">
+    <h3>File level <span class="eyebrow">json_profile</span></h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Key</th><th>Example</th><th>Use in search</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td><code>shape</code><span class="new">new</span></td><td><code>wrapped_records</code></td><td>Facet; tells the UI how to render the preview</td><td class="cost">cheap</td></tr>
+          <tr><td><code>dialect</code><span class="new">new</span></td><td><code>geojson</code> · <code>json-ld</code> · <code>null</code></td><td>Facet ("GeoJSON datasets"); GeoJSON triggers bounding-box extraction</td><td class="cost">cheap</td></tr>
+          <tr><td><code>record_path</code><span class="new">new</span></td><td><code>$.stations[*]</code></td><td>Where the records live. DMM uses it to query the file</td><td class="cost">cheap</td></tr>
+          <tr><td><code>record_count</code></td><td>412</td><td>Size facet, the JSON equivalent of row count</td><td class="cost">stream</td></tr>
+          <tr><td><code>max_depth</code>, <code>path_count</code><span class="new">new</span></td><td>4, 11</td><td>Complexity signal: flat vs deeply nested</td><td class="cost">stream</td></tr>
+          <tr><td><code>schema_consistency</code><span class="new">new</span></td><td>0.93</td><td>Share of records with the dominant key set. Shown as a "uniform / irregular" badge</td><td class="cost">stream</td></tr>
+          <tr><td><code>parse_errors</code><span class="new">new</span></td><td>0</td><td>Quality badge for JSON Lines files</td><td class="cost">stream</td></tr>
+          <tr><td><code>document_metadata</code><span class="new">new</span></td><td><code>{"$.meta.license": "CC BY 4.0"}</code></td><td>Scalars outside the records, often source, licence and date. Keyword-searchable</td><td class="cost">cheap</td></tr>
+          <tr><td><code>sample_records</code></td><td>3 records, ≤ 2 KB each</td><td>Preview card on the dataset page</td><td class="cost">cheap</td></tr>
+          <tr><td><code>summary</code>, <code>keywords</code></td><td>"Hourly readings from 412 Greek weather stations…"</td><td>Free-text and semantic match on the file</td><td class="cost">LLM</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="cat-group">
+    <h3>Field level <span class="eyebrow">one per leaf JSONPath · CDD "columns"</span></h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Key</th><th>Example</th><th>Use in search</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td><code>name</code></td><td><code>location.lat</code></td><td>Dotted path relative to the record. Tokenised, so "lat" or "location" matches</td><td class="cost">stream</td></tr>
+          <tr><td><code>json_path</code><span class="new">new</span></td><td><code>$.stations[*].location.lat</code></td><td>Absolute path. Maps to Croissant <code>source.extract.jsonPath</code></td><td class="cost">stream</td></tr>
+          <tr><td><code>primitive_type</code>, <code>semantic_type</code></td><td><code>sc:Float</code>, latitude</td><td>Same as CSV. "Datasets with coordinates" works across formats</td><td class="cost">LLM (shared)</td></tr>
+          <tr><td><code>json_types</code><span class="new">new</span></td><td><code>{"integer": 400, "string": 12}</code></td><td>Mixed-type warning in the quality badge</td><td class="cost">stream</td></tr>
+          <tr><td><code>presence_percentage</code><span class="new">new</span></td><td>62.0</td><td>Sparse vs reliable fields. Distinct from <code>missingPercentage</code> (null)</td><td class="cost">stream</td></tr>
+          <tr><td><code>repeated</code>, <code>array_length</code><span class="new">new</span></td><td><code>true</code>, <code>{min: 1, avg: 2.8, max: 6}</code></td><td>Marks one-to-many data. Croissant has <code>repeated</code> natively</td><td class="cost">stream</td></tr>
+          <tr><td><code>statistics</code></td><td>Same 15 keys as CSV</td><td>Histograms, ranges, percentiles, unique count</td><td class="cost">stream</td></tr>
+          <tr><td><code>top_values</code><span class="new">new</span></td><td><code>[{"value": "NOA", "count": 182}]</code></td><td>Facets, and keyword hits on values ("Athens", "HNMS"). Low-cardinality strings only. Also useful for CSV</td><td class="cost">stream</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="cat-group">
+    <h3>Content <span class="eyebrow">chunked_content</span></h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Key</th><th>Example</th><th>Use in search</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td><code>chunked_content</code></td><td><code>section = "notes"</code>, <code>subsection = "NOA-0142"</code></td><td>String fields averaging over 120 characters go through the existing text chunker. CDD indexes them exactly like <code>.txt</code> and <code>.pdf</code> chunks, so semantic search reaches inside values. Capped at 2 000 chunks per file</td><td class="cost">stream</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="output">
+  <div class="eyebrow">05 · Output</div>
+  <h2>What the profiler emits</h2>
+  <p class="prose">Two outputs, as for every other format. The <b>CDD profile</b> is the file CDD indexes for search. The <b>heavy profile</b> is Croissant JSON-LD that DMM forwards to MoMa. Both are shown for <code>stations.json</code>.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Full example file</th><th>For</th><th>Format</th></tr></thead>
+      <tbody>
+        <tr><td><a href="examples/moma_json_stations_heavy.json"><code>examples/moma_json_stations_heavy.json</code></a></td><td><span class="chip moma">MoMa</span></td><td>Heavy Croissant profile as the profiler would emit it: dataset, the <code>stations.json</code> FileObject and one record set with all 11 JSON fields and their statistics. Same layout as <code>assets/profiles/heavy/*.json</code>.</td></tr>
+        <tr><td><a href="json-file-preview-mock.html"><code>json-file-preview-mock.html</code></a></td><td><span class="chip cdd">Portal</span></td><td>Mock-up of how <code>stations.json</code> could look on the dataset page, next to the existing CSV view: Preview (table, tree, raw) and Statistics tabs.</td></tr>
+        <tr><td><a href="examples/dmm_update_json_stations_heavy.json"><code>examples/dmm_update_json_stations_heavy.json</code></a></td><td><span class="chip dmm">DMM</span></td><td><code>PUT /dataset/update</code> payload for the same dataset: the PG-JSON graph that the MoMa mapping (M1–M4) should produce, with <code>JSON</code>, <code>cr:RecordSet</code>, <code>JSONField</code> and <code>Statistics</code> nodes. Same layout as <code>tests/update/dataset_profile/zoo_heavy.json</code>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Profile format">
+    <button type="button" role="tab" id="tab-cdd" aria-controls="pane-cdd" aria-selected="true">CDD profile</button>
+    <button type="button" role="tab" id="tab-heavy" aria-controls="pane-heavy" aria-selected="false">Heavy profile (Croissant → MoMa)</button>
+  </div>
+
+  <div class="sample" id="pane-cdd" role="tabpanel" aria-labelledby="tab-cdd">
+    <div class="cap">One entry of <code>files[]</code>. CSV-compatible keys are unchanged. The <code>json_profile</code> block and the extra per-column keys are additions.</div>
+<pre data-json>{
+  "file_object_id": "2f0c7a1e-5d1b-4f62-9a57-6e1d3c0b8a41",
+  "original_format": "json",
+  "source_file": "s3://dataset/7c4d20a0-…/stations.json",
+  "name": "stations",
+  "description": "",
+  "keywords": ["weather stations", "air temperature", "relative humidity", "Greece"],
+  "json_profile": {
+    "shape": "wrapped_records",
+    "dialect": null,
+    "record_path": "$.stations[*]",
+    "record_count": 412,
+    "max_depth": 4,
+    "path_count": 11,
+    "paths_truncated": false,
+    "schema_consistency": 0.93,
+    "parse_errors": 0,
+    "sampled": false,
+    "summary": "Hourly temperature and humidity readings from 412 weather stations across Greece, 30 Aug to 29 Sep 2026, with station location, elevation, sensors and operator.",
+    "document_metadata": {
+      "$.meta.source": "National Observatory of Athens",
+      "$.meta.generated": "2026-09-30T00:00:00Z",
+      "$.meta.license": "CC BY 4.0"
+    },
+    "sample_records": "[{\"id\": \"NOA-0142\", \"name\": \"Athens - Thiseio\", …}]"
+  },
+  "columns": [
+    {
+      "name": "operator",
+      "json_path": "$.stations[*].operator",
+      "primitive_type": "sc:Text",
+      "semantic_type": "organization",
+      "description": "",
+      "json_types": {"string": 239, "null": 16},
+      "presence_percentage": 61.9,
+      "repeated": false,
+      "top_values": [
+        {"value": "NOA", "count": 182},
+        {"value": "HNMS", "count": 54},
+        {"value": "Meteo.gr", "count": 3}
+      ],
+      "statistics": {
+        "rowCount": 255,
+        "missingCount": 16,
+        "missingPercentage": 6.3,
+        "uniqueCount": 3,
+        "mean": null, "median": null, "histogram": null
+        // … same 15 keys as a CSV column
+      }
+    },
+    {
+      "name": "readings[*].temp_c",
+      "json_path": "$.stations[*].readings[*].temp_c",
+      "primitive_type": "sc:Float",
+      "semantic_type": "temperature",
+      "description": "",
+      "json_types": {"number": 98880},
+      "presence_percentage": 100.0,
+      "repeated": true,
+      "array_length": {"min": 168, "avg": 240.0, "max": 744},
+      "top_values": null,
+      "statistics": {
+        "rowCount": 98880,
+        "mean": 23.4, "median": 23.1, "min": 6.1, "max": 41.3,
+        "histogram": "[{\"binRange\": [6.1, 9.62], \"count\": 989}, …]"
+        // …
+      }
+    }
+    // … one entry per leaf path
+  ],
+  "chunked_content": [
+    {
+      "section": "notes",
+      "subsection": "NOA-0142",
+      "chunks": [
+        "Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter."
+      ]
+    }
+  ]
+}</pre>
+  </div>
+
+  <div class="sample" id="pane-heavy" role="tabpanel" aria-labelledby="tab-heavy" hidden>
+    <div class="cap">A <code>cr:RecordSet</code> whose fields use Croissant's native <code>source.extract.jsonPath</code> and <code>repeated</code>. The new <code>dg:</code> terms are declared in <code>datagems-croissant-extension.ttl</code> (v0.5.0) under <code>https://datagems.eu/ns/</code>.</div>
+<pre data-json>{
+  "@type": "cr:RecordSet",
+  "@id": "b81e0c55-0d2f-4a8e-9a43-1f4c2b7e6d90",
+  "name": "stations",
+  "description": "Hourly temperature and humidity readings from 412 weather stations across Greece…",
+  "recordPath": "$.stations[*]",          // dg:recordPath
+  "jsonShape": "wrapped_records",         // dg:jsonShape
+  "recordCount": 412,                     // dg:recordCount
+  "maxDepth": 4,                          // dg:maxDepth
+  "schemaConsistency": 0.93,              // dg:schemaConsistency
+  "examples": "[{\"id\": \"NOA-0142\", …}]",
+  "field": [
+    {
+      "@type": "cr:Field",
+      "@id": "4a7d2c19-8b3e-4f0a-b6c5-2e9d1f8a7b63",
+      "name": "location.lat",
+      "description": "",
+      "dataType": "sc:Float",
+      "semanticType": "latitude",
+      "source": {
+        "fileObject": {"@id": "2f0c7a1e-5d1b-4f62-9a57-6e1d3c0b8a41"},
+        "extract": {"jsonPath": "$.stations[*].location.lat"}
+      },
+      "repeated": false,                  // cr:repeated
+      "jsonTypes": "{\"number\": 412}",   // dg:jsonTypes (JSON string, like histogram)
+      "presencePercentage": 100.0,        // dg:presencePercentage
+      "sample": [37.9715, 38.0412, 40.6401],
+      "statistics": {
+        "@type": "dg:ColumnStatistics",
+        "@id": "c3e2…",
+        "rowCount": 412, "min": 34.93, "max": 41.71,
+        "topValues": null                 // dg:topValues (JSON string)
+        // …
+      }
+    }
+  ]
+}</pre>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="guardrails">
+  <div class="eyebrow">06 · Limits</div>
+  <h2>Guardrails for messy JSON</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Situation</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>Objects used as maps<span class="sub"><code>{"2019": {…}, "2020": {…}}</code>, keys are IDs or dates</span></td><td>If an object shows more than 50 distinct keys across records and the keys look like data, collapse it to one wildcard path <code>$.x.*</code> with <code>key_samples</code>. Without this, path counts explode.</td></tr>
+        <tr><td>Very wide or deep schemas</td><td>At most 300 paths and depth 8. Anything deeper becomes a single <code>object</code> field and <code>paths_truncated: true</code> is set.</td></tr>
+        <tr><td>Large files</td><td>Stream with <code>ijson</code>, never <code>json.load</code>, so memory stays bounded like the CSV chunking. Counts, presence and min/max are exact. Medians, percentiles and top values come from a 10 000-record reservoir, and <code>sampled: true</code> is set.</td></tr>
+        <tr><td>Invalid JSON</td><td>Whole-file JSON: listed, with <code>parse_errors: 1</code> and no fields. JSON Lines: bad lines are skipped and counted.</td></tr>
+        <tr><td>Encoding</td><td>Reuse <code>resolve_encoding()</code>. RFC 8259 requires UTF-8, but real exports are not always compliant.</td></tr>
+        <tr><td>LLM failures</td><td>As for CSV: summary and semantic types are enrichments. A failure is logged and the profile still ships.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="flow">
+  <div class="eyebrow">07 · Integration</div>
+  <h2>End-to-end flow</h2>
+  <p class="prose">Dashed boxes are the pieces this proposal adds. The CDD path depends only on the profiler. The MoMa path needs MoMa changes before the profiler starts emitting JSON record sets in the heavy profile.</p>
+  <div class="flow">
+    <div class="lane-label">Search path</div>
+    <div class="lane">
+      <div class="node prof todo"><span class="who">Profiler</span><span class="what"><code>JSONRecordSet</code> walks the file</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node prof todo"><span class="who">Profiler</span><span class="what"><code>to_dict_cdd()</code> writes the JSON entry</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node cdd"><span class="who">CDD</span><span class="what">Reads <code>CDD_PROFILE_PATH/&lt;id&gt;.json</code></span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node cdd todo"><span class="who">CDD</span><span class="what">Indexes columns, top values, chunks</span></div>
+    </div>
+    <div class="lane-label" style="margin-top: 8px;">Catalogue path</div>
+    <div class="lane">
+      <div class="node prof todo"><span class="who">Profiler</span><span class="what">Heavy profile with <code>jsonPath</code> fields</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node dmm"><span class="who">DMM</span><span class="what"><code>PUT /dataset/update</code> forwards to MoMa</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node moma todo"><span class="who">MoMa</span><span class="what"><code>mapping.yml</code> JSON variants</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node moma"><span class="who">MoMa</span><span class="what">Neo4j: <code>JSON</code> → <code>cr:RecordSet</code> → <code>JSONField</code></span></div>
+    </div>
+    <div class="lane-label" style="margin-top: 8px;">Query path</div>
+    <div class="lane">
+      <div class="node dmm"><span class="who">DMM</span><span class="what"><code>/dataset/search?types=JSON</code></span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node dmm todo"><span class="who">DMM</span><span class="what">Polyglot query builds a JSON view</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node dmm todo"><span class="who">DMM</span><span class="what">DuckDB <code>read_json_auto</code> + <code>unnest</code> on <code>recordPath</code></span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="node dmm"><span class="who">DMM</span><span class="what">Result stored as CSV, as today</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="profiler">
+  <div class="team prof">
+    <div class="team-head">
+      <h3>Profiler · our work</h3>
+      <span class="repo">dataset-profiler</span>
+    </div>
+    <ol class="steps">
+      <li class="step"><span class="id">P1</span><div class="body">
+        <div class="title-row"><h4>Add <code>JSONRecordSet</code></h4><span class="prio must">must</span></div>
+        <p>New <code>record_set/json/</code> package. Detect the shape and <code>record_path</code> from the first 1 MB. Make one streamed pass with <code>ijson</code> that feeds one <code>_ColumnAccumulator</code> per leaf path, plus presence, JSON-type and array-length counters. A second pass builds histograms, as CSV does. Semantic types come from the existing <code>ColumnTypeAnnotator</code> on 100 flattened records.</p>
+        <span class="where">dataset_profiler/profile_components/record_set/json/json_record_set.py</span>
+      </div></li>
+      <li class="step"><span class="id">P2</span><div class="body">
+        <div class="title-row"><h4>Wire it into extraction</h4><span class="prio must">must</span></div>
+        <p>Route <code>.json</code>, <code>.jsonl</code>, <code>.ndjson</code> and <code>.geojson</code> in <code>extract_record_sets_of_file_objects</code>. Add <code>FileType.JSON</code> to <code>get_file_type</code> so a folder of JSON files is one record set with one record per file. Add <code>.ndjson</code> → <code>application/jsonl</code> and <code>.geojson</code> → <code>application/json</code> to <code>SUPPORTED_EXTENSION_MAP</code>; GeoJSON is identified by <code>dialect</code>, so MoMa needs no extra MIME rule.</p>
+        <span class="where">record_set_extractor.py · distribution.py</span>
+      </div></li>
+      <li class="step"><span class="id">P3</span><div class="body">
+        <div class="title-row"><h4>CDD output</h4><span class="prio must">must</span></div>
+        <p><code>JSONRecordSet.to_dict_cdd()</code> in the format above. Add the class to <code>match_distributions_with_record_sets</code>; today it logs "Record set type not covered" for unknown types. Long-text fields go through the existing text chunker.</p>
+        <span class="where">profile_models.py</span>
+      </div></li>
+      <li class="step"><span class="id">P4</span><div class="body">
+        <div class="title-row"><h4>Heavy profile and vocabulary</h4><span class="prio must">must</span></div>
+        <p>Emit <code>cr:Field</code> with <code>source.extract.jsonPath</code> and <code>repeated</code>. Add <code>dg:recordPath</code>, <code>dg:jsonShape</code>, <code>dg:recordCount</code>, <code>dg:maxDepth</code>, <code>dg:schemaConsistency</code>, <code>dg:jsonTypes</code>, <code>dg:presencePercentage</code> and <code>dg:topValues</code> to <code>REFERENCES_TEMPLATE</code>. They are already declared in the TTL (v0.5.0), with <code>dg:JsonRecordSet</code> as the record set class. Gate this behind <code>ENABLE_JSON_RECORD_SETS</code> until MoMa M1–M3 are deployed.</p>
+        <span class="where">profile_components/constants.py · datagems-croissant-extension.ttl</span>
+      </div></li>
+      <li class="step"><span class="id">P5</span><div class="body">
+        <div class="title-row"><h4>Test assets and docs</h4><span class="prio should">should</span></div>
+        <p>A <code>tests/assets/json_shapes</code> dataset with one file per shape, a map-like object and a broken JSONL line. Add a JSON entry to <code>profile-examples-cdd.md</code> and <code>profile-examples-moma.md</code>. The example files linked in the next two sections are a starting point.</p>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="moma">
+  <div class="team moma">
+    <div class="team-head">
+      <h3>MoMa · next steps</h3>
+      <span class="repo">moma-management · domain/mapping.yml, domain/schema</span>
+    </div>
+    <p class="prose">MoMa already has <code>JSON</code> / <code>JSONSet</code> distribution labels. What is missing is everything below the file: the record set and its fields. Following the README's "Updating the MoMa model" procedure, this is schema, then <code>make gen</code>, then mapping.</p>
+    <ol class="steps">
+      <li class="step"><span class="id">M1</span><div class="body">
+        <div class="title-row"><h4>Map <code>application/jsonl</code></h4><span class="prio must">must</span><span class="chip moma">mapping.yml</span></div>
+        <p>Resolve the existing TODO. JSON Lines should get the same labels as JSON. The <code>encodingFormat</code> property still tells them apart.</p>
+<pre>- case: "encodingFormat == 'application/jsonl' &amp;&amp; @type == 'cr:FileSet'"
+  value: [ "JSONSet", "Data", "@type" ]
+- case: "encodingFormat == 'application/jsonl' &amp;&amp; @type == 'cr:FileObject'"
+  value: [ "JSON", "Data", "@type" ]</pre>
+      </div></li>
+      <li class="step"><span class="id">M2</span><div class="body">
+        <div class="title-row"><h4>Add a <code>Field</code> variant for JSON sources</h4><span class="prio must">must · blocks P4</span><span class="chip moma">mapping.yml</span></div>
+        <p>Without this, <code>resolve_variant</code> falls back to the base <code>Field</code> spec, which has no <code>labels</code> or <code>map</code>, so JSON fields would be stored as empty, unlabeled nodes. Keeping the <code>Column</code> label means existing Column queries and the <code>statistics</code> edge keep working, and <code>JSONField</code> adds the JSON-specific properties.</p>
+<pre>- when: "_source.encodingFormat == 'application/json' || _source.encodingFormat == 'application/jsonl'"
+  type: JSONField
+  labels: [ "Column", "JSONField", "@type" ]
+  map:
+    type: "@type"
+    name: name
+    description: description
+    dataType: dataType
+    semanticType: semanticType
+    sample: sample
+    jsonPath: source.extract.jsonPath
+    repeated: repeated
+    jsonTypes: jsonTypes
+    presencePercentage: presencePercentage
+  edges:
+    - { from: parent, to: self, label: field }
+    - { from: self, to: source.fileObject.@id, label: source/fileObject }</pre>
+      </div></li>
+      <li class="step"><span class="id">M3</span><div class="body">
+        <div class="title-row"><h4>New node schema <code>jsonField.schema.json</code></h4><span class="prio must">must</span><span class="chip moma">domain/schema</span></div>
+        <p><code>allOf</code> the Column schema plus <code>jsonPath</code> (string), <code>repeated</code> (boolean), <code>jsonTypes</code> (string, JSON-encoded like <code>histogram</code>) and <code>presencePercentage</code> (number). Register it in <code>node.schema.json</code> and run <code>make gen</code>. Check <code>edge_constraints.json</code> so that <code>field</code>, <code>source/fileObject</code> (→ <code>JSON</code>) and <code>statistics</code> accept a <code>JSONField</code>.</p>
+      </div></li>
+      <li class="step"><span class="id">M4</span><div class="body">
+        <div class="title-row"><h4>Add a <code>RecordSet</code> variant for JSON sources</h4><span class="prio should">should</span><span class="chip moma">mapping.yml</span></div>
+        <p>Same pattern as the existing PDF and <code>text/plain</code> variants: map <code>recordPath</code>, <code>jsonShape</code>, <code>recordCount</code>, <code>maxDepth</code>, <code>schemaConsistency</code>, <code>summary</code> and <code>keywords</code>. <code>recordPath</code> is what DMM needs to query the file (D3), so in practice this blocks D3.</p>
+      </div></li>
+      <li class="step"><span class="id">M5</span><div class="body">
+        <div class="title-row"><h4><code>topValues</code> on <code>Statistics</code></h4><span class="prio later">later</span><span class="chip moma">columnStatistics.schema.json</span></div>
+        <p>One optional string property, JSON-encoded like <code>histogram</code>. CSV columns would benefit too once the profiler emits it for them.</p>
+      </div></li>
+      <li class="step"><span class="id">M6</span><div class="body">
+        <div class="title-row"><h4>Fixtures and ingest tests</h4><span class="prio must">must</span><span class="chip moma">assets/profiles</span></div>
+        <p>Start from <a href="examples/moma_json_stations_heavy.json"><code>moma_json_stations_heavy.json</code></a>: a complete heavy profile with all 11 fields, ready to drop into <code>assets/profiles/heavy/</code>. Test that the round trip yields <code>JSON</code> → <code>cr:RecordSet</code> → <code>JSONField</code> → <code>Statistics</code>, and that a <code>JSONSet</code> folder links its files with <code>containedIn</code>.</p>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="dmm">
+  <div class="team dmm">
+    <div class="team-head">
+      <h3>DMM · next steps</h3>
+      <span class="repo">data-model-management · dmm_api/resources/dataset.py</span>
+    </div>
+    <p class="prose"><code>/dataset/update</code> forwards the AP to MoMa unchanged, and <code>extract_from_AP</code> already keeps <code>cr:Field</code> and <code>dg:ColumnStatistics</code> nodes. Registration and update therefore need no code change. The work is in search filters and querying.</p>
+    <ol class="steps">
+      <li class="step"><span class="id">D1</span><div class="body">
+        <div class="title-row"><h4>Expose JSON in search filters</h4><span class="prio must">must</span><span class="chip dmm">DatasetType</span></div>
+        <p>Add <code>JSON</code>, <code>JSONSet</code> and <code>JSONField</code> to the <code>DatasetType</code> enum so <code>GET /dataset/search?types=JSON</code> validates and is passed to MoMa. <code>MimeType</code> already lists <code>application/json</code> and <code>application/jsonl</code>. Update the OpenAPI docs to match.</p>
+      </div></li>
+      <li class="step"><span class="id">D2</span><div class="body">
+        <div class="title-row"><h4>Regression test for the dataset lifecycle</h4><span class="prio must">must</span><span class="chip dmm">tests/</span></div>
+        <p>Start from <a href="examples/dmm_update_json_stations_heavy.json"><code>dmm_update_json_stations_heavy.json</code></a>, the <code>/dataset/update</code> payload for the same dataset in the format of <code>tests/update/dataset_profile/zoo_heavy.json</code>, and run register → load → update → <code>get/{id}</code>. Today <code>PG2Croissant.map_field</code> copies stored properties as flat keys, so <code>jsonPath</code> comes back at the top of the field instead of under <code>source.extract</code>. CSV <code>column</code> has the same issue. Rebuild <code>source</code> so <code>/dataset/get</code> returns valid Croissant.</p>
+      </div></li>
+      <li class="step"><span class="id">D3</span><div class="body">
+        <div class="title-row"><h4>Query JSON files in the polyglot query</h4><span class="prio should">should · needs M4</span><span class="chip dmm">execute_query_mixed</span></div>
+        <p>Add <code>application/json</code> and <code>application/jsonl</code> branches next to <code>text/csv</code> in <code>query_rewriting</code>, <code>execute_query_mixed</code> and <code>write_views_minimal_extraction</code>. The view is built from the record set's <code>recordPath</code>. Also fetch the record set node in <code>extract_query_from_AP</code>, since it currently reads only <code>encodingFormat</code>, <code>contentUrl</code> and <code>name</code> from the FileObject.</p>
+<pre>-- record_path = $.stations[*]
+CREATE VIEW json_arg1 AS
+SELECT unnest(s)                      -- one column per key; nested lists stay lists
+FROM (SELECT unnest(stations) AS s
+      FROM read_json_auto('/s3/dataset/…/stations.json'));
+
+-- JSON Lines / array_of_records: no unnest needed
+CREATE VIEW json_arg2 AS
+SELECT * FROM read_json_auto('/s3/dataset/…/events.jsonl', format = 'newline_delimited');</pre>
+      </div></li>
+      <li class="step"><span class="id">D4</span><div class="body">
+        <div class="title-row"><h4>Use <code>https://datagems.eu/ns/</code> for <code>dg:</code></h4><span class="prio should">should</span><span class="chip dmm">constants.py</span></div>
+        <p>The DataGEMS vocabulary namespace is <code>https://datagems.eu/ns/</code>, with the trailing slash, as used by the profiler and the TTL. DMM's <code>CROISSANT_CONTEXT</code> still declares <code>"dg": "http://datagems.eu/TBD/"</code>, and several MoMa fixtures declare <code>http://datagems.eu/TBD</code> without the slash, which makes <code>dg:mean</code> expand to <code>http://datagems.eu/TBDmean</code>. Switch both to <code>https://datagems.eu/ns/</code> before the new terms ship.</p>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="cdd">
+  <div class="team cdd">
+    <div class="team-head">
+      <h3>CDD search · notes for the consumer</h3>
+      <span class="repo">cross-dataset-discovery</span>
+    </div>
+    <p class="prose">Not owned by this proposal, but the profile is shaped for it. If CDD indexes <code>columns</code> and <code>chunked_content</code> generically, JSON works on day one with no change. To get full value, the CDD team would:</p>
+    <ol class="steps">
+      <li class="step"><span class="id">C1</span><div class="body">
+        <div class="title-row"><h4>Index path tokens and values</h4><span class="prio should">should</span></div>
+        <p>Split <code>columns[].name</code> on <code>.</code> and <code>[*]</code> so "lat" matches <code>location.lat</code>. Index <code>top_values</code> and <code>document_metadata</code> as keywords.</p>
+      </div></li>
+      <li class="step"><span class="id">C2</span><div class="body">
+        <div class="title-row"><h4>Facets</h4><span class="prio later">later</span></div>
+        <p><code>original_format</code>, <code>json_profile.shape</code>, <code>dialect</code> and <code>record_count</code> buckets.</p>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="rollout">
+  <div class="eyebrow">08 · Rollout</div>
+  <h2>Rollout in three phases</h2>
+  <p class="prose">The order is set by dependencies. Phase 1 ships on the profiler alone, because the CDD profile is a file and does not pass through MoMa.</p>
+  <div class="phases">
+    <div class="phase">
+      <span class="n">1</span>
+      <h3>JSON is searchable</h3>
+      <div class="deps"><span class="chip prof">P1–P3, P5</span></div>
+      <ul>
+        <li>CDD profile carries JSON fields, statistics and chunks</li>
+        <li>Heavy profile is unchanged (flag off)</li>
+        <li>No dependency on other teams</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <span class="n">2</span>
+      <h3>JSON is in the catalogue</h3>
+      <div class="deps"><span class="chip moma">M1–M4, M6</span><span class="chip dmm">D1, D2, D4</span><span class="chip prof">P4</span></div>
+      <ul>
+        <li>MoMa deploys first, then the profiler flag is turned on</li>
+        <li>Fields and statistics are visible in MoMa and DMM <code>/dataset/get</code></li>
+        <li>Search can filter by <code>types=JSON</code></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <span class="n">3</span>
+      <h3>JSON is queryable</h3>
+      <div class="deps"><span class="chip dmm">D3</span><span class="chip moma">M5</span><span class="chip cdd">C1, C2</span></div>
+      <ul>
+        <li>SQL over JSON through DuckDB views</li>
+        <li><code>top_values</code> stored in MoMa</li>
+        <li>CDD facets on shape, dialect and size</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="questions">
+  <div class="eyebrow">09 · Decisions needed</div>
+  <h2>Open questions</h2>
+  <ol class="questions">
+    <li><b>CDD key: <code>columns</code> or a new <code>fields</code>?</b>
+      <div class="rec">Recommended: <code>columns</code>, so CDD's CSV indexing works unchanged. Needs CDD confirmation.</div></li>
+    <li><b>MoMa label: <code>Column</code> + <code>JSONField</code>, or a new <code>ColumnJSON</code> in the style of <code>ColumnCSV</code>?</b>
+      <div class="rec">Recommended: the dual label, so existing Column-based queries need no change. MoMa to decide.</div></li>
+    <li><b>Separate <code>JSONL</code> label, or reuse <code>JSON</code>?</b>
+      <div class="rec">Recommended: reuse <code>JSON</code>; <code>encodingFormat</code> already tells them apart.</div></li>
+    <li><b>Path cap of 300 and depth cap of 8: right for partner data?</b>
+      <div class="rec">To validate on the largest JSON datasets partners plan to upload.</div></li>
+    <li><b>Should <code>top_values</code> also apply to CSV in the same release?</b>
+      <div class="rec">Cheap on our side. It mainly depends on MoMa M5.</div></li>
+  </ol>
+</section>
+
+<footer>
+  Based on the dataset-profiler <code>main</code> branch (853f0ed), data-model-management and moma-management as checked out on 13 Oct 2026. File paths refer to those repositories.
+</footer>
+
+</main>
+</div>
+
+<script>
+(function () {
+  // Light JSON highlighting for <pre data-json>. Content stays readable without it.
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  var re = /(\/\/[^\n]*)|("(?:\\.|[^"\\])*")(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g;
+  document.querySelectorAll("pre[data-json]").forEach(function (pre) {
+    var src = pre.textContent, out = "", last = 0, m;
+    while ((m = re.exec(src)) !== null) {
+      out += esc(src.slice(last, m.index));
+      if (m[1]) out += '<span class="j-com">' + esc(m[1]) + "</span>";
+      else if (m[2] && m[3]) out += '<span class="j-key">' + esc(m[2]) + "</span>" + esc(m[3]);
+      else if (m[2]) out += '<span class="j-str">' + esc(m[2]) + "</span>";
+      else if (m[4]) out += '<span class="j-lit">' + m[4] + "</span>";
+      else out += '<span class="j-num">' + m[5] + "</span>";
+      last = re.lastIndex;
+    }
+    pre.innerHTML = out + esc(src.slice(last));
+  });
+
+  // Tabs
+  var tabs = document.querySelectorAll('[role="tab"]');
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

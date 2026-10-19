@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JSON File Preview Mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: copies the DataGEMS dataset page (File Preview card + "Dataset Files" rail) so the
+   JSON view can be judged next to the CSV one. Single light theme on purpose: it mirrors the portal. */
+:root {
+  --page: #ffffff;
+  --title: #2d3748;
+  --text: #334155;
+  --cell: #4b6283;
+  --muted: #64748b;
+  --faint: #94a3b8;
+  --line: #e2e8f0;
+  --head: #f8fafc;
+  --blue: #3b82f6;
+  --purple: #a855f7;
+  --amber: #b45309;
+  --amber-soft: #fef3c7;
+  --red: #b91c1c;
+  --red-soft: #fee2e2;
+  --chip: #eef2f7;
+  --bar: #93b4f5;
+  --f-ui: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--text); font-family: var(--f-ui); font-size: 14px; line-height: 1.5; }
+code, .mono { font-family: var(--f-mono); font-size: 0.85em; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
+
+
+.page {
+  max-width: 1440px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px;
+}
+@media (min-width: 1100px) { .page { grid-template-columns: minmax(0, 1fr) 300px; padding-inline: 56px; gap: 64px; } }
+h1 { font-size: 26px; font-weight: 700; color: var(--title); margin: 0 0 22px; letter-spacing: -0.01em; }
+
+/* ---------- sidebar ---------- */
+.side h2 { font-size: 17px; font-weight: 500; color: var(--title); margin: 0 0 16px; display: flex; gap: 10px; align-items: center; }
+.side ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.side li { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--text); }
+.side li.active { font-weight: 600; }
+.side svg { flex: none; color: var(--muted); }
+@media (min-width: 1100px) { .side { padding-top: 52px; } }
+
+/* ---------- card ---------- */
+.card { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; min-width: 0; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 26px 16px 6px; flex-wrap: wrap; }
+.file-title { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; min-width: 0; }
+.file-title b { font-size: 19px; color: var(--title); font-weight: 700; overflow-wrap: anywhere; }
+.file-title small { font-size: 11px; color: var(--muted); }
+.fmt { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--chip); border-radius: 4px; padding: 1px 6px; align-self: center; }
+.head-actions { display: flex; gap: 18px; color: var(--muted); }
+.icon-btn { background: none; border: 0; padding: 2px; cursor: pointer; color: var(--muted); display: inline-flex; }
+
+.tabs { display: flex; gap: 4px; padding: 14px 12px 0; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.tab {
+  background: none; border: 0; cursor: pointer; padding: 10px 8px 12px; margin-inline: 4px;
+  font-size: 16px; color: var(--cell); border-bottom: 3px solid transparent; white-space: nowrap;
+  display: inline-flex; gap: 6px; align-items: center;
+}
+.tab[aria-selected="true"] { color: var(--title); border-bottom-color: var(--blue); }
+
+/* ---------- preview: about ---------- */
+.about { padding: 18px 16px 6px; display: grid; gap: 12px; }
+.about h3 { margin: 0; font-size: 16px; color: var(--title); font-weight: 600; }
+.about p { margin: 0; max-width: 80ch; color: var(--text); }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; }
+.fact { background: var(--head); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; display: grid; }
+.fact span { font-size: 11px; color: var(--muted); }
+.fact b { font-size: 13px; color: var(--title); font-weight: 600; font-variant-numeric: tabular-nums; }
+.fact b code { font-size: 12px; font-weight: 500; }
+.meta { font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.meta code { color: var(--text); }
+
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 16px 10px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { background: var(--page); border: 0; padding: 5px 12px; font-size: 12px; cursor: pointer; color: var(--muted); }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--head); color: var(--title); font-weight: 600; }
+.showing { font-size: 11px; color: var(--title); }
+.showing span { font-weight: 600; }
+
+/* ---------- preview: table ---------- */
+.grid-wrap { overflow: auto; max-height: 560px; border-top: 1px solid var(--line); }
+table.grid { border-collapse: collapse; min-width: 100%; font-size: 13px; }
+.grid th, .grid td { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.grid th { background: var(--head); font-weight: 400; padding: 12px 16px 14px; min-width: 150px; position: sticky; top: 0; z-index: 1; }
+.grid th .nm { font-size: 11.5px; color: var(--title); display: block; white-space: nowrap; }
+.grid th .nm .par { color: var(--faint); }
+.grid th .ty { display: inline-block; margin-top: 4px; font-family: var(--f-mono); font-size: 10px; color: var(--muted); background: var(--chip); border-radius: 3px; padding: 0 5px; }
+.grid th .ty.warn { color: var(--amber); background: var(--amber-soft); }
+.grid th .big { display: block; font-size: 17px; font-weight: 600; color: var(--title); margin-top: 26px; font-variant-numeric: tabular-nums; }
+.grid th .lbl { display: block; font-size: 11px; color: var(--muted); }
+.grid th .pres { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 10.5px; color: var(--muted); }
+.grid th .pres i { flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; display: flex; max-width: 80px; }
+.grid th .pres i b { background: var(--blue); }
+.grid th .pres i b.nul { background: #f59e0b; }
+.grid td { padding: 13px 16px; color: var(--cell); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.grid td.long { white-space: normal; min-width: 260px; max-width: 320px; }
+.clip { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.absent { color: var(--faint); font-style: italic; font-size: 12px; }
+.null { font-family: var(--f-mono); font-size: 11px; color: var(--muted); background: var(--chip); border-radius: 3px; padding: 1px 5px; }
+.strval { font-family: var(--f-mono); font-size: 11px; color: var(--amber); background: var(--amber-soft); border-radius: 3px; padding: 1px 5px; }
+.pill { display: inline-block; font-size: 11px; background: var(--chip); color: var(--text); border-radius: 999px; padding: 1px 8px; margin: 0 4px 4px 0; }
+.items {
+  background: var(--page); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer;
+  font-family: var(--f-mono); font-size: 11.5px; color: var(--blue); display: inline-flex; gap: 6px; align-items: center;
+}
+.items[aria-expanded="true"] { background: var(--head); }
+tr.nested td { background: var(--head); padding: 10px 16px 14px 32px; white-space: normal; }
+.nested-cap { font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
+.nested-cap code { color: var(--text); }
+table.sub { border-collapse: collapse; font-size: 12px; background: var(--page); border: 1px solid var(--line); }
+table.sub th, table.sub td { border: 1px solid var(--line); padding: 5px 12px; white-space: nowrap; color: var(--cell); font-variant-numeric: tabular-nums; }
+table.sub th { position: static; min-width: 0; background: var(--head); font-size: 11px; color: var(--title); font-weight: 500; padding: 5px 12px; }
+
+/* ---------- preview: tree ---------- */
+.tree { padding: 6px 16px 18px; font-family: var(--f-mono); font-size: 12.5px; overflow-x: auto; border-top: 1px solid var(--line); }
+.tree details { margin-left: 18px; }
+.tree > details { margin-left: 0; }
+.tree summary { cursor: pointer; padding: 3px 0; list-style-position: outside; }
+.tree .row { display: flex; gap: 10px; align-items: baseline; padding: 3px 0 3px 18px; white-space: nowrap; }
+.tree .k { color: var(--title); font-weight: 500; }
+.tree .v { color: var(--cell); }
+.tree .v.s { color: #15803d; }
+.tree .ann { font-family: var(--f-ui); font-size: 11px; color: var(--faint); }
+.tree .ann.warn { color: var(--amber); }
+.tree-cap { padding: 12px 0 6px; font-family: var(--f-ui); font-size: 12px; color: var(--muted); }
+
+/* ---------- preview: raw ---------- */
+.raw { margin: 0; padding: 16px; border-top: 1px solid var(--line); font-family: var(--f-mono); font-size: 12px; line-height: 1.6; overflow: auto; max-height: 560px; color: var(--cell); }
+.raw .k { color: #1d4ed8; }
+.raw .s { color: #15803d; }
+.raw .n { color: var(--amber); }
+.raw .ann { color: var(--faint); font-family: var(--f-ui); font-style: italic; }
+
+/* ---------- statistics ---------- */
+.summary { background: var(--head); border-bottom: 1px solid var(--line); padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 14px 38px; align-items: center; }
+.summary > b { font-size: 12px; color: var(--title); font-weight: 600; margin-right: 8px; }
+.summary div { display: grid; }
+.summary div span { font-size: 11px; color: var(--muted); }
+.summary div b { font-size: 17px; font-weight: 600; color: var(--title); font-variant-numeric: tabular-nums; }
+.fcard { border-bottom: 1px solid var(--line); padding: 20px 16px 24px; display: grid; gap: 14px; }
+.fcard:last-child { border-bottom: 0; }
+.fhead { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.fhead .ic { width: 18px; text-align: center; color: var(--muted); font-family: var(--f-mono); font-size: 13px; }
+.fhead h4 { margin: 0; font-size: 16px; font-weight: 600; color: var(--title); }
+.fhead h4 .par { color: var(--faint); font-weight: 500; }
+.fhead .path { font-family: var(--f-mono); font-size: 11px; color: var(--muted); background: var(--chip); border-radius: 4px; padding: 1px 6px; overflow-wrap: anywhere; }
+.fhead .tag { font-size: 11px; border-radius: 4px; padding: 1px 6px; background: var(--chip); color: var(--muted); }
+.fhead .tag.warn { background: var(--amber-soft); color: var(--amber); }
+.fbody { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (min-width: 760px) { .fbody { grid-template-columns: minmax(0, 1fr) 210px; } }
+.kv { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px 24px; }
+.kv div { display: grid; gap: 2px; }
+.kv span { font-size: 11.5px; color: var(--muted); }
+.kv b { font-size: 13px; font-weight: 500; color: var(--title); font-variant-numeric: tabular-nums; }
+.kv .new span::after { content: "JSON"; margin-left: 6px; font-size: 9px; font-weight: 600; color: var(--blue); border: 1px solid currentColor; border-radius: 3px; padding: 0 3px; }
+.ubox { border: 1px solid var(--line); border-radius: 16px; padding: 30px 12px; text-align: center; display: grid; gap: 6px; }
+.ubox span { font-size: 12px; color: var(--muted); }
+.ubox b { font-size: 30px; font-weight: 700; color: var(--title); font-variant-numeric: tabular-nums; }
+.extra { display: grid; gap: 6px; max-width: 560px; }
+.extra > span { font-size: 11.5px; color: var(--muted); }
+.hist { display: flex; align-items: flex-end; gap: 3px; height: 70px; border-bottom: 1px solid var(--line); }
+.hist i { flex: 1; background: var(--bar); border-radius: 2px 2px 0 0; min-height: 1px; }
+.hist-ax { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tv { display: grid; grid-template-columns: minmax(80px, auto) 1fr auto; gap: 5px 10px; align-items: center; font-size: 12px; }
+.tv i { height: 8px; background: var(--bar); border-radius: 2px; display: block; }
+.tv .c { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+
+</style>
+</head>
+<body>
+
+<div class="page">
+  <main>
+    <h1>File Preview</h1>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="file-title">
+          <b>stations.json</b><small>(5032117 B)</small><span class="fmt">JSON</span>
+        </div>
+        <div class="head-actions">
+          <button class="icon-btn" type="button" aria-label="Download">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          </button>
+          <button class="icon-btn" type="button" aria-label="Expand">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="File views">
+        <button class="tab" type="button" role="tab" id="t-prev" aria-controls="p-prev" aria-selected="true">Preview</button>
+        <button class="tab" type="button" role="tab" id="t-stat" aria-controls="p-stat" aria-selected="false">Statistics</button>
+      </div>
+
+      <!-- ================= PREVIEW ================= -->
+      <div id="p-prev" role="tabpanel" aria-labelledby="t-prev">
+        <div class="about">
+          <h3>About this file</h3>
+          <p>Hourly temperature and humidity readings from 412 weather stations across Greece, 30 Aug to 29 Sep 2026, with station location, elevation, sensors and operator.</p>
+          <div class="facts">
+            <div class="fact"><span>Records</span><b>412</b></div>
+            <div class="fact"><span>Records found at</span><b><code>$.stations[*]</code></b></div>
+            <div class="fact"><span>Structure</span><b>Wrapped records</b></div>
+            <div class="fact"><span>Fields</span><b>11</b></div>
+            <div class="fact"><span>Nesting depth</span><b>4</b></div>
+            <div class="fact"><span>Same structure</span><b>93% of records</b></div>
+          </div>
+          <div class="meta">
+            <span>Outside the records:</span>
+            <span><code>meta.source</code> National Observatory of Athens</span>
+            <span><code>meta.license</code> CC BY 4.0</span>
+            <span><code>meta.generated</code> 2026-09-30</span>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="seg" role="group" aria-label="Preview mode">
+            <button type="button" data-view="v-table" aria-pressed="true">Table</button>
+            <button type="button" data-view="v-tree" aria-pressed="false">Tree</button>
+            <button type="button" data-view="v-raw" aria-pressed="false">Raw JSON</button>
+          </div>
+          <div class="showing">Showing: <span>6 of 412</span> records · <span>11 of 11</span> fields</div>
+        </div>
+
+        <div id="v-table" class="grid-wrap">
+          <table class="grid">
+            <thead>
+              <tr>
+                <th><span class="nm">id</span><span class="ty">string</span><span class="big">412</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
+                <th><span class="nm">name</span><span class="ty">string</span><span class="big">412</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
+                <th><span class="nm">operator</span><span class="ty">string | null</span><span class="big">3</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:58%"></b><b class="nul" style="width:4%"></b></i>62% present</span></th>
+                <th><span class="nm"><span class="par">location.</span>lat</span><span class="ty">number</span><span class="big">409</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
+                <th><span class="nm"><span class="par">location.</span>lon</span><span class="ty">number</span><span class="big">410</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
+                <th><span class="nm">elevation_m</span><span class="ty warn">integer | string</span><span class="big">287</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
+                <th><span class="nm">sensors[ ]</span><span class="ty">list of string</span><span class="big">6</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
+                <th><span class="nm">notes</span><span class="ty">long text</span><span class="big">151</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:37%"></b></i>37% present</span></th>
+                <th><span class="nm">readings[ ]</span><span class="ty">list of object · 3 fields</span><span class="big">240</span><span class="lbl">Avg. items per record</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+
+        <div id="v-tree" class="tree" hidden>
+          <div class="tree-cap">Record 1 of 412. Grey notes show how often each key appears across all records.</div>
+          <details open>
+            <summary><span class="k">$.stations[0]</span> <span class="ann">object · 9 keys</span></summary>
+            <div class="row"><span class="k">id</span><span class="v s">"NOA-0142"</span><span class="ann">string · in 100%</span></div>
+            <div class="row"><span class="k">name</span><span class="v s">"Athens - Thiseio"</span><span class="ann">string · in 100%</span></div>
+            <div class="row"><span class="k">operator</span><span class="v s">"NOA"</span><span class="ann">string · in 62%, null in 4%</span></div>
+            <details open>
+              <summary><span class="k">location</span> <span class="ann">object · 2 keys · in 100%</span></summary>
+              <div class="row"><span class="k">lat</span><span class="v">37.9715</span><span class="ann">number</span></div>
+              <div class="row"><span class="k">lon</span><span class="v">23.7181</span><span class="ann">number</span></div>
+            </details>
+            <div class="row"><span class="k">elevation_m</span><span class="v">107</span><span class="ann warn">integer, but a string in 12 records</span></div>
+            <details>
+              <summary><span class="k">sensors</span> <span class="ann">list · 3 items · 1 to 6 per record</span></summary>
+              <div class="row"><span class="k">0</span><span class="v s">"temperature"</span></div>
+              <div class="row"><span class="k">1</span><span class="v s">"humidity"</span></div>
+              <div class="row"><span class="k">2</span><span class="v s">"wind"</span></div>
+            </details>
+            <div class="row"><span class="k">notes</span><span class="v s">"Rooftop station in the historic centre, next to the observatory dome. Shaded after…"</span><span class="ann">long text · in 37%</span></div>
+            <details>
+              <summary><span class="k">readings</span> <span class="ann">list · 240 items · 168 to 744 per record</span></summary>
+              <details open>
+                <summary><span class="k">0</span> <span class="ann">object · 3 keys</span></summary>
+                <div class="row"><span class="k">ts</span><span class="v s">"2026-09-29T12:00:00Z"</span><span class="ann">date</span></div>
+                <div class="row"><span class="k">temp_c</span><span class="v">27.4</span><span class="ann">number</span></div>
+                <div class="row"><span class="k">rh</span><span class="v">41</span><span class="ann">integer</span></div>
+              </details>
+              <div class="row"><span class="ann">… 239 more items</span></div>
+            </details>
+          </details>
+        </div>
+
+<pre id="v-raw" class="raw" hidden>{
+  <span class="k">"meta"</span>: {
+    <span class="k">"source"</span>: <span class="s">"National Observatory of Athens"</span>,
+    <span class="k">"generated"</span>: <span class="s">"2026-09-30T00:00:00Z"</span>,
+    <span class="k">"license"</span>: <span class="s">"CC BY 4.0"</span>
+  },
+  <span class="k">"stations"</span>: [
+    {
+      <span class="k">"id"</span>: <span class="s">"NOA-0142"</span>,
+      <span class="k">"name"</span>: <span class="s">"Athens - Thiseio"</span>,
+      <span class="k">"operator"</span>: <span class="s">"NOA"</span>,
+      <span class="k">"location"</span>: { <span class="k">"lat"</span>: <span class="n">37.9715</span>, <span class="k">"lon"</span>: <span class="n">23.7181</span> },
+      <span class="k">"elevation_m"</span>: <span class="n">107</span>,
+      <span class="k">"sensors"</span>: [<span class="s">"temperature"</span>, <span class="s">"humidity"</span>, <span class="s">"wind"</span>],
+      <span class="k">"notes"</span>: <span class="s">"Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter."</span>,
+      <span class="k">"readings"</span>: [
+        { <span class="k">"ts"</span>: <span class="s">"2026-09-29T12:00:00Z"</span>, <span class="k">"temp_c"</span>: <span class="n">27.4</span>, <span class="k">"rh"</span>: <span class="n">41</span> },
+        { <span class="k">"ts"</span>: <span class="s">"2026-09-29T13:00:00Z"</span>, <span class="k">"temp_c"</span>: <span class="n">28.1</span>, <span class="k">"rh"</span>: <span class="n">38</span> }
+        <span class="ann">… 238 more</span>
+      ]
+    },
+    {
+      <span class="k">"id"</span>: <span class="s">"NOA-0207"</span>,
+      <span class="k">"name"</span>: <span class="s">"Ioannina - Airport"</span>,
+      <span class="k">"operator"</span>: <span class="n">null</span>,
+      <span class="k">"location"</span>: { <span class="k">"lat"</span>: <span class="n">39.6964</span>, <span class="k">"lon"</span>: <span class="n">20.8222</span> },
+      <span class="k">"elevation_m"</span>: <span class="n">484</span>,
+      <span class="k">"sensors"</span>: [<span class="s">"temperature"</span>, <span class="s">"humidity"</span>],
+      <span class="k">"readings"</span>: [ <span class="ann">… 168 items</span> ]
+    }
+    <span class="ann">… 410 more stations</span>
+  ]
+}</pre>
+      </div>
+
+      <!-- ================= STATISTICS ================= -->
+      <div id="p-stat" role="tabpanel" aria-labelledby="t-stat" hidden>
+        <div class="summary">
+          <b>File Summary</b>
+          <div><span>Total records</span><b>412</b></div>
+          <div><span>Fields</span><b>11</b></div>
+          <div><span>Nesting depth</span><b>4</b></div>
+          <div><span>Same structure</span><b>93%</b></div>
+          <div><span>Mixed-type fields</span><b>1</b></div>
+        </div>
+        <div id="fields"></div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="side">
+    <h2>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+      Dataset Files
+    </h2>
+    <ul>
+      <li class="active">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M10 13c-1 0-1.5.5-1.5 1.5S8 16 7.5 16c.5 0 1 .5 1 1.5S9 19 10 19"/><path d="M14 13c1 0 1.5.5 1.5 1.5s.5 1.5 1 1.5c-.5 0-1 .5-1 1.5S15 19 14 19"/></svg>
+        stations.json
+      </li>
+    </ul>
+  </aside>
+</div>
+
+<script>
+(function () {
+  // ---------- preview rows ----------
+  var A = '<span class="absent">absent</span>';
+  var N = '<span class="null">null</span>';
+  function pills(xs) { return xs.map(function (x) { return '<span class="pill">' + x + '</span>'; }).join(""); }
+  var rows = [
+    { id: "NOA-0142", name: "Athens - Thiseio", op: "NOA", lat: "37.9715", lon: "23.7181", el: "107",
+      s: ["temperature", "humidity", "wind"], notes: "Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter.", n: 240,
+      r: [["2026-09-29T12:00:00Z", "27.4", "41"], ["2026-09-29T13:00:00Z", "28.1", "38"], ["2026-09-29T14:00:00Z", "28.6", "36"], ["2026-09-29T15:00:00Z", "28.0", "37"]] },
+    { id: "NOA-0207", name: "Ioannina - Airport", op: null, lat: "39.6964", lon: "20.8222", el: "484",
+      s: ["temperature", "humidity"], notes: undefined, n: 168,
+      r: [["2026-09-29T12:00:00Z", "22.0", "55"], ["2026-09-29T13:00:00Z", "22.7", "51"]] },
+    { id: "HNMS-16716", name: "Heraklion", op: "HNMS", lat: "35.3387", lon: "25.1806", el: "39",
+      s: ["temperature", "humidity", "wind", "pressure"], notes: undefined, n: 744,
+      r: [["2026-09-29T12:00:00Z", "29.3", "47"], ["2026-09-29T13:00:00Z", "29.5", "45"]] },
+    { id: "NOA-0311", name: "Patras - University", op: "NOA", lat: "38.2904", lon: "21.7887", el: "12",
+      s: ["temperature", "humidity", "rainfall"], notes: "Mast moved to the roof of building B in March 2025.", n: 240,
+      r: [["2026-09-29T12:00:00Z", "26.1", "58"], ["2026-09-29T13:00:00Z", "26.4", "56"]] },
+    { id: "MET-0098", name: "Kalamata", op: "Meteo.gr", lat: "37.0389", lon: "22.1142", el: '<span class="strval">"n/a"</span>',
+      s: ["temperature"], notes: undefined, n: 240,
+      r: [["2026-09-29T12:00:00Z", "28.9", "44"], ["2026-09-29T13:00:00Z", "29.2", "42"]] },
+    { id: "NOA-0420", name: "Metsovo", op: undefined, lat: "39.7710", lon: "21.1830", el: "1160",
+      s: ["temperature", "humidity", "wind", "rainfall"], notes: "High-altitude site. Snow cover affects readings from December to March.", n: 240,
+      r: [["2026-09-29T12:00:00Z", "17.2", "71"], ["2026-09-29T13:00:00Z", "17.8", "68"]] }
+  ];
+  var tbody = document.getElementById("rows");
+  var html = "";
+  rows.forEach(function (r, i) {
+    var op = r.op === undefined ? A : r.op === null ? N : r.op;
+    var notes = r.notes === undefined ? A : '<span class="clip">' + r.notes + "</span>";
+    html += "<tr>" +
+      "<td>" + r.id + "</td><td>" + r.name + "</td><td>" + op + "</td><td>" + r.lat + "</td><td>" + r.lon + "</td>" +
+      "<td>" + r.el + "</td><td>" + pills(r.s) + '</td><td class="long">' + notes + "</td>" +
+      '<td><button type="button" class="items" aria-expanded="' + (i === 0) + '" aria-controls="nest-' + i + '">[ ' + r.n + " items ]</button></td></tr>";
+    var sub = r.r.map(function (x) { return "<tr><td>" + x.join("</td><td>") + "</td></tr>"; }).join("");
+    html += '<tr class="nested" id="nest-' + i + '"' + (i === 0 ? "" : " hidden") + '><td colspan="9">' +
+      '<div class="nested-cap"><code>readings[ ]</code> of ' + r.id + ": first " + r.r.length + " of " + r.n + " items</div>" +
+      '<table class="sub"><thead><tr><th>ts</th><th>temp_c</th><th>rh</th></tr></thead><tbody>' + sub +
+      "</tbody></table></td></tr>";
+  });
+  tbody.innerHTML = html;
+  tbody.addEventListener("click", function (e) {
+    var b = e.target.closest(".items");
+    if (!b) return;
+    var open = b.getAttribute("aria-expanded") !== "true";
+    b.setAttribute("aria-expanded", String(open));
+    document.getElementById(b.getAttribute("aria-controls")).hidden = !open;
+  });
+
+  // ---------- statistics cards (values from moma_json_stations_heavy.json) ----------
+  var F = [
+    { n: "id", ic: "T", ty: "string", u: 412, present: "100%", jt: "string 412" },
+    { n: "name", ic: "T", ty: "string", u: 412, present: "100%", jt: "string 412" },
+    { n: "operator", ic: "T", ty: "string | null", u: 3, present: "62% (255 of 412)", jt: "string 239 · null 16", miss: "6.27% null",
+      top: [["NOA", 182], ["HNMS", 54], ["Meteo.gr", 3]] },
+    { n: "location.lat", ic: "#", ty: "number", u: 409, present: "100%", jt: "number 412",
+      num: { max: 41.71, mean: 38.62, sd: 1.41, p: "35.31, 40.94", min: 34.93, med: 38.25 }, h: [16, 27, 43, 60, 76, 65, 49, 38, 27, 11] },
+    { n: "location.lon", ic: "#", ty: "number", u: 410, present: "100%", jt: "number 412",
+      num: { max: 28.24, mean: 23.41, sd: 1.83, p: "20.71, 26.98", min: 19.92, med: 23.18 }, h: [27, 48, 64, 75, 70, 48, 32, 21, 16, 11] },
+    { n: "elevation_m", ic: "#", ty: "integer | string", warn: "mixed types", u: 287, present: "100%", jt: "integer 400 · string 12",
+      num: { max: 1960, mean: 284.6, sd: 341.2, p: "4, 1012", min: 0, med: 112 }, h: [191, 74, 41, 29, 21, 16, 12, 8, 4, 4], hnote: "integer values only (400)" },
+    { n: "sensors[*]", ic: "[ ]", ty: "list of string", u: 6, present: "100%", jt: "string 1,154", arr: "1 / 2.8 / 6",
+      top: [["temperature", 412], ["humidity", 389], ["wind", 201], ["rainfall", 96], ["pressure", 41], ["solar_radiation", 15]] },
+    { n: "notes", ic: "T", ty: "long text", tag: "chunked for search", u: 151, present: "37% (153 of 412)", jt: "string 153" },
+    { n: "readings[*].ts", ic: "◷", ty: "date", u: 744, present: "100%", jt: "string 98,880", arr: "168 / 240 / 744",
+      dates: { min: "2026-08-30 00:00", max: "2026-09-29 23:00" } },
+    { n: "readings[*].temp_c", ic: "#", ty: "number", u: 352, present: "100%", jt: "number 98,880", arr: "168 / 240 / 744",
+      num: { max: 41.3, mean: 23.4, sd: 5.2, p: "15.2, 32.6", min: 6.1, med: 23.1 }, h: [989, 2966, 7910, 14832, 21754, 20765, 14832, 8899, 3955, 1978] },
+    { n: "readings[*].rh", ic: "#", ty: "integer", u: 92, present: "100%", jt: "integer 98,880", arr: "168 / 240 / 744",
+      num: { max: 100, mean: 58.0, sd: 16.4, p: "31, 88", min: 4, med: 57 }, h: [989, 1978, 4944, 9888, 15821, 19776, 18787, 13843, 7910, 4944] }
+  ];
+  function nameHtml(n) {
+    var i = n.lastIndexOf(".");
+    return i < 0 ? n : '<span class="par">' + n.slice(0, i + 1) + "</span>" + n.slice(i + 1);
+  }
+  function kv(label, val, isNew) {
+    return '<div' + (isNew ? ' class="new"' : "") + "><span>" + label + "</span><b>" + (val === undefined || val === null ? "-" : val) + "</b></div>";
+  }
+  var out = "";
+  F.forEach(function (f) {
+    var m = f.num || {};
+    var lo = m.min, hi = m.max;
+    var extra = "";
+    if (f.h) {
+      var mx = Math.max.apply(null, f.h);
+      extra += '<div class="extra"><span>Distribution' + (f.hnote ? " · " + f.hnote : "") + '</span><div class="hist">' +
+        f.h.map(function (c) { return '<i style="height:' + (100 * c / mx).toFixed(1) + '%" title="' + c.toLocaleString("en") + '"></i>'; }).join("") +
+        '</div><div class="hist-ax"><span>' + lo + "</span><span>" + hi + "</span></div></div>";
+    }
+    if (f.top) {
+      var tmax = f.top[0][1];
+      extra += '<div class="extra"><span>Most common values</span><div class="tv">' +
+        f.top.map(function (t) { return "<span>" + t[0] + '</span><i style="width:' + (100 * t[1] / tmax).toFixed(1) + '%"></i><span class="c">' + t[1].toLocaleString("en") + "</span>"; }).join("") +
+        "</div></div>";
+    }
+    out += '<div class="fcard"><div class="fhead"><span class="ic">' + f.ic + "</span><h4>" + nameHtml(f.n) + "</h4>" +
+      '<span class="path">$.stations[*].' + f.n + "</span>" +
+      (f.warn ? '<span class="tag warn">' + f.warn + "</span>" : "") +
+      (f.tag ? '<span class="tag">' + f.tag + "</span>" : "") +
+      '</div><div class="fbody"><div style="display:grid;gap:18px;min-width:0"><div class="kv">' +
+      kv("Max value", f.dates ? f.dates.max : m.max) + kv("Mean value", m.mean) +
+      kv("Standard deviation", m.sd) + kv("Percentiles (5, 95)", m.p) +
+      kv("Min value", f.dates ? f.dates.min : m.min) + kv("Median value", m.med) +
+      kv("Missing percentage", f.miss || "0%") +
+      kv("Present in records", f.present, true) + kv("Types seen", f.jt, true) +
+      (f.arr ? kv("Items per record (min / avg / max)", f.arr, true) : "") +
+      "</div>" + extra + '</div><div class="ubox"><span>Unique values in this field</span><b>' + f.u + "</b></div></div></div>";
+  });
+  document.getElementById("fields").innerHTML = out;
+
+  // ---------- tabs ----------
+  var tabs = document.querySelectorAll('[role="tab"]');
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () {
+      tabs.forEach(function (o) {
+        var on = o === t;
+        o.setAttribute("aria-selected", String(on));
+        document.getElementById(o.getAttribute("aria-controls")).hidden = !on;
+      });
+    });
+  });
+
+  // ---------- preview mode ----------
+  var segs = document.querySelectorAll(".seg button");
+  segs.forEach(function (b) {
+    b.addEventListener("click", function () {
+      segs.forEach(function (o) {
+        var on = o === b;
+        o.setAttribute("aria-pressed", String(on));
+        document.getElementById(o.dataset.view).hidden = !on;
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
