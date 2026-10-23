@@ -140,7 +140,7 @@ holding one JSON record per file). Its fields are cr:Field resources whose cr:so
 values with cr:jsonPath, and fields under an array are marked cr:repeated. Carries the
 structure of the file: where the records are (dg:recordPath), its layout (dg:jsonShape), how
 many records it holds (dg:recordCount), how deeply they nest (dg:maxDepth) and how uniform
-they are (dg:schemaConsistency)."""@en .
+they are (dg:schemaConsistencyPercentage)."""@en .
 
 #################################################################
 #  Dataset-level properties   (domain: sc:Dataset)
@@ -236,27 +236,6 @@ drawn from a controlled vocabulary with IRIs they belong in cr:dataType, and thi
 be deprecated rather than carried alongside it."""@en ;
     rdfs:seeAlso cr:dataType , csvw:propertyUrl .
 
-dg:jsonTypes
-    a rdf:Property, owl:DatatypeProperty ;
-    rdfs:domain  cr:Field ;
-    rdfs:range   xsd:string ;
-    rdfs:label   "JSON types"@en ;
-    rdfs:comment """JSON-encoded object counting how many values of each JSON type were seen for a
-field of a dg:JsonRecordSet, e.g. {"integer": 400, "string": 12}. Keys are "string", "integer",
-"number", "boolean", "null", "object" and "array" ("integer" counts whole numbers separately
-from other numbers). More than one non-null key flags a field with mixed types. Stored as a
-string literal, like dg:histogram."""@en .
-
-dg:presencePercentage
-    a rdf:Property, owl:DatatypeProperty ;
-    rdfs:domain  cr:Field ;
-    rdfs:range   xsd:double ;
-    rdfs:label   "presence percentage"@en ;
-    rdfs:comment """Percentage (0–100) of the records of a dg:JsonRecordSet in which the field's key
-exists. A key that exists with the value null counts as present: explicit nulls are reported by
-dg:missingCount and dg:missingPercentage on the field's dg:ColumnStatistics. The two together
-separate keys that are absent from keys that are empty, a distinction tabular files cannot
-make."""@en .
 
 #################################################################
 #  Column statistics properties   (domain: dg:ColumnStatistics)
@@ -309,14 +288,16 @@ dg:missingCount
     rdfs:domain  dg:ColumnStatistics ;
     rdfs:range   xsd:integer ;
     rdfs:label   "missing count"@en ;
-    rdfs:comment "Number of missing/null values in the column."@en .
+    rdfs:comment """Number of missing/null values in the column. For a field of a dg:JsonRecordSet, a
+record in which the key is absent counts as missing, exactly like a record in which it is null,
+so the value means the same for JSON as for CSV."""@en .
 
 dg:missingPercentage
     a rdf:Property, owl:DatatypeProperty ;
     rdfs:domain  dg:ColumnStatistics ;
     rdfs:range   xsd:double ;
     rdfs:label   "missing percentage"@en ;
-    rdfs:comment "Percentage (0–100) of missing/null values in the column."@en .
+    rdfs:comment "Percentage (0–100) of missing/null values in the column, out of all rows (for JSON: all records, or all array elements for a cr:repeated field). Absent JSON keys count as missing; see dg:missingCount."@en .
 
 dg:histogram
     a rdf:Property, owl:DatatypeProperty ;
@@ -366,6 +347,18 @@ dg:generatedAt
     rdfs:range   xsd:dateTime ;
     rdfs:label   "generated at"@en ;
     rdfs:comment "ISO-8601 (UTC) timestamp recording when these column statistics were computed."@en .
+
+dg:jsonTypes
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain  dg:ColumnStatistics ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "JSON types"@en ;
+    rdfs:comment """JSON-encoded object counting the non-null values of each JSON type seen for a field of
+a dg:JsonRecordSet, e.g. {"integer": 400, "string": 12}. Keys are "string", "integer", "number",
+"boolean", "object" and "array" ("integer" counts whole numbers separately from other numbers).
+The counts add up to dg:rowCount; nulls and absent keys are counted by dg:missingCount instead.
+More than one key flags a field with mixed types. Stored as a string literal, like
+dg:histogram."""@en .
 
 dg:topValues
     a rdf:Property, owl:DatatypeProperty ;
@@ -631,6 +624,8 @@ dg:pagesCount
 #  this vocabulary conforms to; Croissant 1.1 names it cr:isArray) marks
 #  fields under an array. No dg: term is minted for either. The terms
 #  below describe the record set as a whole, which Croissant does not.
+#  Per-field JSON statistics (dg:jsonTypes) sit with the other column
+#  statistics on dg:ColumnStatistics.
 #################################################################
 
 dg:recordPath
@@ -670,10 +665,10 @@ dg:maxDepth
     rdfs:label   "maximum depth"@en ;
     rdfs:comment "Deepest level of nesting of objects and arrays reached inside a record, counting the record itself as level 1."@en .
 
-dg:schemaConsistency
+dg:schemaConsistencyPercentage
     a rdf:Property, owl:DatatypeProperty ;
     rdfs:domain  dg:JsonRecordSet ;
     rdfs:range   xsd:double ;
-    rdfs:label   "schema consistency"@en ;
-    rdfs:comment """Share (0–1) of records whose set of keys equals the most common set of keys. 1 means
-every record has the same structure; low values flag irregular files."""@en .
+    rdfs:label   "schema consistency percentage"@en ;
+    rdfs:comment """Percentage (0–100) of records whose set of keys equals the most common set of keys.
+100 means every record has the same structure; low values flag irregular files."""@en .

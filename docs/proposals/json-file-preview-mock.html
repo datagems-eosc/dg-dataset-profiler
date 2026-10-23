@@ -241,15 +241,15 @@ table.sub th { position: static; min-width: 0; background: var(--head); font-siz
           <table class="grid">
             <thead>
               <tr>
-                <th><span class="nm">id</span><span class="ty">string</span><span class="big">412</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
-                <th><span class="nm">name</span><span class="ty">string</span><span class="big">412</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
-                <th><span class="nm">operator</span><span class="ty">string | null</span><span class="big">3</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:58%"></b><b class="nul" style="width:4%"></b></i>62% present</span></th>
-                <th><span class="nm"><span class="par">location.</span>lat</span><span class="ty">number</span><span class="big">409</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
-                <th><span class="nm"><span class="par">location.</span>lon</span><span class="ty">number</span><span class="big">410</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
-                <th><span class="nm">elevation_m</span><span class="ty warn">integer | string</span><span class="big">287</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
-                <th><span class="nm">sensors[ ]</span><span class="ty">list of string</span><span class="big">6</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
-                <th><span class="nm">notes</span><span class="ty">long text</span><span class="big">151</span><span class="lbl">Unique values</span><span class="pres"><i><b style="width:37%"></b></i>37% present</span></th>
-                <th><span class="nm">readings[ ]</span><span class="ty">list of object · 3 fields</span><span class="big">240</span><span class="lbl">Avg. items per record</span><span class="pres"><i><b style="width:100%"></b></i>100% present</span></th>
+                <th><span class="nm">id</span><span class="ty">string</span><span class="big">412</span><span class="lbl">Unique values</span><span class="pres"><i></i>0% missing</span></th>
+                <th><span class="nm">name</span><span class="ty">string</span><span class="big">412</span><span class="lbl">Unique values</span><span class="pres"><i></i>0% missing</span></th>
+                <th><span class="nm">operator</span><span class="ty">string</span><span class="big">3</span><span class="lbl">Unique values</span><span class="pres"><i><b class="nul" style="width:42%"></b></i>42% missing</span></th>
+                <th><span class="nm"><span class="par">location.</span>lat</span><span class="ty">number</span><span class="big">409</span><span class="lbl">Unique values</span><span class="pres"><i></i>0% missing</span></th>
+                <th><span class="nm"><span class="par">location.</span>lon</span><span class="ty">number</span><span class="big">410</span><span class="lbl">Unique values</span><span class="pres"><i></i>0% missing</span></th>
+                <th><span class="nm">elevation_m</span><span class="ty warn">integer | string</span><span class="big">287</span><span class="lbl">Unique values</span><span class="pres"><i></i>0% missing</span></th>
+                <th><span class="nm">sensors[ ]</span><span class="ty">list of string</span><span class="big">6</span><span class="lbl">Unique values</span><span class="pres"><i></i>0% missing</span></th>
+                <th><span class="nm">notes</span><span class="ty">long text</span><span class="big">151</span><span class="lbl">Unique values</span><span class="pres"><i><b class="nul" style="width:63%"></b></i>63% missing</span></th>
+                <th><span class="nm">readings[ ]</span><span class="ty">list of object · 3 fields</span><span class="big">240</span><span class="lbl">Avg. items per record</span><span class="pres"><i></i>0% missing</span></th>
               </tr>
             </thead>
             <tbody id="rows"></tbody>
@@ -257,14 +257,14 @@ table.sub th { position: static; min-width: 0; background: var(--head); font-siz
         </div>
 
         <div id="v-tree" class="tree" hidden>
-          <div class="tree-cap">Record 1 of 412. Grey notes show how often each key appears across all records.</div>
+          <div class="tree-cap">Record 1 of 412. Grey notes describe each key across all records.</div>
           <details open>
             <summary><span class="k">$.stations[0]</span> <span class="ann">object · 9 keys</span></summary>
-            <div class="row"><span class="k">id</span><span class="v s">"NOA-0142"</span><span class="ann">string · in 100%</span></div>
-            <div class="row"><span class="k">name</span><span class="v s">"Athens - Thiseio"</span><span class="ann">string · in 100%</span></div>
-            <div class="row"><span class="k">operator</span><span class="v s">"NOA"</span><span class="ann">string · in 62%, null in 4%</span></div>
+            <div class="row"><span class="k">id</span><span class="v s">"NOA-0142"</span><span class="ann">string</span></div>
+            <div class="row"><span class="k">name</span><span class="v s">"Athens - Thiseio"</span><span class="ann">string</span></div>
+            <div class="row"><span class="k">operator</span><span class="v s">"NOA"</span><span class="ann">string · missing in 42%</span></div>
             <details open>
-              <summary><span class="k">location</span> <span class="ann">object · 2 keys · in 100%</span></summary>
+              <summary><span class="k">location</span> <span class="ann">object · 2 keys</span></summary>
               <div class="row"><span class="k">lat</span><span class="v">37.9715</span><span class="ann">number</span></div>
               <div class="row"><span class="k">lon</span><span class="v">23.7181</span><span class="ann">number</span></div>
             </details>
@@ -275,7 +275,7 @@ table.sub th { position: static; min-width: 0; background: var(--head); font-siz
               <div class="row"><span class="k">1</span><span class="v s">"humidity"</span></div>
               <div class="row"><span class="k">2</span><span class="v s">"wind"</span></div>
             </details>
-            <div class="row"><span class="k">notes</span><span class="v s">"Rooftop station in the historic centre, next to the observatory dome. Shaded after…"</span><span class="ann">long text · in 37%</span></div>
+            <div class="row"><span class="k">notes</span><span class="v s">"Rooftop station in the historic centre, next to the observatory dome. Shaded after…"</span><span class="ann">long text · missing in 63%</span></div>
             <details>
               <summary><span class="k">readings</span> <span class="ann">list · 240 items · 168 to 744 per record</span></summary>
               <details open>
@@ -356,8 +356,9 @@ table.sub th { position: static; min-width: 0; background: var(--head); font-siz
 <script>
 (function () {
   // ---------- preview rows ----------
-  var A = '<span class="absent">absent</span>';
-  var N = '<span class="null">null</span>';
+  // Absent keys and null values are both "missing" in the profile, so the preview shows them the same way.
+  var A = '<span class="absent">missing</span>';
+  var N = A;
   function pills(xs) { return xs.map(function (x) { return '<span class="pill">' + x + '</span>'; }).join(""); }
   var rows = [
     { id: "NOA-0142", name: "Athens - Thiseio", op: "NOA", lat: "37.9715", lon: "23.7181", el: "107",
@@ -405,24 +406,24 @@ table.sub th { position: static; min-width: 0; background: var(--head); font-siz
 
   // ---------- statistics cards (values from moma_json_stations_heavy.json) ----------
   var F = [
-    { n: "id", ic: "T", ty: "string", u: 412, present: "100%", jt: "string 412" },
-    { n: "name", ic: "T", ty: "string", u: 412, present: "100%", jt: "string 412" },
-    { n: "operator", ic: "T", ty: "string | null", u: 3, present: "62% (255 of 412)", jt: "string 239 · null 16", miss: "6.27% null",
+    { n: "id", ic: "T", ty: "string", u: 412, jt: "string 412" },
+    { n: "name", ic: "T", ty: "string", u: 412, jt: "string 412" },
+    { n: "operator", ic: "T", ty: "string", u: 3, jt: "string 239", miss: "41.99% (173 of 412)",
       top: [["NOA", 182], ["HNMS", 54], ["Meteo.gr", 3]] },
-    { n: "location.lat", ic: "#", ty: "number", u: 409, present: "100%", jt: "number 412",
+    { n: "location.lat", ic: "#", ty: "number", u: 409, jt: "number 412",
       num: { max: 41.71, mean: 38.62, sd: 1.41, p: "35.31, 40.94", min: 34.93, med: 38.25 }, h: [16, 27, 43, 60, 76, 65, 49, 38, 27, 11] },
-    { n: "location.lon", ic: "#", ty: "number", u: 410, present: "100%", jt: "number 412",
+    { n: "location.lon", ic: "#", ty: "number", u: 410, jt: "number 412",
       num: { max: 28.24, mean: 23.41, sd: 1.83, p: "20.71, 26.98", min: 19.92, med: 23.18 }, h: [27, 48, 64, 75, 70, 48, 32, 21, 16, 11] },
-    { n: "elevation_m", ic: "#", ty: "integer | string", warn: "mixed types", u: 287, present: "100%", jt: "integer 400 · string 12",
+    { n: "elevation_m", ic: "#", ty: "integer | string", warn: "mixed types", u: 287, jt: "integer 400 · string 12",
       num: { max: 1960, mean: 284.6, sd: 341.2, p: "4, 1012", min: 0, med: 112 }, h: [191, 74, 41, 29, 21, 16, 12, 8, 4, 4], hnote: "integer values only (400)" },
-    { n: "sensors[*]", ic: "[ ]", ty: "list of string", u: 6, present: "100%", jt: "string 1,154", arr: "1 / 2.8 / 6",
+    { n: "sensors[*]", ic: "[ ]", ty: "list of string", u: 6, jt: "string 1,154", arr: "1 / 2.8 / 6",
       top: [["temperature", 412], ["humidity", 389], ["wind", 201], ["rainfall", 96], ["pressure", 41], ["solar_radiation", 15]] },
-    { n: "notes", ic: "T", ty: "long text", tag: "chunked for search", u: 151, present: "37% (153 of 412)", jt: "string 153" },
-    { n: "readings[*].ts", ic: "◷", ty: "date", u: 744, present: "100%", jt: "string 98,880", arr: "168 / 240 / 744",
+    { n: "notes", ic: "T", ty: "long text", tag: "chunked for search", u: 151, jt: "string 153", miss: "62.86% (259 of 412)" },
+    { n: "readings[*].ts", ic: "◷", ty: "date", u: 744, jt: "string 98,880", arr: "168 / 240 / 744",
       dates: { min: "2026-08-30 00:00", max: "2026-09-29 23:00" } },
-    { n: "readings[*].temp_c", ic: "#", ty: "number", u: 352, present: "100%", jt: "number 98,880", arr: "168 / 240 / 744",
+    { n: "readings[*].temp_c", ic: "#", ty: "number", u: 352, jt: "number 98,880", arr: "168 / 240 / 744",
       num: { max: 41.3, mean: 23.4, sd: 5.2, p: "15.2, 32.6", min: 6.1, med: 23.1 }, h: [989, 2966, 7910, 14832, 21754, 20765, 14832, 8899, 3955, 1978] },
-    { n: "readings[*].rh", ic: "#", ty: "integer", u: 92, present: "100%", jt: "integer 98,880", arr: "168 / 240 / 744",
+    { n: "readings[*].rh", ic: "#", ty: "integer", u: 92, jt: "integer 98,880", arr: "168 / 240 / 744",
       num: { max: 100, mean: 58.0, sd: 16.4, p: "31, 88", min: 4, med: 57 }, h: [989, 1978, 4944, 9888, 15821, 19776, 18787, 13843, 7910, 4944] }
   ];
   function nameHtml(n) {
@@ -458,7 +459,7 @@ table.sub th { position: static; min-width: 0; background: var(--head); font-siz
       kv("Standard deviation", m.sd) + kv("Percentiles (5, 95)", m.p) +
       kv("Min value", f.dates ? f.dates.min : m.min) + kv("Median value", m.med) +
       kv("Missing percentage", f.miss || "0%") +
-      kv("Present in records", f.present, true) + kv("Types seen", f.jt, true) +
+      kv("Types seen", f.jt, true) +
       (f.arr ? kv("Items per record (min / avg / max)", f.arr, true) : "") +
       "</div>" + extra + '</div><div class="ubox"><span>Unique values in this field</span><b>' + f.u + "</b></div></div></div>";
   });

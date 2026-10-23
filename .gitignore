@@ -1,7 +1,7 @@
 /.idea
-/moma-management-main
+./moma-management-main
 /moma-issues
-/data-model-management-main
+./data-model-management-main
 /dmm-issues
 /validation
 tests/assets/**
@@ -162,3 +162,11 @@ uv.lock
 # Every suite sources lib/common.sh, so it must be tracked.
 !scripts/test_api/lib/
 !scripts/test_api/lib/*
+
+# Local checkouts of sibling repos (two folder names end in a trailing space, hence the escape)
+moma-management-main\ /
+data-model-management-main\ /
+dg-app-api-main/
+
+# Local proposal drafts
+docs/proposals/

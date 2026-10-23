@@ -46,18 +46,18 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
                 file_object_id=file_object["id"],
             )
             record_sets.append(csv_record_set)
-        # elif file_extension == ".pdf":
-        #     pdf_record_set = PdfRecordSet(
-        #         distribution_path=distribution_path,
-        #         file_object=file_object,
-        #     )
-        #     record_sets.append(pdf_record_set)
-        # elif file_extension == ".txt":
-        #     text_record_set = TextRecordSet(
-        #         distribution_path=distribution_path,
-        #         file_object=file_object["path"],
-        #     )
-        #     record_sets.append(text_record_set)
+        elif file_extension in (".pdf", ".txt"):
+            # Same path the distribution was built from, so the CDD profile can match them by id.
+            # A document that fails to parse keeps its bare distribution entry instead of failing the job.
+            document_record_set_class = PdfRecordSet if file_extension == ".pdf" else TextRecordSet
+            try:
+                record_sets.append(document_record_set_class(
+                    file_object=distribution_path + file_object["path"],
+                    distribution_id=file_object["id"],
+                ))
+            except Exception as e:
+                logger.warning("Failed to process document file object, skipping",
+                               path=file_object["path"], error=str(e))
         # elif file_extension == ".db" or file_extension == ".sql":
         #     db_name_schema = file_object["path"].split("/")[-1].split(".")[-2]
         #     db_name, db_specific_schema = db_name_schema.split("-", 1)

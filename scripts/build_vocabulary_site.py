@@ -34,9 +34,8 @@ JSON_TERMS = {
     "jsonShape": "dg:jsonShape",
     "recordCount": "dg:recordCount",
     "maxDepth": "dg:maxDepth",
-    "schemaConsistency": "dg:schemaConsistency",
+    "schemaConsistencyPercentage": "dg:schemaConsistencyPercentage",
     "jsonTypes": "dg:jsonTypes",
-    "presencePercentage": "dg:presencePercentage",
     "topValues": "dg:topValues",
 }
 
@@ -206,7 +205,7 @@ def main() -> None:
     g.parse(TTL, format="turtle")
     OUT.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(TTL, OUT / "datagems.ttl")
-    (OUT / "context.jsonld").write_text(json.dumps(build_context(), indent=2) + "\n")
+    (OUT / "context.jsonld").write_text(json.dumps(build_context(), indent=2, sort_keys=True) + "\n")
     (OUT / "index.html").write_text(build_html(g))
     print(f"Wrote {', '.join(p.name for p in sorted(OUT.iterdir()))} to {OUT.relative_to(REPO)}")
 

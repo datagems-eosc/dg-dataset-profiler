@@ -477,7 +477,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
 <section id="profile">
   <div class="eyebrow">03 · Proposal</div>
   <h2>The profile, on a real-shaped example</h2>
-  <p class="prose">A weather-station export of the kind the meteo partners publish. On the left is the file. On the right is the field list the profiler would produce, one row per leaf JSONPath under <code>$.stations[*]</code>, with how often the key is present and which JSON types were seen.</p>
+  <p class="prose">A weather-station export of the kind the meteo partners publish. On the left is the file. On the right is the field list the profiler would produce, one row per leaf JSONPath under <code>$.stations[*]</code>, with how often a value is missing and which JSON types were seen.</p>
 
   <div class="compare">
     <div class="panel">
@@ -514,76 +514,76 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     <div class="panel">
       <div class="panel-head">
         <span class="file">record_path&nbsp;&nbsp;$.stations[*]</span>
-        <span class="eyebrow">412 records · depth 4 · 11 paths · consistency 0.93</span>
+        <span class="eyebrow">412 records · depth 4 · 11 paths · consistency 93%</span>
       </div>
       <div style="overflow-x: auto;">
         <table class="fields">
-          <thead><tr><th>Field (relative path)</th><th>Types seen</th><th>Present</th><th>What the profile says</th></tr></thead>
+          <thead><tr><th>Field (relative path)</th><th>Types seen</th><th>Missing</th><th>What the profile says</th></tr></thead>
           <tbody>
             <tr>
               <td class="path">id</td>
               <td><div class="types"><span class="chip type">string</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag"><b>412 unique</b> · semantic: identifier</td>
             </tr>
             <tr>
               <td class="path">name</td>
               <td><div class="types"><span class="chip type">string</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag">semantic: <b>place name</b></td>
             </tr>
             <tr>
               <td class="path">operator</td>
-              <td><div class="types"><span class="chip type">string</span><span class="chip type">null</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:58%"></div><div class="fill null" style="width:4%"></div></div><span class="v">62%</span></div></td>
+              <td><div class="types"><span class="chip type">string</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill null" style="width:42%"></div></div><span class="v">42%</span></div></td>
               <td class="flag">top values: <b>NOA</b> 182 · <b>HNMS</b> 54 · <b>Meteo.gr</b> 3</td>
             </tr>
             <tr>
               <td class="path">location.lat</td>
               <td><div class="types"><span class="chip type">number</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag">34.93 – 41.71 · semantic: <b>latitude</b></td>
             </tr>
             <tr>
               <td class="path">location.lon</td>
               <td><div class="types"><span class="chip type">number</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag">19.92 – 28.24 · semantic: <b>longitude</b></td>
             </tr>
             <tr>
               <td class="path">elevation_m</td>
               <td><div class="types"><span class="chip type">integer</span><span class="chip warn">string 3%</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag alert"><b>mixed types</b> · 0 – 1 960, median 112</td>
             </tr>
             <tr>
               <td class="path">sensors[*]</td>
               <td><div class="types"><span class="chip type">string</span><span class="chip type">repeated</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag">array length 1 – 6, avg 2.8 · top: <b>temperature</b>, <b>humidity</b></td>
             </tr>
             <tr>
               <td class="path">notes</td>
               <td><div class="types"><span class="chip type">string</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:37%"></div></div><span class="v">37%</span></div></td>
+              <td><div class="bar"><div class="track"><div class="fill null" style="width:63%"></div></div><span class="v">63%</span></div></td>
               <td class="flag"><b>long text</b> (avg 214 chars) → chunked for semantic search</td>
             </tr>
             <tr>
               <td class="path">readings[*].ts</td>
               <td><div class="types"><span class="chip type">string</span><span class="chip type">repeated</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag">98 880 values · <b>2026-08-30 → 2026-09-29</b></td>
             </tr>
             <tr>
               <td class="path">readings[*].temp_c</td>
               <td><div class="types"><span class="chip type">number</span><span class="chip type">repeated</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag">6.1 – 41.3 °C, mean 23.4 · histogram</td>
             </tr>
             <tr>
               <td class="path">readings[*].rh</td>
               <td><div class="types"><span class="chip type">integer</span><span class="chip type">repeated</span></div></td>
-              <td><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div></td>
+              <td><div class="bar"><div class="track"></div><span class="v">0%</span></div></td>
               <td class="flag">4 – 100, mean 58 · histogram</td>
             </tr>
           </tbody>
@@ -594,8 +594,8 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
 
   <div class="callouts">
     <div class="callout">
-      <h3>Present is not the same as null</h3>
-      <p>In JSON a key can be absent or explicitly <code>null</code>. <code>operator</code> is present in 62% of stations and null in 4% of them. CSV has no equivalent, so <code>presence_percentage</code> is a new statistic.</p>
+      <h3>Absent counts as missing</h3>
+      <p>A record without the key and a record with the key set to <code>null</code> both count as missing, the same as an empty CSV cell. <code>notes</code> is missing in 259 of 412 stations, so its <code>missingPercentage</code> is 63%, and queries across CSV and JSON fields mean the same thing.</p>
     </div>
     <div class="callout">
       <h3>Arrays become repeated fields</h3>
@@ -625,7 +625,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
           <tr><td><code>record_path</code><span class="new">new</span></td><td><code>$.stations[*]</code></td><td>Where the records live. DMM uses it to query the file</td><td class="cost">cheap</td></tr>
           <tr><td><code>record_count</code></td><td>412</td><td>Size facet, the JSON equivalent of row count</td><td class="cost">stream</td></tr>
           <tr><td><code>max_depth</code>, <code>path_count</code><span class="new">new</span></td><td>4, 11</td><td>Complexity signal: flat vs deeply nested</td><td class="cost">stream</td></tr>
-          <tr><td><code>schema_consistency</code><span class="new">new</span></td><td>0.93</td><td>Share of records with the dominant key set. Shown as a "uniform / irregular" badge</td><td class="cost">stream</td></tr>
+          <tr><td><code>schema_consistency_percentage</code><span class="new">new</span></td><td>93.0</td><td>Percentage of records with the dominant key set. Shown as a "uniform / irregular" badge</td><td class="cost">stream</td></tr>
           <tr><td><code>parse_errors</code><span class="new">new</span></td><td>0</td><td>Quality badge for JSON Lines files</td><td class="cost">stream</td></tr>
           <tr><td><code>document_metadata</code><span class="new">new</span></td><td><code>{"$.meta.license": "CC BY 4.0"}</code></td><td>Scalars outside the records, often source, licence and date. Keyword-searchable</td><td class="cost">cheap</td></tr>
           <tr><td><code>sample_records</code></td><td>3 records, ≤ 2 KB each</td><td>Preview card on the dataset page</td><td class="cost">cheap</td></tr>
@@ -644,11 +644,10 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
           <tr><td><code>name</code></td><td><code>location.lat</code></td><td>Dotted path relative to the record. Tokenised, so "lat" or "location" matches</td><td class="cost">stream</td></tr>
           <tr><td><code>json_path</code><span class="new">new</span></td><td><code>$.stations[*].location.lat</code></td><td>Absolute path. Maps to Croissant <code>source.extract.jsonPath</code></td><td class="cost">stream</td></tr>
           <tr><td><code>primitive_type</code>, <code>semantic_type</code></td><td><code>sc:Float</code>, latitude</td><td>Same as CSV. "Datasets with coordinates" works across formats</td><td class="cost">LLM (shared)</td></tr>
-          <tr><td><code>json_types</code><span class="new">new</span></td><td><code>{"integer": 400, "string": 12}</code></td><td>Mixed-type warning in the quality badge</td><td class="cost">stream</td></tr>
-          <tr><td><code>presence_percentage</code><span class="new">new</span></td><td>62.0</td><td>Sparse vs reliable fields. Distinct from <code>missingPercentage</code> (null)</td><td class="cost">stream</td></tr>
           <tr><td><code>repeated</code>, <code>array_length</code><span class="new">new</span></td><td><code>true</code>, <code>{min: 1, avg: 2.8, max: 6}</code></td><td>Marks one-to-many data. Croissant has <code>repeated</code> natively</td><td class="cost">stream</td></tr>
-          <tr><td><code>statistics</code></td><td>Same 15 keys as CSV</td><td>Histograms, ranges, percentiles, unique count</td><td class="cost">stream</td></tr>
-          <tr><td><code>top_values</code><span class="new">new</span></td><td><code>[{"value": "NOA", "count": 182}]</code></td><td>Facets, and keyword hits on values ("Athens", "HNMS"). Low-cardinality strings only. Also useful for CSV</td><td class="cost">stream</td></tr>
+          <tr><td><code>statistics</code></td><td>Same 15 keys as CSV</td><td>Histograms, ranges, percentiles, unique count. <code>missingPercentage</code> counts records where the key is absent or <code>null</code>, so it means the same as for CSV</td><td class="cost">stream</td></tr>
+          <tr><td><code>statistics.jsonTypes</code><span class="new">new</span></td><td><code>{"integer": 400, "string": 12}</code></td><td>Count of non-null values per JSON type. More than one type triggers the mixed-type warning</td><td class="cost">stream</td></tr>
+          <tr><td><code>statistics.topValues</code><span class="new">new</span></td><td><code>[{"value": "NOA", "count": 182}]</code></td><td>Facets, and keyword hits on values ("Athens", "HNMS"). Low-cardinality strings only. Also useful for CSV</td><td class="cost">stream</td></tr>
         </tbody>
       </table>
     </div>
@@ -705,7 +704,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     "max_depth": 4,
     "path_count": 11,
     "paths_truncated": false,
-    "schema_consistency": 0.93,
+    "schema_consistency_percentage": 93.0,
     "parse_errors": 0,
     "sampled": false,
     "summary": "Hourly temperature and humidity readings from 412 weather stations across Greece, 30 Aug to 29 Sep 2026, with station location, elevation, sensors and operator.",
@@ -723,19 +722,18 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
       "primitive_type": "sc:Text",
       "semantic_type": "organization",
       "description": "",
-      "json_types": {"string": 239, "null": 16},
-      "presence_percentage": 61.9,
       "repeated": false,
-      "top_values": [
-        {"value": "NOA", "count": 182},
-        {"value": "HNMS", "count": 54},
-        {"value": "Meteo.gr", "count": 3}
-      ],
       "statistics": {
-        "rowCount": 255,
-        "missingCount": 16,
-        "missingPercentage": 6.3,
+        "rowCount": 239,
+        "missingCount": 173,
+        "missingPercentage": 41.99,
         "uniqueCount": 3,
+        "jsonTypes": {"string": 239},
+        "topValues": [
+          {"value": "NOA", "count": 182},
+          {"value": "HNMS", "count": 54},
+          {"value": "Meteo.gr", "count": 3}
+        ],
         "mean": null, "median": null, "histogram": null
         // … same 15 keys as a CSV column
       }
@@ -746,13 +744,12 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
       "primitive_type": "sc:Float",
       "semantic_type": "temperature",
       "description": "",
-      "json_types": {"number": 98880},
-      "presence_percentage": 100.0,
       "repeated": true,
       "array_length": {"min": 168, "avg": 240.0, "max": 744},
-      "top_values": null,
       "statistics": {
         "rowCount": 98880,
+        "missingCount": 0,
+        "jsonTypes": {"number": 98880},
         "mean": 23.4, "median": 23.1, "min": 6.1, "max": 41.3,
         "histogram": "[{\"binRange\": [6.1, 9.62], \"count\": 989}, …]"
         // …
@@ -783,7 +780,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
   "jsonShape": "wrapped_records",         // dg:jsonShape
   "recordCount": 412,                     // dg:recordCount
   "maxDepth": 4,                          // dg:maxDepth
-  "schemaConsistency": 0.93,              // dg:schemaConsistency
+  "schemaConsistencyPercentage": 93.0,    // dg:schemaConsistencyPercentage
   "examples": "[{\"id\": \"NOA-0142\", …}]",
   "field": [
     {
@@ -798,14 +795,13 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
         "extract": {"jsonPath": "$.stations[*].location.lat"}
       },
       "repeated": false,                  // cr:repeated
-      "jsonTypes": "{\"number\": 412}",   // dg:jsonTypes (JSON string, like histogram)
-      "presencePercentage": 100.0,        // dg:presencePercentage
       "sample": [37.9715, 38.0412, 40.6401],
       "statistics": {
         "@type": "dg:ColumnStatistics",
         "@id": "c3e2…",
-        "rowCount": 412, "min": 34.93, "max": 41.71,
-        "topValues": null                 // dg:topValues (JSON string)
+        "rowCount": 412, "missingCount": 0, "min": 34.93, "max": 41.71,
+        "jsonTypes": "{\"number\": 412}",   // dg:jsonTypes (JSON string, like histogram)
+        "topValues": null                   // dg:topValues (JSON string)
         // …
       }
     }
@@ -824,7 +820,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
       <tbody>
         <tr><td>Objects used as maps<span class="sub"><code>{"2019": {…}, "2020": {…}}</code>, keys are IDs or dates</span></td><td>If an object shows more than 50 distinct keys across records and the keys look like data, collapse it to one wildcard path <code>$.x.*</code> with <code>key_samples</code>. Without this, path counts explode.</td></tr>
         <tr><td>Very wide or deep schemas</td><td>At most 300 paths and depth 8. Anything deeper becomes a single <code>object</code> field and <code>paths_truncated: true</code> is set.</td></tr>
-        <tr><td>Large files</td><td>Stream with <code>ijson</code>, never <code>json.load</code>, so memory stays bounded like the CSV chunking. Counts, presence and min/max are exact. Medians, percentiles and top values come from a 10 000-record reservoir, and <code>sampled: true</code> is set.</td></tr>
+        <tr><td>Large files</td><td>Stream with <code>ijson</code>, never <code>json.load</code>, so memory stays bounded like the CSV chunking. Counts, missing values and min/max are exact. Medians, percentiles and top values come from a 10 000-record reservoir, and <code>sampled: true</code> is set.</td></tr>
         <tr><td>Invalid JSON</td><td>Whole-file JSON: listed, with <code>parse_errors: 1</code> and no fields. JSON Lines: bad lines are skipped and counted.</td></tr>
         <tr><td>Encoding</td><td>Reuse <code>resolve_encoding()</code>. RFC 8259 requires UTF-8, but real exports are not always compliant.</td></tr>
         <tr><td>LLM failures</td><td>As for CSV: summary and semantic types are enrichments. A failure is logged and the profile still ships.</td></tr>
@@ -882,7 +878,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     <ol class="steps">
       <li class="step"><span class="id">P1</span><div class="body">
         <div class="title-row"><h4>Add <code>JSONRecordSet</code></h4><span class="prio must">must</span></div>
-        <p>New <code>record_set/json/</code> package. Detect the shape and <code>record_path</code> from the first 1 MB. Make one streamed pass with <code>ijson</code> that feeds one <code>_ColumnAccumulator</code> per leaf path, plus presence, JSON-type and array-length counters. A second pass builds histograms, as CSV does. Semantic types come from the existing <code>ColumnTypeAnnotator</code> on 100 flattened records.</p>
+        <p>New <code>record_set/json/</code> package. Detect the shape and <code>record_path</code> from the first 1 MB. Make one streamed pass with <code>ijson</code> that feeds one <code>_ColumnAccumulator</code> per leaf path, plus missing-value, JSON-type and array-length counters. A record where the key is absent counts as missing, like a <code>null</code>. A second pass builds histograms, as CSV does. Semantic types come from the existing <code>ColumnTypeAnnotator</code> on 100 flattened records.</p>
         <span class="where">dataset_profiler/profile_components/record_set/json/json_record_set.py</span>
       </div></li>
       <li class="step"><span class="id">P2</span><div class="body">
@@ -897,7 +893,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
       </div></li>
       <li class="step"><span class="id">P4</span><div class="body">
         <div class="title-row"><h4>Heavy profile and vocabulary</h4><span class="prio must">must</span></div>
-        <p>Emit <code>cr:Field</code> with <code>source.extract.jsonPath</code> and <code>repeated</code>. Add <code>dg:recordPath</code>, <code>dg:jsonShape</code>, <code>dg:recordCount</code>, <code>dg:maxDepth</code>, <code>dg:schemaConsistency</code>, <code>dg:jsonTypes</code>, <code>dg:presencePercentage</code> and <code>dg:topValues</code> to <code>REFERENCES_TEMPLATE</code>. They are already declared in the TTL (v0.5.0), with <code>dg:JsonRecordSet</code> as the record set class. Gate this behind <code>ENABLE_JSON_RECORD_SETS</code> until MoMa M1–M3 are deployed.</p>
+        <p>Emit <code>cr:Field</code> with <code>source.extract.jsonPath</code> and <code>repeated</code>. Add <code>dg:recordPath</code>, <code>dg:jsonShape</code>, <code>dg:recordCount</code>, <code>dg:maxDepth</code>, <code>dg:schemaConsistencyPercentage</code>, <code>dg:jsonTypes</code> and <code>dg:topValues</code> to <code>REFERENCES_TEMPLATE</code>. They are already declared in the TTL (v0.5.0), with <code>dg:JsonRecordSet</code> as the record set class. Gate this behind <code>ENABLE_JSON_RECORD_SETS</code> until MoMa M1–M3 are deployed.</p>
         <span class="where">profile_components/constants.py · datagems-croissant-extension.ttl</span>
       </div></li>
       <li class="step"><span class="id">P5</span><div class="body">
@@ -940,23 +936,21 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     sample: sample
     jsonPath: source.extract.jsonPath
     repeated: repeated
-    jsonTypes: jsonTypes
-    presencePercentage: presencePercentage
   edges:
     - { from: parent, to: self, label: field }
     - { from: self, to: source.fileObject.@id, label: source/fileObject }</pre>
       </div></li>
       <li class="step"><span class="id">M3</span><div class="body">
         <div class="title-row"><h4>New node schema <code>jsonField.schema.json</code></h4><span class="prio must">must</span><span class="chip moma">domain/schema</span></div>
-        <p><code>allOf</code> the Column schema plus <code>jsonPath</code> (string), <code>repeated</code> (boolean), <code>jsonTypes</code> (string, JSON-encoded like <code>histogram</code>) and <code>presencePercentage</code> (number). Register it in <code>node.schema.json</code> and run <code>make gen</code>. Check <code>edge_constraints.json</code> so that <code>field</code>, <code>source/fileObject</code> (→ <code>JSON</code>) and <code>statistics</code> accept a <code>JSONField</code>.</p>
+        <p><code>allOf</code> the Column schema plus <code>jsonPath</code> (string) and <code>repeated</code> (boolean). Register it in <code>node.schema.json</code> and run <code>make gen</code>. Check <code>edge_constraints.json</code> so that <code>field</code>, <code>source/fileObject</code> (→ <code>JSON</code>) and <code>statistics</code> accept a <code>JSONField</code>.</p>
       </div></li>
       <li class="step"><span class="id">M4</span><div class="body">
         <div class="title-row"><h4>Add a <code>RecordSet</code> variant for JSON sources</h4><span class="prio should">should</span><span class="chip moma">mapping.yml</span></div>
-        <p>Same pattern as the existing PDF and <code>text/plain</code> variants: map <code>recordPath</code>, <code>jsonShape</code>, <code>recordCount</code>, <code>maxDepth</code>, <code>schemaConsistency</code>, <code>summary</code> and <code>keywords</code>. <code>recordPath</code> is what DMM needs to query the file (D3), so in practice this blocks D3.</p>
+        <p>Same pattern as the existing PDF and <code>text/plain</code> variants: map <code>recordPath</code>, <code>jsonShape</code>, <code>recordCount</code>, <code>maxDepth</code>, <code>schemaConsistencyPercentage</code>, <code>summary</code> and <code>keywords</code>. <code>recordPath</code> is what DMM needs to query the file (D3), so in practice this blocks D3.</p>
       </div></li>
       <li class="step"><span class="id">M5</span><div class="body">
-        <div class="title-row"><h4><code>topValues</code> on <code>Statistics</code></h4><span class="prio later">later</span><span class="chip moma">columnStatistics.schema.json</span></div>
-        <p>One optional string property, JSON-encoded like <code>histogram</code>. CSV columns would benefit too once the profiler emits it for them.</p>
+        <div class="title-row"><h4><code>jsonTypes</code> and <code>topValues</code> on <code>Statistics</code></h4><span class="prio must">must</span><span class="chip moma">columnStatistics.schema.json</span></div>
+        <p>Two optional string properties, JSON-encoded like <code>histogram</code>. <code>Statistics</code> is in the mapping engine's schema registry, so any property the schema does not declare is dropped silently. CSV columns can use <code>topValues</code> too once the profiler emits it for them.</p>
       </div></li>
       <li class="step"><span class="id">M6</span><div class="body">
         <div class="title-row"><h4>Fixtures and ingest tests</h4><span class="prio must">must</span><span class="chip moma">assets/profiles</span></div>
@@ -1015,7 +1009,7 @@ SELECT * FROM read_json_auto('/s3/dataset/…/events.jsonl', format = 'newline_d
     <ol class="steps">
       <li class="step"><span class="id">C1</span><div class="body">
         <div class="title-row"><h4>Index path tokens and values</h4><span class="prio should">should</span></div>
-        <p>Split <code>columns[].name</code> on <code>.</code> and <code>[*]</code> so "lat" matches <code>location.lat</code>. Index <code>top_values</code> and <code>document_metadata</code> as keywords.</p>
+        <p>Split <code>columns[].name</code> on <code>.</code> and <code>[*]</code> so "lat" matches <code>location.lat</code>. Index <code>statistics.topValues</code> and <code>document_metadata</code> as keywords.</p>
       </div></li>
       <li class="step"><span class="id">C2</span><div class="body">
         <div class="title-row"><h4>Facets</h4><span class="prio later">later</span></div>
@@ -1044,7 +1038,7 @@ SELECT * FROM read_json_auto('/s3/dataset/…/events.jsonl', format = 'newline_d
     <div class="phase">
       <span class="n">2</span>
       <h3>JSON is in the catalogue</h3>
-      <div class="deps"><span class="chip moma">M1–M4, M6</span><span class="chip dmm">D1, D2, D4</span><span class="chip prof">P4</span></div>
+      <div class="deps"><span class="chip moma">M1–M6</span><span class="chip dmm">D1, D2, D4</span><span class="chip prof">P4</span></div>
       <ul>
         <li>MoMa deploys first, then the profiler flag is turned on</li>
         <li>Fields and statistics are visible in MoMa and DMM <code>/dataset/get</code></li>
@@ -1054,11 +1048,10 @@ SELECT * FROM read_json_auto('/s3/dataset/…/events.jsonl', format = 'newline_d
     <div class="phase">
       <span class="n">3</span>
       <h3>JSON is queryable</h3>
-      <div class="deps"><span class="chip dmm">D3</span><span class="chip moma">M5</span><span class="chip cdd">C1, C2</span></div>
+      <div class="deps"><span class="chip dmm">D3</span><span class="chip cdd">C1, C2</span></div>
       <ul>
         <li>SQL over JSON through DuckDB views</li>
-        <li><code>top_values</code> stored in MoMa</li>
-        <li>CDD facets on shape, dialect and size</li>
+                <li>CDD facets on shape, dialect and size</li>
       </ul>
     </div>
   </div>
@@ -1077,7 +1070,7 @@ SELECT * FROM read_json_auto('/s3/dataset/…/events.jsonl', format = 'newline_d
       <div class="rec">Recommended: reuse <code>JSON</code>; <code>encodingFormat</code> already tells them apart.</div></li>
     <li><b>Path cap of 300 and depth cap of 8: right for partner data?</b>
       <div class="rec">To validate on the largest JSON datasets partners plan to upload.</div></li>
-    <li><b>Should <code>top_values</code> also apply to CSV in the same release?</b>
+    <li><b>Should <code>topValues</code> also apply to CSV in the same release?</b>
       <div class="rec">Cheap on our side. It mainly depends on MoMa M5.</div></li>
   </ol>
 </section>
