@@ -4,6 +4,8 @@ For every PDF and plain-text document in a dataset, the profiler extracts a shor
 
 Both come from a single LLM call per document against the SCAYLE LLM service.
 
+JSON files get keywords and a summary from the same call and the same settings, built from their fields and a few sample records instead of running text; see [JSON Profiling](json-profiling.md#llm-enrichments).
+
 ## How It Works
 
 1. The document's text is extracted: PDFs with PyMuPDF (the same pass that produces the CDD `chunked_content`), text files as read for the text statistics.

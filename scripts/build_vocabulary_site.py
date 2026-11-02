@@ -3,8 +3,7 @@
 Writes three files into ``vocabulary/ns/``:
 
 * ``datagems.ttl``   -- a copy of ``datagems-croissant-extension.ttl``
-* ``context.jsonld`` -- the JSON-LD context the profiler emits, plus the JSON
-                        profiling terms declared in the TTL
+* ``context.jsonld`` -- the JSON-LD context the profiler emits
 * ``index.html``     -- human-readable documentation generated from the TTL
 
 Re-run after every change to the TTL. rdflib is not a project dependency, so run
@@ -25,19 +24,6 @@ REPO = Path(__file__).resolve().parent.parent
 TTL = REPO / "datagems-croissant-extension.ttl"
 OUT = REPO / "vocabulary" / "ns"
 NS = "https://datagems.eu/ns/"
-
-# Terms the profiler does not emit yet (JSON profiling), but which the published
-# context should already resolve. Keep in step with REFERENCES_TEMPLATE once the
-# profiler emits them.
-JSON_TERMS = {
-    "recordPath": "dg:recordPath",
-    "jsonShape": "dg:jsonShape",
-    "recordCount": "dg:recordCount",
-    "maxDepth": "dg:maxDepth",
-    "schemaConsistencyPercentage": "dg:schemaConsistencyPercentage",
-    "jsonTypes": "dg:jsonTypes",
-    "topValues": "dg:topValues",
-}
 
 PREFIXES = {
     "https://datagems.eu/ns/": "dg:",
@@ -60,7 +46,7 @@ def curie(term) -> str:
 
 def build_context() -> dict:
     consts = runpy.run_path(str(REPO / "dataset_profiler/profile_components/constants.py"))
-    context = {**consts["CONTEXT_TEMPLATE"], **consts["REFERENCES_TEMPLATE"], **JSON_TERMS}
+    context = {**consts["CONTEXT_TEMPLATE"], **consts["REFERENCES_TEMPLATE"]}
     assert context["dg"] == NS, f"profiler context declares dg = {context['dg']}"
     return {"@context": context}
 

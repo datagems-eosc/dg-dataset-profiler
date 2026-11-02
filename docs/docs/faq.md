@@ -15,12 +15,16 @@ The Dataset Profiler service is a tool that automatically analyzes datasets and 
 The service can profile the following types of data:
 - CSV files
 - Excel spreadsheets
+- JSON and JSON Lines files
 - SQL databases
 - Text documents
 - PDF documents
 
 PDF and text documents are profiled when they sit inside a folder of the dataset; each gets
 LLM-extracted keywords and a summary (see [Document Keywords & Summaries](document-descriptions.md)).
+
+JSON and JSON Lines files are profiled wherever they sit, as record sets whose fields are JSONPaths
+(see [JSON Profiling](json-profiling.md)).
 
 Other file types (audio, video, archives, ...) are not profiled, but they are not dropped either:
 they are listed in the profile's `distribution` with their path and size, so nothing in the dataset

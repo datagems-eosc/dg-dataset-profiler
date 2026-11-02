@@ -5,16 +5,17 @@
 
 This is the documentation site for the Dataset Profiler service. The service is part of the wider [DataGEMS](https://datagems.eu/) platform.
 
-The Dataset Profiler service is designed to automatically analyze and extract metadata from various types of datasets. It supports multiple data formats including CSV files, Excel spreadsheets, databases, text documents, and PDF files. The service generates comprehensive profiles that describe the structure, content, and characteristics of datasets, making them more discoverable and usable. The service as the project progresses will provide profiling for additional data types and formats.
+The Dataset Profiler service is designed to automatically analyze and extract metadata from various types of datasets. It supports multiple data formats including CSV files, Excel spreadsheets, databases, JSON and JSON Lines files, text documents, and PDF files. The service generates comprehensive profiles that describe the structure, content, and characteristics of datasets, making them more discoverable and usable. The service as the project progresses will provide profiling for additional data types and formats.
 
 ## Key Features
 
-- **Multi-format Support**: Profiles CSV files, Excel spreadsheets, databases, text documents, and PDF files
+- **Multi-format Support**: Profiles CSV files, Excel spreadsheets, databases, JSON and JSON Lines files, text documents, and PDF files
 - **Distributed Processing**: Uses Ray for distributed computing to handle large datasets efficiently
 - **API-driven**: RESTful API for easy integration with other services
 - **Metadata Extraction**: Automatically extracts metadata such as column types, data distributions, and sample values
 - **Semantic Type Annotation**: LLM-assisted inference of what each column *means* (`country name`, `email address`) beyond its structural type
 - **Document Keywords & Summaries**: LLM-extracted keywords and a short summary for every PDF and text document
+- **JSON Profiling**: JSON and JSON Lines files profiled as record sets whose fields are JSONPaths, with the same statistics as CSV columns (see [JSON Profiling](json-profiling.md))
 - **Data Quality Detection** (opt-in): LLM-assisted detection of errors in tabular data — format inconsistencies, impossible values, and inconsistent representations (detection only, no correction)
 - **Standardized Output**: Produces standardized JSON-LD profiles that follow the [Croissant Metadata Schema](https://mlcommons.org/working-groups/data/croissant/)
 

@@ -13,6 +13,7 @@ nav:
     - Architecture: architecture.md
     - Semantic Types: semantic-types.md
     - Document Keywords & Summaries: document-descriptions.md
+    - JSON Profiling: json-profiling.md
     - Data Quality: data-quality.md
     - Security: security.md
   - API:

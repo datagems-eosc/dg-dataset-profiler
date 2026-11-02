@@ -22,7 +22,12 @@ SUPPORTED_EXTENSION_MAP = {
     ".htm": "text/html",
     ".xml": "application/xml",
     ".json": "application/json",
+    # GeoJSON is profiled as JSON, its dialect recorded in the record set, so
+    # consumers need no extra MIME type.
+    ".geojson": "application/json",
     ".jsonl": "application/jsonl",
+    # JSON Lines has no registered MIME type; both extensions use one value.
+    ".ndjson": "application/jsonl",
     ".md": "text/markdown",
     ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     ".ipynb": "application/x-ipynb+json",

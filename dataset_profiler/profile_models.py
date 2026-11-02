@@ -41,6 +41,10 @@ from dataset_profiler.profile_components.record_set.record_set_extractor import 
     extract_record_sets_of_database_connections, extract_record_sets_of_file_objects_in_file_sets,
 )
 from dataset_profiler.profile_components.record_set.text.text_record_set import TextRecordSet
+from dataset_profiler.profile_components.record_set.json.json_record_set import (
+    JSONRecordSet,
+    is_json_record_sets_enabled,
+)
 from dataset_profiler.utilities import get_file_objects
 from dataset_profiler.configs.config_logging import logger
 from dotenv import load_dotenv
@@ -240,7 +244,12 @@ class DatasetProfile:
             self.record_sets = self.extract_record_sets()
 
         record_set_list = []
+        include_json = is_json_record_sets_enabled()
         for record_set in self.record_sets:
+            if isinstance(record_set, JSONRecordSet) and not include_json:
+                # Off only when MoMa cannot yet store JSON fields; the CDD
+                # profile keeps them either way.
+                continue
             if isinstance(record_set, DBRecordSet):
                 # In case of a relational database we want to flatten the tables of the db into independent tables
                 record_set_list.extend(record_set.to_dict())
@@ -340,8 +349,7 @@ def match_distributions_with_record_sets(distributions, record_sets) -> list[dic
     matched_distributions = {}
     distribution_id_index = {distribution.id: distribution for distribution in distributions}
     for record_set in record_sets:
-        if (isinstance(record_set, CSVRecordSet) or isinstance(record_set, PdfRecordSet)
-                or isinstance(record_set, TextRecordSet)):
+        if isinstance(record_set, (CSVRecordSet, PdfRecordSet, TextRecordSet, JSONRecordSet)):
             distribution = distribution_id_index.get(record_set.file_object_id)
             if record_set.file_object_id not in matched_distributions:
                 matched_distributions[record_set.file_object_id] = {

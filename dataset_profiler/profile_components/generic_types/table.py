@@ -20,6 +20,8 @@ class ColumnStatistics:
             percentile05: float | None = None,
             percentile95: float | None = None,
             generated_at: str | None = None,
+            json_types: dict | None = None,
+            top_values: list[dict] | None = None,
     ):
         self.row_count = row_count
         self.mean = mean
@@ -36,6 +38,10 @@ class ColumnStatistics:
         self.percentile05 = percentile05
         self.percentile95 = percentile95
         self.generated_at = generated_at
+        # JSON fields only. Left as None for every other source, and then not
+        # emitted at all, so CSV and database profiles are unchanged.
+        self.json_types = json_types
+        self.top_values = top_values
 
     def to_dict(self) -> dict:
         return {
@@ -56,6 +62,18 @@ class ColumnStatistics:
             "percentile05": self.percentile05,
             "percentile95": self.percentile95,
             "generatedAt": self.generated_at,
+            # Serialised to strings like the histogram: MoMa stores node
+            # properties as flat values.
+            **self._json_statistics(serialise=True),
+        }
+
+    def _json_statistics(self, serialise: bool) -> dict:
+        if self.json_types is None:
+            return {}
+        encode = json.dumps if serialise else (lambda value: value)
+        return {
+            "jsonTypes": encode(self.json_types),
+            "topValues": None if self.top_values is None else encode(self.top_values),
         }
 
     def to_dict_cdd(self):
@@ -75,4 +93,5 @@ class ColumnStatistics:
             "percentile05": self.percentile05,
             "percentile95": self.percentile95,
             "generatedAt": self.generated_at,
+            **self._json_statistics(serialise=False),
         }

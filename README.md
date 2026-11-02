@@ -41,6 +41,17 @@ DOCUMENT_LLM_MODEL=qwen3.8-flash-next    # default
 
 They appear on the document's record set as `keywords` / `summary` (MoMa) and on its `files` entry as `keywords` / `description` (CDD). See the [Document Keywords & Summaries docs](https://datagems-eosc.github.io/dataset-profiler/document-descriptions/) for details.
 
+## JSON Profiling
+
+JSON (`.json`, `.geojson`) and JSON Lines (`.jsonl`, `.ndjson`) files are profiled as record sets whose fields are JSONPaths (`location.lat`, `readings[*].temp_c`), with the same statistics as CSV columns plus `jsonTypes` and `topValues`. Files are streamed, so size does not limit them. Each file also gets semantic types and, like documents, keywords and a summary.
+
+```bash
+ENABLE_JSON_RECORD_SETS=true          # false keeps JSON out of the MoMa profile; the CDD profile always has it
+JSON_LLM_MAX_FILES_PER_FOLDER=20      # JSON files per folder that get the LLM enrichments
+```
+
+See the [JSON Profiling docs](https://datagems-eosc.github.io/dataset-profiler/json-profiling/) for details.
+
 ## Data Quality Detection (opt-in)
 
 The profiler can detect data quality errors in tabular record sets (CSVs, Excel sheets) using an LLM: format inconsistencies (mixed date formats), value errors (negative ages), and consistency errors (`US` vs `USA` vs `United States`). Detection only — the data is never modified.

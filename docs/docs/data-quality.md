@@ -1,6 +1,6 @@
 # Data Quality
 
-The profiler can optionally detect data quality errors in tabular record sets (CSV files and Excel sheets; relational databases are planned). Detection is LLM-assisted and **detection-only**: the profiler reports errors, it never corrects the data.
+The profiler can optionally detect data quality errors in tabular record sets (CSV files and Excel sheets; relational databases are planned, and JSON files are not analysed). Detection is LLM-assisted and **detection-only**: the profiler reports errors, it never corrects the data.
 
 ## How It Works
 
@@ -172,5 +172,5 @@ AWS_REGION=us-east-1
 - Files larger than **100 MB** are skipped to keep profiling memory bounded (detection loads the full table in memory, unlike the streamed column statistics).
 - Row numbers in examples are 1-indexed relative to the first data row and are produced by the generated script, so treat them as indicative.
 - The generated script is told the same encoding the profiler resolved for the file (see [Architecture → Character Encoding](architecture.md#character-encoding)), so it reads the table exactly as the statistics pass did.
-- Relational-database record sets are not yet analysed — detection currently covers CSV files and Excel sheets only.
+- Relational-database record sets and JSON files are not yet analysed — detection currently covers CSV files and Excel sheets only. For JSON fields, values of the wrong type are still reported, through `jsonTypes` in the field statistics (see [JSON Profiling](json-profiling.md#statistics)).
 - The LLM-generated detection script runs in a subprocess on the profiling worker with a hard timeout. The LLM providers used are trusted internal/enterprise services; still, only enable the feature in environments where executing generated analysis code is acceptable.

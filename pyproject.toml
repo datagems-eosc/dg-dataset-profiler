@@ -51,6 +51,7 @@ dependencies = [
     "pymupdf>=1.26.5",
     "tqdm>=4.66.0",
     "requests>=2.32.0",
+    "ijson>=3.3",
 ]
 
 [dependency-groups]

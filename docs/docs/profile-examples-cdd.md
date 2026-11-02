@@ -3400,3 +3400,463 @@ Below you can find a CDD profile example covering different file types:
   ]
 }
 ```
+
+## Example: JSON file
+
+The CDD profile of the same `tests/assets/json_stations` dataset shown on the [MoMa profile page](profile-examples-moma.md#example-json-file). A JSON file has the same `columns` layout as a CSV file, plus:
+
+- a `json_profile` block: layout, record path and count, nesting, structure consistency, parse errors, the values found outside the records (`document_metadata`) and a few sample records;
+- `json_path` and `repeated` on each column, and `array_length` for fields under an array;
+- `jsonTypes` and `topValues` in the statistics, as JSON objects rather than strings;
+- `chunked_content` holding the long text values (`notes`), one entry per station that has them, so semantic search reaches inside them.
+
+```json
+{
+  "@id": "5f3c1e2a-7b4d-4c8e-9a1f-2d6b8e0c4a71",
+  "content_url": "/home/mikexydas/PycharmProjects/dataset-profiler/5f3c1e2a-7b4d-4c8e-9a1f-2d6b8e0c4a71",
+  "name": "Greek Weather Stations (JSON example)",
+  "headline": "Weather station readings in JSON.",
+  "description": "Hourly temperature and humidity readings from Greek weather stations, exported as one JSON document with station metadata and nested readings.",
+  "keywords": [
+    "weather stations",
+    "temperature",
+    "humidity"
+  ],
+  "field_of_science": [
+    "EARTH AND RELATED ENVIRONMENTAL SCIENCES"
+  ],
+  "files": [
+    {
+      "file_object_id": "d86b919a-8913-4179-b690-e438c7a791b6",
+      "original_format": "json",
+      "source_file": "/home/mikexydas/PycharmProjects/dataset-profiler/tests/assets/json_stations/data/stations.json",
+      "name": "stations",
+      "description": "This dataset describes meteorological stations and their observations, primarily in Greece. Each record identifies a station by name, operator, location coordinates, elevation, and installed sensors, such as temperature, humidity, and wind. It also includes site-specific notes about station placement and environmental conditions that may affect measurements. Time-stamped readings provide temperature in degrees Celsius and relative humidity, with some stations indicating additional sensor types. The data is sourced from the National Observatory of Athens and is licensed under CC BY 4.0.",
+      "keywords": [
+        "weather stations",
+        "meteorological observations",
+        "Greece",
+        "temperature",
+        "humidity",
+        "wind",
+        "station metadata",
+        "National Observatory of Athens"
+      ],
+      "json_profile": {
+        "shape": "wrapped_records",
+        "dialect": null,
+        "record_path": "$.stations[*]",
+        "record_count": 5,
+        "max_depth": 3,
+        "path_count": 11,
+        "paths_truncated": false,
+        "schema_consistency_percentage": 60.0,
+        "parse_errors": 0,
+        "summary": "This dataset describes meteorological stations and their observations, primarily in Greece. Each record identifies a station by name, operator, location coordinates, elevation, and installed sensors, such as temperature, humidity, and wind. It also includes site-specific notes about station placement and environmental conditions that may affect measurements. Time-stamped readings provide temperature in degrees Celsius and relative humidity, with some stations indicating additional sensor types. The data is sourced from the National Observatory of Athens and is licensed under CC BY 4.0.",
+        "document_metadata": {
+          "$.meta.source": "National Observatory of Athens",
+          "$.meta.generated": "2026-09-30T00:00:00Z",
+          "$.meta.license": "CC BY 4.0"
+        },
+        "sample_records": "[{\"id\": \"NOA-0142\", \"name\": \"Athens - Thiseio\", \"operator\": \"NOA\", \"location\": {\"lat\": 37.9715, \"lon\": 23.7181}, \"elevation_m\": 107, \"sensors\": [\"temperature\", \"humidity\", \"wind\"], \"notes\": \"Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter, so afternoon readings run cooler than at nearby street-level stations.\", \"readings\": [{\"ts\": \"2026-09-29T12:00:00Z\", \"temp_c\": 27.4, \"rh\": 41}, {\"ts\": \"2026-09-29T13:00:00Z\", \"temp_c\": 28.1, \"rh\": 38}, {\"ts\": \"2026-09-29T14:00:00Z\", \"temp_c\": 28.6, \"rh\": 36}]}, {\"id\": \"NOA-0207\", \"name\": \"Ioannina - Airport\", \"operator\": null, \"location\": {\"lat\": 39.6964, \"lon\": 20.8222}, \"elevation_m\": 484, \"sensors\": [\"temperature\", \"humidity\"], \"readings\": [{\"ts\": \"2026-09-29T12:00:00Z\", \"temp_c\": 22.0, \"rh\": 55}, {\"ts\": \"2026-09-29T13:00:00Z\", \"temp_c\": 22.7, \"rh\": 51}]}, {\"id\": \"HNMS-16716\", \"name\": \"Heraklion\", \"operator\": \"HNMS\", \"location\": {\"lat\": 35.3387, \"lon\": 25.1806}, \"elevation_m\": 39, \"sensors\": [\"temperature\", \"humidity\", \"wind\", \"… 1 more\"], \"readings\": [{\"ts\": \"2026-09-29T12:00:00Z\", \"temp_c\": 29.3, \"rh\": 47}, {\"ts\": \"2026-09-29T13:00:00Z\", \"temp_c\": 29.5, \"rh\": 45}, {\"ts\": \"2026-09-29T14:00:00Z\", \"temp_c\": 29.1, \"rh\": 46}, \"… 1 more\"]}]"
+      },
+      "columns": [
+        {
+          "name": "id",
+          "json_path": "$.stations[*].id",
+          "primitive_type": "sc:Text",
+          "semantic_type": "identifier",
+          "description": "",
+          "repeated": false,
+          "statistics": {
+            "rowCount": 5,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 5,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null,
+            "jsonTypes": {
+              "string": 5
+            },
+            "topValues": null
+          }
+        },
+        {
+          "name": "name",
+          "json_path": "$.stations[*].name",
+          "primitive_type": "sc:Text",
+          "semantic_type": "location name",
+          "description": "",
+          "repeated": false,
+          "statistics": {
+            "rowCount": 5,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 5,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null,
+            "jsonTypes": {
+              "string": 5
+            },
+            "topValues": null
+          }
+        },
+        {
+          "name": "operator",
+          "json_path": "$.stations[*].operator",
+          "primitive_type": "sc:Text",
+          "semantic_type": "organization",
+          "description": "",
+          "repeated": false,
+          "statistics": {
+            "rowCount": 3,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 2,
+            "missingPercentage": 40.0,
+            "histogram": null,
+            "uniqueCount": 3,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null,
+            "jsonTypes": {
+              "string": 3
+            },
+            "topValues": null
+          }
+        },
+        {
+          "name": "location.lat",
+          "json_path": "$.stations[*].location.lat",
+          "primitive_type": "sc:Float",
+          "semantic_type": "latitude",
+          "description": "",
+          "repeated": false,
+          "statistics": {
+            "rowCount": 5,
+            "mean": 37.963300000000004,
+            "median": 37.776465,
+            "standardDeviation": 1.871798777913833,
+            "min": 35.3387,
+            "max": 39.771,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [35.334267700000005, 35.78193], \"count\": 1}, {\"binRange\": [35.78193, 36.22516], \"count\": 0}, {\"binRange\": [36.22516, 36.66839], \"count\": 0}, {\"binRange\": [36.66839, 37.11162], \"count\": 1}, {\"binRange\": [37.11162, 37.55485], \"count\": 0}, {\"binRange\": [37.55485, 37.99808], \"count\": 1}, {\"binRange\": [37.99808, 38.44131], \"count\": 0}, {\"binRange\": [38.44131, 38.88454], \"count\": 0}, {\"binRange\": [38.88454, 39.32777], \"count\": 0}, {\"binRange\": [39.32777, 39.771], \"count\": 2}]",
+            "uniqueCount": 5,
+            "variance": 3.5036306649997186,
+            "range": 4.432299999999998,
+            "percentile05": 35.446183275,
+            "percentile95": 39.715596250000004,
+            "generatedAt": "2026-10-30T10:56:09.855877+00:00",
+            "jsonTypes": {
+              "number": 5
+            },
+            "topValues": null
+          }
+        },
+        {
+          "name": "location.lon",
+          "json_path": "$.stations[*].location.lon",
+          "primitive_type": "sc:Float",
+          "semantic_type": "longitude",
+          "description": "",
+          "repeated": false,
+          "statistics": {
+            "rowCount": 5,
+            "mean": 22.60362,
+            "median": 21.9118,
+            "standardDeviation": 1.824420588022388,
+            "min": 20.8222,
+            "max": 25.1806,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [20.817841599999998, 21.258039999999998], \"count\": 2}, {\"binRange\": [21.258039999999998, 21.69388], \"count\": 0}, {\"binRange\": [21.69388, 22.12972], \"count\": 1}, {\"binRange\": [22.12972, 22.565559999999998], \"count\": 0}, {\"binRange\": [22.565559999999998, 23.001399999999997], \"count\": 0}, {\"binRange\": [23.001399999999997, 23.43724], \"count\": 0}, {\"binRange\": [23.43724, 23.873079999999998], \"count\": 1}, {\"binRange\": [23.873079999999998, 24.308919999999997], \"count\": 0}, {\"binRange\": [24.308919999999997, 24.74476], \"count\": 0}, {\"binRange\": [24.74476, 25.1806], \"count\": 1}]",
+            "uniqueCount": 5,
+            "variance": 3.328510481999956,
+            "range": 4.3584,
+            "percentile05": 20.8728664,
+            "percentile95": 25.07164,
+            "generatedAt": "2026-10-30T10:56:09.855961+00:00",
+            "jsonTypes": {
+              "number": 5
+            },
+            "topValues": null
+          }
+        },
+        {
+          "name": "elevation_m",
+          "json_path": "$.stations[*].elevation_m",
+          "primitive_type": "sc:Integer",
+          "semantic_type": null,
+          "description": "",
+          "repeated": false,
+          "statistics": {
+            "rowCount": 5,
+            "mean": 447.5,
+            "median": 151.1,
+            "standardDeviation": 513.7447485538579,
+            "min": 39.0,
+            "max": 1160.0,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [37.879, 151.1], \"count\": 2}, {\"binRange\": [151.1, 263.2], \"count\": 0}, {\"binRange\": [263.2, 375.29999999999995], \"count\": 0}, {\"binRange\": [375.29999999999995, 487.4], \"count\": 1}, {\"binRange\": [487.4, 599.5], \"count\": 0}, {\"binRange\": [599.5, 711.5999999999999], \"count\": 0}, {\"binRange\": [711.5999999999999, 823.6999999999999], \"count\": 0}, {\"binRange\": [823.6999999999999, 935.8], \"count\": 0}, {\"binRange\": [935.8, 1047.9], \"count\": 0}, {\"binRange\": [1047.9, 1160.0], \"count\": 1}]",
+            "uniqueCount": 4,
+            "variance": 263933.6666666667,
+            "range": 1121.0,
+            "percentile05": 49.2011,
+            "percentile95": 1137.58,
+            "generatedAt": "2026-10-30T10:56:09.856035+00:00",
+            "jsonTypes": {
+              "integer": 4,
+              "string": 1
+            },
+            "topValues": null
+          }
+        },
+        {
+          "name": "sensors[*]",
+          "json_path": "$.stations[*].sensors[*]",
+          "primitive_type": "sc:Text",
+          "semantic_type": "sensor type",
+          "description": "",
+          "repeated": true,
+          "statistics": {
+            "rowCount": 14,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 5,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null,
+            "jsonTypes": {
+              "string": 14
+            },
+            "topValues": [
+              {
+                "value": "temperature",
+                "count": 5
+              },
+              {
+                "value": "humidity",
+                "count": 4
+              },
+              {
+                "value": "wind",
+                "count": 3
+              },
+              {
+                "value": "pressure",
+                "count": 1
+              },
+              {
+                "value": "rainfall",
+                "count": 1
+              }
+            ]
+          },
+          "array_length": {
+            "min": 1,
+            "avg": 2.8,
+            "max": 4
+          }
+        },
+        {
+          "name": "notes",
+          "json_path": "$.stations[*].notes",
+          "primitive_type": "sc:Text",
+          "semantic_type": "description",
+          "description": "",
+          "repeated": false,
+          "statistics": {
+            "rowCount": 2,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 3,
+            "missingPercentage": 60.0,
+            "histogram": null,
+            "uniqueCount": 2,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null,
+            "jsonTypes": {
+              "string": 2
+            },
+            "topValues": null
+          }
+        },
+        {
+          "name": "readings[*].ts",
+          "json_path": "$.stations[*].readings[*].ts",
+          "primitive_type": "sc:DateTime",
+          "semantic_type": "timestamp",
+          "description": "",
+          "repeated": true,
+          "statistics": {
+            "rowCount": 13,
+            "mean": null,
+            "median": null,
+            "standardDeviation": null,
+            "min": null,
+            "max": null,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": null,
+            "uniqueCount": 4,
+            "variance": null,
+            "range": null,
+            "percentile05": null,
+            "percentile95": null,
+            "generatedAt": null,
+            "jsonTypes": {
+              "string": 13
+            },
+            "topValues": [
+              {
+                "value": "2026-09-29T12:00:00Z",
+                "count": 5
+              },
+              {
+                "value": "2026-09-29T13:00:00Z",
+                "count": 5
+              },
+              {
+                "value": "2026-09-29T14:00:00Z",
+                "count": 2
+              },
+              {
+                "value": "2026-09-29T15:00:00Z",
+                "count": 1
+              }
+            ]
+          },
+          "array_length": {
+            "min": 2,
+            "avg": 2.6,
+            "max": 4
+          }
+        },
+        {
+          "name": "readings[*].temp_c",
+          "json_path": "$.stations[*].readings[*].temp_c",
+          "primitive_type": "sc:Float",
+          "semantic_type": "temperature",
+          "description": "",
+          "repeated": true,
+          "statistics": {
+            "rowCount": 13,
+            "mean": 26.015384615384615,
+            "median": 28.357857142857142,
+            "standardDeviation": 4.489403478163185,
+            "min": 17.2,
+            "max": 29.5,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [17.1877, 18.43], \"count\": 2}, {\"binRange\": [18.43, 19.66], \"count\": 0}, {\"binRange\": [19.66, 20.89], \"count\": 0}, {\"binRange\": [20.89, 22.119999999999997], \"count\": 1}, {\"binRange\": [22.119999999999997, 23.35], \"count\": 1}, {\"binRange\": [23.35, 24.58], \"count\": 0}, {\"binRange\": [24.58, 25.81], \"count\": 0}, {\"binRange\": [25.81, 27.04], \"count\": 0}, {\"binRange\": [27.04, 28.27], \"count\": 2}, {\"binRange\": [28.27, 29.5], \"count\": 7}]",
+            "uniqueCount": 13,
+            "variance": 20.154743589743703,
+            "range": 12.3,
+            "percentile05": 17.5914475,
+            "percentile95": 29.385785714285714,
+            "generatedAt": "2026-10-30T10:56:09.856224+00:00",
+            "jsonTypes": {
+              "number": 13
+            },
+            "topValues": null
+          },
+          "array_length": {
+            "min": 2,
+            "avg": 2.6,
+            "max": 4
+          }
+        },
+        {
+          "name": "readings[*].rh",
+          "json_path": "$.stations[*].readings[*].rh",
+          "primitive_type": "sc:Integer",
+          "semantic_type": "relative humidity",
+          "description": "",
+          "repeated": true,
+          "statistics": {
+            "rowCount": 13,
+            "mean": 48.69230769230769,
+            "median": 45.916666666666664,
+            "standardDeviation": 10.570277632624851,
+            "min": 36.0,
+            "max": 71.0,
+            "missingCount": 0,
+            "missingPercentage": 0.0,
+            "histogram": "[{\"binRange\": [35.965, 39.5], \"count\": 2}, {\"binRange\": [39.5, 43.0], \"count\": 2}, {\"binRange\": [43.0, 46.5], \"count\": 3}, {\"binRange\": [46.5, 50.0], \"count\": 2}, {\"binRange\": [50.0, 53.5], \"count\": 1}, {\"binRange\": [53.5, 57.0], \"count\": 1}, {\"binRange\": [57.0, 60.5], \"count\": 0}, {\"binRange\": [60.5, 64.0], \"count\": 0}, {\"binRange\": [64.0, 67.5], \"count\": 0}, {\"binRange\": [67.5, 71.0], \"count\": 2}]",
+            "uniqueCount": 13,
+            "variance": 111.73076923076921,
+            "range": 35.0,
+            "percentile05": 37.113875,
+            "percentile95": 69.8625,
+            "generatedAt": "2026-10-30T10:56:09.856296+00:00",
+            "jsonTypes": {
+              "integer": 13
+            },
+            "topValues": null
+          },
+          "array_length": {
+            "min": 2,
+            "avg": 2.6,
+            "max": 4
+          }
+        }
+      ],
+      "chunked_content": [
+        {
+          "section": "notes",
+          "subsection": "NOA-0142",
+          "chunks": [
+            "Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter, so afternoon readings run cooler than at nearby street-level stations."
+          ]
+        },
+        {
+          "section": "notes",
+          "subsection": "NOA-0420",
+          "chunks": [
+            "High-altitude site in the Pindus mountains. Snow cover affects the readings from December to March, and the station runs on battery during storms."
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

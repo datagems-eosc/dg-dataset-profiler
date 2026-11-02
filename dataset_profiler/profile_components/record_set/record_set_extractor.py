@@ -1,3 +1,5 @@
+import os
+from collections import Counter
 from pathlib import Path
 from typing import List
 
@@ -15,7 +17,36 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
 from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
     PdfRecordSet,
 )
+from dataset_profiler.profile_components.record_set.json.json_record_set import (
+    JSONRecordSet,
+    is_json_file,
+)
 from dataset_profiler.configs.config_logging import logger
+
+# JSON files in one folder that get the LLM enrichments (semantic types and a
+# summary). A folder of thousands of one-record files would otherwise cost
+# thousands of LLM calls; the files past the cap are still fully profiled.
+DEFAULT_JSON_LLM_MAX_FILES_PER_FOLDER = 20
+
+
+def _json_llm_max_files_per_folder() -> int:
+    return int(os.environ.get("JSON_LLM_MAX_FILES_PER_FOLDER",
+                              DEFAULT_JSON_LLM_MAX_FILES_PER_FOLDER))
+
+
+def _json_record_set(file_path: str, file_object_id: str, use_llm: bool = True):
+    """A JSON record set, or None when the file cannot be profiled at all.
+
+    Invalid JSON is handled inside JSONRecordSet (it yields a record set with
+    parse_errors set); this only guards against the unexpected, so one bad file
+    never fails the dataset.
+    """
+    try:
+        return JSONRecordSet(file_path, file_object_id, use_llm=use_llm)
+    except Exception as e:  # noqa: BLE001 - logged; the file stays in the distribution
+        logger.exception("Failed to profile JSON file, skipping its record set",
+                         file=file_path, error=str(e))
+        return None
 
 
 def get_file_type(file_set, distribution_path) -> FileType | None:
@@ -72,6 +103,12 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
         #     record_sets.append(db_record_set)
         elif file_extension == ".xlsx":
             record_sets += get_record_sets_from_excel(distribution_path, file_object["path"], file_object["id"])
+        elif is_json_file(file_object["path"]):
+            json_record_set = _json_record_set(
+                os.path.join(distribution_path, file_object["path"]), file_object["id"]
+            )
+            if json_record_set is not None:
+                record_sets.append(json_record_set)
 
     logger.info("Extracted record sets from file objects", num_record_sets=len(record_sets))
     return record_sets
@@ -115,8 +152,22 @@ def extract_record_sets_of_file_objects_in_file_sets(file_object_of_set_distribu
     logger.info("Extracting record sets from file objects in file sets",
                 num_distributions=len(file_object_of_set_distributions))
     record_sets = []
+    json_files_per_folder: Counter = Counter()
     for distribution in file_object_of_set_distributions:
         file_extension = Path(distribution.content_url).suffix
+        if is_json_file(distribution.content_url):
+            json_files_per_folder[distribution.contained_in] += 1
+            seen = json_files_per_folder[distribution.contained_in]
+            use_llm = seen <= _json_llm_max_files_per_folder()
+            if seen == _json_llm_max_files_per_folder() + 1:
+                logger.info("JSON files past the per-folder cap are profiled without LLM enrichments",
+                            folder=Path(distribution.content_url).parent.name,
+                            cap=_json_llm_max_files_per_folder())
+            json_record_set = _json_record_set(distribution.content_url, distribution.id,
+                                               use_llm=use_llm)
+            if json_record_set is not None:
+                record_sets.append(json_record_set)
+            continue
         if file_extension == ".pdf":
             pdf_record_set = PdfRecordSet(
                 file_object=distribution.content_url,

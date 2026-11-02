@@ -89,5 +89,13 @@ REFERENCES_TEMPLATE = {
     "creationDate": "dg:creationDate",
     "modificationDate": "dg:modificationDate",
     "wd": "https://www.wikidata.org/wiki/",
-    "containedIn": "cr:containedIn"
+    "containedIn": "cr:containedIn",
+    # JSON record sets. Declared in datagems-croissant-extension.ttl.
+    "recordPath": "dg:recordPath",
+    "jsonShape": "dg:jsonShape",
+    "recordCount": "dg:recordCount",
+    "maxDepth": "dg:maxDepth",
+    "schemaConsistencyPercentage": "dg:schemaConsistencyPercentage",
+    "jsonTypes": "dg:jsonTypes",
+    "topValues": "dg:topValues",
 }

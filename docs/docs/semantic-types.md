@@ -2,7 +2,7 @@
 
 Alongside the structural type of each column (`sc:Text`, `sc:Integer`, …), the profiler infers a **semantic type** — a short phrase describing what the values actually *mean*. A column typed `sc:Text` might be a `country name`, an `email address` or a `product category`; the structural type cannot tell them apart, and dataset discovery needs the difference.
 
-This is done by the **Column Type Annotator** (CTA), an LLM-backed component that runs over every tabular column: CSV files, Excel sheets, and relational-database tables alike.
+This is done by the **Column Type Annotator** (CTA), an LLM-backed component that runs over every tabular column: CSV files, Excel sheets, and relational-database tables alike, and over the fields of JSON files (see [JSON Profiling](json-profiling.md)).
 
 ## How It Works
 
@@ -19,7 +19,7 @@ A label that only repeats the header is worse than none: it looks like informati
 
 The model still sees its own answers for earlier columns, not the `null`s they were turned into: fed a run of `null`s, it drifts to vague labels (`monetary amount` instead of `medical fee`) for the columns that follow.
 
-Values are sampled rather than read in full: CSV columns are annotated from the first 100 rows, and database tables from a `LIMIT 100` sample. Annotation therefore costs the same on a 10 MB table as on a 10 GB one.
+Values are sampled rather than read in full: CSV columns are annotated from the first 100 rows, JSON fields from the first 100 records, and database tables from a `LIMIT 100` sample. Annotation therefore costs the same on a 10 MB table as on a 10 GB one.
 
 ### Reserved values
 
