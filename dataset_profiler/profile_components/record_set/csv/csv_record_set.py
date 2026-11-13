@@ -22,6 +22,7 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     ColumnField,
 )
 from dataset_profiler.profile_components.cta import ColumnTypeAnnotator
+from dataset_profiler.profile_components.distribution import get_original_format
 from dataset_profiler.utilities import resolve_encoding
 from dataset_profiler.configs.config_logging import logger
 
@@ -276,7 +277,7 @@ class CSVRecordSet(RecordSet):
         # heavy MoMa profile, not in the CDD profile.
         return {
             "file_object_id": self.file_object_id,
-            "original_format": "csv",
+            "original_format": get_original_format(self.file_object),
             "source_file": os.path.join(self.distribution_path, self.file_object),
             "name": Path(self.name).name,
             "description": "",

@@ -24,6 +24,7 @@ from dataset_profiler.profile_components.distribution import (
     get_distribution_of_file_set,
     get_distribution_of_database_connection,
     get_distributions_of_tables_in_db, get_file_objects_of_file_set,
+    get_original_format,
 )
 from dataset_profiler.profile_components.record_set.csv.csv_record_set import CSVRecordSet
 from dataset_profiler.profile_components.record_set.db.db_distribution import (
@@ -304,7 +305,7 @@ class DatasetProfile:
                 files.append(
                     {
                         "file_object_id": dist.id,
-                        "original_format": "xlsx",
+                        "original_format": get_original_format(dist.content_url),
                         "source_file": dist.content_url,
                         "name": dist.name,
                         "description": dist.description,
@@ -328,7 +329,7 @@ class DatasetProfile:
                     continue
                 files.append({
                     "file_object_id": dist.id,
-                    "original_format": Path(dist.content_url).suffix.lstrip(".").lower(),
+                    "original_format": get_original_format(dist.content_url),
                     "source_file": dist.content_url,
                     "name": dist.name,
                     "description": dist.description,

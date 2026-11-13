@@ -43,9 +43,6 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     ColumnField,
     RecordSet,
 )
-from dataset_profiler.profile_components.record_set.text.text_utilities import (
-    chunk_text_by_paragraph,
-)
 from dataset_profiler.utilities import resolve_encoding
 
 JSON_LINES_SUFFIXES = {".jsonl", ".ndjson"}
@@ -96,15 +93,12 @@ MAX_METADATA_VALUE_CHARS = 200
 TOP_VALUES = 10
 TOP_VALUES_MAX_UNIQUE = 50
 TOP_VALUES_TRACK_CAP = 1_000
-# Text fields averaging at least this many characters are chunked into
-# chunked_content so semantic search reaches inside them.
+# Text fields averaging at least this many characters are reported whole in
+# text_content, for CDD to chunk so semantic search reaches inside them.
 LONG_TEXT_MIN_AVG_CHARS = 120
 LONG_TEXT_STORE_MIN_CHARS = 60
 MAX_STORED_TEXT_CHARS = 5_000_000
-MAX_TEXT_CHUNKS = 2_000
-TEXT_CHUNK_SIZE = 300
-TEXT_CHUNK_OVERLAP = 20
-# Top-level keys whose value names a record in chunked_content.
+# Top-level keys whose value names a record in text_content.
 RECORD_LABEL_KEYS = ("id", "_id", "uuid", "key", "name", "title")
 # The schema rendered for the LLM summary is capped at this many fields.
 SUMMARY_MAX_FIELDS = 60
@@ -532,12 +526,12 @@ class JSONRecordSet(RecordSet):
         self.parse_errors = self.structure.parse_errors
 
         self.fields: list = []
-        self.chunked_content: list = []
+        self.text_content: list = []
         self.summary = ""
         self.keywords: list = []
         if self.structure.shape != INVALID:
             self.fields = self.extract_fields()
-            self.chunked_content = self._build_chunked_content()
+            self.text_content = self._build_text_content()
             if self.use_llm:
                 self._describe()
         logger.info(
@@ -774,25 +768,13 @@ class JSONRecordSet(RecordSet):
         self.keywords = description.keywords
 
     # -- content for search -----------------------------------------------------------
-    def _build_chunked_content(self) -> list:
-        content = []
-        budget = MAX_TEXT_CHUNKS
-        for rel, acc in self._paths.items():
-            if not acc.is_long_text():
-                continue
-            for label, text in acc.texts:
-                if budget <= 0:
-                    return content
-                chunks = chunk_text_by_paragraph(
-                    text, chunk_size=TEXT_CHUNK_SIZE, chunk_overlap=TEXT_CHUNK_OVERLAP
-                )[:budget]
-                budget -= len(chunks)
-                content.append({
-                    "section": _display_name(rel),
-                    "subsection": label,
-                    "chunks": chunks,
-                })
-        return content
+    def _build_text_content(self) -> list:
+        # Unchunked: CDD chunks it, as it does every other document.
+        return [
+            {"section": _display_name(rel), "subsection": label, "text": text}
+            for rel, acc in self._paths.items() if acc.is_long_text()
+            for label, text in acc.texts
+        ]
 
     # -- file-level properties ---------------------------------------------------------
     @property
@@ -846,7 +828,7 @@ class JSONRecordSet(RecordSet):
             "keywords": self.keywords,
             "json_profile": self._json_profile(),
             "columns": [f.to_dict_cdd() for f in self.fields],
-            "chunked_content": self.chunked_content,
+            "text_content": self.text_content,
         }
 
 
@@ -992,7 +974,7 @@ def _top_values(acc: _PathAccumulator, family: Optional[str], non_null: int):
     if family not in (TEXT, BOOLEAN) or acc.top_capped or not acc.top:
         return None
     if acc.is_long_text():
-        # Long text goes to chunked_content for semantic search, not to facets.
+        # Long text goes to text_content for semantic search, not to facets.
         return None
     if len(acc.top) > TOP_VALUES_MAX_UNIQUE or len(acc.top) >= non_null:
         # Too many distinct values to facet on, or every value is unique (ids).

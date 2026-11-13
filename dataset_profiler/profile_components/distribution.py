@@ -43,6 +43,28 @@ SUPPORTED_EXTENSION_MAP = {
 FALLBACK_ENCODING_FORMAT = "application/octet-stream"
 
 
+# "original_format" of each file in the CDD profile. CDD matches on these exact
+# strings, so a file keeps its value whether or not its record set could be
+# extracted. Files of any other type carry their lowercased extension.
+ORIGINAL_FORMAT_MAP = {
+    ".csv": "csv",
+    ".xlsx": "xlsx",
+    ".xls": "xlsx",
+    ".pdf": "application/pdf",
+    ".txt": "text",
+    ".json": "json",
+    ".geojson": "json",
+    ".jsonl": "jsonl",
+    ".ndjson": "jsonl",
+}
+
+
+def get_original_format(file_path: str | Path) -> str:
+    """The CDD ``original_format`` of a file, from its extension alone."""
+    suffix = Path(file_path).suffix.lower()
+    return ORIGINAL_FORMAT_MAP.get(suffix, suffix.lstrip("."))
+
+
 def is_supported(file_path: str | Path) -> bool:
     """Whether the profiler knows how to look inside a file of this type."""
     return Path(file_path).suffix.lower() in SUPPORTED_EXTENSION_MAP

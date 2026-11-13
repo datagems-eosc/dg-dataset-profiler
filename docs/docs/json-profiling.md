@@ -1,6 +1,6 @@
 # JSON Profiling
 
-JSON (`.json`, `.geojson`) and JSON Lines (`.jsonl`, `.ndjson`) files are profiled as **record sets whose columns are JSONPaths**. Each leaf value in a record becomes a field such as `location.lat` or `readings[*].temp_c`, and every field gets the same statistics as a CSV column. Long text values are also split into chunks, so that semantic search reaches inside them.
+JSON (`.json`, `.geojson`) and JSON Lines (`.jsonl`, `.ndjson`) files are profiled as **record sets whose columns are JSONPaths**. Each leaf value in a record becomes a field such as `location.lat` or `readings[*].temp_c`, and every field gets the same statistics as a CSV column. Long text values are also reported whole, for CDD to chunk so that semantic search reaches inside them.
 
 ## Finding the records
 
@@ -92,8 +92,8 @@ One entry in `files[]` per JSON file. `columns` has the same layout as for CSV, 
       }
     }
   ],
-  "chunked_content": [
-    {"section": "notes", "subsection": "NOA-0142", "chunks": ["Rooftop station in the historic centre, …"]}
+  "text_content": [
+    {"section": "notes", "subsection": "NOA-0142", "text": "Rooftop station in the historic centre, …"}
   ]
 }
 ```

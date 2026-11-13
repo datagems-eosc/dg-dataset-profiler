@@ -233,14 +233,14 @@ def test_utf8_bom_and_cp1252_files_are_read(tmp_path):
     assert cp1252.fields[0].sample == ["café – bar"]
 
 
-def test_long_text_is_chunked_for_search_and_not_faceted(tmp_path):
+def test_long_text_is_reported_whole_for_search_and_not_faceted(tmp_path):
     note = "Rooftop station in the historic centre, next to the observatory dome. " * 3
     records = [{"id": "NOA-1", "notes": note}, {"id": "NOA-2", "notes": note}, {"id": "NOA-3"}]
     rs = _profile(tmp_path, records)
     cdd = rs.to_dict_cdd()
 
-    assert [(c["section"], c["subsection"]) for c in cdd["chunked_content"]] == [
-        ("notes", "NOA-1"), ("notes", "NOA-2"),
+    assert [(c["section"], c["subsection"], c["text"]) for c in cdd["text_content"]] == [
+        ("notes", "NOA-1", note), ("notes", "NOA-2", note),
     ]
     assert _columns(rs)["notes"]["statistics"]["topValues"] is None
 

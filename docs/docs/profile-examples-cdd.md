@@ -1,5 +1,34 @@
 # CDD Profile
 
+## `original_format` values
+
+Every entry in `files` carries an `original_format`, taken from the file's extension (case-insensitive). A file gets the same value whether or not the profiler could read it, so a PDF is always `application/pdf`, even at the dataset root or when it fails to parse.
+
+| Extension | `original_format` |
+|---|---|
+| `.csv` | `csv` |
+| `.xlsx`, `.xls` | `xlsx` |
+| `.pdf` | `application/pdf` |
+| `.txt` | `text` |
+| `.json`, `.geojson` | `json` (`jsonl` when the file holds JSON Lines) |
+| `.jsonl`, `.ndjson` | `jsonl` |
+| database connection | `sql-db` |
+| anything else | the lowercased extension without the dot, e.g. `docx`, `m4a` |
+
+## Document content
+
+The profiler does not chunk documents: it hands CDD the text whole, and CDD chunks it.
+
+| File type | Where the text is |
+|---|---|
+| `.pdf` | `raw_content`: the full text as one string, pages separated by a blank line |
+| `.txt` | not in the profile: CDD reads the file at `content.file_path` |
+| `.json`, `.jsonl` | `text_content`: one `{section, subsection, text}` entry per long text value (see the [JSON example](#example-json-file)) |
+
+`raw_content` comes from the PDF's text layer. No OCR is run, so a scanned PDF has an empty `raw_content`. A PDF the profiler cannot open at all gets a bare entry with no `content` and no `raw_content`.
+
+## Example: mixed file types
+
 Below you can find a CDD profile example covering different file types:
 
 ```json
@@ -3252,58 +3281,6 @@ Below you can find a CDD profile example covering different file types:
       "name": "text1",
       "description": "",
       "keywords": [],
-      "chunked_content": [
-        {
-          "section": "",
-          "subsection": "",
-          "chunks": [
-            "A text file (sometimes spelled textfile; an old alternative name is flat file) is a kind of computer file that is structured as a sequence of lines of electronic text. A text file exists stored as data within a computer file system.",
-            "In operating systems such as CP/M, where the operating system does not keep track of the file size in bytes, the end of a text file is denoted by placing one or more special characters, known as an end-of-file (EOF) marker, as padding after the last line in a text file.[1] In modern operating systems such as DOS, Microsoft Windows and Unix-like systems, text files do not contain any special EOF character, because file systems on those operating systems keep track of the file size in bytes.[2]",
-            "Some operating systems, such as Multics, Unix-like systems, CP/M, DOS, the classic Mac OS, and Windows, store text files as a sequence of bytes, with an end-of-line delimiter at the end of each line",
-            "Other operating systems, such as OpenVMS and OS/360 and its successors, have record-oriented filesystems, in which text files are stored as a sequence either of fixed-length records or of variable-length records with a record-length value in the record header.",
-            "\"Text file\" refers to a type of container, while plain text refers to a type of content.\n\nAt a generic level of description, there are two kinds of computer files: text files and binary files.[3]",
-            "Data storage\nicon\nThis section does not cite any sources. Please help improve this section by adding citations to reliable sources. Unsourced material may be challenged and removed. (September 2024) (Learn how and when to remove this message)",
-            "A stylized iconic depiction of a CSV-formatted text file",
-            "Because of their simplicity, text files are commonly used for storage of information. They avoid some of the problems encountered with other file formats, such as endianness, padding bytes, or differences in the number of bytes in a machine word",
-            "Further, when data corruption occurs in a text file, it is often easier to recover and continue processing the remaining contents. A disadvantage of text files is that they usually have a low entropy, meaning that the information occupies more storage than is strictly necessary.",
-            "A simple text file may need no additional metadata (other than knowledge of its character set) to assist the reader in interpretation. A text file may contain no data at all, which is a case of zero-byte file.",
-            "Encoding\nicon\nThis section does not cite any sources. Please help improve this section by adding citations to reliable sources. Unsourced material may be challenged and removed. (September 2024) (Learn how and when to remove this message)",
-            "The ASCII character set is the most common compatible subset of character sets for English-language text files, and is generally assumed to be the default file format in many situations",
-            "It covers American English, but for the British pound sign, the euro sign, or characters used outside English, a richer character set must be used. In many systems, this is chosen based on the default locale setting on the computer it is read on",
-            "Prior to UTF-8, this was traditionally single-byte encodings (such as ISO-8859-1 through ISO-8859-16) for European languages and wide character encodings for Asian languages.",
-            "Because encodings necessarily have only a limited repertoire of characters, often very small, many are only usable to represent text in a limited subset of human languages",
-            "Unicode is an attempt to create a common standard for representing all known languages, and most known character sets are subsets of the very large Unicode character set",
-            "Although there are multiple character encodings available for Unicode, the most common is UTF-8, which has the advantage of being backwards-compatible with ASCII; that is, every ASCII text file is also a UTF-8 text file with identical meaning",
-            "UTF-8 also has the advantage that it is easily auto-detectable. Thus, a common operating mode of UTF-8 capable software, when opening files of unknown encoding, is to try UTF-8 first and fall back to a locale dependent legacy encoding when it definitely is not UTF-8.",
-            "Formats",
-            "On most operating systems, the name text file refers to a file format that allows only plain text content with very little formatting (e.g., no bold or italic types). Such files can be viewed and edited on text terminals or in simple text editors",
-            "Text files usually have the MIME type text/plain, usually with additional information indicating an encoding.",
-            "Microsoft Windows text files",
-            "Windows 11's Notepad opening an example text file",
-            "DOS and Microsoft Windows use a common text file format, with each line of text separated by a two-character combination: carriage return (CR) and line feed (LF)",
-            "It is common for the last line of text not to be terminated with a CR-LF marker, and many text editors (including Notepad) do not automatically insert one on the last line.",
-            "On Microsoft Windows operating systems, a file is regarded as a text file if the suffix of the name of the file (the \"filename extension\") is .txt. However, many other suffixes are used for text files with specific purposes",
-            "For example, source code for computer programs is usually kept in text files that have file name suffixes indicating the programming language in which the source is written.",
-            "Most Microsoft Windows text files use ANSI, OEM, Unicode or UTF-8 encoding. What Microsoft Windows terminology calls \"ANSI encodings\" are usually single-byte ISO/IEC 8859 encodings (i.e",
-            "ANSI in the Microsoft Notepad menus is really \"System Code Page\", non-Unicode, legacy encoding), except for in locales such as Chinese, Japanese and Korean that require double-byte character sets",
-            "ANSI encodings were traditionally used as default system locales within Microsoft Windows, before the transition to Unicode. By contrast, OEM encodings, also known as DOS code pages, were defined by IBM for use in the original IBM PC text mode display system",
-            "They typically include graphical and line-drawing characters common in DOS applications. \"Unicode\"-encoded Microsoft Windows text files contain text in UTF-16 Unicode Transformation Format. Such files normally begin with byte order mark (BOM), which communicates the endianness of the file content",
-            "Although UTF-8 does not suffer from endianness problems, many Microsoft Windows programs (i.e. Notepad) prepend the contents of UTF-8-encoded files with BOM,[4] to differentiate UTF-8 encoding from other 8-bit encodings.[5]",
-            "Unix text files",
-            "On Unix-like operating systems, text files format is precisely described: POSIX defines a text file as a file that contains characters organized into zero or more lines,[6] where lines are sequences of zero or more non-newline characters plus a terminating newline character,[7] normally LF.",
-            "Additionally, POSIX defines a printable file as a text file whose characters are printable or space or backspace according to regional rules. This excludes most control characters, which are not printable.[8]",
-            "Apple Macintosh text files\nPrior to the advent of macOS, the classic Mac OS system regarded the content of a file (the data fork) to be a text file when its resource fork indicated that the type of the file was \"TEXT\".[9] Lines of classic Mac OS text files are terminated with CR characters.[10]",
-            "Being a Unix-like system, macOS uses Unix format for text files.[10] Uniform Type Identifier (UTI) used for text files in macOS is \"public.plain-text\"; additional, more specific UTIs are: \"public.utf8-plain-text\" for utf-8-encoded text, \"public.utf16-external-plain-text\" and \"public.utf16-plain-text\" for utf-16-encoded text and \"com.apple.traditional-mac-plain-text\" for classic Mac OS text files.[9]",
-            "Rendering",
-            "When opened by a text editor, human-readable content is presented to the user. This often consists of the file's plain text visible to the user",
-            "Depending on the application, control codes may be rendered either as literal instructions acted upon by the editor, or as visible escape characters that can be edited as plain text",
-            "Though there may be plain text in a text file, control characters within the file (especially the end-of-file character) can render the plain text unseen by a particular method.",
-            "Related concepts",
-            "The use of lightweight markup languages such as TeX, markdown and wikitext can be regarded as an extension of plain text files, as marked-up text is still wholly or partially human-readable in spite of containing machine-interpretable annotations",
-            "Early uses of HTML could also be regarded in this way, although the HTML of modern websites is largely unreadable by humans. Other file formats such as enriched text and CSV can also be regarded as human-interpretable to some degree."
-          ]
-        }
-      ],
       "content": {
         "type": "text",
         "file_path": "tests/assets/dummy_data/data/txt_files/text1.txt"
@@ -3316,58 +3293,6 @@ Below you can find a CDD profile example covering different file types:
       "name": "text2",
       "description": "",
       "keywords": [],
-      "chunked_content": [
-        {
-          "section": "",
-          "subsection": "",
-          "chunks": [
-            "A text file (sometimes spelled textfile; an old alternative name is flat file) is a kind of computer file that is structured as a sequence of lines of electronic text. A text file exists stored as data within a computer file system.",
-            "In operating systems such as CP/M, where the operating system does not keep track of the file size in bytes, the end of a text file is denoted by placing one or more special characters, known as an end-of-file (EOF) marker, as padding after the last line in a text file.[1] In modern operating systems such as DOS, Microsoft Windows and Unix-like systems, text files do not contain any special EOF character, because file systems on those operating systems keep track of the file size in bytes.[2]",
-            "Some operating systems, such as Multics, Unix-like systems, CP/M, DOS, the classic Mac OS, and Windows, store text files as a sequence of bytes, with an end-of-line delimiter at the end of each line",
-            "Other operating systems, such as OpenVMS and OS/360 and its successors, have record-oriented filesystems, in which text files are stored as a sequence either of fixed-length records or of variable-length records with a record-length value in the record header.",
-            "\"Text file\" refers to a type of container, while plain text refers to a type of content.\n\nAt a generic level of description, there are two kinds of computer files: text files and binary files.[3]",
-            "Data storage\nicon\nThis section does not cite any sources. Please help improve this section by adding citations to reliable sources. Unsourced material may be challenged and removed. (September 2024) (Learn how and when to remove this message)",
-            "A stylized iconic depiction of a CSV-formatted text file",
-            "Because of their simplicity, text files are commonly used for storage of information. They avoid some of the problems encountered with other file formats, such as endianness, padding bytes, or differences in the number of bytes in a machine word",
-            "Further, when data corruption occurs in a text file, it is often easier to recover and continue processing the remaining contents. A disadvantage of text files is that they usually have a low entropy, meaning that the information occupies more storage than is strictly necessary.",
-            "A simple text file may need no additional metadata (other than knowledge of its character set) to assist the reader in interpretation. A text file may contain no data at all, which is a case of zero-byte file.",
-            "Encoding\nicon\nThis section does not cite any sources. Please help improve this section by adding citations to reliable sources. Unsourced material may be challenged and removed. (September 2024) (Learn how and when to remove this message)",
-            "The ASCII character set is the most common compatible subset of character sets for English-language text files, and is generally assumed to be the default file format in many situations",
-            "It covers American English, but for the British pound sign, the euro sign, or characters used outside English, a richer character set must be used. In many systems, this is chosen based on the default locale setting on the computer it is read on",
-            "Prior to UTF-8, this was traditionally single-byte encodings (such as ISO-8859-1 through ISO-8859-16) for European languages and wide character encodings for Asian languages.",
-            "Because encodings necessarily have only a limited repertoire of characters, often very small, many are only usable to represent text in a limited subset of human languages",
-            "Unicode is an attempt to create a common standard for representing all known languages, and most known character sets are subsets of the very large Unicode character set",
-            "Although there are multiple character encodings available for Unicode, the most common is UTF-8, which has the advantage of being backwards-compatible with ASCII; that is, every ASCII text file is also a UTF-8 text file with identical meaning",
-            "UTF-8 also has the advantage that it is easily auto-detectable. Thus, a common operating mode of UTF-8 capable software, when opening files of unknown encoding, is to try UTF-8 first and fall back to a locale dependent legacy encoding when it definitely is not UTF-8.",
-            "Formats",
-            "On most operating systems, the name text file refers to a file format that allows only plain text content with very little formatting (e.g., no bold or italic types). Such files can be viewed and edited on text terminals or in simple text editors",
-            "Text files usually have the MIME type text/plain, usually with additional information indicating an encoding.",
-            "Microsoft Windows text files",
-            "Windows 11's Notepad opening an example text file",
-            "DOS and Microsoft Windows use a common text file format, with each line of text separated by a two-character combination: carriage return (CR) and line feed (LF)",
-            "It is common for the last line of text not to be terminated with a CR-LF marker, and many text editors (including Notepad) do not automatically insert one on the last line.",
-            "On Microsoft Windows operating systems, a file is regarded as a text file if the suffix of the name of the file (the \"filename extension\") is .txt. However, many other suffixes are used for text files with specific purposes",
-            "For example, source code for computer programs is usually kept in text files that have file name suffixes indicating the programming language in which the source is written.",
-            "Most Microsoft Windows text files use ANSI, OEM, Unicode or UTF-8 encoding. What Microsoft Windows terminology calls \"ANSI encodings\" are usually single-byte ISO/IEC 8859 encodings (i.e",
-            "ANSI in the Microsoft Notepad menus is really \"System Code Page\", non-Unicode, legacy encoding), except for in locales such as Chinese, Japanese and Korean that require double-byte character sets",
-            "ANSI encodings were traditionally used as default system locales within Microsoft Windows, before the transition to Unicode. By contrast, OEM encodings, also known as DOS code pages, were defined by IBM for use in the original IBM PC text mode display system",
-            "They typically include graphical and line-drawing characters common in DOS applications. \"Unicode\"-encoded Microsoft Windows text files contain text in UTF-16 Unicode Transformation Format. Such files normally begin with byte order mark (BOM), which communicates the endianness of the file content",
-            "Although UTF-8 does not suffer from endianness problems, many Microsoft Windows programs (i.e. Notepad) prepend the contents of UTF-8-encoded files with BOM,[4] to differentiate UTF-8 encoding from other 8-bit encodings.[5]",
-            "Unix text files",
-            "On Unix-like operating systems, text files format is precisely described: POSIX defines a text file as a file that contains characters organized into zero or more lines,[6] where lines are sequences of zero or more non-newline characters plus a terminating newline character,[7] normally LF.",
-            "Additionally, POSIX defines a printable file as a text file whose characters are printable or space or backspace according to regional rules. This excludes most control characters, which are not printable.[8]",
-            "Apple Macintosh text files\nPrior to the advent of macOS, the classic Mac OS system regarded the content of a file (the data fork) to be a text file when its resource fork indicated that the type of the file was \"TEXT\".[9] Lines of classic Mac OS text files are terminated with CR characters.[10]",
-            "Being a Unix-like system, macOS uses Unix format for text files.[10] Uniform Type Identifier (UTI) used for text files in macOS is \"public.plain-text\"; additional, more specific UTIs are: \"public.utf8-plain-text\" for utf-8-encoded text, \"public.utf16-external-plain-text\" and \"public.utf16-plain-text\" for utf-16-encoded text and \"com.apple.traditional-mac-plain-text\" for classic Mac OS text files.[9]",
-            "Rendering",
-            "When opened by a text editor, human-readable content is presented to the user. This often consists of the file's plain text visible to the user",
-            "Depending on the application, control codes may be rendered either as literal instructions acted upon by the editor, or as visible escape characters that can be edited as plain text",
-            "Though there may be plain text in a text file, control characters within the file (especially the end-of-file character) can render the plain text unseen by a particular method.",
-            "Related concepts",
-            "The use of lightweight markup languages such as TeX, markdown and wikitext can be regarded as an extension of plain text files, as marked-up text is still wholly or partially human-readable in spite of containing machine-interpretable annotations",
-            "Early uses of HTML could also be regarded in this way, although the HTML of modern websites is largely unreadable by humans. Other file formats such as enriched text and CSV can also be regarded as human-interpretable to some degree."
-          ]
-        }
-      ],
       "content": {
         "type": "text",
         "file_path": "tests/assets/dummy_data/data/txt_files/text2.txt"
@@ -3380,22 +3305,11 @@ Below you can find a CDD profile example covering different file types:
       "name": "960.pdf",
       "description": "",
       "keywords": [],
-      "chunked_content": [
-        {
-          "section": "",
-          "subsection": "",
-          "chunks": [
-            "By: Ana J\u00falia B. Bezerra\n\u2022 Spectrum\nThe spectrum of a matrix A, denoted by S(A), is the set of all eigenvalues of A.\nIn other words, it consists of all scalar values \u03bb such that there exists a non-zero\nvector v (an eigenvector) for which:\nAv = \u03bbv\nThe spectrum gives a complete picture of the behavior of the matrix\u2019s action in\nterms of scaling along the directions of its eigenvectors.\n\u2022 Spectral Radius\nThe spectral radius of a matrix A, denoted \u03c1(A), is the largest absolute value of\nits eigenvalues. If S(A) is the set of eigenvalues of A, then the spectral radius is:\n\u03c1(A) = max{|\u03bb| : \u03bb \u2208S(A)}\nIn other words, it gives the magnitude of the \"dominant\" eigenvalue, which has\nthe greatest influence on the long-term behavior of the matrix\u2019s powers.\n\u2022 Spectral Shift\nA spectral shift refers to modifying the eigenvalues of a matrix by adding a scalar\nmultiple of the identity matrix I to the original matrix A. If A has eigenvalues",
-            "\u2022 Spectral Shift\nA spectral shift refers to modifying the eigenvalues of a matrix by adding a scalar\nmultiple of the identity matrix I to the original matrix A. If A has eigenvalues\n\u03bb1, \u03bb2, . . . , \u03bbn, then adding cI to A results in a new matrix A + cI, whose\neigenvalues are shifted by c:\nEigenvaluesofA + cI = {\u03bb1 + c, \u03bb2 + c, . . . , \u03bbn + c}\nThis spectral shift preserves the relative spacing between the eigenvalues but\ntranslates them by a fixed amount.\n1",
-            "Problems\na) The set of eigenvalues of the matrix A =\n\u0014\u22123\n1\n1\n\u22123\n\u0015\nis?\nIs necessary find the eigenvalues, solving the characteristic equation:\ndet(A \u2212\u03bbI) = 0\nWhere I is the identity matrix, and \u03bb represents the eigenvalues. The characteristic\nequation becomes:\ndet\n\u0014\u22123 \u2212\u03bb\n1\n1\n\u22123 \u2212\u03bb\n\u0015\n= 0\nThe determinant is:\n(\u22123 \u2212\u03bb)(\u22123 \u2212\u03bb) \u2212(1)(1) = \u03bb2 + 6\u03bb + 9 \u22121 = \u03bb2 + 6\u03bb + 8 = 0\nSolve the quadratic equation:\n\u03bb2 + 6\u03bb + 8 = 0\nThus, the eigenvalues are:\n\u03bb1 = \u22122,\n\u03bb2 = \u22124\nThe set of eigenvalues is {\u22122, \u22124}.\nb) The spectral radius of the matrix A =\n\u0014\u22123\n1\n1\n\u22123\n\u0015\nis?\nThe absolute values of the eigenvalues are, according to a):\n|\u03bb1| = 2,\n|\u03bb2| = 4\nThe spectral radius is the largest of these values:\n\u03c1(A) = 4\n2",
-            "c) Consider the set {\u22122, 2, 5} of eigenvalues of the real 3 \u00d7 3 matrix A + 3I, where I\ndenotes the identity matrix. Find the eigenvalues of A.\nThe eigenvalues of A + 3I are related to the eigenvalues of A by a shift of +3. In other\nwords:\nEigenvalues of A + 3I = {\u03bb1 + 3, \u03bb2 + 3, \u03bb3 + 3}\nAre given that the eigenvalues of A + 3I are {\u22122, 2, 5}. Therefore, to find the\neigenvalues of A, it is necessary to subtract 3 from each of these values:\nEigenvalues of A = {\u22122 \u22123, 2 \u22123, 5 \u22123} = {\u22125, \u22121, 2}\nEigenvalues of A = {\u22125, \u22121, 2}\nThus, the eigenvalues of A are {\u22125, \u22121, 2}.\nReference: Nicholson, W. K. (2006). Elementary Linear Algebra. ISBN 85-86804-92-4.\n3"
-          ]
-        }
-      ],
       "content": {
         "type": "application/pdf",
         "file_path": "tests/assets/dummy_data/data/pdfs/960.pdf"
-      }
+      },
+      "raw_content": "By: Ana J\u00falia B. Bezerra\n\u2022 Spectrum\nThe spectrum of a matrix A, denoted by S(A), is the set of all eigenvalues of A.\nIn other words, it consists of all scalar values \u03bb such that there exists a non-zero\nvector v (an eigenvector) for which:\nAv = \u03bbv\nThe spectrum gives a complete picture of the behavior of the matrix\u2019s action in\nterms of scaling along the directions of its eigenvectors.\n\u2022 Spectral Radius\nThe spectral radius of a matrix A, denoted \u03c1(A), is the largest absolute value of\nits eigenvalues. If S(A) is the set of eigenvalues of A, then the spectral radius is:\n\u03c1(A) = max{|\u03bb| : \u03bb \u2208S(A)}\nIn other words, it gives the magnitude of the \"dominant\" eigenvalue, which has\nthe greatest influence on the long-term behavior of the matrix\u2019s powers.\n\u2022 Spectral Shift\nA spectral shift refers to modifying the eigenvalues of a matrix by adding a scalar\nmultiple of the identity matrix I to the original matrix A. If A has eigenvalues\n\u03bb1, \u03bb2, . . . , \u03bbn, then adding cI to A results in a new matrix A + cI, whose\neigenvalues are shifted by c:\nEigenvaluesofA + cI = {\u03bb1 + c, \u03bb2 + c, . . . , \u03bbn + c}\nThis spectral shift preserves the relative spacing between the eigenvalues but\ntranslates them by a fixed amount.\n1\n\nProblems\na) The set of eigenvalues of the matrix A =\n\u0014\u22123\n1\n1\n\u22123\n\u0015\nis?\nIs necessary find the eigenvalues, solving the characteristic equation:\ndet(A \u2212\u03bbI) = 0\nWhere I is the identity matrix, and \u03bb represents the eigenvalues. The characteristic\nequation becomes:\ndet\n\u0014\u22123 \u2212\u03bb\n1\n1\n\u22123 \u2212\u03bb\n\u0015\n= 0\nThe determinant is:\n(\u22123 \u2212\u03bb)(\u22123 \u2212\u03bb) \u2212(1)(1) = \u03bb2 + 6\u03bb + 9 \u22121 = \u03bb2 + 6\u03bb + 8 = 0\nSolve the quadratic equation:\n\u03bb2 + 6\u03bb + 8 = 0\nThus, the eigenvalues are:\n\u03bb1 = \u22122,\n\u03bb2 = \u22124\nThe set of eigenvalues is {\u22122, \u22124}.\nb) The spectral radius of the matrix A =\n\u0014\u22123\n1\n1\n\u22123\n\u0015\nis?\nThe absolute values of the eigenvalues are, according to a):\n|\u03bb1| = 2,\n|\u03bb2| = 4\nThe spectral radius is the largest of these values:\n\u03c1(A) = 4\n2\n\nc) Consider the set {\u22122, 2, 5} of eigenvalues of the real 3 \u00d7 3 matrix A + 3I, where I\ndenotes the identity matrix. Find the eigenvalues of A.\nThe eigenvalues of A + 3I are related to the eigenvalues of A by a shift of +3. In other\nwords:\nEigenvalues of A + 3I = {\u03bb1 + 3, \u03bb2 + 3, \u03bb3 + 3}\nAre given that the eigenvalues of A + 3I are {\u22122, 2, 5}. Therefore, to find the\neigenvalues of A, it is necessary to subtract 3 from each of these values:\nEigenvalues of A = {\u22122 \u22123, 2 \u22123, 5 \u22123} = {\u22125, \u22121, 2}\nEigenvalues of A = {\u22125, \u22121, 2}\nThus, the eigenvalues of A are {\u22125, \u22121, 2}.\nReference: Nicholson, W. K. (2006). Elementary Linear Algebra. ISBN 85-86804-92-4.\n3"
     }
   ]
 }
@@ -3408,7 +3322,7 @@ The CDD profile of the same `tests/assets/json_stations` dataset shown on the [M
 - a `json_profile` block: layout, record path and count, nesting, structure consistency, parse errors, the values found outside the records (`document_metadata`) and a few sample records;
 - `json_path` and `repeated` on each column, and `array_length` for fields under an array;
 - `jsonTypes` and `topValues` in the statistics, as JSON objects rather than strings;
-- `chunked_content` holding the long text values (`notes`), one entry per station that has them, so semantic search reaches inside them.
+- `text_content` holding the long text values (`notes`) whole, one entry per station that has them, for CDD to chunk so semantic search reaches inside them.
 
 ```json
 {
@@ -3840,20 +3754,16 @@ The CDD profile of the same `tests/assets/json_stations` dataset shown on the [M
           }
         }
       ],
-      "chunked_content": [
+      "text_content": [
         {
           "section": "notes",
           "subsection": "NOA-0142",
-          "chunks": [
-            "Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter, so afternoon readings run cooler than at nearby street-level stations."
-          ]
+          "text": "Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter, so afternoon readings run cooler than at nearby street-level stations."
         },
         {
           "section": "notes",
           "subsection": "NOA-0420",
-          "chunks": [
-            "High-altitude site in the Pindus mountains. Snow cover affects the readings from December to March, and the station runs on battery during storms."
-          ]
+          "text": "High-altitude site in the Pindus mountains. Snow cover affects the readings from December to March, and the station runs on battery during storms."
         }
       ]
     }

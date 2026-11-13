@@ -67,7 +67,7 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
     logger.info("Extracting record sets from file objects", num_file_objects=len(file_objects))
     record_sets = []
     for file_object in file_objects:
-        file_extension = Path(file_object["path"]).suffix
+        file_extension = Path(file_object["path"]).suffix.lower()
         logger.debug("Processing file object", path=file_object["path"], file_extension=file_extension)
 
         if file_extension == ".csv":
@@ -154,7 +154,7 @@ def extract_record_sets_of_file_objects_in_file_sets(file_object_of_set_distribu
     record_sets = []
     json_files_per_folder: Counter = Counter()
     for distribution in file_object_of_set_distributions:
-        file_extension = Path(distribution.content_url).suffix
+        file_extension = Path(distribution.content_url).suffix.lower()
         if is_json_file(distribution.content_url):
             json_files_per_folder[distribution.contained_in] += 1
             seen = json_files_per_folder[distribution.contained_in]

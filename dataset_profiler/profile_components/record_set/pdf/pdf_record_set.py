@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Dict, List, Any
 from dataset_profiler.profile_components.record_set.record_set_abc import RecordSet
 from langchain_community.document_loaders import PyMuPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from dataset_profiler.profile_components.record_set.pdf.pdf_utilities import (
     get_pdf_profile,
@@ -12,37 +11,26 @@ from dataset_profiler.profile_components.record_set.pdf.pdf_utilities import (
 from dataset_profiler.profile_components.record_set.document_description import (
     describe_document,
 )
+from dataset_profiler.profile_components.distribution import get_original_format
 from dataset_profiler.configs.config_logging import logger
 
 
-def parse_and_chunk_pdf(pdf_path, chunk_size=1000, chunk_overlap=200) -> tuple[str, list[str]]:
-    """Return the PDF's full text and its overlapping chunks, or ("", []) on failure."""
+def parse_pdf(pdf_path) -> str:
+    """Return the PDF's full text from its text layer, or "" on failure.
+
+    Feeds the keywords and summary, and is passed whole to CDD as
+    ``raw_content`` for it to chunk. No OCR is run, so a scanned PDF gives "".
+    """
     if not os.path.exists(pdf_path):
         raise FileNotFoundError(f"The file at {pdf_path} was not found.")
 
     try:
-        loader = PyMuPDFLoader(pdf_path)
-        documents = loader.load()
-
-        # 2. CHUNK: Initialize the text splitter
-        logger.debug("Chunking PDF documents", pdf_path=pdf_path)
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size,       # Measured in characters, not words
-            chunk_overlap=chunk_overlap,
-            length_function=len,
-            is_separator_regex=False,
-        )
-
-        # Split the parsed documents into smaller chunks
-        chunks = text_splitter.split_documents(documents)
-        string_chunks = [chunk.page_content for chunk in chunks]
-        text = "\n\n".join(page.page_content for page in documents)
-
-        return text, string_chunks
+        documents = PyMuPDFLoader(pdf_path).load()
+        return "\n\n".join(page.page_content for page in documents)
 
     except Exception as e:
-        logger.error("Failed to parse and chunk PDF", pdf_path=pdf_path, error=str(e))
-        return "", []
+        logger.error("Failed to parse PDF", pdf_path=pdf_path, error=str(e))
+        return ""
 
 
 class PdfRecordSet(RecordSet):
@@ -70,8 +58,8 @@ class PdfRecordSet(RecordSet):
         self.creation_date = profile["creation_date"]
         self.modification_date = profile["modification_date"]
         self.pages_count = profile["pages_count"]
-        text, self.chunks = parse_and_chunk_pdf(file_object)
-        description = describe_document(text, name=self.name)
+        self.text = parse_pdf(file_object)
+        description = describe_document(self.text, name=self.name)
         self.keywords = description.keywords
         self.summary = description.summary
 
@@ -109,20 +97,15 @@ class PdfRecordSet(RecordSet):
     def to_dict_cdd(self):
         return {
             "file_object_id": self.file_object_id,
-            "original_format": "application/pdf",
+            "original_format": get_original_format(self.file_object),
             "source_file": self.file_object,
             "name": Path(self.name).name,
             "description": self.summary,
             "keywords": self.keywords,
-            "chunked_content": [
-                {
-                    "section": "",
-                    "subsection": "",
-                    "chunks": self.chunks
-                }
-            ],
             "content": {
                 "type": "application/pdf",
                 "file_path": self.file_object,
             },
+            # Unchunked: CDD chunks it, as it does every other document.
+            "raw_content": self.text,
         }

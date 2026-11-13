@@ -8,16 +8,13 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
 
 from dataset_profiler.profile_components.record_set.text.text_utilities import (
     profile_text_file,
-    chunk_text_by_paragraph,
     read_file_with_encoding,
-    find_substring_positions,
     text_preprocess,
 )
 from dataset_profiler.profile_components.record_set.document_description import (
     describe_document,
 )
-from tqdm import tqdm
-from dataset_profiler.configs.config_logging import logger
+from dataset_profiler.profile_components.distribution import get_original_format
 
 
 class TextRecordSet(RecordSet):
@@ -71,28 +68,8 @@ class TextRecordSet(RecordSet):
         self.fields = self.extract_fields()
 
     def extract_fields(self):
-        # text_object = open(self.distribution_path + self.file_object, "r")
-        # text_content = text_object.read()
-        # text_object.close()
-        chunks = chunk_text_by_paragraph(self.body, chunk_size=300, chunk_overlap=20)
-        fields = []
-        logger.debug("Extracting fields from text record set")
-
-        for chunk in tqdm(chunks):
-            sos, pos = find_substring_positions(self.text, chunk)
-            if sos is not None and pos is not None:
-                # keywords = get_keywords(chunk, model)
-                temp = {
-                    "text": chunk,
-                    "sos": sos,
-                    "eos": pos,
-                    "references": [],
-                    "keywords": [],
-                }
-                fields.append(ConcreteTextChunk(**temp))
-            else:
-                raise ValueError(f"Chunk '{chunk}' not found in the original text.")
-        return fields
+        # CDD chunks the document itself from content.file_path.
+        return []
 
     def header_process(self):
         # extract metainfo from the header
@@ -125,18 +102,11 @@ class TextRecordSet(RecordSet):
     def to_dict_cdd(self):
         return {
             "file_object_id": self.file_object_id,
-            "original_format": "text",
+            "original_format": get_original_format(self.file_object),
             "source_file": self.file_object,
             "name": Path(self.name).name,
             "description": self.summary,
             "keywords": self.keywords,
-            "chunked_content": [
-                {
-                    "section": "",
-                    "subsection": "",
-                    "chunks": [chunk.text for chunk in self.fields],
-                }
-            ],
             "content": {
                 "type": "text",
                 "file_path": self.file_object,

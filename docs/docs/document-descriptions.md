@@ -8,7 +8,7 @@ JSON files get keywords and a summary from the same call and the same settings, 
 
 ## How It Works
 
-1. The document's text is extracted: PDFs with PyMuPDF (the same pass that produces the CDD `chunked_content`), text files as read for the text statistics.
+1. The document's text is extracted: PDFs with PyMuPDF, text files as read for the text statistics.
 2. Documents with fewer than **10 words** of extractable text are skipped. Scanned PDFs without a text layer fall here, as do placeholder files; given nothing to describe, the model invents keywords such as `placeholder` or `empty document` instead.
 3. The text is sent to the model, capped at the first **24,000 characters**. Course sheets and teaching material fit whole; longer documents are described from their beginning, where the title, abstract and table of contents live.
 4. The model returns up to **8 keywords** and a summary of at most **150 words**, both in the language of the document. Duplicate keywords (ignoring case) are dropped.
@@ -73,7 +73,7 @@ The same values appear on the document's entry in `files`, with the summary unde
   "name": "IPB_Offering_example.pdf",
   "description": "This document describes the Artificial Intelligence course unit for the Bachelor in Informatics Engineering at the School of Technology and Management, academic year 2024/2025. …",
   "keywords": ["Artificial Intelligence", "Machine Learning", "Python", "…"],
-  "chunked_content": [ { "section": "", "subsection": "", "chunks": ["…"] } ]
+  "content": { "type": "application/pdf", "file_path": "…/IPB_Offering_example.pdf" }
 }
 ```
 
@@ -103,6 +103,6 @@ Unlike semantic type annotation, this feature does not read `llm_config.yaml`: t
 ## Limitations & Notes
 
 - **One LLM call per document**, a few seconds each with the default model. A folder of several hundred PDFs adds tens of minutes to the heavy profile; set `ENABLE_DOCUMENT_LLM=false` when that is not worth it.
-- **Scanned PDFs** have no text layer and are skipped: no OCR is run.
+- **Scanned PDFs** have no text layer and are skipped: no OCR is run, so their CDD `raw_content` is empty too.
 - **Long documents** are described from their first 24,000 characters only.
 - Output is free text, not a controlled vocabulary, and wording varies slightly between runs.
