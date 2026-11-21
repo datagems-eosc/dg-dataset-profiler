@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dataset Profiler Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1e9bd7; --blue-soft: #e6f4fb; --red: #e8553a; --red-soft: #fdece8;
+  --amber: #b7791f; --amber-soft: #fbf3e2; --violet: #6b5bd2; --violet-soft: #eeecfb;
+  --ink: #262626; --muted: #6b6b6b; --line: #e3e3e3; --card: #f5f5f5; --bg: #ffffff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); }
+body { font: 300 15px/1.5 Roboto, "Segoe UI", Arial, sans-serif; }
+b, strong, h1, h2, h3, th { font-weight: 500; }
+code, .mono { font-family: "Roboto Mono", Consolas, monospace; font-size: 12.5px; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+header { border-bottom: 1px solid var(--line); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 18px; padding-bottom: 0; flex-wrap: wrap; }
+.brand { display: flex; align-items: baseline; gap: 12px; padding-bottom: 14px; }
+.brand h1 { margin: 0; font-size: 22px; font-weight: 400; }
+.brand span { color: var(--muted); font-size: 14px; }
+nav { display: flex; gap: 4px; }
+nav button { font: inherit; font-weight: 500; font-size: 15px; background: none; border: 0; padding: 10px 18px 14px; cursor: pointer; color: var(--muted); border-bottom: 3px solid transparent; }
+nav button[aria-selected="true"] { color: var(--blue); border-bottom-color: var(--blue); }
+nav button:hover { color: var(--ink); }
+
+main.wrap { padding-top: 32px; padding-bottom: 60px; }
+.ds { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 28px; margin-bottom: 28px; }
+.ds h2 { margin: 0 0 6px; font-size: 26px; font-weight: 400; }
+.ds .headline { color: var(--muted); margin: 0 0 10px; }
+.ds p.desc { margin: 0; max-width: 70ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.pill { display: inline-block; background: var(--card); border-radius: 999px; padding: 2px 10px; font-size: 12.5px; color: var(--ink); white-space: nowrap; }
+.files { background: var(--card); border-radius: 10px; padding: 14px 16px; align-self: start; }
+.files h3, .section h3 { margin: 0 0 8px; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.files ul { list-style: none; margin: 0; padding: 0; max-height: 236px; overflow-y: auto; }
+.files li { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.files li:first-child { border-top: 0; }
+.files li span:first-child { overflow-wrap: anywhere; }
+.files li span:last-child { color: var(--muted); white-space: nowrap; }
+
+.rs-picker { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 18px; align-items: center; }
+.rs-picker label { color: var(--muted); font-size: 13px; margin-right: 4px; }
+.rs-picker button { font: inherit; font-size: 13.5px; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.rs-picker button[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 500; }
+.rs-picker select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; max-width: 100%; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 22px; }
+.stat { background: var(--card); border-radius: 10px; padding: 12px 14px; }
+.stat .n { font-size: 26px; font-weight: 500; color: var(--blue); line-height: 1.2; }
+.stat .n.warn { color: var(--red); }
+.stat .l { font-size: 13px; color: var(--muted); }
+
+.section { margin: 0 0 26px; }
+.callout { background: var(--card); border-radius: 10px; padding: 14px 16px; }
+.kw { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.callout .pill { background: #fff; }
+
+.dq-summary { margin: 0 0 12px; max-width: 95ch; }
+.dq { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
+.err { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.err .top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+.err .col { font-weight: 500; }
+.err .rows { margin-left: auto; color: var(--muted); font-size: 13px; white-space: nowrap; }
+.err p { margin: 0 0 8px; font-size: 14px; }
+.tag { font-size: 11.5px; font-weight: 500; border-radius: 4px; padding: 1px 7px; text-transform: uppercase; letter-spacing: .03em; }
+.tag.value_error { background: var(--red-soft); color: var(--red); }
+.tag.format_inconsistency { background: var(--amber-soft); color: var(--amber); }
+.tag.consistency_error { background: var(--violet-soft); color: var(--violet); }
+.vals { display: flex; flex-wrap: wrap; gap: 4px; }
+.vals code { background: var(--card); border-radius: 4px; padding: 1px 6px; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 8px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+thead th { border-top: 0; background: var(--card); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); white-space: nowrap; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .sub { display: block; color: var(--muted); font-size: 12px; }
+.sem { color: var(--blue); font-weight: 500; }
+.sem.none { color: var(--muted); font-weight: 300; font-style: italic; }
+.method { margin: -8px 0 22px; color: var(--muted); font-size: 13.5px; max-width: 110ch; }
+.warn-note { color: var(--amber) !important; }
+.has-err { color: var(--red); font-size: 12px; font-weight: 500; display: block; }
+.dtype { white-space: nowrap; font-family: "Roboto Mono", Consolas, monospace; font-size: 12px; color: var(--muted); }
+svg.hist { display: block; }
+.topv > span:nth-child(odd) { white-space: nowrap; }
+.topv { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; font-size: 12px; min-width: 160px; }
+.topv .bar { height: 8px; background: var(--blue); border-radius: 2px; align-self: center; }
+.samples { color: var(--muted); max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.preview td, .preview th { white-space: nowrap; }
+
+details { margin-top: 8px; }
+summary { cursor: pointer; color: var(--blue); font-weight: 500; }
+pre { background: #1f2329; color: #e6e6e6; border-radius: 10px; padding: 14px; overflow: auto; max-height: 460px; font-size: 12px; }
+footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line); padding: 14px 0 30px; }
+
+@media (max-width: 860px) {
+  .ds { grid-template-columns: 1fr; }
+  .wrap { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand"><h1>Dataset Profiler</h1><span>DataGEMS · what a profile contains</span></div>
+    <nav id="tabs" role="tablist"></nav>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script>
+const DATA = /*__DATA__*/null;
+const app = document.getElementById("app");
+const ERR = { value_error: "Value", format_inconsistency: "Format", consistency_error: "Consistency" };
+
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const list = v => Array.isArray(v) ? v : (v ? [v] : []);
+function fmt(n) {
+  if (n === null || n === undefined || n === "") return "";
+  if (typeof n !== "number") return esc(n);
+  if (Number.isInteger(n)) return n.toLocaleString("en");
+  const a = Math.abs(n);
+  return n.toLocaleString("en", { maximumFractionDigits: a >= 100 ? 1 : a >= 1 ? 2 : 3 });
+}
+const MIME = { "text/csv": "CSV", "application/json": "JSON", "application/x-ndjson": "JSON Lines", "application/pdf": "PDF", "text/plain": "Text",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "Excel", "application/vnd.ms-excel": "Excel" };
+function fileFormat(f) {
+  const m = f.encodingFormat || "";
+  if (f["@type"] === "dg:DatabaseConnection") return "Database";
+  if (m === "text/sql") return "Table";
+  if (m.endsWith(".sheet")) return /\.xlsx?$/i.test(f.name || "") ? "Excel workbook" : "Excel sheet";
+  return MIME[m] || m.split("/").pop() || shortType(f["@type"]);
+}
+function fmtDur(s) { s = Math.round(s || 0); return s >= 60 ? `${Math.floor(s / 60)} min ${s % 60} s` : `${s} s`; }
+function fmtRows(n) { return n >= 1e6 ? (n / 1e6).toFixed(n >= 1e8 ? 0 : 1) + "M" : n >= 1e3 ? Math.round(n / 1e3) + "k" : String(n); }
+function shortType(t) { return String(t || "").replace(/^(sc|cr|dg):/, ""); }
+
+function histogram(h) {
+  if (!Array.isArray(h) || !h.length) return "";
+  const w = 120, H = 30, gap = 1, bw = (w - gap * (h.length - 1)) / h.length;
+  const max = Math.max(...h.map(b => b.count || 0)) || 1;
+  const lo = h[0].binRange?.[0], hi = h[h.length - 1].binRange?.[1];
+  const bars = h.map((b, i) => {
+    const bh = Math.max((b.count / max) * H, b.count ? 1.5 : 0);
+    return `<rect x="${(i * (bw + gap)).toFixed(1)}" y="${(H - bh).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="1" fill="#1e9bd7"><title>${fmt(b.binRange?.[0])} – ${fmt(b.binRange?.[1])}: ${b.count}</title></rect>`;
+  }).join("");
+  return `<svg class="hist" width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" role="img" aria-label="histogram">${bars}</svg>
+    <span class="sub">${fmt(lo)} … ${fmt(hi)}</span>`;
+}
+function topValues(tv) {
+  if (!Array.isArray(tv) || !tv.length) return "";
+  const max = Math.max(...tv.map(t => t.count)) || 1;
+  return `<div class="topv">${tv.slice(0, 5).map(t =>
+    `<span title="${esc(t.value)}">${esc(String(t.value).slice(0, 22))} <span class="sub" style="display:inline">${fmtRows(t.count)}</span></span><span class="bar" style="width:${Math.max(4, 70 * t.count / max)}px"></span>`).join("")}</div>`;
+}
+
+function stat(n, l, warn) { return `<div class="stat"><div class="n${warn ? " warn" : ""}">${n}</div><div class="l">${esc(l)}</div></div>`; }
+
+function renderDataset(d) {
+  const ds = d.dataset;
+  const pills = [
+    ...list(ds.keywords).map(k => k),
+    ds.license && `License: ${ds.license}`,
+    ds.country && `Country: ${ds.country}`,
+    ...list(ds.fieldOfScience),
+  ].filter(Boolean).map(p => `<span class="pill">${esc(p)}</span>`).join("");
+  const files = d.files.map(f => `<li><span>${esc(f.name)}</span><span>${esc(fileFormat(f))}${f.contentSize ? " · " + esc(f.contentSize) : ""}</span></li>`).join("");
+  return `<section class="ds">
+    <div>
+      <h2>${esc(ds.name)}</h2>
+      ${ds.headline ? `<p class="headline">${esc(ds.headline)}</p>` : ""}
+      <p class="desc">${esc(ds.description)}</p>
+      <div class="meta">${pills}</div>
+    </div>
+    <div class="files"><h3>Distribution · ${d.files.length} item${d.files.length === 1 ? "" : "s"}</h3><ul>${files}</ul></div>
+  </section>`;
+}
+
+function renderRecordSet(rs) {
+  const fields = rs.field || [];
+  const errs = rs.dataQuality?.errors || [];
+  const errCols = new Set(errs.map(e => e.column));
+  const semCount = fields.filter(f => f.semanticType && !["unknown", "error"].includes(f.semanticType)).length;
+  const rows = rs.recordCount ?? rs._meta?.rows ?? Math.max(0, ...fields.map(f => f.statistics?.rowCount || 0));
+  const isJson = !!rs.recordPath;
+  const anyStats = fields.some(f => f.statistics && f.statistics.rowCount);
+  const meta = rs._meta;
+  const sqlTypes = meta?.sqlTypes || {};
+
+  let html = `<div class="stats">
+    ${stat(rows ? fmt(rows) : "–", isJson ? "records" : "rows")}
+    ${stat(fields.length, isJson ? "fields (JSONPaths)" : "columns")}
+    ${stat(`${semCount} / ${fields.length}`, "columns with a semantic type")}
+    ${rs.dataQuality ? stat(errs.length, "data quality findings", errs.length > 0) : ""}
+    ${isJson ? stat(rs.maxDepth ?? "–", "max nesting depth") + stat((rs.schemaConsistencyPercentage ?? "–") + "%", "records with the same fields") : ""}
+  </div>
+  ${meta ? `<p class="method">${meta.method && meta.method.startsWith("single")
+      ? `Computed over all ${fmt(meta.rows)} rows in one scan (${fmtDur(meta.seconds)}). Histogram bin edges come from the planner's value range; the outer bins stretch to the exact min and max. Unique counts only where every value was counted.`
+      : `Computed exactly over all ${fmt(meta.rows)} rows (${fmtDur(meta.seconds)}).`}${meta.percentileSampleRows && meta.percentileSampleRows < meta.rows ? ` Median and 5th / 95th percentiles from a block sample of ${fmt(meta.percentileSampleRows)} rows.` : ""}${fields.some(f => f.statistics?.fillValueCount) ? ` The value -9e33, the NetCDF fill value for \u201cno data\u201d, is counted as missing.` : ""}</p>`
+    : (anyStats ? "" : `<p class="dq-summary" style="color:var(--muted)">Column statistics are not computed for database tables in the current version.</p>`)}`;
+
+  if (isJson || rs.summary || (rs.keywords && rs.keywords.length)) {
+    html += `<div class="section"><div class="callout">
+      ${isJson ? `<div><b>Record path</b> <code>${esc(rs.recordPath)}</code> · <b>Shape</b> ${esc(rs.jsonShape)}</div>` : ""}
+      ${rs.summary ? `<p style="margin:8px 0 0"><b>Summary</b> ${esc(rs.summary)}</p>` : ""}
+      ${list(rs.keywords).length ? `<div class="kw">${list(rs.keywords).map(k => `<span class="pill">${esc(k)}</span>`).join("")}</div>` : ""}
+    </div></div>`;
+  }
+
+  if (rs.dataQuality) {
+    html += `<div class="section"><h3>Data quality</h3>
+      ${rs.dataQuality.summary ? `<p class="dq-summary">${esc(rs.dataQuality.summary)}</p>` : ""}
+      <div class="dq">${errs.map(e => `<div class="err">
+        <div class="top"><span class="tag ${esc(e.errorType)}">${esc(ERR[e.errorType] || e.errorType)}</span><span class="col">${esc(e.column)}</span><span class="rows">${fmt(e.totalAffectedRows)} rows${rows ? ` of ${fmt(rows)}` : ""}</span></div>
+        <p>${esc(e.description)}</p>
+        <div class="vals">${list(e.examples).slice(0, 5).map(x => `<code title="row ${esc(x.row)}">${esc(x.value)}</code>`).join("")}</div>
+      </div>`).join("") || "<p>No issues found.</p>"}</div></div>`;
+  }
+
+  const anyHist = fields.some(f => Array.isArray(f.statistics?.histogram) && f.statistics.histogram.length);
+  const anyTop = fields.some(f => Array.isArray(f.statistics?.topValues) && f.statistics.topValues.length);
+  html += `<div class="section"><h3>${isJson ? "Fields" : "Columns"}</h3><div class="table-wrap"><table>
+    <thead><tr><th>${isJson ? "Field" : "Column"}</th><th>Type</th><th>Semantic type</th>${anyStats ? "<th>Missing</th><th>Unique</th><th>Min</th><th>Mean</th><th>Max</th>" : ""}${anyHist || anyTop ? "<th>Distribution</th>" : ""}<th>Sample</th></tr></thead>
+    <tbody>${fields.map(f => {
+      const s = f.statistics || {};
+      const sem = f.semanticType;
+      const semCell = sem ? `<span class="sem${["unknown", "error"].includes(sem) ? " none" : ""}">${esc(sem)}</span>` : `<span class="sem none" title="${sem === null ? "The column name already says what it holds" : "Not annotated"}">${sem === null ? "name is enough" : "–"}</span>`;
+      const path = f.source?.extract?.jsonPath;
+      const jt = s.jsonTypes && typeof s.jsonTypes === "object" ? Object.entries(s.jsonTypes).map(([k, v]) => `${k} ${v}`).join(", ") : "";
+      const dist = anyHist || anyTop ? `<td>${histogram(s.histogram) || topValues(s.topValues)}</td>` : "";
+      const missing = s.missingPercentage !== undefined && s.missingPercentage !== null ? fmt(s.missingPercentage) + "%" : "";
+      return `<tr>
+        <td><b>${esc(f.name)}</b>${path ? `<span class="sub mono">${esc(path)}</span>` : ""}${f.repeated ? `<span class="sub">repeated</span>` : ""}${errCols.has(f.name) ? `<span class="has-err">data quality finding</span>` : ""}</td>
+        <td>${f.dataType ? `<span class="dtype">${esc(shortType(f.dataType))}</span>` : (sqlTypes[f.name] ? `<span class="dtype" title="dataType is empty in the profile; this is the SQL type">${esc(sqlTypes[f.name])}</span><span class="sub warn-note">no dataType in profile</span>` : "")}${jt ? `<span class="sub">${esc(jt)}</span>` : ""}</td>
+        <td>${semCell}</td>
+        ${anyStats ? `<td class="num">${missing}${s.fillValueCount ? `<span class="sub" title="Values equal to the NetCDF fill value ${s.fillValue} (no data) are counted as missing">${fmtRows(s.fillValueCount)} fill values</span>` : ""}</td>
+        <td class="num">${fmt(s.uniqueCount)}</td>
+        <td class="num">${fmt(s.min)}</td>
+        <td class="num">${fmt(s.mean)}${s.median !== undefined && s.median !== null ? `<span class="sub">median ${fmt(s.median)}</span>` : ""}</td>
+        <td class="num">${fmt(s.max)}</td>` : ""}
+        ${dist}
+        <td class="samples" title="${esc(list(f.sample).join(", "))}">${esc(list(f.sample).slice(0, 4).join(", "))}</td>
+      </tr>`;
+    }).join("")}</tbody></table></div></div>`;
+
+  const ex = rs.examples;
+  if (ex && typeof ex === "object" && !Array.isArray(ex) && Object.keys(ex).length) {
+    const cols = Object.keys(ex);
+    const n = Math.max(...cols.map(c => list(ex[c]).length));
+    html += `<div class="section"><h3>First rows (stored in the profile as examples)</h3><div class="table-wrap"><table class="preview">
+      <thead><tr>${cols.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead>
+      <tbody>${Array.from({ length: n }, (_, i) => `<tr>${cols.map(c => `<td>${esc(list(ex[c])[i])}</td>`).join("")}</tr>`).join("")}</tbody>
+    </table></div></div>`;
+  }
+
+  html += `<details><summary>Raw record set (JSON-LD)</summary><pre>${esc(JSON.stringify(rs, null, 2))}</pre></details>`;
+  return html;
+}
+
+function renderTab(key) {
+  const d = DATA.data[key];
+  document.querySelectorAll("#tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.key === key));
+  try { localStorage.setItem("profiler-demo-tab", key); } catch (e) {}
+  const sets = d.recordSets;
+  let picker = "";
+  if (sets.length > 1 && sets.length <= 8) {
+    picker = `<div class="rs-picker"><label>Record sets</label>${sets.map((r, i) => `<button data-i="${i}" aria-pressed="${i === 0}">${esc(r.name)}</button>`).join("")}</div>`;
+  } else if (sets.length > 8) {
+    picker = `<div class="rs-picker"><label for="rs-select">Record set (${sets.length} tables)</label><select id="rs-select">${sets.map((r, i) => `<option value="${i}">${esc(r.name)} · ${(r.field || []).length} columns${r._meta ? ` · ${fmtRows(r._meta.rows)} rows` : ""}</option>`).join("")}</select></div>`;
+  }
+  app.innerHTML = renderDataset(d) + picker + `<div id="rs"></div>` +
+    (d.cdd ? `<details class="section"><summary>Raw CDD profile (Cross-Dataset Discovery)</summary><pre>${esc(JSON.stringify(d.cdd, null, 2).slice(0, 60000))}</pre></details>` : "");
+  const show = i => { document.getElementById("rs").innerHTML = sets.length ? renderRecordSet(sets[i]) : "<p>No record sets.</p>"; };
+  app.querySelectorAll(".rs-picker button").forEach(b => b.addEventListener("click", () => {
+    app.querySelectorAll(".rs-picker button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    show(+b.dataset.i);
+  }));
+  const sel = document.getElementById("rs-select");
+  if (sel) sel.addEventListener("change", () => show(+sel.value));
+  const score = r => r._meta ? r._meta.rows : (r.field || []).length;
+  let first = sets.reduce((best, r, i) => score(r) > score(sets[best]) ? i : best, 0);
+  const wanted = decodeURIComponent((location.hash.match(/rs=([^&]+)/) || [])[1] || "");
+  if (sets.some(r => r.name === wanted)) first = sets.findIndex(r => r.name === wanted);
+  app.querySelectorAll(".rs-picker button").forEach(x => x.setAttribute("aria-pressed", +x.dataset.i === first));
+  if (sel) sel.value = first;
+  show(first);
+}
+
+if (DATA.title) { document.querySelector(".brand h1").textContent = DATA.title; document.title = DATA.title; }
+if (DATA.subtitle) document.querySelector(".brand span").textContent = DATA.subtitle;
+const tabs = document.getElementById("tabs");
+if (DATA.tabs.length === 1) tabs.style.display = "none";
+tabs.innerHTML = DATA.tabs.map(t => `<button role="tab" data-key="${t.key}">${esc(t.label)}</button>`).join("");
+tabs.querySelectorAll("button").forEach(b => b.addEventListener("click", () => renderTab(b.dataset.key)));
+document.getElementById("foot").textContent = DATA.footer || `Profiles generated with the current profiler version on ${DATA.built}. Semantic types and data quality are LLM-based and can differ between runs.`;
+let start = DATA.tabs[0].key;
+try { const s = localStorage.getItem("profiler-demo-tab"); if (DATA.data[s]) start = s; } catch (e) {}
+if (DATA.data[location.hash.slice(1)]) start = location.hash.slice(1);
+renderTab(start);
+</script>
+</body>
+</html>

@@ -110,16 +110,31 @@ def find_column_type_in_csv(column):
                 return "sc:Date"
 
 
+# Floats at or beyond this magnitude are fill values ("no data"), as NetCDF-derived
+# tables use: -9e33 in ERA5-Land, 9.96921e36 as the NetCDF default for floats.
+FILL_VALUE_THRESHOLD = 1e30
+
+
 def find_column_type_in_db(db_type):
+    """Map an information_schema data type, upper-cased as get_types_of_db returns it.
+
+    Types with no schema.org counterpart (arrays, user-defined types) map to None.
+    """
+    db_type = (db_type or "").upper()
     match db_type:
-        case "INTEGER":
+        case "SMALLINT" | "INTEGER" | "BIGINT":
             return "sc:Integer"
-        case "FLOAT", "DOUBLE PRECISION":
+        case "REAL" | "FLOAT" | "DOUBLE PRECISION" | "NUMERIC" | "DECIMAL":
             return "sc:Float"
+        case "BOOLEAN":
+            return "sc:Boolean"
         case "DATE":
             return "sc:Date"
-        case "TEXT":
+        case "TIMESTAMP WITHOUT TIME ZONE" | "TIMESTAMP WITH TIME ZONE":
+            return "sc:DateTime"
+        case "TEXT" | "VARCHAR" | "CHARACTER" | "UUID":
             return "sc:Text"
+    return None
 
 
 def get_file_objects(distribution_path):

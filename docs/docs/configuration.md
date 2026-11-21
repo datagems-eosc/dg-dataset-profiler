@@ -89,6 +89,7 @@ Environment variables can be used to override configuration values. The followin
 | BASE_URL | Root path prefix the API is served under (FastAPI `root_path`) | '' |
 | ENABLE_AUTH | Enable API authentication | false |
 | ENABLE_DATA_QUALITY | Enable LLM-based data quality error detection for tabular record sets (see [Data Quality](data-quality.md)) | false |
+| ENABLE_DB_STATISTICS | Compute column statistics of database tables. Every row is read: tables up to 2M rows get exact statistics, larger ones one scan with percentiles from a block sample. Float fill values (\|x\| ≥ 1e30, e.g. -9e33) count as missing | false |
 | DATA_QUALITY_LLM_PROVIDER | LLM provider for data quality detection (`scayle` or `bedrock`) | scayle |
 | DATA_QUALITY_LLM_MODEL | Model override for data quality detection | qwen3.6 (scayle), us.anthropic.claude-sonnet-4-6 (bedrock) |
 | DATA_QUALITY_LLM_TIMEOUT | LLM request timeout in seconds for data quality detection | 300 |

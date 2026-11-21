@@ -125,7 +125,8 @@ def extract_record_sets_of_database_connections(databases: list[dict], distribut
             db_name=database["database_name"],
             engine=database["engine"],
             db_specific_schema="public",
-            distributions=distributions
+            distributions=distributions,
+            dataset_context=database.get("dataset_context"),
         )
         record_sets.append(db_record_set)
 

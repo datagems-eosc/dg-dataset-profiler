@@ -2,11 +2,15 @@ import json
 import uuid
 from typing import Dict, Optional
 
+import pandas as pd
+
 from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
 from dataset_profiler.profile_components.record_set.db.database_connector import (
     DatagemsPostgres,
 )
-from dataset_profiler.profile_components.record_set.db.db_calculate_statistics import calculate_statistics_of_db
+from dataset_profiler.profile_components.record_set.db.db_calculate_statistics import (
+    calculate_table_statistics, db_statistics_enabled,
+)
 from dataset_profiler.profile_components.record_set.db.get_db_schema import (
     obtain_schema_from_db, get_table_sample,
 )
@@ -31,7 +35,8 @@ class DBRecordSet(RecordSet):
         db_name: str,
         engine: str,
         db_specific_schema: str,
-        distributions: list
+        distributions: list,
+        dataset_context: Optional[Dict[str, str]] = None,
     ):
         super().__init__()
         self.distribution_path = distribution_path
@@ -40,6 +45,7 @@ class DBRecordSet(RecordSet):
         self.db_name = db_name
         self.db_specific_schema = db_specific_schema
         self.engine = engine
+        self.dataset_context = dataset_context
         # # self.type = "dg:RelationalDatabase"
         # self.name = self.file_object.split(".")[-2]
         # self.description = ""
@@ -55,7 +61,8 @@ class DBRecordSet(RecordSet):
             for dist in distributions:
                 if table['table_name'] == dist.name:
                     table_distribution_id = dist.id
-            tables.append(DBTableField(table, table_distribution_id, self.file_object, self.file_object_id, db))
+            tables.append(DBTableField(table, table_distribution_id, self.file_object, self.file_object_id, db,
+                                      self.dataset_context))
         return tables
 
 
@@ -97,7 +104,8 @@ class DBRecordSet(RecordSet):
 
 
 class DBTableField:
-    def __init__(self, table: Dict, table_distribution_id: str, file_object: str, file_object_id: str, db_connection: DatagemsPostgres):
+    def __init__(self, table: Dict, table_distribution_id: str, file_object: str, file_object_id: str,
+                 db_connection: DatagemsPostgres, dataset_context: Optional[Dict[str, str]] = None):
         logger.info("Initializing DB table", table=table)
         self.table_distribution_id = table_distribution_id
         self.table = table
@@ -109,6 +117,7 @@ class DBTableField:
         # self.rowsNumb = ""
         # self.description = ""
         self.connection = db_connection
+        self.dataset_context = dataset_context
         # self.key = {"@id": self._get_table_name(file_object, table)}
         self.fields = self.extract_fields()
         self.examples = self.extract_examples()
@@ -130,7 +139,9 @@ class DBTableField:
         """
         try:
             return ColumnTypeAnnotator().annotate_columns(
-                db=self.connection, table_name=self.name
+                db=self.connection,
+                table_name=self.name,
+                extra_info_df=pd.DataFrame([self.dataset_context]) if self.dataset_context else None,
             )
         except Exception as e:
             logger.error(
@@ -138,13 +149,21 @@ class DBTableField:
             )
             return {}
 
+    def _calculate_statistics(self) -> Dict[str, ColumnStatistics]:
+        if not db_statistics_enabled():
+            return {}
+        column_types = {column["column"]: column["data_type"] for column in self.table["columns"]}
+        return calculate_table_statistics(self.connection, self.table["table_name"], column_types)
+
     def extract_fields(self):
         stype_annotations = self._annotate_semantic_types()
+        statistics = self._calculate_statistics()
 
         fields = []
         for column in self.table["columns"]:
             fields.append(
-                DBColumnField(column, self.table["table_name"], self.connection, self.table_distribution_id, stype_annotations)
+                DBColumnField(column, self.table_distribution_id, stype_annotations,
+                              statistics.get(column["column"], ColumnStatistics()))
             )
 
         return fields
@@ -173,7 +192,8 @@ class DBTableField:
 
 
 class DBColumnField(ColumnField):
-    def __init__(self, column, table_name: str, connection: DatagemsPostgres, table_distribution_id: str, stype_annotations: dict[str, Optional[str]]):
+    def __init__(self, column, table_distribution_id: str, stype_annotations: dict[str, Optional[str]],
+                 statistics: ColumnStatistics):
         logger.info("Initializing DB column", column=column["column"])
         self.type = "cr:Field"
         self.id = self.id = str(uuid.uuid4())
@@ -181,7 +201,7 @@ class DBColumnField(ColumnField):
         self.description = ""
         self.dataType = find_column_type_in_db(column["data_type"])
         self.semanticType = stype_annotations.get(self.name, "")
-        self.statistics = ColumnStatistics()  # calculate_statistics_of_db(self.name, table_name, connection, self.dataType)
+        self.statistics = statistics
         # The distribution part for the table is not created yet in order for it to have an id
         self.source = {
             "fileObject": {"@id": table_distribution_id},

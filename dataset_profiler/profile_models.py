@@ -88,6 +88,12 @@ class DatasetProfile:
                 "host": connector["host"],
                 "port": connector["port"],
                 "file_object_id": str(uuid.uuid4()),
+                # Shown to the semantic type annotator: table and column names alone
+                # are often too terse ("tp" in ERA5-Land is total precipitation).
+                "dataset_context": {
+                    "dataset": self.dataset_specification.name,
+                    "description": self.dataset_specification.description,
+                },
             }
             for connector in self.data_connectors
             if connector["type"] == "DatabaseConnection"

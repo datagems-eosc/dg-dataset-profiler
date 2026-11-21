@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ERA5-Land Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>/*__UI_CSS__*/</style>
+<style>
+:root { --font-geist-sans: "Geist"; }
+html, body { margin: 0; background: #fff; color: #314158; font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif; }
+.x-pill { display: inline-flex; align-items: center; border-radius: 9999px; padding: 0 12px; min-height: 32px; max-width: 100%; overflow-wrap: anywhere;
+  border: 1px solid #e2e8f0; background: #fff; color: #1d293d; font-weight: 500; font-size: 12px; line-height: 150%; letter-spacing: .01em; }
+.x-pill--green { border-color: #ecfdf5; background: #ecfdf5; color: #065f46; }
+.x-pill--grey { border-color: #f1f5f9; background: #f1f5f9; color: #45556c; }
+.x-link { font-size: 14px; color: #314158; text-decoration: underline; overflow-wrap: anywhere; line-height: 150%; }
+.x-note { font-size: 12px; color: #5b708f; line-height: 1.5; margin: 0; }
+.x-rows { margin-left: auto; font-size: 10px; color: #8095ad; white-space: nowrap; }
+.x-tab-count { margin-left: 6px; font-size: 10px; font-weight: 600; color: #fb2c36; }
+.FilePreviewTabs_filePreviewTabs__tab__NJSSz { background: none; border: 0; cursor: pointer; position: relative; padding: 12px 8px; color: #5b708f; }
+.x-top { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; width: 100%; margin-top: 4px; }
+.x-top span:nth-child(odd) { font-size: 12px; color: #314158; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.x-top span:nth-child(even) { font-size: 12px; color: #5b708f; text-align: right; font-variant-numeric: tabular-nums; }
+.x-tree-rows { font-size: 10px; color: #8095ad; white-space: nowrap; padding-right: 12px; }
+.x-run td, .x-run th { white-space: nowrap; }
+.x-run td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.x-btn-icon { width: 14px; height: 14px; }
+.x-raw summary { cursor: pointer; font-size: 14px; font-weight: 500; color: #2b7fff; padding: 12px 16px; }
+.x-raw pre { margin: 0; padding: 16px; max-height: 480px; overflow: auto; background: #fafbfc; border-top: 1px solid #e2e8f0; font-size: 11px; line-height: 1.5; color: #314158; }
+.FilePreviewTable_filePreviewTable__statsCell__r6di_ { min-width: 140px; }
+.FilePreviewTable_filePreviewTable__th__9jk0w, .FilePreviewTable_filePreviewTable__td__JeT50 { white-space: nowrap; }
+.DatasetFilesTree_datasetFilesTree__nodeContent__9IbBR { justify-content: flex-start; }
+@media (max-width: 1023px) {
+  .DatasetDetailsPageContent_datasetDetailsPageContent__row__lBrNV { flex-direction: column; }
+  .DatasetDetailsPageContent_datasetDetailsPageContent__rowRight__xLxMD, .DatasetSidebar_datasetSidebar__WHCdS { width: 100%; }
+  .StatisticsTab_statisticsTab__content__wZ0g_ { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="DatasetDetailsPageContent_datasetDetailsPageContent__Fnado">
+  <div class="DatasetDetailsPageContent_datasetDetailsPageContent__container___Yda1">
+    <div class="DatasetDetailsPageContent_datasetDetailsPageContent__wrapper__weN6j" id="app"></div>
+  </div>
+</div>
+<script>
+const DATA = /*__DATA__*/null;
+const ICONS = /*__ICONS__*/null;
+const app = document.getElementById("app");
+const P = "DatasetDetailsPageContent_datasetDetailsPageContent__";
+const T = "FilePreviewTable_filePreviewTable__";
+const S = "StatisticsTab_statisticsTab__";
+const Q = "DataQualityTab_dataQualityTab__";
+const FILL_VALUE = -9e33;
+
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const list = v => Array.isArray(v) ? v : (v ? [v] : []);
+const parse = v => { if (typeof v !== "string") return v; try { return JSON.parse(v); } catch (e) { return v; } };
+function icon(name, cls) {
+  const svg = ICONS[name] || "";
+  return svg.replace(/\sclass="[^"]*"/, "").replace("<svg", `<svg class="${cls}" aria-hidden="true"`);
+}
+function num(n) {
+  if (n === null || n === undefined || n === "") return "–";
+  if (typeof n !== "number") return esc(n);
+  const a = Math.abs(n);
+  if (a >= 1e15) return n.toExponential(2);
+  if (Number.isInteger(n)) return n.toLocaleString("en");
+  if (a !== 0 && (a < 0.001 || a >= 1e9)) return n.toExponential(3);
+  return n.toLocaleString("en", { maximumFractionDigits: a >= 100 ? 2 : 4 });
+}
+function compact(n) {
+  if (n === null || n === undefined) return "–";
+  const a = Math.abs(n);
+  if (a >= 1e9) return (n / 1e9).toFixed(2) + "B";
+  if (a >= 1e6) return (n / 1e6).toFixed(1) + "M";
+  if (a >= 1e4) return Math.round(n / 1e3) + "k";
+  return num(n);
+}
+function duration(s) { s = Math.round(s || 0); return s >= 60 ? `${Math.floor(s / 60)} min ${s % 60} s` : `${s} s`; }
+const isDate = v => typeof v === "string" && /^\d{4}-\d{2}-\d{2}T/.test(v);
+const shortDate = v => isDate(v) ? v.slice(0, 16).replace("T", " ") : v;
+const shortType = t => String(t || "").replace(/^(sc|cr|dg):/, "");
+
+/* ---------------------------------------------------------------- model */
+const heavy = DATA.profile.moma_profile_heavy;
+const run = DATA.profile.statisticsRun || {};
+const tables = heavy.recordSet.map(rs => {
+  const meta = run[rs.name] || {};
+  const fields = rs.field.map(f => {
+    const st = Object.assign({}, f.statistics || {});
+    st.histogram = parse(st.histogram);
+    st.topValues = parse(st.topValues);
+    return Object.assign({}, f, { statistics: st, sqlType: (meta.sqlTypes || {})[f.name] });
+  });
+  return { name: rs.name, fields, examples: parse(rs.examples) || {}, meta, rows: meta.rows };
+}).sort((a, b) => (b.rows || 0) - (a.rows || 0));
+const totalRows = tables.reduce((s, t) => s + (t.rows || 0), 0);
+const kindOf = f => {
+  const t = shortType(f.dataType);
+  if (t === "Integer" || t === "Float") return "numeric";
+  if (t === "DateTime" || t === "Date") return "date";
+  if (t === "Text" || t === "Boolean") return "text";
+  return "other";
+};
+
+/* ---------------------------------------------------------------- top of page */
+function header() {
+  return `<div class="${P}header__SrgfL">
+    <div class="${P}actions__VdJ4z"><span></span>
+      <div class="${P}actionButtons__E6sPj">
+        <button type="button" id="x-export" class="inline-flex items-center justify-center rounded-3xl shadow-s1 transition-all duration-200 ease-in-out cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-blue-850 group relative overflow-hidden border border-slate-350 bg-white !text-gray-750 hover:bg-slate-75 hover:!text-gray-750 active:bg-slate-100 focus-visible:!text-gray-750 [&>svg]:stroke-gray-750 h-8 px-4 py-2 text-descriptions-12-medium gap-2" title="Download the whole-dataset profile (all tables, with statistics) as Croissant JSON-LD">
+          ${icon("download", "x-btn-icon")}Export Croissant profile</button>
+      </div>
+    </div>
+    <div class="DatasetHeader_datasetHeader__6cTU0">
+      <h1 class="DatasetHeader_datasetHeader__title__K06Bp">${esc(heavy.name)}</h1>
+      <p class="DatasetHeader_datasetHeader__description__Zi09t">${esc(heavy.headline)}</p>
+    </div>
+  </div>
+  <div class="DatasetMetadataBar_datasetMetadataBar__KAmCE">
+    ${[["added", "Added", heavy.datePublished], ["type", "Type", "PostgreSQL database"],
+       ["table", "Tables", tables.length], ["rows", "Rows", totalRows.toLocaleString("en")]]
+      .map(([ic, label, value], i) => `${i ? `<div class="DatasetMetadataBar_datasetMetadataBar__separator__i_xW4"></div>` : ""}
+      <div class="DatasetMetadataBar_datasetMetadataBar__item__jwjoU">${icon(ic, "DatasetMetadataBar_datasetMetadataBar__icon__R0pKV")}
+        <div class="DatasetMetadataBar_datasetMetadataBar__content__RdnmK">
+          <span class="DatasetMetadataBar_datasetMetadataBar__label__nbXVW">${label}</span>
+          <span class="DatasetMetadataBar_datasetMetadataBar__value___LNUS">${esc(value)}</span>
+        </div></div>`).join("")}
+  </div>`;
+}
+
+function sidebarSection(ic, title, body) {
+  return `<div class="DatasetSidebarSection_datasetSidebarSection__z0umJ">
+    <div class="DatasetSidebarSection_datasetSidebarSection__header__USfi4">
+      <div class="DatasetSidebarSection_datasetSidebarSection__headerLeft__VZnXE">${icon(ic, "DatasetSidebarSection_datasetSidebarSection__icon__rn15u")}
+        <h3 class="DatasetSidebarSection_datasetSidebarSection__title__QPxsM">${title}</h3></div></div>${body}</div>`;
+}
+
+function details() {
+  const pills = (items, cls = "") => `<div class="DatasetTagsSection_datasetTagsSection__list__Kepfy">${
+    list(items).map(t => `<span class="x-pill ${cls}">${esc(t)}</span>`).join("")}</div>`;
+  const badge = t => `<div class="DatasetSidebarSection_datasetSidebarSection__badge___Yzg2"><span class="DatasetSidebarSection_datasetSidebarSection__badgeText__iICiw">${esc(t)}</span></div>`;
+  const link = u => /^https?:/.test(u || "") ? `<a class="x-link" href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a>` : `<span class="x-note">${esc(u || "–")}</span>`;
+  return `<div class="${P}row__lBrNV">
+    <div class="${P}rowLeft__U9B5P">
+      <h2 class="${P}sectionTitle__geTbw">Dataset Details</h2>
+      <div class="${P}sections__FoMXI">
+        <div class="DatasetDescriptionSection_datasetDescriptionSection__n8OP9">
+          <h3 class="DatasetDescriptionSection_datasetDescriptionSection__title__yI_s7">Description</h3>
+          <div class="DatasetDescriptionSection_datasetDescriptionSection__text__5_WVk"><p>${esc(heavy.description)}</p></div>
+        </div>
+        <div class="DatasetTagsSection_datasetTagsSection__C9gN_"><h3 class="DatasetTagsSection_datasetTagsSection__title__swwTy">Fields of Science</h3>${pills(heavy.fieldOfScience)}</div>
+        <div class="DatasetTagsSection_datasetTagsSection__C9gN_"><h3 class="DatasetTagsSection_datasetTagsSection__title__swwTy">Keywords</h3>${pills(heavy.keywords)}</div>
+      </div>
+    </div>
+    <div class="${P}rowRight__xLxMD"><div class="DatasetSidebar_datasetSidebar__WHCdS">
+      ${sidebarSection("license", "License", /^https?:/.test(heavy.license || "") ? link(heavy.license) : `<span class="x-pill x-pill--green">${esc(heavy.license)}</span>`)}
+      ${sidebarSection("link", "Source URL", link(heavy.url))}
+      ${sidebarSection("language", "Language", `<div class="DatasetSidebarSection_datasetSidebarSection__chips__qHqn2">${list(heavy.inLanguage).map(l => badge(String(l).toUpperCase())).join("")}</div>`)}
+      ${sidebarSection("visibility", "Country", badge(heavy.country))}
+    </div></div>
+  </div>`;
+}
+
+/* ---------------------------------------------------------------- file preview */
+let current = 0, currentTab = "preview";
+
+function tree() {
+  return `<div class="DatasetFilesTree_datasetFilesTree__RAnba">
+    <div class="DatasetFilesTree_datasetFilesTree__header__Pz5z2">${icon("database", "DatasetFilesTree_datasetFilesTree__headerIcon__SMICS")}
+      <span class="DatasetFilesTree_datasetFilesTree__title__w7TR9">Tables</span></div>
+    <div class="DatasetFilesTree_datasetFilesTree__content__cXgp9"><div class="DatasetFilesTree_datasetFilesTree__node__Z03e3">
+      <div class="DatasetFilesTree_datasetFilesTree__nodeContent__9IbBR DatasetFilesTree_datasetFilesTree__nodeContent--level-0__RHLqG">
+        ${icon("database", "DatasetFilesTree_datasetFilesTree__icon__9k9uI")}<span class="DatasetFilesTree_datasetFilesTree__name__rY1xJ">ds_era5_land</span></div>
+      <div class="DatasetFilesTree_datasetFilesTree__children__9rCvX">${tables.map((t, i) => `
+        <div class="DatasetFilesTree_datasetFilesTree__nodeContent__9IbBR DatasetFilesTree_datasetFilesTree__nodeContent--level-1__Q1Ewn${i === current ? " DatasetFilesTree_datasetFilesTree__nodeContent--selected__Og_Kr" : ""}" data-table="${i}" role="button" tabindex="0">
+          ${icon("table", "DatasetFilesTree_datasetFilesTree__icon__9k9uI")}<span class="DatasetFilesTree_datasetFilesTree__name__rY1xJ">${esc(t.name)}</span>
+          <span class="x-tree-rows">${compact(t.rows)} rows</span></div>`).join("")}
+      </div></div></div></div>`;
+}
+
+function fillColumns(t) { return t.fields.filter(f => f.statistics.fillValueCount); }
+
+function aboutText(t) {
+  const m = t.meta;
+  if (!m.method) return "Statistics were not computed for this table.";
+  let s;
+  if (!m.method.startsWith("single")) {
+    s = `Statistics computed exactly over all ${num(m.rows)} rows (${duration(m.seconds)}).`;
+  } else {
+    s = `Statistics over all ${num(m.rows)} rows, computed in one scan of the table (${duration(m.seconds)}).`;
+    s += m.histogramMethod
+      ? ` Histograms: ten equal-width bins over the exact min–max, counted in a second scan (${duration(m.histogramSeconds)}).`
+      : ` Histogram bins follow the database planner's value range, with the outer bins reaching the exact min and max.`;
+    s += ` Unique counts only where every value was counted.`;
+  }
+  if (m.percentileSampleRows && m.percentileSampleRows < m.rows)
+    s += ` Median and 5th / 95th percentiles from a block sample of ${num(m.percentileSampleRows)} rows.`;
+  if (fillColumns(t).length) s += ` The value -9e33, the NetCDF fill value for “no data”, is counted as missing.`;
+  return s;
+}
+
+function miniHistogram(h) {
+  const max = Math.max(...h.map(b => b.count)) || 1;
+  return `<div class="${T}histogramContainer__RplMy"><div class="MiniHistogram_miniHistogram__K2zmB">
+    <div class="MiniHistogram_miniHistogram__bars__HdC1s">${h.map(b =>
+      `<div class="MiniHistogram_miniHistogram__bar__pOi4X" style="height:${b.count ? Math.max(4, 100 * b.count / max) : 0}%" title="${num(b.binRange[0])} – ${num(b.binRange[1])}: ${num(b.count)}"></div>`).join("")}</div>
+    <div class="MiniHistogram_miniHistogram__labels__k2w4R"><span class="MiniHistogram_miniHistogram__label__3KeY0">${compact(h[0].binRange[0])}</span><span class="MiniHistogram_miniHistogram__label__3KeY0">${compact(h[h.length - 1].binRange[1])}</span></div>
+  </div></div>`;
+}
+
+function preview(t) {
+  const cols = t.fields.map(f => f.name);
+  const n = Math.max(0, ...cols.map(c => list(t.examples[c]).length));
+  const statsCell = f => {
+    const s = f.statistics;
+    if (Array.isArray(s.histogram) && s.histogram.length)
+      return `<th class="${T}statsCell__r6di_ ${T}statsCell--numeric__o_X_W">${miniHistogram(s.histogram)}</th>`;
+    const [value, label] = s.uniqueCount != null ? [s.uniqueCount, "Unique values"] : [s.rowCount, "Values"];
+    return `<th class="${T}statsCell__r6di_ ${T}statsCell--categorical__FB9mM"><div class="${T}firstColumnStats__6Arl8">
+      <div class="${T}largeNumber__Q1BHq">${compact(value)}</div><div class="${T}description__RNu79">${label}</div></div></th>`;
+  };
+  return `<div class="AboutFile_aboutFile__3DYIu"><h4 class="AboutFile_aboutFile__title__BNsFT">About this table</h4>
+      <p class="AboutFile_aboutFile__text__pXUYq">${esc(aboutText(t))}</p></div>
+    <div class="${T}9T_wy">
+      <div class="${T}header__7TMFj"><div></div><span class="${T}columnToggle__nykJ6"><span style="color:#314158">Showing:</span> ${cols.length} of ${cols.length} columns · first ${n} rows</span></div>
+      <div class="${T}wrapper__glmS0"><table class="${T}table__G_UH4">
+        <thead class="${T}thead__Hnk9s">
+          <tr class="${T}headerRow__GkTXK">${t.fields.map(f => `<th class="${T}th__9jk0w"><div class="${T}thContent__vCgIm">
+            <div class="${T}colName__5UVbe">${esc(f.name)}</div><div class="${T}colDescription__hilZS">${esc(f.semanticType || "")}</div></div></th>`).join("")}</tr>
+          <tr class="${T}statsRow__j6L2j">${t.fields.map(statsCell).join("")}</tr>
+        </thead>
+        <tbody>${Array.from({ length: n }, (_, i) => `<tr class="${T}tr__okuvd">${cols.map(c => {
+          const v = list(t.examples[c])[i];
+          return `<td class="${T}td__JeT50">${esc(isDate(v) ? shortDate(v) : (typeof v === "number" ? num(v) : v))}</td>`; }).join("")}</tr>`).join("")}</tbody>
+      </table></div>
+    </div>`;
+}
+
+function largeHistogram(h) {
+  const W = 200, H = 175, max = Math.max(...h.map(b => b.count)) || 1, bw = W / h.length;
+  const bars = h.map((b, i) => {
+    const bh = b.count ? Math.max(1.5, H * b.count / max) : 0;
+    return `<rect class="StatisticsTab_largeHistogram__bar__IUJDs" x="${(i * bw + 1).toFixed(1)}" y="${(H - bh + 9).toFixed(1)}" width="${(bw - 2).toFixed(1)}" height="${bh.toFixed(1)}" rx="1"><title>${num(b.binRange[0])} – ${num(b.binRange[1])}: ${num(b.count)} rows</title></rect>`;
+  }).join("");
+  const grid = [0, 0.5, 1].map(k => `<line class="StatisticsTab_largeHistogram__gridLine__1MNYk" x1="0" x2="${W}" y1="${9 + H * k}" y2="${9 + H * k}"/>`).join("");
+  return `<div class="StatisticsTab_largeHistogram__r_oii">
+    <div class="StatisticsTab_largeHistogram__yAxis__lmGo5">${[max, max / 2, 0].map(v => `<span class="StatisticsTab_largeHistogram__yLabel__fMgG7">${compact(Math.round(v))}</span>`).join("")}</div>
+    <div class="StatisticsTab_largeHistogram__chart__Mc47v"><svg class="StatisticsTab_largeHistogram__svg__SHEYX" width="${W}" height="${H + 30}" viewBox="0 0 ${W} ${H + 30}" role="img" aria-label="histogram">
+      ${grid}${bars}
+      <text class="StatisticsTab_largeHistogram__xLabel__QV9CA" x="0" y="${H + 26}">${compact(h[0].binRange[0])}</text>
+      <text class="StatisticsTab_largeHistogram__xLabel__QV9CA" x="${W}" y="${H + 26}" text-anchor="end">${compact(h[h.length - 1].binRange[1])}</text>
+    </svg></div></div>`;
+}
+
+function statistics(t) {
+  const metric = (label, value) => `<div class="${S}metric__uRhfB"><span class="${S}metricLabel__9yXHm">${label}</span><span class="${S}metricValue__TzVSh">${value}</span></div>`;
+  const row = (...ms) => `<div class="${S}metricsRow__TIYA5">${ms.join("")}</div>`;
+  const totalCells = t.fields.length * (t.rows || 0);
+  const missingCells = t.fields.reduce((s, f) => s + (f.statistics.missingCount || 0), 0);
+  const summary = [["Rows", num(t.rows)], ["Columns", t.fields.length],
+                   ["Missing cells", totalCells ? (100 * missingCells / totalCells).toFixed(1) + "%" : "–"],
+                   ["Computed in", t.meta.seconds ? duration(t.meta.seconds + (t.meta.histogramSeconds || 0)) : "–"]];
+  const columns = t.fields.map(f => {
+    const s = f.statistics, kind = kindOf(f);
+    const ic = kind === "numeric" ? "hash" : kind === "date" ? "added" : kind === "text" ? "text" : "list";
+    const missing = s.missingCount != null ? `${num(s.missingCount)} (${(s.missingPercentage || 0).toFixed(s.missingPercentage && s.missingPercentage < 0.1 ? 3 : 1)}%)` : "–";
+    const rows = [row(metric("Data type", esc(shortType(f.dataType) || "–") + (f.sqlType ? ` <span style="color:#8095ad">(${esc(f.sqlType)})</span>` : "")),
+                      metric("Semantic type", f.semanticType ? esc(f.semanticType)
+                        : f.semanticType === null ? `<span style="color:#8095ad">none needed: the column name says it</span>` : "–")),
+                  row(metric("Values", num(s.rowCount)), metric("Missing", missing))];
+    if (kind === "numeric") {
+      rows.push(row(metric("Min", num(s.min)), metric("Max", num(s.max))),
+                row(metric("Mean", num(s.mean)), metric("Median", num(s.median))),
+                row(metric("Standard deviation", num(s.standardDeviation)), metric("Variance", num(s.variance))),
+                row(metric("5th percentile", num(s.percentile05)), metric("95th percentile", num(s.percentile95))),
+                row(metric("Unique values", num(s.uniqueCount)), metric("Fill values (-9e33)", s.fillValueCount ? num(s.fillValueCount) : "–")));
+    } else if (kind === "date") {
+      rows.push(row(metric("Earliest", esc(shortDate(s.min) || "–")), metric("Latest", esc(shortDate(s.max) || "–"))),
+                row(metric("Unique values", num(s.uniqueCount)), metric("", "")));
+    } else {
+      rows.push(row(metric("Unique values", num(s.uniqueCount)), metric("", "")));
+    }
+    let visual;
+    if (Array.isArray(s.histogram) && s.histogram.length) {
+      visual = largeHistogram(s.histogram);
+    } else {
+      const [value, label] = s.uniqueCount != null ? [s.uniqueCount, "Unique values"] : [s.rowCount, "Values"];
+      const top = list(s.topValues).slice(0, 6);
+      visual = `<div class="${S}largeNumber__DehiK"><span class="${S}largeNumberValue__FizL8">${compact(value)}</span>
+        <span class="${S}largeNumberLabel__YT3Ah">${label}</span>
+        ${top.length ? `<div class="x-top">${top.map(v => `<span title="${esc(v.value)}">${esc(v.value)}</span><span>${compact(v.count)}</span>`).join("")}</div>` : ""}</div>`;
+    }
+    return `<div class="${S}colStats__7Nl5U">
+      <div class="${S}colHeader___1gX2"><div class="${S}colName__n_HNG">${icon(ic, S + "icon__XYmCU")}${esc(f.name)}</div>
+        <div class="${S}colDescription__536kn">${esc([f.semanticType, f.sqlType].filter(Boolean).join(" · "))}</div></div>
+      <div class="${S}content__wZ0g_"><div class="${S}metrics__GtbSG">${rows.join("")}</div><div class="${S}visual__2Fl6i">${visual}</div></div>
+    </div>`;
+  }).join("");
+  return `<div class="${S}EgwdH">
+    <div class="${S}tableSummary__QtVIK"><span class="${S}summaryLabel__3xm2V">Table summary</span>
+      <div class="${S}summaryStats__QWHIf">${summary.map(([k, v]) => `<div class="${S}summaryItem__kIYdD"><span class="${S}summaryTitle__x2j5V">${k}</span><span class="${S}summaryValue__ECmjK">${v}</span></div>`).join("")}</div>
+    </div>${columns}</div>`;
+}
+
+function dataQuality(t) {
+  const cols = fillColumns(t);
+  const head = `<div class="DataQualityReportHeader_reportHeader__XzMsn"><div class="DataQualityReportHeader_reportHeader__content__m10do">
+      <div class="DataQualityReportHeader_reportHeader__title__8_yw7">Data quality report</div>
+      <p class="DataQualityReportHeader_reportHeader__description__tO_DP">The AI error detection runs on CSV and Excel files; it does not run on database tables yet.
+        Listed here: placeholder values that the full statistics scan found and counts as missing.</p></div></div>`;
+  if (!cols.length) return `<div class="${Q}vhAK9">${head}<div class="FilePreview_filePreview__empty__vfcOF">No placeholder values found in this table.</div></div>`;
+  return `<div class="${Q}vhAK9">${head}
+    <div class="${Q}totalErrors__Pu3Sg"><span class="${Q}totalLabel__pV1jD">Columns with fill values</span>
+      <span class="${Q}totalValue__noSsi"><span class="${Q}totalValueHighlight__0B2S_">${cols.length}</span></span></div>
+    <div class="${Q}grid__BjNYg">${cols.map(f => {
+      const s = f.statistics, share = 100 * s.fillValueCount / t.rows;
+      return `<div class="${Q}card__oHAYn">
+        <div class="${Q}cardHeader__izdqR"><div class="${Q}cardTitle__fsgOy">${icon("hash", Q + "columnIcon__R28qp")}<span class="${Q}columnName__t4ze8">${esc(f.name)}</span></div>
+          <div class="${Q}cardMeta__AemYr"><span class="${Q}issueTag__jRD3I">${icon("alert", Q + "issueIcon__w4TSi")}<span class="${Q}issueText__mvZ4z">${num(s.fillValueCount)} rows</span></span></div></div>
+        <div class="${Q}metrics__0_Myg">
+          <div class="${Q}errorDescription__QiKSg"><span class="${Q}errorLabel__L7hBw">Issue</span>
+            <p class="${Q}errorText__2Y_Ev">${share.toFixed(1)}% of the values are -9e33, the NetCDF fill value for “no data” (most likely sea cells, which ERA5-Land does not cover). Counted as numbers they would put the mean at about ${(s.mean * (1 - share / 100) + FILL_VALUE * share / 100).toExponential(1)}.</p></div>
+          <div class="${Q}errorDescription__QiKSg"><span class="${Q}errorLabel__L7hBw">Statistics without them</span>
+            <p class="${Q}errorText__2Y_Ev">min ${num(s.min)} · mean ${num(s.mean)} · max ${num(s.max)}</p></div>
+        </div></div>`; }).join("")}</div></div>`;
+}
+
+function filePreview() {
+  const t = tables[current];
+  const fills = fillColumns(t).length;
+  const tabs = [["preview", "Preview"], ["statistics", "Statistics"], ["quality", "Data Quality"]];
+  const body = currentTab === "statistics" ? statistics(t) : currentTab === "quality" ? dataQuality(t) : preview(t);
+  return `<div class="FilePreview_filePreview__hwop9">
+    <div class="FilePreviewHeader_filePreviewHeader__pcys0"><div class="FilePreviewHeader_filePreviewHeader__info__Qs_S2">
+      <h3 class="FilePreviewHeader_filePreviewHeader__filename__L1L6m">${esc(t.name)}</h3>
+      <span class="FilePreviewHeader_filePreviewHeader__filesize__q_4iC">(${num(t.rows)} rows · ${t.fields.length} columns)</span></div></div>
+    <div class="FilePreviewTabs_filePreviewTabs__SGoEw">${tabs.map(([k, label]) => `<button type="button" data-tab="${k}" class="FilePreviewTabs_filePreviewTabs__tab__NJSSz${k === currentTab ? " FilePreviewTabs_filePreviewTabs__tab--active__pHxro" : ""}">
+      ${k === "quality" ? `<span class="FilePreviewTabs_filePreviewTabs__tab--ai__cLBBO">${label}</span><span class="FilePreviewTabs_filePreviewTabs__aiLabel__9786E">AI</span>${fills ? `<span class="x-tab-count">${fills}</span>` : ""}` : `<span>${label}</span>`}</button>`).join("")}</div>
+    <div class="FilePreview_filePreview__content__zfC6I">${body}</div>
+  </div>`;
+}
+
+function previewRow() {
+  return `<div class="${P}row__lBrNV" id="preview-row">
+    <div class="${P}rowLeft__U9B5P"><h2 class="${P}sectionTitle__geTbw">File Preview</h2>${filePreview()}</div>
+    <div class="${P}rowRight__xLxMD"><h2 class="${P}sectionTitle__geTbw" style="visibility:hidden">Tables</h2>${tree()}</div>
+  </div>`;
+}
+
+/* ---------------------------------------------------------------- how it was made */
+function howMade() {
+  const rows = tables.map(t => `<tr class="${T}tr__okuvd">
+    <td class="${T}td__JeT50">${esc(t.name)}</td><td class="${T}td__JeT50 num">${num(t.rows)}</td>
+    <td class="${T}td__JeT50">${!(t.meta.method || "").startsWith("single") ? "exact, all rows" : t.meta.histogramMethod ? "all rows, two scans" : "all rows, one scan"}</td>
+    <td class="${T}td__JeT50 num">${duration((t.meta.seconds || 0) + (t.meta.histogramSeconds || 0))}</td>
+    <td class="${T}td__JeT50 num">${t.meta.percentileSampleRows && t.meta.percentileSampleRows < t.rows ? num(t.meta.percentileSampleRows) + " rows" : "all rows"}</td></tr>`).join("");
+  const scan = tables.reduce((s, t) => s + (t.meta.seconds || 0) + (t.meta.histogramSeconds || 0), 0);
+  return `<div class="${P}row__lBrNV"><div class="${P}rowLeft__U9B5P">
+    <section class="DatasetProfilingSections_section__uB_s4">
+      <h2 class="${P}sectionTitle__geTbw">How this profile was made</h2>
+      <div class="FilePreview_filePreview__hwop9">
+        <div class="AboutFile_aboutFile__3DYIu"><p class="AboutFile_aboutFile__text__pXUYq">${esc(DATA.note)} Scanning all ${num(totalRows)} rows took ${duration(scan)} of database time, two tables at a time.</p></div>
+        <div class="${T}wrapper__glmS0"><table class="${T}table__G_UH4 x-run"><thead class="${T}thead__Hnk9s"><tr class="${T}headerRow__GkTXK">
+          ${["Table", "Rows", "Statistics", "Scan time", "Percentiles from"].map(h => `<th class="${T}th__9jk0w"><div class="${T}colName__5UVbe">${h}</div></th>`).join("")}</tr></thead>
+          <tbody>${rows}</tbody></table></div>
+        <details class="x-raw"><summary>Profile for MoMa (Croissant JSON-LD)</summary><pre>${esc(JSON.stringify(heavy, null, 1))}</pre></details>
+        <details class="x-raw"><summary>Profile for Cross-Dataset Discovery (CDD)</summary><pre>${esc(JSON.stringify(DATA.profile.cdd_profile, null, 1))}</pre></details>
+      </div>
+    </section></div></div>`;
+}
+
+/* ---------------------------------------------------------------- render */
+function render() {
+  app.innerHTML = header() + details() + previewRow() + howMade();
+  document.getElementById("x-export").addEventListener("click", exportCroissant);
+  bind();
+}
+/* The MoMa profile is the Croissant JSON-LD of the whole dataset: every table, field and statistic. */
+function exportCroissant() {
+  const blob = new Blob([JSON.stringify(heavy, null, 2)], { type: "application/ld+json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = (heavy.name || "dataset").toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-croissant.jsonld";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function rerenderPreview() {
+  const row = document.getElementById("preview-row");
+  const tmp = document.createElement("div");
+  tmp.innerHTML = previewRow();
+  row.replaceWith(tmp.firstElementChild);
+  bind();
+}
+function bind() {
+  document.querySelectorAll("[data-table]").forEach(el => {
+    const go = () => { current = +el.dataset.table; rerenderPreview(); };
+    el.addEventListener("click", go);
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  });
+  document.querySelectorAll("[data-tab]").forEach(el => el.addEventListener("click", () => { currentTab = el.dataset.tab; rerenderPreview(); }));
+}
+const params = new URLSearchParams(location.hash.slice(1));
+if (params.get("table")) current = Math.max(0, tables.findIndex(t => t.name === params.get("table")));
+if (["preview", "statistics", "quality"].includes(params.get("tab"))) currentTab = params.get("tab");
+render();
+</script>
+</body>
+</html>

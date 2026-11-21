@@ -19,6 +19,7 @@ from dataset_profiler.common_llm import CommonLLMConnector
 from dataset_profiler.profile_components.record_set.db.database_connector import (
     DatagemsPostgres,
 )
+from dataset_profiler.utilities import FILL_VALUE_THRESHOLD
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -145,9 +146,16 @@ class ColumnTypeAnnotator:
         semantic_types: Dict[str, str],
         extra_info: Optional[Sequence[Dict[str, Any]]] = None,
         labels: Optional[List[str]] = None,
+        table_name: Optional[str] = None,
     ) -> str:
         context_cols = [c for c in all_headers if c != col]
-        prompt = f"<target_column_header>{col}</target_column_header>\n"
+        prompt = ""
+        # A database table's name is often the best hint for a terse header: "tp"
+        # in "meteo_tp" is total precipitation, which the model called a
+        # temperature when it saw only the headers and the values.
+        if table_name:
+            prompt += f"<table_name>{table_name}</table_name>\n"
+        prompt += f"<target_column_header>{col}</target_column_header>\n"
         prompt += f"<rest_headers>{context_cols}</rest_headers>\n"
         prompt += f"<sample_values>{samples}</sample_values>\n"
         if semantic_types:
@@ -227,6 +235,9 @@ class ColumnTypeAnnotator:
                 pbar.set_description(f"Annotating: '{col}'")
 
             valid_data = df[col].dropna()
+            if pd.api.types.is_float_dtype(valid_data):
+                # Fill values (-9e33 for "no data") tell the model nothing about the column.
+                valid_data = valid_data[valid_data.abs() < FILL_VALUE_THRESHOLD]
             samples = (
                 valid_data.sample(min(self.sample_size, len(valid_data))).tolist()
                 if not valid_data.empty
@@ -243,7 +254,8 @@ class ColumnTypeAnnotator:
                 {
                     "role": "user",
                     "content": self._build_prompt(
-                        col, all_headers, samples, answers, extra_info, labels
+                        col, all_headers, samples, answers, extra_info, labels,
+                        table_name=table_name if db is not None else None,
                     ),
                 },
             ]
