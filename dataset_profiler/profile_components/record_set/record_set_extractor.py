@@ -1,7 +1,7 @@
 import os
 from collections import Counter
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from dataset_profiler.profile_components.record_set.csv.csv_record_set import (
     CSVRecordSet, get_record_sets_from_excel,
@@ -34,7 +34,8 @@ def _json_llm_max_files_per_folder() -> int:
                               DEFAULT_JSON_LLM_MAX_FILES_PER_FOLDER))
 
 
-def _json_record_set(file_path: str, file_object_id: str, use_llm: bool = True):
+def _json_record_set(file_path: str, file_object_id: str, use_llm: bool = True,
+                     file_sha256: Optional[str] = None):
     """A JSON record set, or None when the file cannot be profiled at all.
 
     Invalid JSON is handled inside JSONRecordSet (it yields a record set with
@@ -42,7 +43,7 @@ def _json_record_set(file_path: str, file_object_id: str, use_llm: bool = True):
     never fails the dataset.
     """
     try:
-        return JSONRecordSet(file_path, file_object_id, use_llm=use_llm)
+        return JSONRecordSet(file_path, file_object_id, use_llm=use_llm, file_sha256=file_sha256)
     except Exception as e:  # noqa: BLE001 - logged; the file stays in the distribution
         logger.exception("Failed to profile JSON file, skipping its record set",
                          file=file_path, error=str(e))
@@ -63,11 +64,16 @@ def get_file_type(file_set, distribution_path) -> FileType | None:
             return None
 
 
-def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List[RecordSet]:
+def extract_record_sets_of_file_objects(file_objects, distribution_path,
+                                        file_hashes: Optional[dict] = None) -> List[RecordSet]:
+    """``file_hashes`` maps a file object's id to its content hash (from its
+    distribution), so files are not hashed twice; missing ones are computed."""
     logger.info("Extracting record sets from file objects", num_file_objects=len(file_objects))
+    file_hashes = file_hashes or {}
     record_sets = []
     for file_object in file_objects:
         file_extension = Path(file_object["path"]).suffix.lower()
+        file_sha256 = file_hashes.get(file_object["id"])
         logger.debug("Processing file object", path=file_object["path"], file_extension=file_extension)
 
         if file_extension == ".csv":
@@ -75,6 +81,7 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
                 distribution_path=distribution_path,
                 file_object=file_object["path"],
                 file_object_id=file_object["id"],
+                file_sha256=file_sha256,
             )
             record_sets.append(csv_record_set)
         elif file_extension in (".pdf", ".txt"):
@@ -102,10 +109,12 @@ def extract_record_sets_of_file_objects(file_objects, distribution_path) -> List
         #     )
         #     record_sets.append(db_record_set)
         elif file_extension == ".xlsx":
-            record_sets += get_record_sets_from_excel(distribution_path, file_object["path"], file_object["id"])
+            record_sets += get_record_sets_from_excel(distribution_path, file_object["path"], file_object["id"],
+                                                      file_sha256=file_sha256)
         elif is_json_file(file_object["path"]):
             json_record_set = _json_record_set(
-                os.path.join(distribution_path, file_object["path"]), file_object["id"]
+                os.path.join(distribution_path, file_object["path"]), file_object["id"],
+                file_sha256=file_sha256,
             )
             if json_record_set is not None:
                 record_sets.append(json_record_set)
@@ -165,7 +174,8 @@ def extract_record_sets_of_file_objects_in_file_sets(file_object_of_set_distribu
                             folder=Path(distribution.content_url).parent.name,
                             cap=_json_llm_max_files_per_folder())
             json_record_set = _json_record_set(distribution.content_url, distribution.id,
-                                               use_llm=use_llm)
+                                               use_llm=use_llm,
+                                               file_sha256=distribution.sha256_check or None)
             if json_record_set is not None:
                 record_sets.append(json_record_set)
             continue

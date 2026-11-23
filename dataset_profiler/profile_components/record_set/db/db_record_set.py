@@ -191,6 +191,17 @@ class DBTableField:
         }
 
 
+def db_sample_text(value) -> str:
+    """A database value as sample text: JSON for jsonb objects and arrays, else ``str``.
+
+    ``str`` of a dict or list is a Python repr (``{'k': 702}``), which nothing
+    downstream can parse.
+    """
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, default=str, ensure_ascii=False)
+    return str(value)
+
+
 class DBColumnField(ColumnField):
     def __init__(self, column, table_distribution_id: str, stype_annotations: dict[str, Optional[str]],
                  statistics: ColumnStatistics):
@@ -207,7 +218,7 @@ class DBColumnField(ColumnField):
             "fileObject": {"@id": table_distribution_id},
             "extract": {"column": column["column"]},
         }
-        self.sample = [f"{value}" for value in column["values"]]
+        self.sample = [db_sample_text(value) for value in column["values"]]
 
     def to_dict(self):
         return {

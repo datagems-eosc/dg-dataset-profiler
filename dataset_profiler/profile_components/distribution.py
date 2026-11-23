@@ -1,13 +1,13 @@
 import mimetypes
 import os
 import uuid
-from hashlib import sha256
 from pathlib import Path
 
 from dataset_profiler.profile_components.record_set.db.database_connector import (
     DatagemsPostgres,
 )
 from dataset_profiler.configs.config_logging import logger
+from dataset_profiler.utilities import file_sha256
 
 DATASET_ROOT_PATH = os.environ.get("DATA_ROOT_PATH", "")
 SUPPORTED_EXTENSION_MAP = {
@@ -150,7 +150,8 @@ def get_distribution_of_file_object(
         content_size=f"{Path(file_object).stat().st_size} B",
         content_url=file_object,
         encoding_format=get_encoding_format(file_object),
-        sha256_check=sha256(file_object.encode("utf-8")).hexdigest(),
+        # The hash of the file's content (it used to be the hash of its path).
+        sha256_check=file_sha256(file_object),
     )
     distribution.is_minimal = not supported
     return distribution
@@ -253,9 +254,15 @@ class DistributionFileSet:
         }
 
 
-def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
+def get_distribution_of_file_set(
+    file_set, file_set_id, relative_path: str | None = None
+) -> DistributionFileSet:
     """
     Create a distribution object for a file set (directory).
+
+    ``relative_path`` is the set's path relative to the dataset root (``a/b``);
+    ``includes`` is built from it, so nested sets keep their whole path
+    (``a/b/*``, not ``b/*``). Without it, the folder's name is used.
 
     A directory holding only unsupported files is still listed, otherwise the
     files inside it would disappear from the profile along with it. The set's
@@ -282,7 +289,11 @@ def get_distribution_of_file_set(file_set, file_set_id) -> DistributionFileSet:
         name=file_set.split("/")[-1],
         content_size=f"{sum(path.stat().st_size for path in files_in_dir)} B",
         encoding_format=get_encoding_format(sample_file_of_dir) if sample_file_of_dir else "",
-        includes=f"{file_set.split('/')[-1]}",
+        # DistributionFileSet appends the "/*".
+        includes=(
+            relative_path.strip("/") if relative_path is not None
+            else file_set.rstrip("/").split("/")[-1]
+        ),
         content_url=file_set
     )
 

@@ -34,7 +34,12 @@ from dataset_profiler.configs.config_logging import logger
 from dataset_profiler.profile_components.cta import ColumnTypeAnnotator
 from dataset_profiler.profile_components.generic_types.table import ColumnStatistics
 from dataset_profiler.profile_components.record_set.csv.calculate_statistics import (
+    ISO_DATE,
+    ISO_DATETIME,
+    FileBudget,
+    Reservoir,
     _ColumnAccumulator,
+    sample_seed,
 )
 from dataset_profiler.profile_components.record_set.document_description import (
     describe_document,
@@ -43,7 +48,7 @@ from dataset_profiler.profile_components.record_set.record_set_abc import (
     ColumnField,
     RecordSet,
 )
-from dataset_profiler.utilities import resolve_encoding
+from dataset_profiler.utilities import file_sha256 as compute_file_sha256, resolve_encoding
 
 JSON_LINES_SUFFIXES = {".jsonl", ".ndjson"}
 JSON_SUFFIXES = {".json", ".geojson"} | JSON_LINES_SUFFIXES
@@ -104,10 +109,6 @@ RECORD_LABEL_KEYS = ("id", "_id", "uuid", "key", "name", "title")
 SUMMARY_MAX_FIELDS = 60
 
 _IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
-_ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-_ISO_DATETIME = re.compile(
-    r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})?$"
-)
 
 # Path components. A relative path is a tuple of them, e.g.
 # (("key", "readings"), ITEM, ("key", "temp_c")) for readings[*].temp_c.
@@ -386,14 +387,20 @@ class _PathAccumulator:
     reported through ``jsonTypes`` (mixed types) and left out of the numbers.
     """
 
-    def __init__(self):
+    def __init__(self, budget: Optional[FileBudget] = None, seed_of=None):
         self.types: Counter = Counter()
         self._buffers = {NUMERIC: [], BOOLEAN: [], TEXT: []}
         self.accumulators: dict = {}
+        self.samples: dict = {}        # family -> seeded Reservoir of its values
+        self._budget = budget or FileBudget()
+        self._seed_of = seed_of or (lambda family: sample_seed("", family))
         self.top: Counter = Counter()
         self.top_capped = False
         self.text_chars = 0
         self.texts: list = []          # (record label, text) of long strings
+        # Strings that are ISO dates / ISO date-times, for the field's type.
+        self.iso_dates = 0
+        self.iso_datetimes = 0
 
     def add(self, value, store_text: bool, label: str):
         kind = _json_type(value)
@@ -408,6 +415,10 @@ class _PathAccumulator:
             family = TEXT
             if kind != "string":   # a container cut off at MAX_DEPTH
                 value = json.dumps(value, ensure_ascii=False)
+            elif ISO_DATE.match(value):
+                self.iso_dates += 1
+            elif ISO_DATETIME.match(value):
+                self.iso_datetimes += 1
             self.text_chars += len(value)
             if store_text and len(value) >= LONG_TEXT_STORE_MIN_CHARS:
                 self.texts.append((label, value))
@@ -442,8 +453,11 @@ class _PathAccumulator:
         values = self._buffers[family]
         if not values:
             return
-        acc = self.accumulators.setdefault(family, _ColumnAccumulator())
-        acc.update(self._series(family, values))
+        if family not in self.accumulators:
+            self.accumulators[family] = _ColumnAccumulator(family, self._budget)
+            self.samples[family] = Reservoir(self._seed_of(family))
+        self.accumulators[family].update(self._series(family, values))
+        self.samples[family].add_many(values)
         self._buffers[family] = []
 
     def flush(self):
@@ -494,10 +508,15 @@ class JSONRecordSet(RecordSet):
     summary -- for files beyond the per-folder cap; everything else is computed.
     """
 
-    def __init__(self, file_path: str, file_object_id: str, use_llm: bool = True):
+    def __init__(self, file_path: str, file_object_id: str, use_llm: bool = True,
+                 file_sha256: Optional[str] = None):
         super().__init__()
         self.file_path = file_path
         self.file_object_id = file_object_id
+        # Seeds the samples; computed from the file when not given.
+        self.file_sha256 = file_sha256 if file_sha256 is not None else compute_file_sha256(file_path)
+        # Exact-quantile values and unique hashes shared by all fields of the file.
+        self.budget = FileBudget()
         self.use_llm = use_llm
         self.type = "cr:RecordSet"
         self.name = Path(file_path).stem
@@ -652,7 +671,11 @@ class JSONRecordSet(RecordSet):
             if len(self._paths) >= MAX_PATHS:
                 self.paths_truncated = True
                 return
-            acc = self._paths[rel] = _PathAccumulator()
+            name = _display_name(rel)
+            acc = self._paths[rel] = _PathAccumulator(
+                self.budget,
+                lambda family, name=name: sample_seed(self.file_sha256, f"{name}\0{family}"),
+            )
         store = self._stored_text_chars < MAX_STORED_TEXT_CHARS
         before = len(acc.texts)
         acc.add(value, store_text=store, label=label)
@@ -890,7 +913,7 @@ class JSONField(ColumnField):
             statistics = ColumnStatistics(row_count=0, unique_count=0)
         else:
             chosen = acc.accumulators[family]
-            sample = chosen.sample()
+            sample = list(acc.samples[family].items)
             if family == BOOLEAN:
                 # Counted like text: a mean and histogram of true/false say less
                 # than the true and false counts in topValues.
@@ -899,7 +922,7 @@ class JSONField(ColumnField):
             else:
                 statistics = chosen.build_statistics()
                 data_type = (
-                    _text_data_type(sample) if family == TEXT else chosen.data_type()
+                    _text_data_type(acc) if family == TEXT else chosen.numeric_data_type()
                 )
 
         # Counts over the whole field, not just the family the statistics come
@@ -954,18 +977,18 @@ class JSONField(ColumnField):
         return column
 
 
-def _text_data_type(sample: list) -> str:
-    """sc:Date or sc:DateTime for ISO-8601 strings, otherwise sc:Text.
+def _text_data_type(acc: _PathAccumulator) -> str:
+    """sc:Date or sc:DateTime when every text value is an ISO 8601 date (date-time), else sc:Text.
 
-    JSON strings stay text even when they look like numbers: the file said they
-    are strings. Dates are the exception worth making, since search filters on them.
+    Decided over every value, not a sample, as laminate does. JSON strings stay
+    text even when they look like numbers: the file said they are strings. Dates
+    are the exception worth making, since search filters on them.
     """
-    values = [v for v in sample if isinstance(v, str)]
-    if len(values) >= 3:
-        if all(_ISO_DATE.match(v) for v in values):
-            return "sc:Date"
-        if all(_ISO_DATE.match(v) or _ISO_DATETIME.match(v) for v in values):
-            return "sc:DateTime"
+    text_values = acc.types["string"] + acc.types["object"] + acc.types["array"]
+    if text_values and acc.iso_dates == text_values:
+        return "sc:Date"
+    if text_values and acc.iso_datetimes == text_values:
+        return "sc:DateTime"
     return "sc:Text"
 
 

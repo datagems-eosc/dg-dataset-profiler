@@ -3,12 +3,65 @@ from collections import defaultdict
 
 import pandas as pd
 from loguru import logger
+
+from dataset_profiler.configs.config_logging import logger as profiler_logger
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 
 
 load_dotenv()
+
+
+# Environment variables holding the endpoint and credentials the profiler
+# connects with, per engine. The host and port of a profiling request are only
+# recorded in the profile (the connection node's contentUrl), never used to connect.
+_ENGINE_ENV_PREFIX = {
+    "PostgreSQL": "DATAGEMS_POSTGRES",
+    "TimescaleDB": "DATAGEMS_TIMESCALE_DB",
+}
+
+
+def connection_endpoint(engine: str) -> tuple:
+    """The ``(host, port)`` the profiler actually connects to for ``engine``."""
+    if engine not in _ENGINE_ENV_PREFIX:
+        raise ValueError(f"Unsupported engine: {engine}")
+    prefix = _ENGINE_ENV_PREFIX[engine]
+    return os.getenv(f"{prefix}_HOST"), os.getenv(f"{prefix}_PORT")
+
+
+def check_requested_endpoint(engine: str, database_name: str, host, port,
+                             dataset_id: str | None = None) -> str | None:
+    """Warn when a request's database endpoint is not the one the profiler connects to.
+
+    The profile records the request's ``host:port`` in the connection node's
+    ``contentUrl`` and that stays so; consumers such as the streaming interval
+    profiler read it to find the database, so a mismatch is worth knowing about.
+    Profiling itself is unaffected: it always connects with the profiler's own
+    settings. Returns the warning message, or None when the endpoints agree.
+    """
+    try:
+        used_host, used_port = connection_endpoint(engine)
+    except ValueError:
+        return None   # DatagemsPostgres reports the unsupported engine
+    requested = f"{host}:{port}"
+    used = f"{used_host}:{used_port}"
+    if str(host) == str(used_host) and str(port) == str(used_port):
+        return None
+    message = (
+        f"Database {database_name!r} ({engine}) was requested at {requested}, but the profiler "
+        f"connects to {used}; the profile's contentUrl records {requested}"
+        + (f" (dataset {dataset_id})" if dataset_id else "")
+    )
+    profiler_logger.warning(
+        "Requested database endpoint differs from the one used to connect: " + message,
+        database=database_name,
+        engine=engine,
+        requested_endpoint=requested,
+        used_endpoint=used,
+        dataset_id=dataset_id,
+    )
+    return message
 
 
 class DatagemsPostgres:
@@ -18,20 +71,14 @@ class DatagemsPostgres:
         """
         self.specific_schema = schema
 
-        if engine == "PostgreSQL":
-            self.connection_uri = (
-                f"postgresql+psycopg2://{os.getenv('DATAGEMS_POSTGRES_USERNAME')}:"
-                f"{os.getenv('DATAGEMS_POSTGRES_PASSWORD')}@{os.getenv('DATAGEMS_POSTGRES_HOST')}:"
-                f"{os.getenv('DATAGEMS_POSTGRES_PORT')}/{database}"
-            )
-        elif engine == "TimescaleDB":
-            self.connection_uri = (
-                f"postgresql+psycopg2://{os.getenv('DATAGEMS_TIMESCALE_DB_USERNAME')}:"
-                f"{os.getenv('DATAGEMS_TIMESCALE_DB_PASSWORD')}@{os.getenv('DATAGEMS_TIMESCALE_DB_HOST')}:"
-                f"{os.getenv('DATAGEMS_TIMESCALE_DB_PORT')}/{database}"
-            )
-        else:
+        if engine not in _ENGINE_ENV_PREFIX:
             raise ValueError(f"Unsupported engine: {engine}")
+        prefix = _ENGINE_ENV_PREFIX[engine]
+        host, port = connection_endpoint(engine)
+        self.connection_uri = (
+            f"postgresql+psycopg2://{os.getenv(f'{prefix}_USERNAME')}:"
+            f"{os.getenv(f'{prefix}_PASSWORD')}@{host}:{port}/{database}"
+        )
 
         conn_args = {
             "options": f" -c search_path={self.specific_schema}"

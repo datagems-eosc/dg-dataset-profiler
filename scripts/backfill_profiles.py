@@ -623,6 +623,7 @@ class ProfilerEngine:
         from dataset_profiler.profile_components.cta import ColumnTypeAnnotator
         from dataset_profiler.profile_components.record_set.csv import csv_record_set
         from dataset_profiler.profile_components.record_set.csv.calculate_statistics import _ColumnAccumulator
+        from dataset_profiler.utilities import file_sha256
         from dataset_profiler.profile_components.record_set.db.database_connector import DatagemsPostgres
         from dataset_profiler.profile_components.record_set.document_description import (
             MIN_INPUT_WORDS,
@@ -646,6 +647,7 @@ class ProfilerEngine:
         self._annotator = ColumnTypeAnnotator
         self._csv = csv_record_set
         self._accumulator = _ColumnAccumulator
+        self._file_sha256 = file_sha256
         self._postgres = DatagemsPostgres
         self._create_engine = create_engine
         self._statistics_class = ColumnStatistics
@@ -689,21 +691,13 @@ class ProfilerEngine:
         )
 
     def csv_statistics(self, table: Any) -> dict[str, dict]:
-        """Per-column statistics, in the same two passes as CSVRecordSet.extract_fields."""
+        """Per-column statistics, computed exactly as CSVRecordSet.extract_fields does."""
         path, delimiter = table.backfill_path, table.backfill_delimiter
         names = table._read_column_names(path, delimiter)
-        accumulators = {name: self._accumulator() for name in names}
-        for chunk in table._iter_chunks(path, delimiter):
-            for name in names:
-                if name in chunk.columns:
-                    accumulators[name].update(chunk[name])
-        numeric = [name for name, accumulator in accumulators.items() if accumulator.needs_histogram()]
-        if numeric:
-            for chunk in table._iter_chunks(path, delimiter, usecols=numeric):
-                for name in numeric:
-                    if name in chunk.columns:
-                        accumulators[name].update_histogram(chunk[name])
-        return {name: accumulator.build_statistics().to_dict() for name, accumulator in accumulators.items()}
+        if not names:
+            return {}
+        columns = self._csv.compute_csv_columns(table, path, delimiter, names, self._file_sha256(path))
+        return {name: accumulator.build_statistics().to_dict() for name, accumulator in columns.accumulators.items()}
 
     def csv_semantic_types(self, table: Any, columns: list[str]) -> dict[str, Optional[str]]:
         sample = self._pd.read_csv(

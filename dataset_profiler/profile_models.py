@@ -31,6 +31,9 @@ from dataset_profiler.profile_components.record_set.db.db_distribution import (
     get_added_distributions,
     get_db_ids_from_distributions,
 )
+from dataset_profiler.profile_components.record_set.db.database_connector import (
+    check_requested_endpoint,
+)
 from dataset_profiler.profile_components.record_set.db.db_record_set import DBRecordSet
 from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import PdfRecordSet
 from dataset_profiler.profile_components.record_set.record_set_abc import (
@@ -148,6 +151,16 @@ class DatasetProfile:
                 )
                 for file_object in self.file_objects
             ]
+        # The contentUrl keeps the request's host and port, but the profiler
+        # connects with its own settings: flag any disagreement (log only).
+        for db_connector in self.databases_objects:
+            check_requested_endpoint(
+                engine=db_connector["engine"],
+                database_name=db_connector["database_name"],
+                host=db_connector["host"],
+                port=db_connector["port"],
+                dataset_id=self.dataset_specification.id,
+            )
         database_connector_distributions = [
             get_distribution_of_database_connection(
                 connection_id=db_connector["file_object_id"],
@@ -175,7 +188,8 @@ class DatasetProfile:
                 # Get the distribution for the current file set
                 dist = get_distribution_of_file_set(
                     self.distribution_path + file_set["path"],
-                    file_set["id"]
+                    file_set["id"],
+                    relative_path=file_set["path"],
                 )
                 file_sets_distributions.append(dist)
 
@@ -214,8 +228,13 @@ class DatasetProfile:
         record_sets = []
 
         if self.distribution_path is not None:
+            # The content hashes of the distribution seed the samples.
+            file_hashes = {
+                d.id: d.sha256_check for d in (self.file_object_distributions or [])
+                if d.sha256_check
+            }
             record_sets += extract_record_sets_of_file_objects(
-                self.file_objects, self.distribution_path
+                self.file_objects, self.distribution_path, file_hashes=file_hashes
             )
 
         if self.distributions is not None:

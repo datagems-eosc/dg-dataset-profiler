@@ -19,7 +19,7 @@ A `.json` file that actually holds one document per line is read as JSON Lines. 
 
 ## Statistics
 
-Statistics mean the same as for CSV columns, so search can compare fields across formats:
+Statistics mean the same as for CSV columns (see [Column Statistics](column-statistics.md)), so search can compare fields across formats:
 
 - A record where the key is **absent** counts as missing, exactly like one where it is `null`.
 - `rowCount` is the number of non-null values.

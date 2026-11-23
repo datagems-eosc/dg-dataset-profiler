@@ -80,7 +80,8 @@ pass. Decoding is incremental, so memory stays flat regardless of file size, and
 fraction of the pandas passes that follow.
 
 The resolved encoding is reused by every reader for that file — delimiter sniffing, the header
-read, both streaming passes, the semantic-type sample, and the data quality detection script — so a
+read, the streaming passes (see [Column Statistics](column-statistics.md)), the semantic-type sample,
+and the data quality detection script — so a
 file is never read two different ways.
 
 JSON and JSON Lines files use the same resolution. The streaming JSON parser reads UTF-8 only, so a

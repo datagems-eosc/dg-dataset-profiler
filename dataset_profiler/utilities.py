@@ -1,4 +1,5 @@
 import codecs
+import hashlib
 import re
 import uuid
 from pathlib import Path
@@ -22,6 +23,19 @@ PREFERRED_ENCODING = "utf-8-sig"
 # still fail on five undefined bytes, so Latin-1 -- which maps every byte
 # 0x00-0xFF and therefore never raises -- remains the last resort.
 FALLBACK_ENCODINGS = ("cp1252", "ISO-8859-1")
+
+
+# Bytes read per iteration while hashing a file's content.
+_HASH_CHUNK = 1 << 20  # 1 MiB
+
+
+def file_sha256(file_path: Union[str, Path]) -> str:
+    """The SHA-256 of a file's content, streamed in 1 MiB chunks."""
+    digest = hashlib.sha256()
+    with open(file_path, "rb") as handle:
+        while chunk := handle.read(_HASH_CHUNK):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def resolve_encoding(file_path: Union[str, Path]) -> str:

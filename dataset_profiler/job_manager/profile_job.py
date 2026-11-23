@@ -51,7 +51,10 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
         logger.info("Parsed dataset specification")
 
         # Calculate the light profile (dataset head, dataset distributions)
-        profile.extract_distributions()
+        # Assigned, not just called: to_dict_light() only reuses
+        # self.distributions, so discarding the result built every distribution
+        # twice -- and each file's content is hashed for its sha256.
+        profile.distributions = profile.extract_distributions()
         light_profile = profile.to_dict_light()
         logger.info("Generated light dataset profile")
 
