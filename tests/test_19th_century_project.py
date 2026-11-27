@@ -1,6 +1,11 @@
 import json
 
+import pytest
+
 from dataset_profiler.profile_models import DatasetProfile
+
+# Profiles a full dataset kept only locally under tests/assets (git-ignored); not run in CI.
+pytestmark = pytest.mark.local_dataset
 
 
 def test_19th_century_project():

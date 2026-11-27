@@ -21,6 +21,13 @@ import os
 
 import pytest
 
+# litellm downloads its model cost map from GitHub at import time unless told
+# otherwise, so connector tests asserted against whatever that file held that
+# day (it dropped ``max_tokens`` for gpt-3.5-turbo). The map bundled with the
+# locked litellm version keeps them reproducible and off the network. Set
+# here, before any test module imports litellm.
+os.environ.setdefault("LITELLM_LOCAL_MODEL_COST_MAP", "True")
+
 _LIVE_ENV_FLAG = "TESTS_LIVE_LLM"
 
 

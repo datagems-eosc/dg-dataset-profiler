@@ -1,0 +1,28 @@
+{
+  "access": "PUBLIC",
+  "citeAs": "",
+  "country": "PT",
+  "data_connectors": [
+    {
+      "dataset_id": "tests/assets/zoo_24/data/",
+      "type": "RawDataPath"
+    }
+  ],
+  "datePublished": "2025-08-23",
+  "description": "Description of dataset",
+  "fieldOfScience": [
+    "MATHEMATICS"
+  ],
+  "headline": "Headline",
+  "id": "8930240b-a0e8-46e7-ace8-aab2b42fcc01",
+  "inLanguage": [
+    "en"
+  ],
+  "keywords": [
+    "animals"
+  ],
+  "license": "CC0 1.0",
+  "name": "ZOO 2024 Dataset",
+  "uploadedBy": "ADMIN",
+  "url": "https://real.domain/dataset/zoo_2024"
+}

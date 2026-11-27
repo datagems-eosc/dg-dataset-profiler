@@ -1,0 +1,30 @@
+{
+  "access": "PUBLIC",
+  "citeAs": "",
+  "country": "PT",
+  "data_connectors": [
+    {
+      "dataset_id": "tests/assets/ipb_offering/data/",
+      "type": "RawDataPath"
+    }
+  ],
+  "datePublished": "2025-04-30",
+  "description": "Course unit offering sheet from the Polytechnic Institute of Bragan\u00e7a (IPB) for the Artificial Intelligence course of the Bachelor in Informatics Engineering, academic year 2024/2025. \n\nThe dataset is a single pdf document describing learning outcomes, prerequisites, course contents, teaching methods and assessment.",
+  "fieldOfScience": [
+    "COMPUTER AND INFORMATION SCIENCES"
+  ],
+  "headline": "IPB course unit offering sheet for Artificial Intelligence.",
+  "id": "07dedf3f-f6a9-46f0-8bc5-adda8bef3156",
+  "inLanguage": [
+    "en"
+  ],
+  "keywords": [
+    "course offering",
+    "artificial intelligence",
+    "higher education"
+  ],
+  "license": "CC0 1.0",
+  "name": "IPB Course Offering Example",
+  "uploadedBy": "ADMIN",
+  "url": "https://www.ipb.pt"
+}

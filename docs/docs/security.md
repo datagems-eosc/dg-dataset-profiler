@@ -25,6 +25,17 @@ token payload and more details.
     upstream gateway to do so. Authentication should therefore be relied upon only
     behind a trusted gateway that performs full token validation.
 
+### MathE document endpoints
+
+The `/documents` endpoints verify tokens fully: RS256 signature against the
+Keycloak realm's keys, issuer, audience, expiry and realm role. They have their
+own switch, `DOCUMENTS_AUTH_ENABLED`, on by default and independent of
+`ENABLE_AUTH`. They read files only through MoMa, with the caller's token, so
+MoMa checks the caller's grant on the dataset. A file is read only from the
+dataset storage (`DATA_ROOT_PATH`), symlinks resolved, and only when it is a
+PDF; a `contentUrl` sent in the request is ignored. See
+[MathE Document Endpoints](mathe-documents.md#authentication).
+
 ## Transport
 
 The service is intended to be deployed behind the DataGEMS platform gateway, which

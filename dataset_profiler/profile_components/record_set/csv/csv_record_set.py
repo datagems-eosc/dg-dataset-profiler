@@ -375,7 +375,7 @@ class CSVRecordSet(RecordSet):
             # "description": self.description,
             # "key": self.key,
             "field": [field.to_dict() for field in self.fields],
-            "examples": json.dumps(self.examples, default=str),
+            "examples": json.dumps(self.examples, default=str, ensure_ascii=False),
         }
         if self.data_quality is not None:
             record_set_dict["dataQuality"] = self.data_quality.to_dict()

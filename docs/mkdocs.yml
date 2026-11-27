@@ -19,6 +19,7 @@ nav:
     - Security: security.md
   - API:
     - Overview: api-overview.md
+    - MathE Document Endpoints: mathe-documents.md
     - Status & Error Codes: error-codes.md
     - OpenAPI: openapi.md
   - Setup & Monitoring:

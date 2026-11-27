@@ -1,8 +1,10 @@
 FROM rayproject/ray:2.50.0-py311 AS base
 
 USER root
+# Tesseract OCRs PDF pages without a text layer (document_processing.light_extraction).
+# More languages: add tesseract-ocr-<lang> here and set DOCUMENT_OCR_LANGUAGE (e.g. eng+deu+fra).
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential curl ca-certificates && \
+    build-essential curl ca-certificates tesseract-ocr tesseract-ocr-eng && \
     rm -rf /var/lib/apt/lists/*
 
 ENV UV_INSTALL_DIR=/usr/local/bin

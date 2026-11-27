@@ -97,6 +97,10 @@ Environment variables can be used to override configuration values. The followin
 | ENABLE_DOCUMENT_LLM | Extract keywords and a summary for each PDF and text document and each JSON file, one SCAYLE call per file (see [Document Keywords & Summaries](document-descriptions.md)) | true |
 | DOCUMENT_LLM_MODEL | Model override for document keywords and summaries | qwen3.8-flash-next |
 | DOCUMENT_LLM_TIMEOUT | LLM request timeout in seconds for document keywords and summaries | 120 |
+| DOCUMENT_LLM_TIME_BUDGET_SECONDS | LLM time all documents of one profiling job may use; later documents get no keywords or summary. 0 or less for no limit | 600 |
+| DOCUMENT_OCR_ENABLED | OCR PDF pages without a text layer with Tesseract | true |
+| DOCUMENT_OCR_LANGUAGE | Tesseract languages, e.g. `eng+deu+fra`; each needs its `tesseract-ocr-<lang>` package | eng |
+| DOCUMENTS_AUTH_ENABLED and the other `/documents` settings | See [MathE Document Endpoints](mathe-documents.md#configuration) | |
 | ENABLE_JSON_RECORD_SETS | Include JSON record sets in the MoMa profile; the CDD profile always has them (see [JSON Profiling](json-profiling.md)) | true |
 | JSON_LLM_MAX_FILES_PER_FOLDER | JSON files per folder that get semantic types and a summary; the rest are profiled without them | 20 |
 | SCAYLE_BASE_URL | SCAYLE LLM service base URL (ends in `/api`) | (unset) |

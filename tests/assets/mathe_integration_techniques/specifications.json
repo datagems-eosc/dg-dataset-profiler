@@ -1,0 +1,30 @@
+{
+  "access": "PUBLIC",
+  "citeAs": "",
+  "country": "PT",
+  "data_connectors": [
+    {
+      "dataset_id": "tests/assets/mathe_integration_techniques/data/",
+      "type": "RawDataPath"
+    }
+  ],
+  "datePublished": "2025-08-23",
+  "description": "MathE is a mathematical platform developed under the MathE project (mathe.ipb.pt) for higher education. The dataset associated with the Integration topic and the Integration techniques subtopic has 61 questions, the correct answer and two incorrect answers with common errors made by students, keywords associated and material association. The database is organised as follows: Question ID, topic name; subtopic name; question; Correct answer, Incorrect answer 1, incorrect answer 2, keywords, Videos, Material.",
+  "fieldOfScience": [
+    "MATHEMATICS"
+  ],
+  "headline": "Integration Techniques Questions MathE Database.",
+  "id": "a36dde9d-7f95-40ff-8a9b-f687d0a72318",
+  "inLanguage": [
+    "en"
+  ],
+  "keywords": [
+    "math",
+    "student",
+    "higher education"
+  ],
+  "license": "CC0 1.0",
+  "name": "Integration Techniques Questions MathE Database",
+  "uploadedBy": "ADMIN",
+  "url": "https://doi.org/10.34620/dadosipb/3TUVJX"
+}

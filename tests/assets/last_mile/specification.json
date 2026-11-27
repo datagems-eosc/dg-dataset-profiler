@@ -1,0 +1,37 @@
+{
+  "access": "PUBLIC",
+  "citeAs": "",
+  "country": "",
+  "data_connectors": [
+    {
+      "dataset_id": "tests/assets/last_mile/data/",
+      "type": "RawDataPath"
+    }
+  ],
+  "datePublished": "2026-06-29",
+  "description": "A last-mile logistics dataset describing delivery customers and their associated payloads. The dataset contains geolocated customer points (latitude/longitude) provided in two variants: randomly distributed customers and spatially clustered customers, suitable for benchmarking vehicle routing and delivery optimization algorithms. An accompanying payloads file specifies the demand associated with each client, where positive and negative values represent pickup and delivery quantities. Together these files support experimentation with capacitated vehicle routing problems and last-mile delivery planning.",
+  "fieldOfScience": [
+    "TRANSPORT PLANNING",
+    "OPERATIONS RESEARCH"
+  ],
+  "headline": "Last mile delivery customers and payloads",
+  "id": "NOT GIVEN BY US",
+  "inLanguage": "en",
+  "keywords": [
+    "last mile",
+    "logistics",
+    "delivery",
+    "vehicle routing",
+    "customers",
+    "payloads",
+    "geolocation"
+  ],
+  "languages": [
+    "en"
+  ],
+  "license": "CC-BY 4.0",
+  "name": "Last mile delivery customers and payloads",
+  "publishedUrl": "",
+  "uploadedBy": "ADMIN",
+  "url": "asdsad"
+}

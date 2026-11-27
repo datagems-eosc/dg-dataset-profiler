@@ -70,7 +70,10 @@ class ColumnStatistics:
     def _json_statistics(self, serialise: bool) -> dict:
         if self.json_types is None:
             return {}
-        encode = json.dumps if serialise else (lambda value: value)
+        # ensure_ascii=False: Greek stays "Μ" inside the string instead of
+        # "\u039c", which a reader would see as text after its first parse.
+        def encode(value):
+            return json.dumps(value, ensure_ascii=False) if serialise else value
         return {
             "jsonTypes": encode(self.json_types),
             "topValues": None if self.top_values is None else encode(self.top_values),

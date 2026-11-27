@@ -8,12 +8,21 @@ JSON files get keywords and a summary from the same call and the same settings, 
 
 ## How It Works
 
-1. The document's text is extracted: PDFs with PyMuPDF, text files as read for the text statistics.
-2. Documents with fewer than **10 words** of extractable text are skipped. Scanned PDFs without a text layer fall here, as do placeholder files; given nothing to describe, the model invents keywords such as `placeholder` or `empty document` instead.
+1. The document's text is extracted: text files as read for the text statistics, PDFs on the CPU with PyMuPDF4LLM:
+    - text in reading order, also across columns;
+    - pages without a text layer (scans) are **OCRed with Tesseract**, in English by default (`DOCUMENT_OCR_LANGUAGE`);
+    - a page whose formulas the layout model dropped (it files formula regions as images) falls back to the page's text layer.
+2. Documents with fewer than **10 words** of extractable text are skipped, such as placeholder files: given nothing to describe, the model invents keywords such as `placeholder` or `empty document` instead.
 3. The text is sent to the model, capped at the first **24,000 characters**. Course sheets and teaching material fit whole; longer documents are described from their beginning, where the title, abstract and table of contents live.
-4. The model returns up to **8 keywords** and a summary of at most **150 words**, both in the language of the document. Duplicate keywords (ignoring case) are dropped.
+4. The model returns up to **5 keywords** and a summary of at most **150 words**, both in the language of the document. Duplicate keywords (ignoring case) are dropped.
 
 Extraction is **best-effort**. If the LLM is unreachable, the model id is not served, or the answer cannot be parsed, the failure is logged and the document gets empty `keywords` and an empty `summary` — profiling continues. Losing an enrichment must never fail a profile.
+
+### Time budget
+
+All documents of one profiling job share a **budget of LLM time**, 10 minutes by default (`DOCUMENT_LLM_TIME_BUDGET_SECONDS`). Every call, failed or not, is charged its duration, and no call may run past what is left. Once the budget is spent, the remaining documents get empty `keywords` and `summary`, and the job logs `Document LLM time budget ran out` once with the number of documents skipped. The budget covers PDF, text and JSON files alike.
+
+The PDF text and its OCR are not part of the budget: every document's `raw_content` is still extracted.
 
 ### Which documents are described
 
@@ -46,10 +55,7 @@ Keywords and summary appear on the document's `cr:RecordSet` in the heavy profil
     "Machine Learning",
     "Python",
     "Scikit-learn",
-    "Supervised Learning",
-    "Unsupervised Learning",
-    "Clustering",
-    "Dimensionality Reduction"
+    "Supervised Learning"
   ],
   "summary": "This document describes the Artificial Intelligence course unit for the Bachelor in Informatics Engineering at the School of Technology and Management, academic year 2024/2025. …",
   "field": []
@@ -90,7 +96,13 @@ SCAYLE_VERIFY_SSL=false   # self-signed certificate
 ENABLE_DOCUMENT_LLM=true                 # set to false to skip keywords and summaries
 DOCUMENT_LLM_MODEL=qwen3.8-flash-next    # default; any id the endpoint serves
 DOCUMENT_LLM_TIMEOUT=120                 # seconds per request
+DOCUMENT_LLM_TIME_BUDGET_SECONDS=600     # LLM time per profiling job; 0 for no limit
+
+DOCUMENT_OCR_ENABLED=true                # Tesseract on PDF pages without a text layer
+DOCUMENT_OCR_LANGUAGE=eng                # Tesseract languages, e.g. eng+deu+fra
 ```
+
+OCR needs Tesseract and its language data on the Ray worker; `Dockerfile.ray` installs `tesseract-ocr` with English. Without them, pages without a text layer are skipped as before, and the log says so. For more languages, add the `tesseract-ocr-<lang>` packages to the image and list them in `DOCUMENT_OCR_LANGUAGE`.
 
 Unlike semantic type annotation, this feature does not read `llm_config.yaml`: that file pins a 30-second SCAYLE timeout, too short for long documents.
 
@@ -102,7 +114,8 @@ Unlike semantic type annotation, this feature does not read `llm_config.yaml`: t
 
 ## Limitations & Notes
 
-- **One LLM call per document**, a few seconds each with the default model. A folder of several hundred PDFs adds tens of minutes to the heavy profile; set `ENABLE_DOCUMENT_LLM=false` when that is not worth it.
-- **Scanned PDFs** have no text layer and are skipped: no OCR is run, so their CDD `raw_content` is empty too.
+- **One LLM call per document**, a few seconds each with the default model. A folder of several hundred PDFs would add tens of minutes to the heavy profile; the [time budget](#time-budget) stops the calls after 10 minutes. Set `ENABLE_DOCUMENT_LLM=false` to skip them altogether.
+- **Scanned PDFs** are OCRed, at about a second per page. **Handwriting** is beyond Tesseract: handwritten pages come out as noise, in `raw_content` and in what the model sees. The [MathE document endpoints](mathe-documents.md) read handwriting with a vision model.
+- **Formulas** come out as plain text from the PDF's text layer, without LaTeX.
 - **Long documents** are described from their first 24,000 characters only.
 - Output is free text, not a controlled vocabulary, and wording varies slightly between runs.

@@ -1,0 +1,91 @@
+name: Tests
+
+# Runs the test suite on GitHub-hosted runners, which reach neither SCAYLE nor
+# the dev VPN. Tests that need them are deselected by marker:
+#   live_llm, live_data_quality  real SCAYLE calls
+#   local_dataset                full datasets kept only locally (git-ignored)
+# Tests needing the ERA5-Land database skip themselves when it is unreachable.
+# Everything else stubs the network (tests/conftest.py).
+#
+# Called by the release workflow (docker-publish.yml) before the images are
+# built, and run on its own for pull requests and pushes to main.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    name: pytest
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      # Same Python as both images (Dockerfile.api, Dockerfile.ray).
+      PYTHON_VERSION: "3.11"
+      NLTK_DATA: ${{ github.workspace }}/.nltk_data
+      # Use litellm's bundled model cost map instead of downloading it.
+      LITELLM_LOCAL_MODEL_COST_MAP: "True"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install Tesseract (OCR tests, as in Dockerfile.ray)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-eng
+          # The OCR tests skip without English language data; fail loudly instead.
+          tesseract --list-langs | grep -qx eng
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+
+      - name: Install dependencies from uv.lock
+        run: uv sync --locked
+
+      - name: Download NLTK stopwords
+        run: uv run --no-sync python -m nltk.downloader -d "$NLTK_DATA" stopwords
+
+      - name: Run tests
+        run: |
+          mkdir -p generated_profiles test-results
+          uv run --no-sync python -m pytest \
+            -m "not live_llm and not live_data_quality and not local_dataset" \
+            -rfEs \
+            --junitxml=test-results/junit.xml
+
+      - name: Summarise results
+        if: always()
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          import os
+          import xml.etree.ElementTree as ET
+          try:
+              root = ET.parse("test-results/junit.xml").getroot()
+          except (FileNotFoundError, ET.ParseError):
+              print("### Tests\n\nNo JUnit report was produced.")
+              raise SystemExit
+          suite = root if root.tag == "testsuite" else root.find("testsuite")
+          t, f, e, s = (int(suite.get(k, 0)) for k in ("tests", "failures", "errors", "skipped"))
+          print(f"### Tests: {t - f - e - s} passed, {f} failed, {e} errors, {s} skipped\n")
+          print(f"Commit `{os.environ['GITHUB_SHA']}` on `{os.environ['GITHUB_REF_NAME']}`, "
+                f"Python {os.environ['PYTHON_VERSION']}.")
+          EOF
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: test-report
+          path: test-results/junit.xml
+          retention-days: 90

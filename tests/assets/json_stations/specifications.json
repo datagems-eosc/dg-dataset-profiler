@@ -1,0 +1,30 @@
+{
+  "access": "PUBLIC",
+  "citeAs": "",
+  "country": "GR",
+  "data_connectors": [
+    {
+      "dataset_id": "tests/assets/json_stations/data/",
+      "type": "RawDataPath"
+    }
+  ],
+  "datePublished": "2026-09-30",
+  "description": "Hourly temperature and humidity readings from Greek weather stations, exported as one JSON document with station metadata and nested readings.",
+  "fieldOfScience": [
+    "EARTH AND RELATED ENVIRONMENTAL SCIENCES"
+  ],
+  "headline": "Weather station readings in JSON.",
+  "id": "5f3c1e2a-7b4d-4c8e-9a1f-2d6b8e0c4a71",
+  "inLanguage": [
+    "en"
+  ],
+  "keywords": [
+    "weather stations",
+    "temperature",
+    "humidity"
+  ],
+  "license": "CC BY 4.0",
+  "name": "Greek Weather Stations (JSON example)",
+  "uploadedBy": "ADMIN",
+  "url": ""
+}

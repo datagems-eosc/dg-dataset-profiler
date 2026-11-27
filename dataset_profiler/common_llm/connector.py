@@ -135,15 +135,17 @@ def load_llm_config(
         mc = litellm.model_cost[model_full]
         config.update(
             {
+                # .get: litellm's map does not carry every key for every model
+                # (gpt-3.5-turbo lost max_tokens in the remote map).
                 "input_cost_per_token": config["input_cost_per_token"]
-                or mc["input_cost_per_token"],
+                or mc.get("input_cost_per_token"),
                 "output_cost_per_token": config["output_cost_per_token"]
-                or mc["output_cost_per_token"],
+                or mc.get("output_cost_per_token"),
                 "max_input_tokens": config["max_input_tokens"]
-                or mc["max_input_tokens"],
+                or mc.get("max_input_tokens"),
                 "max_output_tokens": config["max_output_tokens"]
-                or mc["max_output_tokens"],
-                "max_tokens": config["max_tokens"] or mc["max_tokens"],
+                or mc.get("max_output_tokens"),
+                "max_tokens": config["max_tokens"] or mc.get("max_tokens"),
             }
         )
 

@@ -1,0 +1,3 @@
+Clustered_customers.csv (text/csv) 912 bytes.
+Payloads.csv (text/csv) 221 bytes.
+Random_customers.csv (text/csv) 911 bytes.

@@ -35,7 +35,7 @@ def fake_llm(monkeypatch):
     monkeypatch.setenv("ENABLE_DOCUMENT_LLM", "true")
     prompts = []
 
-    def _fake_call(prompt):
+    def _fake_call(prompt, timeout=None):
         prompts.append(prompt)
         return FAKE_ANSWER
 
@@ -73,7 +73,7 @@ def test_describe_document_degrades_on_bad_answer(monkeypatch):
     monkeypatch.setenv("ENABLE_DOCUMENT_LLM", "true")
     calls = []
     monkeypatch.setattr(
-        document_description, "_call_llm", lambda prompt: calls.append(prompt) or "not json"
+        document_description, "_call_llm", lambda prompt, timeout=None: calls.append(prompt) or "not json"
     )
     description = describe_document(SOME_TEXT, name="doc.pdf")
     assert len(calls) == 1

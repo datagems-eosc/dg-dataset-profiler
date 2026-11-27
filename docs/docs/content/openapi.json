@@ -1,8 +1,29 @@
 {
   "components": {
     "schemas": {
+      "CddProfilePathResponse": {
+        "description": "Response model for the CDD profile path lookup by dataset ID.\n\n## Attributes\n* **cdd_profile_path** (Optional[str]): The path to the CDD profile JSON file, or None if not ready yet",
+        "properties": {
+          "cdd_profile_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cdd Profile Path"
+          }
+        },
+        "required": [
+          "cdd_profile_path"
+        ],
+        "title": "CddProfilePathResponse",
+        "type": "object"
+      },
       "CleanUpRequest": {
-        "description": "Request model for cleaning up resources associated with a profiling job.\n\n## Attributes\n* **profile_job_id** (str): The unique identifier of the profiling job to clean up\n    \n## Example\n```json\n{\n  \"profile_job_id\": \"550e8400-e29b-41d4-a716-446655440000\"\n}\n```",
+        "description": "Request model for cleaning up resources associated with a profiling job.\n\n## Attributes\n* **profile_job_id** (str): The unique identifier of the profiling job to clean up\n\n## Example\n```json\n{\n  \"profile_job_id\": \"550e8400-e29b-41d4-a716-446655440000\"\n}\n```",
         "properties": {
           "profile_job_id": {
             "title": "Profile Job Id",
@@ -15,11 +36,159 @@
         "title": "CleanUpRequest",
         "type": "object"
       },
+      "ConversionMode": {
+        "enum": [
+          "quality",
+          "fast"
+        ],
+        "title": "ConversionMode",
+        "type": "string"
+      },
+      "ConvertRequest": {
+        "description": "Convert PDF FileObjects of a dataset to Markdown.\n\n## Attributes\n* **fileObjectIds**: the FileObjects, 1 to DOCUMENT_MAX_FILES (20)\n* **mode**: \"quality\" (default) reads every page with a vision model:\n  scans, handwriting and formulas as LaTeX, several seconds per page.\n  \"fast\" reads the PDF's text on the CPU, with OCR for scanned pages:\n  about a second per document, but no handwriting and no LaTeX\n* **datasetId**: optional; the files must then belong to this dataset\n\n## Example\n```json\n{\"fileObjectIds\": [\"5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13\"], \"mode\": \"quality\"}\n```",
+        "properties": {
+          "datasetId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Datasetid"
+          },
+          "fileObjectIds": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Fileobjectids",
+            "type": "array"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/ConversionMode",
+            "default": "quality"
+          }
+        },
+        "required": [
+          "fileObjectIds"
+        ],
+        "title": "ConvertRequest",
+        "type": "object"
+      },
+      "ConvertResponse": {
+        "description": "The converted FileObjects, in request order.",
+        "properties": {
+          "files": {
+            "items": {
+              "$ref": "#/components/schemas/ConvertedFile"
+            },
+            "title": "Files",
+            "type": "array"
+          }
+        },
+        "required": [
+          "files"
+        ],
+        "title": "ConvertResponse",
+        "type": "object"
+      },
+      "ConvertedFile": {
+        "description": "One converted FileObject: its Markdown, or the error.\n\n## Attributes\n* **fileObjectId**: the FileObject\n* **markdown**: the document as Markdown, with LaTeX math in quality mode\n* **pages**: number of pages\n* **model**: the vision model, or \"\" in fast mode\n* **fallbackPages**: pages that kept the PDF's text layer after the vision model failed on them\n* **sha256**: of the file's content\n* **error**: why the conversion failed, or null",
+        "properties": {
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "fallbackPages": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Fallbackpages",
+            "type": "array"
+          },
+          "fileObjectId": {
+            "title": "Fileobjectid",
+            "type": "string"
+          },
+          "markdown": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Markdown"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "pages": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pages"
+          },
+          "sha256": {
+            "title": "Sha256",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fileObjectId",
+          "sha256"
+        ],
+        "title": "ConvertedFile",
+        "type": "object"
+      },
       "DatabaseConnection": {
-        "description": "Specifies connection details for a database to be profiled.\n\n## Attributes\n* **type** (str): The type of connector, must be \"DatabaseConnection\"\n* **database_name** (str): The name of the database to connect to\n    \n## Example\n```json\n{\n    \"type\": \"DatabaseConnection\",\n    \"database_name\": \"ds_era5_land\"\n}\n```",
+        "description": "Specifies connection details for a database to be profiled.\n\n## Attributes\n* **type** (str): The type of connector, must be \"DatabaseConnection\"\n* **database_name** (str): The name of the database to connect to\n\n## Example\n```json\n{\n    \"type\": \"DatabaseConnection\",\n    \"database_name\": \"ds_era5_land\"\n}\n```",
         "properties": {
           "database_name": {
             "title": "Database Name",
+            "type": "string"
+          },
+          "engine": {
+            "enum": [
+              "PostgreSQL",
+              "TimescaleDB"
+            ],
+            "title": "Engine",
+            "type": "string"
+          },
+          "host": {
+            "title": "Host",
+            "type": "string"
+          },
+          "port": {
+            "title": "Port",
+            "type": "integer"
+          },
+          "protocol": {
+            "title": "Protocol",
             "type": "string"
           },
           "type": {
@@ -29,6 +198,10 @@
         },
         "required": [
           "type",
+          "protocol",
+          "engine",
+          "host",
+          "port",
           "database_name"
         ],
         "title": "DatabaseConnection",
@@ -48,7 +221,7 @@
         "type": "object"
       },
       "IngestionTriggerResponse": {
-        "description": "Response model for a submitted profiling job.\n\n## Attributes\n* **job_id**: Unique identifier for tracking the profiling job\n* **status**: Confirmation message that the job was submitted\n    \n## Example\n```json\n{\n  \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"status\": \"Job submitted\"\n}\n```",
+        "description": "Response model for a submitted profiling job.\n\n## Attributes\n* **job_id**: Unique identifier for tracking the profiling job\n* **status**: Confirmation message that the job was submitted\n\n## Example\n```json\n{\n  \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"status\": \"Job submitted\"\n}\n```",
         "properties": {
           "job_id": {
             "title": "Job Id",
@@ -67,19 +240,44 @@
         "type": "object"
       },
       "JobStatus": {
-        "description": "Enumeration of possible profiling job statuses.\n\n## Values\n* **SUBMITTING**: The job is being submitted to the processing queue\n* **STARTING**: The job has been accepted and is starting\n* **LIGHT_PROFILE_READY**: The light profile (basic metadata) is ready\n* **HEAVY_PROFILES_READY**: The heavy profile (including record sets) is ready\n* **CLEANED_UP**: Resources associated with the job have been cleaned up",
+        "description": "Enumeration of possible profiling job statuses.\n\n## Values\n* **SUBMITTING**: The job is being submitted to the processing queue\n* **STARTING**: The job has been accepted and is starting\n* **LIGHT_PROFILE_READY**: The light profile (basic metadata) is ready\n* **HEAVY_PROFILES_READY**: The heavy profile (including record sets) is ready\n* **CLEANED_UP**: Resources associated with the job have been cleaned up\n* **FAILED**: The job failed to complete",
         "enum": [
           "submitting",
           "starting",
           "light_profile_ready",
           "heavy_profile_ready",
-          "cleaned_up"
+          "cleaned_up",
+          "failed"
         ],
         "title": "JobStatus",
         "type": "string"
       },
+      "JobStatusResponse": {
+        "description": "Status report for a profiling job.\n\n## Attributes\n* **status** (JobStatus): The current status of the profiling job\n* **dataset_id** (Optional[str]): The identifier of the dataset being profiled,\n  or None if it was not recorded for the job\n\n## Example\n```json\n{\n  \"status\": \"light_profile_ready\",\n  \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n}\n```",
+        "properties": {
+          "dataset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/JobStatus"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "JobStatusResponse",
+        "type": "object"
+      },
       "ProfileSpecificationEndpoint": {
-        "description": "Metadata about the dataset to be profiled.\n\nThis class contains comprehensive metadata about a dataset, including its\nidentification, description, and access methods.\n\n## Attributes\n* **id** (uuid.UUID): Unique identifier for the dataset\n* **name** (str): Name of the dataset\n* **description** (str): Detailed description of the dataset\n* **headline** (str): Short headline describing the dataset\n* **fields_of_science** (List[str]): List of scientific fields based on OECD disciplines\n* **languages** (List[str]): List of languages used in the dataset (ISO 639 codes)\n* **keywords** (List[str]): List of keywords describing the dataset\n* **country** (str): Country code where the dataset originates\n* **published_url** (Optional[str]): URL where the dataset is published\n* **doi** (Optional[str]): Digital Object Identifier for the dataset\n* **date_published** (str): Publication date in format \"DD-MM-YYYY\"\n* **cite_as** (Optional[str]): Citation information\n* **license** (str): License information\n* **data_connectors** (List[Union[RawDataPath, DatabaseConnection]]): List of data connectors\n* **database_name** (Optional[str]): Name of the database (legacy field)\n* **uploaded_by** (str): User who uploaded the dataset\n    \n## Example\n```json\n{\n  \"id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\",\n  \"name\": \"Mathematics Learning Assessment\",\n  \"description\": \"This dataset was extracted from the MathE platform...\",\n  \"headline\": \"Dataset for Assessing Mathematics Learning in Higher Education.\",\n  \"fields_of_science\": [\"MATHEMATICS\"],\n  \"languages\": [\"en\"],\n  \"keywords\": [\"math\", \"student\", \"higher education\"],\n  \"country\": \"PT\",\n  \"published_url\": \"https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY\",\n  \"doi\": \"\",\n  \"date_published\": \"24-05-2025\",\n  \"cite_as\": \"\",\n  \"license\": \"CC0 1.0\",\n  \"uploaded_by\": \"ADMIN\",\n  \"data_connectors\": [\n    {\n      \"type\": \"RawDataPath\",\n      \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n    }\n  ]\n}\n```",
+        "description": "Metadata about the dataset to be profiled.\n\nThis class contains comprehensive metadata about a dataset, including its\nidentification, description, and access methods.\n\n## Attributes\n* **id** (uuid.UUID): Unique identifier for the dataset\n* **name** (str): Name of the dataset\n* **description** (str): Detailed description of the dataset\n* **headline** (str): Short headline describing the dataset\n* **fields_of_science** (List[str]): List of scientific fields based on OECD disciplines\n* **languages** (List[str]): List of languages used in the dataset (ISO 639 codes)\n* **keywords** (List[str]): List of keywords describing the dataset\n* **country** (str): Country code where the dataset originates\n* **published_url** (Optional[str]): URL where the dataset is published\n* **doi** (Optional[str]): Digital Object Identifier for the dataset\n* **date_published** (str): Publication date in format \"DD-MM-YYYY\"\n* **cite_as** (Optional[str]): Citation information\n* **license** (str): License information\n* **data_connectors** (List[Union[RawDataPath, DatabaseConnection]]): List of data connectors\n* **database_name** (Optional[str]): Name of the database (legacy field)\n* **uploaded_by** (str): User who uploaded the dataset\n\n## Example\n```json\n{\n  \"id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\",\n  \"name\": \"Mathematics Learning Assessment\",\n  \"description\": \"This dataset was extracted from the MathE platform...\",\n  \"headline\": \"Dataset for Assessing Mathematics Learning in Higher Education.\",\n  \"fields_of_science\": [\"MATHEMATICS\"],\n  \"languages\": [\"en\"],\n  \"keywords\": [\"math\", \"student\", \"higher education\"],\n  \"country\": \"PT\",\n  \"published_url\": \"https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY\",\n  \"doi\": \"\",\n  \"date_published\": \"2025-04-23\",\n  \"cite_as\": \"\",\n  \"license\": \"CC0 1.0\",\n  \"uploaded_by\": \"ADMIN\",\n  \"data_connectors\": [\n    {\n      \"type\": \"RawDataPath\",\n      \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n    }\n  ]\n}\n```",
         "properties": {
           "cite_as": {
             "anyOf": [
@@ -214,7 +412,7 @@
         "type": "object"
       },
       "ProfilesResponse": {
-        "description": "Response model containing the generated profiles for a dataset.\n\n## Attributes\n* **moma_profile_light** (dict): Basic metadata about the dataset and its distributions\n* **moma_profile_heavy** (dict): Detailed information about record sets and fields\n* **cdd_profile** (dict): Profile used by the Cross-Dataset Discovery service\n    \n## Example\n```json\n{\n  \"moma_profile_light\": {\n    \"@context\": {\n      \"@language\": \"en\",\n      \"@vocab\": \"https://schema.org/\",\n      \"cr\": \"http://mlcommons.org/croissant/\"\n    },\n    \"@type\": \"sc:Dataset\",\n    \"name\": \"Mathematics Learning Assessment\",\n    \"description\": \"This dataset was extracted from the MathE platform...\",\n    \"distribution\": [\n      {\n        \"@type\": \"cr:FileObject\",\n        \"name\": \"mathe_assessment_dataset.csv\",\n        \"contentSize\": \"1057461 B\",\n        \"encodingFormat\": \"text/csv\"\n      }\n    ]\n  },\n  \"moma_profile_heavy\": {\n    \"@context\": {\n      \"@language\": \"en\",\n      \"@vocab\": \"https://schema.org/\",\n      \"cr\": \"http://mlcommons.org/croissant/\"\n    },\n    \"@type\": \"sc:Dataset\",\n    \"recordSet\": [\n      {\n        \"@type\": \"cr:RecordSet\",\n        \"name\": \"mathe_assessment_dataset\",\n        \"field\": [\n          {\n            \"@type\": \"cr:Field\",\n            \"name\": \"Student ID\",\n            \"dataType\": \"sc:Integer\"\n          }\n        ]\n      }\n    ]\n  },\n  \"cdd_profile\": {}\n}\n```",
+        "description": "Response model containing the generated profiles for a dataset.\n\n## Attributes\n* **moma_profile_light** (dict): Basic metadata about the dataset and its distributions\n* **moma_profile_heavy** (dict): Detailed information about record sets and fields\n* **cdd_profile** (dict): Profile used by the Cross-Dataset Discovery service\n\n## Example\n```json\n{\n  \"moma_profile_light\": {\n    \"@context\": {\n      \"@language\": \"en\",\n      \"@vocab\": \"https://schema.org/\",\n      \"cr\": \"http://mlcommons.org/croissant/\"\n    },\n    \"@type\": \"sc:Dataset\",\n    \"name\": \"Mathematics Learning Assessment\",\n    \"description\": \"This dataset was extracted from the MathE platform...\",\n    \"distribution\": [\n      {\n        \"@type\": \"cr:FileObject\",\n        \"name\": \"mathe_assessment_dataset.csv\",\n        \"contentSize\": \"1057461 B\",\n        \"encodingFormat\": \"text/csv\"\n      }\n    ]\n  },\n  \"moma_profile_heavy\": {\n    \"@context\": {\n      \"@language\": \"en\",\n      \"@vocab\": \"https://schema.org/\",\n      \"cr\": \"http://mlcommons.org/croissant/\"\n    },\n    \"@type\": \"sc:Dataset\",\n    \"recordSet\": [\n      {\n        \"@type\": \"cr:RecordSet\",\n        \"name\": \"mathe_assessment_dataset\",\n        \"field\": [\n          {\n            \"@type\": \"cr:Field\",\n            \"name\": \"Student ID\",\n            \"dataType\": \"sc:Integer\"\n          }\n        ]\n      }\n    ]\n  },\n  \"cdd_profile\": {}\n}\n```",
         "properties": {
           "cdd_profile": {
             "additionalProperties": true,
@@ -241,7 +439,7 @@
         "type": "object"
       },
       "ProfilingRequest": {
-        "description": "Request model for triggering a dataset profiling job.\n\n## Attributes\n* **profile_specification** (ProfileSpecificationEndpoint): Metadata about the dataset to be profiled\n* **only_light_profile** (bool): Flag to generate only basic metadata (default: False)\n  * If True, only the light profile (basic metadata and distributions) is generated\n  * If False, both light and heavy profiles (including record sets) are generated\n        \n## Example\n```json\n{\n  \"profile_specification\": {\n    \"id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\",\n    \"name\": \"Mathematics Learning Assessment\",\n    \"description\": \"This dataset was extracted from the MathE platform...\",\n    \"headline\": \"Dataset for Assessing Mathematics Learning in Higher Education.\",\n    \"fields_of_science\": [\"MATHEMATICS\"],\n    \"languages\": [\"en\"],\n    \"keywords\": [\"math\", \"student\", \"higher education\"],\n    \"country\": \"PT\",\n    \"published_url\": \"https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY\",\n    \"date_published\": \"24-05-2025\",\n    \"license\": \"CC0 1.0\",\n    \"uploaded_by\": \"ADMIN\",\n    \"data_connectors\": [\n      {\n        \"type\": \"RawDataPath\",\n        \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n      }\n    ]\n  },\n  \"only_light_profile\": false\n}\n```",
+        "description": "Request model for triggering a dataset profiling job.\n\n## Attributes\n* **profile_specification** (ProfileSpecificationEndpoint): Metadata about the dataset to be profiled\n* **only_light_profile** (bool): Flag to generate only basic metadata (default: False)\n  * If True, only the light profile (basic metadata and distributions) is generated\n  * If False, both light and heavy profiles (including record sets) are generated\n\n## Example\n```json\n{\n  \"profile_specification\": {\n    \"id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\",\n    \"name\": \"Mathematics Learning Assessment\",\n    \"description\": \"This dataset was extracted from the MathE platform...\",\n    \"headline\": \"Dataset for Assessing Mathematics Learning in Higher Education.\",\n    \"fields_of_science\": [\"MATHEMATICS\"],\n    \"languages\": [\"en\"],\n    \"keywords\": [\"math\", \"student\", \"higher education\"],\n    \"country\": \"PT\",\n    \"published_url\": \"https://dados.ipb.pt//dataset.xhtml?persistentId=doi:10.34620/dadosipb/PW3OWY\",\n    \"date_published\": \"2025-04-23\",\n    \"license\": \"CC0 1.0\",\n    \"uploaded_by\": \"ADMIN\",\n    \"data_connectors\": [\n      {\n        \"type\": \"RawDataPath\",\n        \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n      }\n    ]\n  },\n  \"only_light_profile\": false\n}\n```",
         "properties": {
           "only_light_profile": {
             "default": false,
@@ -259,7 +457,7 @@
         "type": "object"
       },
       "RawDataPath": {
-        "description": "Specifies a path to the raw data files for profiling.\n\n## Attributes\n* **type** (str): The type of connector, must be \"RawDataPath\"\n* **dataset_id** (str): The unique identifier of the dataset in the storage system\n    \n## Example\n```json\n{\n    \"type\": \"RawDataPath\",\n    \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n}\n```",
+        "description": "Specifies a path to the raw data files for profiling.\n\n## Attributes\n* **type** (str): The type of connector, must be \"RawDataPath\"\n* **dataset_id** (str): The unique identifier of the dataset in the storage system\n\n## Example\n```json\n{\n    \"type\": \"RawDataPath\",\n    \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n}\n```",
         "properties": {
           "dataset_id": {
             "title": "Dataset Id",
@@ -322,6 +520,12 @@
         "title": "ValidationError",
         "type": "object"
       }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "scheme": "bearer",
+        "type": "http"
+      }
     }
   },
   "info": {
@@ -332,6 +536,7 @@
   "paths": {
     "/": {
       "get": {
+        "description": "Pure HTTP liveness endpoint -- does not depend on Ray.\n\nSuitable as a Kubernetes readiness/liveness probe target so that a transient\nRay outage never deregisters this pod from the Service.",
         "operationId": "read_root__get",
         "responses": {
           "200": {
@@ -346,9 +551,261 @@
         "summary": "Read Root"
       }
     },
+    "/documents/convert": {
+      "post": {
+        "description": "Convert PDF FileObjects to Markdown without an Analytical Pattern.\n\nSame lookup, conversion, cache and errors as /documents/convert4ap.\n\n## Errors\n* **400**: a FileObject is not a PDF, cannot be opened, has more than\n  DOCUMENT_MAX_PAGES pages, or lies outside the dataset storage or the named dataset\n* **401** / **403**: missing or invalid token, missing role, or MoMa refused access\n* **404**: a FileObject is unknown or not visible to the caller, or its file is\n  missing on storage\n* **422**: malformed request or AP, or more than DOCUMENT_MAX_FILES files\n* **424**: MoMa unreachable or failing\n* **503**: Ray, the identity provider or the dataset storage unavailable\n* **504**: DOCUMENT_REQUEST_TIMEOUT_SECONDS (240) exceeded. The conversion goes\n  on and fills the cache, so a retry is answered from it\n\nThe first failing FileObject, in request order, gives the error. A conversion\nthat fails on the vision model's side (every page failed) does not fail the\nrequest: it is reported on that file only.",
+        "operationId": "convert_documents_convert_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvertRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConvertResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Convert",
+        "tags": [
+          "MathE Documents"
+        ]
+      }
+    },
+    "/documents/convert4ap": {
+      "post": {
+        "description": "The document conversion operator of an Analytical Pattern.\n\nReads the `Document_Convert_Operator` node, its `mode` (\"quality\", the\ndefault, or \"fast\") and the `cr:FileObject` nodes it takes as `input` (only\ntheir ids are used). Fills the Markdown `ResultType` node of each file,\nthe operator's `output` with properties `name` \"markdown\" and\n`fileObjectId`:\n\n* `value`: the Markdown; `pages`; `model`; `fallbackPages` (pages that kept\n  the PDF's text layer after the vision model failed on them); `sha256` of\n  the file;\n* or `error`, when that file's conversion failed.\n\nEvery other node, edge and property is returned unchanged. When the AP has\nan `sc:Dataset` node (the one distributing the files, or its only one), the\nfiles must belong to that dataset.\n\n## Errors\n* **400**: a FileObject is not a PDF, cannot be opened, has more than\n  DOCUMENT_MAX_PAGES pages, or lies outside the dataset storage or the named dataset\n* **401** / **403**: missing or invalid token, missing role, or MoMa refused access\n* **404**: a FileObject is unknown or not visible to the caller, or its file is\n  missing on storage\n* **422**: malformed request or AP, or more than DOCUMENT_MAX_FILES files\n* **424**: MoMa unreachable or failing\n* **503**: Ray, the identity provider or the dataset storage unavailable\n* **504**: DOCUMENT_REQUEST_TIMEOUT_SECONDS (240) exceeded. The conversion goes\n  on and fills the cache, so a retry is answered from it\n\nThe first failing FileObject, in request order, gives the error. A conversion\nthat fails on the vision model's side (every page failed) does not fail the\nrequest: it is reported on that file only.",
+        "operationId": "convert4ap_documents_convert4ap_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "examples": [
+                  {
+                    "ap": {
+                      "edges": [
+                        {
+                          "from": "6f1c2a4e-0b7d-4c1e-9a52-3d1f0e8b7a10",
+                          "labels": [
+                            "consist_of"
+                          ],
+                          "to": "a3e5d9c2-71f4-4b8e-8c0a-5e2b9d4f6c11"
+                        },
+                        {
+                          "from": "0c9b7e65-2f3a-4d18-b6e4-9a1c5d7e8f12",
+                          "labels": [
+                            "distribution"
+                          ],
+                          "to": "5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13"
+                        },
+                        {
+                          "from": "a3e5d9c2-71f4-4b8e-8c0a-5e2b9d4f6c11",
+                          "labels": [
+                            "input"
+                          ],
+                          "to": "5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13"
+                        },
+                        {
+                          "from": "a3e5d9c2-71f4-4b8e-8c0a-5e2b9d4f6c11",
+                          "labels": [
+                            "output"
+                          ],
+                          "to": "e7a4c1b9-3d6f-4e2a-9b5c-1f8d0e6a7b14"
+                        }
+                      ],
+                      "nodes": [
+                        {
+                          "id": "6f1c2a4e-0b7d-4c1e-9a52-3d1f0e8b7a10",
+                          "labels": [
+                            "Analytical_Pattern"
+                          ],
+                          "properties": {
+                            "name": "MathE document keywords"
+                          }
+                        },
+                        {
+                          "id": "a3e5d9c2-71f4-4b8e-8c0a-5e2b9d4f6c11",
+                          "labels": [
+                            "Document_Convert_Operator",
+                            "Operator"
+                          ],
+                          "properties": {
+                            "mode": "quality",
+                            "name": "Convert to Markdown"
+                          }
+                        },
+                        {
+                          "id": "0c9b7e65-2f3a-4d18-b6e4-9a1c5d7e8f12",
+                          "labels": [
+                            "sc:Dataset"
+                          ]
+                        },
+                        {
+                          "id": "5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13",
+                          "labels": [
+                            "cr:FileObject"
+                          ]
+                        },
+                        {
+                          "id": "e7a4c1b9-3d6f-4e2a-9b5c-1f8d0e6a7b14",
+                          "labels": [
+                            "ResultType"
+                          ],
+                          "properties": {
+                            "fileObjectId": "5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13",
+                            "name": "markdown"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "title": "Payload",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "ap": {
+                    "edges": [
+                      {
+                        "from": "6f1c2a4e-0b7d-4c1e-9a52-3d1f0e8b7a10",
+                        "labels": [
+                          "consist_of"
+                        ],
+                        "to": "a3e5d9c2-71f4-4b8e-8c0a-5e2b9d4f6c11"
+                      },
+                      {
+                        "from": "0c9b7e65-2f3a-4d18-b6e4-9a1c5d7e8f12",
+                        "labels": [
+                          "distribution"
+                        ],
+                        "to": "5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13"
+                      },
+                      {
+                        "from": "a3e5d9c2-71f4-4b8e-8c0a-5e2b9d4f6c11",
+                        "labels": [
+                          "input"
+                        ],
+                        "to": "5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13"
+                      },
+                      {
+                        "from": "a3e5d9c2-71f4-4b8e-8c0a-5e2b9d4f6c11",
+                        "labels": [
+                          "output"
+                        ],
+                        "to": "e7a4c1b9-3d6f-4e2a-9b5c-1f8d0e6a7b14"
+                      }
+                    ],
+                    "nodes": [
+                      {
+                        "id": "6f1c2a4e-0b7d-4c1e-9a52-3d1f0e8b7a10",
+                        "labels": [
+                          "Analytical_Pattern"
+                        ],
+                        "properties": {
+                          "name": "MathE document keywords"
+                        }
+                      },
+                      {
+                        "id": "a3e5d9c2-71f4-4b8e-8c0a-5e2b9d4f6c11",
+                        "labels": [
+                          "Document_Convert_Operator",
+                          "Operator"
+                        ],
+                        "properties": {
+                          "mode": "quality",
+                          "name": "Convert to Markdown"
+                        }
+                      },
+                      {
+                        "id": "0c9b7e65-2f3a-4d18-b6e4-9a1c5d7e8f12",
+                        "labels": [
+                          "sc:Dataset"
+                        ]
+                      },
+                      {
+                        "id": "5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13",
+                        "labels": [
+                          "cr:FileObject"
+                        ]
+                      },
+                      {
+                        "id": "e7a4c1b9-3d6f-4e2a-9b5c-1f8d0e6a7b14",
+                        "labels": [
+                          "ResultType"
+                        ],
+                        "properties": {
+                          "fileObjectId": "5b2d8f17-9c4e-4a63-8d1b-7e0f2a6c9d13",
+                          "name": "markdown"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Convert4Ap",
+        "tags": [
+          "MathE Documents"
+        ]
+      }
+    },
     "/monitoring/health-check": {
       "get": {
-        "description": "Check the health status of the Dataset Profiler service and its dependencies.\n\nThis endpoint verifies the connectivity and operational status of critical service dependencies:\n\n* **Redis**: Used for job status tracking and caching\n* **Ray**: Used for distributed computing tasks\n\n## Returns\nA status report containing health information for each dependency:\n* redis: Status and connection details\n* ray: Status and cluster information\n          \n## Raises\n* **HTTPException**: 503 Service Unavailable if any dependency is unhealthy\n    \n## Example\n```json\n{\n    \"redis\": {\n        \"status\": \"healthy\",\n        \"message\": \"Connected to Redis at localhost:6379\"\n    },\n    \"ray\": {\n        \"status\": \"healthy\",\n        \"message\": \"Ray cluster reachable with 3 alive node(s)\"\n    }\n}\n```",
+        "description": "Report the health status of the Dataset Profiler service and its dependencies.\n\nThis endpoint verifies the connectivity and operational status of critical service dependencies:\n\n* **Redis**: Used for job status tracking and caching\n* **Ray**: Used for distributed computing tasks\n\nIt is purely diagnostic: it ALWAYS returns HTTP 200 from a live pod and never\ncalls ``ray.init()``. A dependency being down is surfaced inside the response\nbody (``status: degraded``) rather than as a 503, so this endpoint can be hit\nby callers (or a probe) without a Ray/Redis outage tearing the pod out of the\nService. Use ``/monitoring/ready`` or ``GET /`` for readiness.\n\n## Returns\nA status report containing health information for each dependency plus an\noverall status:\n* status: \"healthy\" if all dependencies are healthy, otherwise \"degraded\"\n* redis: Status and connection details\n* ray: Status and cluster information\n\n## Example\n```json\n{\n    \"status\": \"degraded\",\n    \"redis\": {\n        \"status\": \"healthy\",\n        \"message\": \"Connected to Redis server successfully.\"\n    },\n    \"ray\": {\n        \"status\": \"degraded\",\n        \"message\": \"Ray not connected: ...\"\n    }\n}\n```",
         "operationId": "check_health_monitoring_health_check_get",
         "responses": {
           "200": {
@@ -367,6 +824,78 @@
         "summary": "Check Health",
         "tags": [
           "Health"
+        ]
+      }
+    },
+    "/monitoring/ready": {
+      "get": {
+        "description": "Lightweight readiness probe that does NOT depend on Ray (or Redis).\n\nKubernetes should point the readiness probe here (or at ``GET /``). A\ntransient Ray outage must never deregister this pod from the Service, so\nreadiness is decoupled from dependency health. Dependency status is reported\nseparately by ``/monitoring/health-check``.",
+        "operationId": "readiness_monitoring_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Readiness Monitoring Ready Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Readiness",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/profiler/cdd_profile_path/{dataset_id}": {
+      "get": {
+        "description": "Retrieve the CDD profile path for a dataset by its dataset ID.\n\nThe CDD profile file is written once the heavy profile completes. This endpoint allows\nconsumers that only know the dataset ID (not the profiling job ID) to retrieve the path.\n\n## Parameters\n* **dataset_id** (str): The dataset identifier used when the profiling job was submitted\n\n## Returns\n* **CddProfilePathResponse**: Contains the CDD profile path, or None if the profile is not ready yet",
+        "operationId": "get_cdd_profile_path_by_dataset_id_profiler_cdd_profile_path__dataset_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CddProfilePathResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Cdd Profile Path By Dataset Id",
+        "tags": [
+          "Profiler"
         ]
       }
     },
@@ -408,6 +937,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "summary": "Clean Up Job",
         "tags": [
           "Profiler"
@@ -416,7 +950,7 @@
     },
     "/profiler/job_status/{profile_job_id}": {
       "get": {
-        "description": "Check the detailed status of a profiling job.\n\nThis endpoint retrieves the current status of a profiling job from the job store.\nIt provides more detailed information about the job's progress than the runner status.\n\n## Parameters\n* **profile_job_id** (str): The unique identifier of the profiling job\n\n## Returns\n* **JobStatus**: The current status of the profiling job, one of:\n  * SUBMITTING: The job is being submitted to the processing queue\n  * STARTING: The job has been accepted and is starting\n  * LIGHT_PROFILE_READY: The light profile (basic metadata) is ready\n  * HEAVY_PROFILES_READY: The heavy profile (including record sets) is ready\n  * FAILED: The job has failed\n\n## Example\n```\n\"LIGHT_PROFILE_READY\"\n```",
+        "description": "Check the detailed status of a profiling job.\n\nThis endpoint retrieves the current status of a profiling job from the job store.\nIt provides more detailed information about the job's progress than the runner status.\n\n## Parameters\n* **profile_job_id** (str): The unique identifier of the profiling job\n\n## Returns\n* **JobStatusResponse**: The current status report, containing:\n  * status: The current status of the profiling job, one of:\n    * SUBMITTING: The job is being submitted to the processing queue\n    * STARTING: The job has been accepted and is starting\n    * LIGHT_PROFILE_READY: The light profile (basic metadata) is ready\n    * HEAVY_PROFILES_READY: The heavy profile (including record sets) is ready\n    * FAILED: The job has failed\n  * dataset_id: The identifier of the dataset being profiled (or None if unknown)\n\n## Example\n```json\n{\n  \"status\": \"light_profile_ready\",\n  \"dataset_id\": \"8930240b-a0e8-46e7-ace8-aab2b42fcc01\"\n}\n```",
         "operationId": "get_job_status_profiler_job_status__profile_job_id__get",
         "parameters": [
           {
@@ -434,7 +968,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/JobStatus"
+                  "$ref": "#/components/schemas/JobStatusResponse"
                 }
               }
             },
@@ -451,6 +985,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "summary": "Get Job Status",
         "tags": [
           "Profiler"
@@ -494,6 +1033,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "summary": "Get Profile",
         "tags": [
           "Profiler"
@@ -537,6 +1081,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "summary": "Get Runner Status",
         "tags": [
           "Profiler"
@@ -579,6 +1128,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "summary": "Trigger Dataset Profiling",
         "tags": [
           "Profiler"

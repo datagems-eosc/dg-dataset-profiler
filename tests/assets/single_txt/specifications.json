@@ -1,0 +1,30 @@
+{
+  "access": "PUBLIC",
+  "citeAs": "",
+  "country": "PT",
+  "data_connectors": [
+    {
+      "dataset_id": "tests/assets/single_txt/data/",
+      "type": "RawDataPath"
+    }
+  ],
+  "datePublished": "2025-08-23",
+  "description": "MathE is a mathematical platform developed under the MathE project (mathe.ipb.pt) for higher education.  \n\nThe dataset is based on the 410 pdf documents organized by keywords in a cvs file.",
+  "fieldOfScience": [
+    "MATHEMATICS"
+  ],
+  "headline": "Math pedagogical material provided in the MathE platform.",
+  "id": "9b25bc46-8bd3-4f7f-94b4-52dbc38c130f",
+  "inLanguage": [
+    "en"
+  ],
+  "keywords": [
+    "math",
+    "student",
+    "higher education"
+  ],
+  "license": "CC0 1.0",
+  "name": "Pedagogic Resources MathE Database",
+  "uploadedBy": "ADMIN",
+  "url": "https://mathe.ipb.pt"
+}

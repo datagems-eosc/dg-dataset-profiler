@@ -180,7 +180,7 @@ class DBTableField:
             # "description": self.description,
             # "key": self.key,
             "field": [field.to_dict() for field in self.fields],
-            "examples": json.dumps(self.examples, default=str),
+            "examples": json.dumps(self.examples, default=str, ensure_ascii=False),
         }
 
     def to_dict_cdd(self):

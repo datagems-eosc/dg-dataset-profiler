@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "generated": "2026-09-30T00:00:00Z",
+    "license": "CC BY 4.0",
+    "source": "National Observatory of Athens"
+  },
+  "stations": [
+    {
+      "elevation_m": 107,
+      "id": "NOA-0142",
+      "location": {
+        "lat": 37.9715,
+        "lon": 23.7181
+      },
+      "name": "Athens - Thiseio",
+      "notes": "Rooftop station in the historic centre, next to the observatory dome. Shaded after 16:00 in winter, so afternoon readings run cooler than at nearby street-level stations.",
+      "operator": "NOA",
+      "readings": [
+        {
+          "rh": 41,
+          "temp_c": 27.4,
+          "ts": "2026-09-29T12:00:00Z"
+        },
+        {
+          "rh": 38,
+          "temp_c": 28.1,
+          "ts": "2026-09-29T13:00:00Z"
+        },
+        {
+          "rh": 36,
+          "temp_c": 28.6,
+          "ts": "2026-09-29T14:00:00Z"
+        }
+      ],
+      "sensors": [
+        "temperature",
+        "humidity",
+        "wind"
+      ]
+    },
+    {
+      "elevation_m": 484,
+      "id": "NOA-0207",
+      "location": {
+        "lat": 39.6964,
+        "lon": 20.8222
+      },
+      "name": "Ioannina - Airport",
+      "operator": null,
+      "readings": [
+        {
+          "rh": 55,
+          "temp_c": 22.0,
+          "ts": "2026-09-29T12:00:00Z"
+        },
+        {
+          "rh": 51,
+          "temp_c": 22.7,
+          "ts": "2026-09-29T13:00:00Z"
+        }
+      ],
+      "sensors": [
+        "temperature",
+        "humidity"
+      ]
+    },
+    {
+      "elevation_m": 39,
+      "id": "HNMS-16716",
+      "location": {
+        "lat": 35.3387,
+        "lon": 25.1806
+      },
+      "name": "Heraklion",
+      "operator": "HNMS",
+      "readings": [
+        {
+          "rh": 47,
+          "temp_c": 29.3,
+          "ts": "2026-09-29T12:00:00Z"
+        },
+        {
+          "rh": 45,
+          "temp_c": 29.5,
+          "ts": "2026-09-29T13:00:00Z"
+        },
+        {
+          "rh": 46,
+          "temp_c": 29.1,
+          "ts": "2026-09-29T14:00:00Z"
+        },
+        {
+          "rh": 49,
+          "temp_c": 28.4,
+          "ts": "2026-09-29T15:00:00Z"
+        }
+      ],
+      "sensors": [
+        "temperature",
+        "humidity",
+        "wind",
+        "pressure"
+      ]
+    },
+    {
+      "elevation_m": "n/a",
+      "id": "MET-0098",
+      "location": {
+        "lat": 37.0389,
+        "lon": 22.1142
+      },
+      "name": "Kalamata",
+      "operator": "Meteo.gr",
+      "readings": [
+        {
+          "rh": 44,
+          "temp_c": 28.9,
+          "ts": "2026-09-29T12:00:00Z"
+        },
+        {
+          "rh": 42,
+          "temp_c": 29.2,
+          "ts": "2026-09-29T13:00:00Z"
+        }
+      ],
+      "sensors": [
+        "temperature"
+      ]
+    },
+    {
+      "elevation_m": 1160,
+      "id": "NOA-0420",
+      "location": {
+        "lat": 39.771,
+        "lon": 21.183
+      },
+      "name": "Metsovo",
+      "notes": "High-altitude site in the Pindus mountains. Snow cover affects the readings from December to March, and the station runs on battery during storms.",
+      "readings": [
+        {
+          "rh": 71,
+          "temp_c": 17.2,
+          "ts": "2026-09-29T12:00:00Z"
+        },
+        {
+          "rh": 68,
+          "temp_c": 17.8,
+          "ts": "2026-09-29T13:00:00Z"
+        }
+      ],
+      "sensors": [
+        "temperature",
+        "humidity",
+        "wind",
+        "rainfall"
+      ]
+    }
+  ]
+}

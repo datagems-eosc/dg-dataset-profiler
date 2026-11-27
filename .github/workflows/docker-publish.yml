@@ -10,7 +10,14 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  # The release's tests: the images are only built and pushed when they pass.
+  tests:
+    uses: ./.github/workflows/tests.yml
+    permissions:
+      contents: read
+
   build-and-push:
+    needs: tests
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -77,3 +84,56 @@ jobs:
           push: true
           tags: ${{ steps.meta_api_image.outputs.tags }}
           labels: ${{ steps.meta_api_image.outputs.labels }}
+
+  # GitHub Release for the tag: the commits since the previous tag
+  # (scripts/release_notes.sh) and the test report the images were gated on.
+  release:
+    needs: [tests, build-and-push]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository with full history and tags
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Download test report
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: test-report
+          path: test-results
+
+      - name: Generate release notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          scripts/release_notes.sh "$TAG" > release-notes.md
+          {
+            echo
+            echo "### Images"
+            echo
+            echo "- \`ghcr.io/datagems-eosc/dg-dataset-profiler-api:${TAG}\`"
+            echo "- \`ghcr.io/datagems-eosc/dg-dataset-profiler-ray:${TAG}\`"
+            echo
+            echo "Tests: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID} (JUnit report attached)."
+          } >> release-notes.md
+          cat release-notes.md >> "$GITHUB_STEP_SUMMARY"
+          cp test-results/junit.xml "test-report-${TAG}.xml"
+
+      - name: Create or update the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            # A release written by hand keeps its notes; only an empty one is filled.
+            if [ -z "$(gh release view "$TAG" --json body --jq .body)" ]; then
+              gh release edit "$TAG" --notes-file release-notes.md
+            fi
+            gh release upload "$TAG" "test-report-${TAG}.xml" --clobber
+          else
+            gh release create "$TAG" --title "$TAG" --notes-file release-notes.md --verify-tag \
+              "test-report-${TAG}.xml"
+          fi

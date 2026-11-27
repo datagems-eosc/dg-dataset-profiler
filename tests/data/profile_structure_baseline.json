@@ -1,0 +1,5681 @@
+{
+  "cdd": {
+    "$": [
+      "object"
+    ],
+    "$.@id": [
+      "string"
+    ],
+    "$.content_url": [
+      "string"
+    ],
+    "$.description": [
+      "string"
+    ],
+    "$.field_of_science": [
+      "array"
+    ],
+    "$.field_of_science[]": [
+      "string"
+    ],
+    "$.files": [
+      "array"
+    ],
+    "$.files[name=book.xlsx]": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].description": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].file_object_id": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].keywords": [
+      "array"
+    ],
+    "$.files[name=book.xlsx].name": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].original_format": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].source_file": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables": [
+      "array"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers]": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns": [
+      "array"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag]": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].description": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].name": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].primitive_type": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].semantic_type": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.max": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.median": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.min": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.range": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=flag].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n]": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].description": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].name": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].primitive_type": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].semantic_type": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.max": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.median": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.min": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.range": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].columns[name=n].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].description": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Numbers].name": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses]": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns": [
+      "array"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer]": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].description": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].name": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].primitive_type": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].semantic_type": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.max": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.median": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.min": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.range": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=answer].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score]": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].description": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].name": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].primitive_type": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].semantic_type": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics": [
+      "object"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.max": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.median": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.min": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.range": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].columns[name=score].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].description": [
+      "string"
+    ],
+    "$.files[name=book.xlsx].tables[name=Responses].name": [
+      "string"
+    ],
+    "$.files[name=ds_test]": [
+      "object"
+    ],
+    "$.files[name=ds_test].description": [
+      "string"
+    ],
+    "$.files[name=ds_test].file_object_id": [
+      "string"
+    ],
+    "$.files[name=ds_test].keywords": [
+      "array"
+    ],
+    "$.files[name=ds_test].name": [
+      "string"
+    ],
+    "$.files[name=ds_test].original_format": [
+      "string"
+    ],
+    "$.files[name=ds_test].source_file": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables": [
+      "array"
+    ],
+    "$.files[name=ds_test].tables[name=readings]": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns": [
+      "array"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id]": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].description": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].name": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].primitive_type": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].semantic_type": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.max": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.median": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.min": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.missingCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.missingPercentage": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.range": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.rowCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.uniqueCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=id].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload]": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].description": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].name": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].primitive_type": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].semantic_type": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.max": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.median": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.min": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.missingCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.missingPercentage": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.range": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.rowCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.uniqueCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=payload].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags]": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].description": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].name": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].primitive_type": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].semantic_type": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.max": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.median": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.min": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.missingCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.missingPercentage": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.range": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.rowCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.uniqueCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=tags].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken]": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].description": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].name": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].primitive_type": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].semantic_type": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics": [
+      "object"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.max": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.median": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.min": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.missingCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.missingPercentage": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.range": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.rowCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.uniqueCount": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].columns[name=taken].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=ds_test].tables[name=readings].description": [
+      "string"
+    ],
+    "$.files[name=ds_test].tables[name=readings].name": [
+      "string"
+    ],
+    "$.files[name=more]": [
+      "object"
+    ],
+    "$.files[name=more].columns": [
+      "array"
+    ],
+    "$.files[name=more].columns[name=k]": [
+      "object"
+    ],
+    "$.files[name=more].columns[name=k].description": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=k].json_path": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=k].name": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=k].primitive_type": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=k].repeated": [
+      "boolean"
+    ],
+    "$.files[name=more].columns[name=k].semantic_type": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=k].statistics": [
+      "object"
+    ],
+    "$.files[name=more].columns[name=k].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=k].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=k].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=more].columns[name=k].statistics.jsonTypes.integer": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.max": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.median": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.min": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.range": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.topValues": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=k].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=k].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=v]": [
+      "object"
+    ],
+    "$.files[name=more].columns[name=v].description": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=v].json_path": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=v].name": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=v].primitive_type": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=v].repeated": [
+      "boolean"
+    ],
+    "$.files[name=more].columns[name=v].semantic_type": [
+      "string"
+    ],
+    "$.files[name=more].columns[name=v].statistics": [
+      "object"
+    ],
+    "$.files[name=more].columns[name=v].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=more].columns[name=v].statistics.jsonTypes.string": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=v].statistics.max": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.median": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.min": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=v].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=v].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.range": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=v].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.topValues": [
+      "null"
+    ],
+    "$.files[name=more].columns[name=v].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=more].columns[name=v].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=more].description": [
+      "string"
+    ],
+    "$.files[name=more].file_object_id": [
+      "string"
+    ],
+    "$.files[name=more].json_profile": [
+      "object"
+    ],
+    "$.files[name=more].json_profile.dialect": [
+      "null"
+    ],
+    "$.files[name=more].json_profile.document_metadata": [
+      "object"
+    ],
+    "$.files[name=more].json_profile.max_depth": [
+      "number"
+    ],
+    "$.files[name=more].json_profile.parse_errors": [
+      "number"
+    ],
+    "$.files[name=more].json_profile.path_count": [
+      "number"
+    ],
+    "$.files[name=more].json_profile.paths_truncated": [
+      "boolean"
+    ],
+    "$.files[name=more].json_profile.record_count": [
+      "number"
+    ],
+    "$.files[name=more].json_profile.record_path": [
+      "string"
+    ],
+    "$.files[name=more].json_profile.sample_records": [
+      "string"
+    ],
+    "$.files[name=more].json_profile.schema_consistency_percentage": [
+      "number"
+    ],
+    "$.files[name=more].json_profile.shape": [
+      "string"
+    ],
+    "$.files[name=more].json_profile.summary": [
+      "string"
+    ],
+    "$.files[name=more].keywords": [
+      "array"
+    ],
+    "$.files[name=more].name": [
+      "string"
+    ],
+    "$.files[name=more].original_format": [
+      "string"
+    ],
+    "$.files[name=more].source_file": [
+      "string"
+    ],
+    "$.files[name=more].text_content": [
+      "array"
+    ],
+    "$.files[name=notes]": [
+      "object"
+    ],
+    "$.files[name=notes].content": [
+      "object"
+    ],
+    "$.files[name=notes].content.file_path": [
+      "string"
+    ],
+    "$.files[name=notes].content.type": [
+      "string"
+    ],
+    "$.files[name=notes].description": [
+      "string"
+    ],
+    "$.files[name=notes].file_object_id": [
+      "string"
+    ],
+    "$.files[name=notes].keywords": [
+      "array"
+    ],
+    "$.files[name=notes].name": [
+      "string"
+    ],
+    "$.files[name=notes].original_format": [
+      "string"
+    ],
+    "$.files[name=notes].source_file": [
+      "string"
+    ],
+    "$.files[name=readme]": [
+      "object"
+    ],
+    "$.files[name=readme].content": [
+      "object"
+    ],
+    "$.files[name=readme].content.file_path": [
+      "string"
+    ],
+    "$.files[name=readme].content.type": [
+      "string"
+    ],
+    "$.files[name=readme].description": [
+      "string"
+    ],
+    "$.files[name=readme].file_object_id": [
+      "string"
+    ],
+    "$.files[name=readme].keywords": [
+      "array"
+    ],
+    "$.files[name=readme].name": [
+      "string"
+    ],
+    "$.files[name=readme].original_format": [
+      "string"
+    ],
+    "$.files[name=readme].source_file": [
+      "string"
+    ],
+    "$.files[name=report.pdf]": [
+      "object"
+    ],
+    "$.files[name=report.pdf].content": [
+      "object"
+    ],
+    "$.files[name=report.pdf].content.file_path": [
+      "string"
+    ],
+    "$.files[name=report.pdf].content.type": [
+      "string"
+    ],
+    "$.files[name=report.pdf].description": [
+      "string"
+    ],
+    "$.files[name=report.pdf].file_object_id": [
+      "string"
+    ],
+    "$.files[name=report.pdf].keywords": [
+      "array"
+    ],
+    "$.files[name=report.pdf].name": [
+      "string"
+    ],
+    "$.files[name=report.pdf].original_format": [
+      "string"
+    ],
+    "$.files[name=report.pdf].raw_content": [
+      "string"
+    ],
+    "$.files[name=report.pdf].source_file": [
+      "string"
+    ],
+    "$.files[name=stations]": [
+      "object"
+    ],
+    "$.files[name=stations].columns": [
+      "array"
+    ],
+    "$.files[name=stations].columns[name=active]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=active].description": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=active].json_path": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=active].name": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=active].primitive_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=active].repeated": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=active].semantic_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=active].statistics": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.jsonTypes.boolean": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.max": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.median": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.min": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.range": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.topValues": [
+      "array"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.topValues[]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.topValues[].count": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.topValues[].value": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=active].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=id]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=id].description": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=id].json_path": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=id].name": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=id].primitive_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=id].repeated": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=id].semantic_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=id].statistics": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.jsonTypes.integer": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.max": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.median": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.min": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.range": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.topValues": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=id].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=location.lat].description": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lat].json_path": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lat].name": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lat].primitive_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lat].repeated": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=location.lat].semantic_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.jsonTypes.number": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.max": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.median": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.min": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.range": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.topValues": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lat].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=location.lon].description": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lon].json_path": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lon].name": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lon].primitive_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lon].repeated": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=location.lon].semantic_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.jsonTypes.number": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.max": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.median": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.min": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.range": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.topValues": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=location.lon].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=name]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=name].description": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=name].json_path": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=name].name": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=name].primitive_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=name].repeated": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=name].semantic_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=name].statistics": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.jsonTypes.string": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.max": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.median": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.min": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.range": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.topValues": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=name].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=opened].description": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=opened].json_path": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=opened].name": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=opened].primitive_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=opened].repeated": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=opened].semantic_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.jsonTypes.string": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.max": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.median": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.min": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.range": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.topValues": [
+      "array"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.topValues[]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.topValues[].count": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.topValues[].value": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=opened].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].array_length": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].array_length.avg": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].array_length.max": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].array_length.min": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].description": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].json_path": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].name": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].primitive_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].repeated": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].semantic_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.jsonTypes.boolean": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.max": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.median": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.min": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.range": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.topValues": [
+      "array"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.topValues[]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.topValues[].count": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.topValues[].value": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].ok].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp]": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].array_length": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].array_length.avg": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].array_length.max": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].array_length.min": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].description": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].json_path": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].name": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].primitive_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].repeated": [
+      "boolean"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].semantic_type": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.jsonTypes": [
+      "object"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.jsonTypes.integer": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.max": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.median": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.min": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.range": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.topValues": [
+      "null"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=stations].columns[name=readings[*].temp].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=stations].description": [
+      "string"
+    ],
+    "$.files[name=stations].file_object_id": [
+      "string"
+    ],
+    "$.files[name=stations].json_profile": [
+      "object"
+    ],
+    "$.files[name=stations].json_profile.dialect": [
+      "null"
+    ],
+    "$.files[name=stations].json_profile.document_metadata": [
+      "object"
+    ],
+    "$.files[name=stations].json_profile.max_depth": [
+      "number"
+    ],
+    "$.files[name=stations].json_profile.parse_errors": [
+      "number"
+    ],
+    "$.files[name=stations].json_profile.path_count": [
+      "number"
+    ],
+    "$.files[name=stations].json_profile.paths_truncated": [
+      "boolean"
+    ],
+    "$.files[name=stations].json_profile.record_count": [
+      "number"
+    ],
+    "$.files[name=stations].json_profile.record_path": [
+      "string"
+    ],
+    "$.files[name=stations].json_profile.sample_records": [
+      "string"
+    ],
+    "$.files[name=stations].json_profile.schema_consistency_percentage": [
+      "number"
+    ],
+    "$.files[name=stations].json_profile.shape": [
+      "string"
+    ],
+    "$.files[name=stations].json_profile.summary": [
+      "string"
+    ],
+    "$.files[name=stations].keywords": [
+      "array"
+    ],
+    "$.files[name=stations].name": [
+      "string"
+    ],
+    "$.files[name=stations].original_format": [
+      "string"
+    ],
+    "$.files[name=stations].source_file": [
+      "string"
+    ],
+    "$.files[name=stations].text_content": [
+      "array"
+    ],
+    "$.files[name=table]": [
+      "object"
+    ],
+    "$.files[name=table].columns": [
+      "array"
+    ],
+    "$.files[name=table].columns[name=active]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=active].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=active].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=active].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=active].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=active].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=active].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=active].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=active].statistics.max": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.median": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.min": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=active].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=active].statistics.range": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=active].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=day]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=day].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=day].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=day].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=day].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=day].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=day].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.max": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.median": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.min": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=day].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=day].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.range": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=day].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=day].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=day].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=empty].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=empty].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=empty].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=empty].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=empty].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.max": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.median": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.min": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.range": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=empty].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=id]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=id].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=id].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=id].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=id].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=id].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=id].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=id].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=id].statistics.max": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.median": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.min": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.range": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=id].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=label]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=label].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=label].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=label].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=label].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=label].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=label].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.max": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.median": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.min": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=label].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=label].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.range": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=label].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=label].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=label].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=mixed].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=mixed].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=mixed].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=mixed].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.generatedAt": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.histogram": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.max": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.mean": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.median": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.min": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.percentile05": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.percentile95": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.range": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=mixed].statistics.variance": [
+      "null"
+    ],
+    "$.files[name=table].columns[name=price]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=price].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=price].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=price].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=price].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=price].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=price].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=price].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=price].statistics.max": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.median": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.min": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.range": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=price].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=sparse].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=sparse].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=sparse].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=sparse].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.max": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.median": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.min": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.range": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=sparse].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip]": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=zip].description": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=zip].name": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=zip].primitive_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=zip].semantic_type": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=zip].statistics": [
+      "object"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.generatedAt": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.histogram": [
+      "string"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.max": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.mean": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.median": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.min": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.missingCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.percentile05": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.percentile95": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.range": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.rowCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.files[name=table].columns[name=zip].statistics.variance": [
+      "number"
+    ],
+    "$.files[name=table].description": [
+      "string"
+    ],
+    "$.files[name=table].file_object_id": [
+      "string"
+    ],
+    "$.files[name=table].keywords": [
+      "array"
+    ],
+    "$.files[name=table].name": [
+      "string"
+    ],
+    "$.files[name=table].original_format": [
+      "string"
+    ],
+    "$.files[name=table].source_file": [
+      "string"
+    ],
+    "$.headline": [
+      "string"
+    ],
+    "$.keywords": [
+      "array"
+    ],
+    "$.keywords[]": [
+      "string"
+    ],
+    "$.name": [
+      "string"
+    ]
+  },
+  "moma": {
+    "$": [
+      "object"
+    ],
+    "$.@context": [
+      "object"
+    ],
+    "$.@context.@base": [
+      "string"
+    ],
+    "$.@context.@language": [
+      "string"
+    ],
+    "$.@context.@vocab": [
+      "string"
+    ],
+    "$.@context.access": [
+      "string"
+    ],
+    "$.@context.avgSentenceLength": [
+      "string"
+    ],
+    "$.@context.citeAs": [
+      "string"
+    ],
+    "$.@context.column": [
+      "string"
+    ],
+    "$.@context.conformsTo": [
+      "string"
+    ],
+    "$.@context.containedIn": [
+      "string"
+    ],
+    "$.@context.country": [
+      "string"
+    ],
+    "$.@context.cr": [
+      "string"
+    ],
+    "$.@context.creationDate": [
+      "string"
+    ],
+    "$.@context.data": [
+      "object"
+    ],
+    "$.@context.data.@id": [
+      "string"
+    ],
+    "$.@context.data.@type": [
+      "string"
+    ],
+    "$.@context.dataQuality": [
+      "object"
+    ],
+    "$.@context.dataQuality.@id": [
+      "string"
+    ],
+    "$.@context.dataQuality.@type": [
+      "string"
+    ],
+    "$.@context.dataType": [
+      "object"
+    ],
+    "$.@context.dataType.@id": [
+      "string"
+    ],
+    "$.@context.dataType.@type": [
+      "string"
+    ],
+    "$.@context.dct": [
+      "string"
+    ],
+    "$.@context.dg": [
+      "string"
+    ],
+    "$.@context.doi": [
+      "string"
+    ],
+    "$.@context.examples": [
+      "string"
+    ],
+    "$.@context.extract": [
+      "string"
+    ],
+    "$.@context.field": [
+      "string"
+    ],
+    "$.@context.fieldOfScience": [
+      "string"
+    ],
+    "$.@context.fileObject": [
+      "string"
+    ],
+    "$.@context.fileProperty": [
+      "string"
+    ],
+    "$.@context.fileSet": [
+      "string"
+    ],
+    "$.@context.fleschKincaidGrade": [
+      "string"
+    ],
+    "$.@context.format": [
+      "string"
+    ],
+    "$.@context.generatedAt": [
+      "string"
+    ],
+    "$.@context.histogram": [
+      "string"
+    ],
+    "$.@context.includes": [
+      "string"
+    ],
+    "$.@context.isLiveDataset": [
+      "string"
+    ],
+    "$.@context.jsonPath": [
+      "string"
+    ],
+    "$.@context.jsonShape": [
+      "string"
+    ],
+    "$.@context.jsonTypes": [
+      "string"
+    ],
+    "$.@context.key": [
+      "string"
+    ],
+    "$.@context.max": [
+      "string"
+    ],
+    "$.@context.maxDepth": [
+      "string"
+    ],
+    "$.@context.md5": [
+      "string"
+    ],
+    "$.@context.mean": [
+      "string"
+    ],
+    "$.@context.median": [
+      "string"
+    ],
+    "$.@context.min": [
+      "string"
+    ],
+    "$.@context.missingCount": [
+      "string"
+    ],
+    "$.@context.missingPercentage": [
+      "string"
+    ],
+    "$.@context.modificationDate": [
+      "string"
+    ],
+    "$.@context.numCharacters": [
+      "string"
+    ],
+    "$.@context.numLines": [
+      "string"
+    ],
+    "$.@context.numParagraphs": [
+      "string"
+    ],
+    "$.@context.numWords": [
+      "string"
+    ],
+    "$.@context.pagesCount": [
+      "string"
+    ],
+    "$.@context.parentField": [
+      "string"
+    ],
+    "$.@context.path": [
+      "string"
+    ],
+    "$.@context.percentile05": [
+      "string"
+    ],
+    "$.@context.percentile95": [
+      "string"
+    ],
+    "$.@context.rai": [
+      "string"
+    ],
+    "$.@context.range": [
+      "string"
+    ],
+    "$.@context.recordCount": [
+      "string"
+    ],
+    "$.@context.recordPath": [
+      "string"
+    ],
+    "$.@context.recordSet": [
+      "string"
+    ],
+    "$.@context.references": [
+      "string"
+    ],
+    "$.@context.regex": [
+      "string"
+    ],
+    "$.@context.repeated": [
+      "string"
+    ],
+    "$.@context.replace": [
+      "string"
+    ],
+    "$.@context.rowCount": [
+      "string"
+    ],
+    "$.@context.sample": [
+      "string"
+    ],
+    "$.@context.sc": [
+      "string"
+    ],
+    "$.@context.schemaConsistencyPercentage": [
+      "string"
+    ],
+    "$.@context.semanticType": [
+      "string"
+    ],
+    "$.@context.separator": [
+      "string"
+    ],
+    "$.@context.source": [
+      "string"
+    ],
+    "$.@context.standardDeviation": [
+      "string"
+    ],
+    "$.@context.statistics": [
+      "string"
+    ],
+    "$.@context.status": [
+      "string"
+    ],
+    "$.@context.subField": [
+      "string"
+    ],
+    "$.@context.summary": [
+      "string"
+    ],
+    "$.@context.topValues": [
+      "string"
+    ],
+    "$.@context.transform": [
+      "string"
+    ],
+    "$.@context.uniqueCount": [
+      "string"
+    ],
+    "$.@context.uploadedBy": [
+      "string"
+    ],
+    "$.@context.variance": [
+      "string"
+    ],
+    "$.@context.wd": [
+      "string"
+    ],
+    "$.@id": [
+      "string"
+    ],
+    "$.@type": [
+      "string"
+    ],
+    "$.access": [
+      "string"
+    ],
+    "$.archivedAt": [
+      "string"
+    ],
+    "$.citeAs": [
+      "string"
+    ],
+    "$.conformsTo": [
+      "string"
+    ],
+    "$.country": [
+      "string"
+    ],
+    "$.datePublished": [
+      "string"
+    ],
+    "$.description": [
+      "string"
+    ],
+    "$.distribution": [
+      "array"
+    ],
+    "$.distribution[@type=cr:FileObject]": [
+      "object"
+    ],
+    "$.distribution[@type=cr:FileObject].@id": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileObject].@type": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileObject].containedIn": [
+      "object"
+    ],
+    "$.distribution[@type=cr:FileObject].containedIn.@id": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileObject].contentSize": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileObject].contentUrl": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileObject].description": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileObject].encodingFormat": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileObject].name": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileObject].sha256": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileSet]": [
+      "object"
+    ],
+    "$.distribution[@type=cr:FileSet].@id": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileSet].@type": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileSet].contentSize": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileSet].contentUrl": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileSet].encodingFormat": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileSet].includes": [
+      "string"
+    ],
+    "$.distribution[@type=cr:FileSet].name": [
+      "string"
+    ],
+    "$.distribution[@type=dg:DatabaseConnection]": [
+      "object"
+    ],
+    "$.distribution[@type=dg:DatabaseConnection].@id": [
+      "string"
+    ],
+    "$.distribution[@type=dg:DatabaseConnection].@type": [
+      "string"
+    ],
+    "$.distribution[@type=dg:DatabaseConnection].contentUrl": [
+      "string"
+    ],
+    "$.distribution[@type=dg:DatabaseConnection].description": [
+      "string"
+    ],
+    "$.distribution[@type=dg:DatabaseConnection].encodingFormat": [
+      "string"
+    ],
+    "$.distribution[@type=dg:DatabaseConnection].name": [
+      "string"
+    ],
+    "$.doi": [
+      "string"
+    ],
+    "$.fieldOfScience": [
+      "array"
+    ],
+    "$.fieldOfScience[]": [
+      "string"
+    ],
+    "$.headline": [
+      "string"
+    ],
+    "$.inLanguage": [
+      "array"
+    ],
+    "$.inLanguage[]": [
+      "string"
+    ],
+    "$.keywords": [
+      "array"
+    ],
+    "$.keywords[]": [
+      "string"
+    ],
+    "$.license": [
+      "string"
+    ],
+    "$.name": [
+      "string"
+    ],
+    "$.recordSet": [
+      "array"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme]": [
+      "object"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].@id": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].@type": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].avgSentenceLength": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].fleschKincaidGrade": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].keywords": [
+      "array"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].language": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].name": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].numCharacters": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].numLines": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].numParagraphs": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].numWords": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].source": [
+      "object"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].source.@id": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].source.@type": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/extra/readme].summary": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes]": [
+      "object"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].@id": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].@type": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].avgSentenceLength": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].fleschKincaidGrade": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].keywords": [
+      "array"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].language": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].name": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].numCharacters": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].numLines": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].numParagraphs": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].numWords": [
+      "number"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].source": [
+      "object"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].source.@id": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].source.@type": [
+      "string"
+    ],
+    "$.recordSet[name=<root>/8930240b-a0e8-46e7-ace8-aab2b42fcc01/notes].summary": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers]": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].@id": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].@type": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].examples": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field": [
+      "array"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag]": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].@id": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].@type": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].description": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].name": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].sample": [
+      "array"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].sample[]": [
+      "boolean"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].source": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=flag].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n]": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].@id": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].@type": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].description": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].name": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].sample": [
+      "array"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].source": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].field[name=n].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=Numbers].name": [
+      "string"
+    ],
+    "$.recordSet[name=Responses]": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].@id": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].@type": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].examples": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field": [
+      "array"
+    ],
+    "$.recordSet[name=Responses].field[name=answer]": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].@id": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].@type": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].description": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].name": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].sample": [
+      "array"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].source": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=answer].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=Responses].field[name=score]": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=score].@id": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].@type": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].description": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].name": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].sample": [
+      "array"
+    ],
+    "$.recordSet[name=Responses].field[name=score].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].source": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=score].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=score].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=score].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].field[name=score].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=Responses].name": [
+      "string"
+    ],
+    "$.recordSet[name=more]": [
+      "object"
+    ],
+    "$.recordSet[name=more].@id": [
+      "string"
+    ],
+    "$.recordSet[name=more].@type": [
+      "string"
+    ],
+    "$.recordSet[name=more].description": [
+      "string"
+    ],
+    "$.recordSet[name=more].examples": [
+      "string"
+    ],
+    "$.recordSet[name=more].field": [
+      "array"
+    ],
+    "$.recordSet[name=more].field[name=k]": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=k].@id": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].@type": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].description": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].name": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=more].field[name=k].sample": [
+      "array"
+    ],
+    "$.recordSet[name=more].field[name=k].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].source": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=k].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=k].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=k].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.topValues": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=k].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=v]": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=v].@id": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].@type": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].description": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].name": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=more].field[name=v].sample": [
+      "array"
+    ],
+    "$.recordSet[name=more].field[name=v].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].source": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=v].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=v].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=v].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.topValues": [
+      "null"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=more].field[name=v].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=more].jsonShape": [
+      "string"
+    ],
+    "$.recordSet[name=more].keywords": [
+      "array"
+    ],
+    "$.recordSet[name=more].maxDepth": [
+      "number"
+    ],
+    "$.recordSet[name=more].name": [
+      "string"
+    ],
+    "$.recordSet[name=more].recordCount": [
+      "number"
+    ],
+    "$.recordSet[name=more].recordPath": [
+      "string"
+    ],
+    "$.recordSet[name=more].schemaConsistencyPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=more].summary": [
+      "string"
+    ],
+    "$.recordSet[name=readings]": [
+      "object"
+    ],
+    "$.recordSet[name=readings].@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].examples": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field": [
+      "array"
+    ],
+    "$.recordSet[name=readings].field[name=id]": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=id].@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].description": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].name": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].sample": [
+      "array"
+    ],
+    "$.recordSet[name=readings].field[name=id].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].source": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=id].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=id].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=id].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.missingCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.missingPercentage": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.rowCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.uniqueCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=id].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload]": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=payload].@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].dataType": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].description": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].name": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].sample": [
+      "array"
+    ],
+    "$.recordSet[name=readings].field[name=payload].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].source": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=payload].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=payload].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=payload].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.missingCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.missingPercentage": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.rowCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.uniqueCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=payload].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags]": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=tags].@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].dataType": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].description": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].name": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].sample": [
+      "array"
+    ],
+    "$.recordSet[name=readings].field[name=tags].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].source": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=tags].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=tags].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=tags].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.missingCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.missingPercentage": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.rowCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.uniqueCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=tags].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken]": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=taken].@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].description": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].name": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].sample": [
+      "array"
+    ],
+    "$.recordSet[name=readings].field[name=taken].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].source": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=taken].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=taken].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=taken].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.missingCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.missingPercentage": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.rowCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.uniqueCount": [
+      "null"
+    ],
+    "$.recordSet[name=readings].field[name=taken].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=readings].name": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf]": [
+      "object"
+    ],
+    "$.recordSet[name=report.pdf].@id": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].@type": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].author": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].creationDate": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].creator": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].field": [
+      "array"
+    ],
+    "$.recordSet[name=report.pdf].keywords": [
+      "array"
+    ],
+    "$.recordSet[name=report.pdf].modificationDate": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].name": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].pagesCount": [
+      "number"
+    ],
+    "$.recordSet[name=report.pdf].producer": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].source": [
+      "object"
+    ],
+    "$.recordSet[name=report.pdf].source.@id": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].source.@type": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].subject": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].summary": [
+      "string"
+    ],
+    "$.recordSet[name=report.pdf].title": [
+      "string"
+    ],
+    "$.recordSet[name=stations]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].examples": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=active]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=active].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=active].sample": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=active].sample[]": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=active].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].source": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=active].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=active].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=active].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.topValues": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=active].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=id]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=id].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=id].sample": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=id].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].source": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=id].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=id].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=id].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.topValues": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=id].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].sample": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].source": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.topValues": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lat].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].sample": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].source": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.topValues": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=location.lon].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=name]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=name].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=name].sample": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=name].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].source": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=name].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=name].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=name].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.topValues": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=name].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=opened].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=opened].sample": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=opened].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].source": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=opened].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=opened].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=opened].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.topValues": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=opened].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].sample": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].sample[]": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].source": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.topValues": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].ok].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp]": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].description": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].repeated": [
+      "boolean"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].sample": [
+      "array"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].source": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].source.extract.jsonPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.jsonTypes": [
+      "string"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.topValues": [
+      "null"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].field[name=readings[*].temp].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=stations].jsonShape": [
+      "string"
+    ],
+    "$.recordSet[name=stations].keywords": [
+      "array"
+    ],
+    "$.recordSet[name=stations].maxDepth": [
+      "number"
+    ],
+    "$.recordSet[name=stations].name": [
+      "string"
+    ],
+    "$.recordSet[name=stations].recordCount": [
+      "number"
+    ],
+    "$.recordSet[name=stations].recordPath": [
+      "string"
+    ],
+    "$.recordSet[name=stations].schemaConsistencyPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=stations].summary": [
+      "string"
+    ],
+    "$.recordSet[name=table]": [
+      "object"
+    ],
+    "$.recordSet[name=table].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].examples": [
+      "string"
+    ],
+    "$.recordSet[name=table].field": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=active]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=active].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=active].sample[]": [
+      "boolean"
+    ],
+    "$.recordSet[name=table].field[name=active].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=active].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=active].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=active].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=active].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=day]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=day].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=day].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=day].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=day].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=day].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=day].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=empty].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=empty].sample[]": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=empty].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=empty].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=empty].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=empty].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=id]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=id].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=id].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=id].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=id].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=id].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=id].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=label]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=label].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=label].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=label].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=label].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=label].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=label].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=mixed].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=mixed].sample[]": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=mixed].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=mixed].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=mixed].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.generatedAt": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.histogram": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.max": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.mean": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.median": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.min": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.percentile05": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.percentile95": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.range": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.standardDeviation": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=mixed].statistics.variance": [
+      "null"
+    ],
+    "$.recordSet[name=table].field[name=price]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=price].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=price].sample[]": [
+      "null",
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=price].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=price].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=price].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=price].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=sparse].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=sparse].sample[]": [
+      "null",
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=sparse].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=sparse].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=sparse].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=sparse].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip]": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=zip].@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].dataType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].description": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].name": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].sample": [
+      "array"
+    ],
+    "$.recordSet[name=table].field[name=zip].sample[]": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].semanticType": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].source": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=zip].source.extract": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=zip].source.extract.column": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].source.fileObject": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=zip].source.fileObject.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics": [
+      "object"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.@id": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.@type": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.generatedAt": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.histogram": [
+      "string"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.max": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.mean": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.median": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.min": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.missingCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.missingPercentage": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.percentile05": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.percentile95": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.range": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.rowCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.standardDeviation": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.uniqueCount": [
+      "number"
+    ],
+    "$.recordSet[name=table].field[name=zip].statistics.variance": [
+      "number"
+    ],
+    "$.recordSet[name=table].name": [
+      "string"
+    ],
+    "$.status": [
+      "string"
+    ],
+    "$.uploadedBy": [
+      "string"
+    ],
+    "$.url": [
+      "string"
+    ],
+    "$.version": [
+      "string"
+    ]
+  }
+}

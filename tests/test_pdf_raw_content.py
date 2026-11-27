@@ -4,6 +4,9 @@ Agreed with CDD (George Katsogiannis, Nov 2026): ``chunked_content`` was dropped
 and PDF entries carry ``raw_content`` instead, next to ``content.file_path``.
 """
 
+from types import SimpleNamespace
+
+from dataset_profiler.document_processing import light_extraction
 from dataset_profiler.profile_components.record_set.pdf.pdf_record_set import (
     PdfRecordSet,
     parse_pdf,
@@ -25,12 +28,12 @@ def test_cdd_entry_carries_the_whole_text_unchunked():
 
 
 def test_unparseable_pdf_gives_empty_raw_content(monkeypatch):
-    def broken_loader(path):
-        raise RuntimeError("no text layer")
+    def broken_open(path):
+        raise RuntimeError("cannot open document")
 
     monkeypatch.setattr(
-        "dataset_profiler.profile_components.record_set.pdf.pdf_record_set.PyMuPDFLoader",
-        broken_loader,
+        light_extraction, "pymupdf",
+        SimpleNamespace(open=broken_open, get_tessdata=lambda: None),
     )
     cdd = PdfRecordSet(file_object=PDF, distribution_id="pdf-1").to_dict_cdd()
 

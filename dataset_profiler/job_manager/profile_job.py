@@ -9,6 +9,7 @@ from dataset_profiler.schemas.specification import ProfileSpecificationEndpoint
 from dataset_profiler.job_manager.job_storing import store_job_status, JobStatus, store_job_response, \
     ProfilesResponse, store_cdd_profile_path
 from dataset_profiler.profile_models import DatasetProfile
+from dataset_profiler.profile_components.record_set.document_description import document_llm_time_budget
 from dataset_profiler.configs.config_logging import logger
 
 
@@ -74,7 +75,10 @@ def profile_job(job_id: str, specification: dict, only_light_profile: bool = Fal
         # storing it, and to_dict() only reuses self.record_sets. Discarding the
         # result made every job extract twice -- doubling the LLM calls for
         # semantic annotation and data quality detection.
-        profile.record_sets = profile.extract_record_sets()
+        # Caps the total LLM time spent on document keywords and summaries;
+        # documents past the budget get none (DOCUMENT_LLM_TIME_BUDGET_SECONDS).
+        with document_llm_time_budget():
+            profile.record_sets = profile.extract_record_sets()
         heavy_profile = profile.to_dict()
         cdd_profile = profile.to_dict_cdd()
         cdd_profile_path = os.getenv('CDD_PROFILE_PATH', '') + specification["id"] + ".json"

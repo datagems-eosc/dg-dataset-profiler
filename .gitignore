@@ -5,6 +5,23 @@
 /dmm-issues
 /validation
 tests/assets/**
+# Small synthetic or public fixtures the CI suite needs (the full datasets stay local).
+!tests/assets/data_quality/
+!tests/assets/data_quality/**
+!tests/assets/ipb_offering/
+!tests/assets/ipb_offering/**
+!tests/assets/json_stations/
+!tests/assets/json_stations/**
+!tests/assets/last_mile/
+!tests/assets/last_mile/**
+!tests/assets/single_pdf/
+!tests/assets/single_pdf/**
+!tests/assets/single_txt/
+!tests/assets/single_txt/**
+!tests/assets/zoo_24/
+!tests/assets/zoo_24/**
+!tests/assets/mathe_integration_techniques/
+!tests/assets/mathe_integration_techniques/specifications.json
 generated_profiles/**/*.json
 .env_api
 /validation-datasets
@@ -170,3 +187,6 @@ dg-app-api-main/
 
 # Local proposal drafts
 docs/proposals/
+
+# Standalone PDF-to-Markdown benchmark (to be ported, then deleted)
+pdf-to-md-benchmark/
