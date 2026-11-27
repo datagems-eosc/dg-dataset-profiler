@@ -16,6 +16,8 @@ The Dataset Profiler API uses standard HTTP status codes to indicate the success
 | 500 | Internal Server Error - An error occurred on the server |
 | 503 | Service Unavailable - The Ray cluster is currently unavailable; retry shortly |
 
+These are the codes of the `/profiler` endpoints. The `/documents` endpoints also answer `400` (not a PDF), `424` (MoMa unreachable) and `504` (conversion longer than 240 s), and their `401`/`403` follow Keycloak tokens rather than Airflow's `client_id`. See [MathE Document Endpoints](mathe-documents.md#status-codes).
+
 !!! note "Validation errors"
 
     Request body validation is handled by FastAPI/Pydantic and returns a `422`

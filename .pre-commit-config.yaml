@@ -6,6 +6,9 @@ repos:
       - id: check-merge-conflict
       - id: check-toml
       - id: check-yaml
+        # Syntax only: mkdocs.yml uses !!python/name tags (Mermaid fences),
+        # which the default safe loader refuses.
+        args: [--unsafe]
       - id: check-json
         exclude: ^.devcontainer/devcontainer.json
       - id: pretty-format-json

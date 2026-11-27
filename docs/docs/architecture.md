@@ -23,6 +23,8 @@ Concerning profiling specifically the following endpoints are used:
 - `/profiler/cdd_profile_path/{dataset_id}`: Retrieve the CDD profile path by dataset ID
 - `/profiler/clean_up`: Clean up resources for a completed job
 
+The MathE document endpoints, `/documents/convert4ap` and `/documents/convert`, convert PDF FileObjects to Markdown outside the profiling jobs; see [Document Converter](#document-converter).
+
 Health and readiness are exposed separately under the `/monitoring` prefix (`/monitoring/ready`, `/monitoring/health-check`) plus the root liveness endpoint `/`.
 
 ### Job Manager
@@ -97,6 +99,16 @@ The service uses Ray for distributed computing, which enables:
 - Parallel processing of multiple profiling processes
 - Efficient resource utilization
 - Fault tolerance and automatic recovery
+
+### Document Converter
+
+Behind the `/documents` endpoints, and not part of profiling:
+
+- **FileObject resolver**: looks each FileObject up in MoMa with the caller's token and maps its `contentUrl` to the dataset storage
+- **Converter**: one Ray task per PDF, transcribed page by page by a SCAYLE vision model (`quality`) or extracted on the CPU (`fast`)
+- **Markdown cache**: conversions kept in Redis for 30 days by content hash, mode and model
+
+The request waits for its tasks without blocking the API's event loop. See [MathE Document Endpoints](mathe-documents.md).
 
 ### Profile Job Cache
 

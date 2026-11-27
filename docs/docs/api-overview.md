@@ -191,6 +191,17 @@ Cleans up resources associated with a completed job.
     This endpoint is currently a placeholder; the cleanup functionality is not yet
     implemented and the call always returns `SUCCESS`.
 
+## MathE Document Endpoints
+
+Separate from profiling, the `/documents` endpoints convert PDF FileObjects of a dataset to Markdown for the MathE keywords flow. They answer in one request, with nothing to poll, and have their own authentication: a Keycloak token verified in full and forwarded to MoMa, independent of `ENABLE_AUTH`.
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /documents/convert4ap` | The document conversion operator of an Analytical Pattern, called by DMM: takes the AP, returns it with the Markdown filled in |
+| `POST /documents/convert` | The same conversion without an AP, for testing |
+
+See [MathE Document Endpoints](mathe-documents.md) for the AP, the status codes and the configuration.
+
 ## Monitoring Endpoints
 
 In addition to the profiling endpoints, the service exposes health endpoints under
